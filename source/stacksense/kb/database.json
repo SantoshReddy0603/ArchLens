@@ -1,0 +1,2170 @@
+[
+  {
+    "id": "cockroachdb",
+    "name": "CockroachDB",
+    "layer": "database",
+    "category": "Distributed SQL",
+    "languages": [],
+    "maturity": 7,
+    "ops_burden": 2,
+    "complexity": 6,
+    "learning_curve": 5,
+    "talent_pool": 3,
+    "lock_in": 3,
+    "scores": {
+      "cost": {
+        "score": 5,
+        "why": "Serverless free tier then pricier than Postgres"
+      },
+      "time_to_market": {
+        "score": 7,
+        "why": "Postgres wire compatible, differences to learn"
+      },
+      "scalability": {
+        "score": 9,
+        "why": "Horizontal scale and multi-region"
+      },
+      "performance": {
+        "score": 7,
+        "why": "Distributed commit latency"
+      },
+      "maintainability": {
+        "score": 7,
+        "why": "Compatible tooling, newer"
+      },
+      "security": {
+        "score": 9,
+        "why": "Encryption and compliance"
+      }
+    },
+    "attrs": {
+      "access": {
+        "managed": {
+          "any": true
+        },
+        "self_host": true
+      },
+      "kind": "relational",
+      "acid": 1.0,
+      "ceiling": 9.5,
+      "runs_on": [
+        "aws",
+        "gcp",
+        "azure"
+      ]
+    },
+    "capabilities": {
+      "multi_tenant": 0.8
+    },
+    "cost": {
+      "curve": [
+        [
+          1,
+          0,
+          25
+        ],
+        [
+          30,
+          40,
+          150
+        ],
+        [
+          300,
+          250,
+          700
+        ],
+        [
+          3000,
+          1500,
+          4200
+        ]
+      ],
+      "ha_factor": 1.0
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001"
+    ],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Global strongly consistent SQL"
+    ],
+    "avoid_when": [
+      "Small simple apps"
+    ],
+    "pros": [
+      "Survives zone failures with no failover scripts"
+    ],
+    "cons": [
+      "Small talent pool"
+    ],
+    "strong_types": [
+      "fintech",
+      "saas_b2b",
+      "marketplace",
+      "gaming"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "CockroachDB pricing",
+        "url": "https://www.cockroachlabs.com/pricing/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "cosmos_db",
+    "name": "Azure Cosmos DB",
+    "layer": "database",
+    "category": "Multi-model, globally distributed",
+    "languages": [],
+    "maturity": 9,
+    "ops_burden": 0,
+    "complexity": 5,
+    "learning_curve": 6,
+    "talent_pool": 4,
+    "lock_in": 8,
+    "scores": {
+      "cost": {
+        "score": 5,
+        "why": "Request-unit pricing is pricey at steady load"
+      },
+      "time_to_market": {
+        "score": 7,
+        "why": "Multiple APIs, SDKs"
+      },
+      "scalability": {
+        "score": 10,
+        "why": "Elastic, multi-region writes"
+      },
+      "performance": {
+        "score": 9,
+        "why": "Single-digit ms SLA"
+      },
+      "maintainability": {
+        "score": 7,
+        "why": "RU planning needed"
+      },
+      "security": {
+        "score": 9,
+        "why": "Entra ID, encryption, compliance"
+      }
+    },
+    "attrs": {
+      "access": {
+        "managed": {
+          "azure": true,
+          "any": true
+        },
+        "self_host": false
+      },
+      "kind": "document",
+      "acid": 0.9,
+      "ceiling": 10.0,
+      "runs_on": [
+        "azure"
+      ]
+    },
+    "capabilities": {
+      "sync": 0.3,
+      "multi_tenant": 0.8,
+      "realtime": 0.4,
+      "search": 0.3
+    },
+    "cost": {
+      "curve": [
+        [
+          1,
+          0,
+          25
+        ],
+        [
+          30,
+          25,
+          100
+        ],
+        [
+          300,
+          120,
+          450
+        ],
+        [
+          3000,
+          800,
+          3000
+        ],
+        [
+          30000,
+          6500,
+          20000
+        ]
+      ],
+      "ha_factor": 1.0
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "best_for": [
+      "Global Azure apps"
+    ],
+    "avoid_when": [
+      "Cost-sensitive small apps"
+    ],
+    "pros": [
+      "Global distribution"
+    ],
+    "cons": [
+      "Costly, lock-in"
+    ],
+    "strong_types": [
+      "iot",
+      "gaming",
+      "social",
+      "saas_b2b"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "azure_app_service",
+      "aspnet_core",
+      "azure_container_apps"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Cosmos DB pricing",
+        "url": "https://azure.microsoft.com/pricing/details/cosmos-db/autoscale-provisioned/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "billed_by": "azure"
+  },
+  {
+    "id": "dynamodb",
+    "name": "Amazon DynamoDB",
+    "layer": "database",
+    "category": "Key-value / wide column",
+    "languages": [],
+    "maturity": 9,
+    "ops_burden": 0,
+    "complexity": 5,
+    "learning_curve": 7,
+    "talent_pool": 5,
+    "lock_in": 8,
+    "scores": {
+      "cost": {
+        "score": 8,
+        "why": "Pay per request, free tier"
+      },
+      "time_to_market": {
+        "score": 6,
+        "why": "Single-table design takes expertise"
+      },
+      "scalability": {
+        "score": 10,
+        "why": "Virtually unlimited, serverless"
+      },
+      "performance": {
+        "score": 9,
+        "why": "Single-digit ms at any scale"
+      },
+      "maintainability": {
+        "score": 6,
+        "why": "Access patterns fixed up front"
+      },
+      "security": {
+        "score": 9,
+        "why": "IAM, encryption, PITR"
+      }
+    },
+    "attrs": {
+      "access": {
+        "managed": {
+          "aws": true,
+          "any": true
+        },
+        "self_host": false
+      },
+      "kind": "keyvalue",
+      "acid": 0.8,
+      "ceiling": 10.0,
+      "runs_on": [
+        "aws"
+      ]
+    },
+    "capabilities": {
+      "sync": 0.2,
+      "multi_tenant": 0.8,
+      "realtime": 0.3
+    },
+    "cost": {
+      "curve": [
+        [
+          1,
+          0,
+          3
+        ],
+        [
+          30,
+          3,
+          15
+        ],
+        [
+          300,
+          20,
+          90
+        ],
+        [
+          3000,
+          200,
+          800
+        ],
+        [
+          30000,
+          1800,
+          6000
+        ]
+      ],
+      "per_gb_storage": [
+        0.25,
+        0.25
+      ],
+      "ha_factor": 1.0
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "best_for": [
+      "Predictable access patterns at massive scale"
+    ],
+    "avoid_when": [
+      "Relational reporting"
+    ],
+    "pros": [
+      "No capacity management"
+    ],
+    "cons": [
+      "Ad-hoc queries are hard",
+      "AWS lock-in"
+    ],
+    "strong_types": [
+      "gaming",
+      "iot",
+      "social",
+      "api_platform"
+    ],
+    "weak_types": [
+      "data_analytics",
+      "internal_tool"
+    ],
+    "requires": {},
+    "synergy": [
+      "aws_lambda",
+      "aws_ecs_fargate"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "DynamoDB pricing",
+        "url": "https://aws.amazon.com/dynamodb/pricing/"
+      },
+      {
+        "title": "DynamoDB docs",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "billed_by": "aws"
+  },
+  {
+    "id": "firestore",
+    "name": "Cloud Firestore",
+    "layer": "database",
+    "category": "Document, mobile sync",
+    "languages": [],
+    "maturity": 9,
+    "ops_burden": 0,
+    "complexity": 3,
+    "learning_curve": 3,
+    "talent_pool": 6,
+    "lock_in": 8,
+    "scores": {
+      "cost": {
+        "score": 8,
+        "why": "Free daily quota, per-operation billing"
+      },
+      "time_to_market": {
+        "score": 9,
+        "why": "SDK with offline cache and live listeners"
+      },
+      "scalability": {
+        "score": 9,
+        "why": "Autoscaling to very high loads"
+      },
+      "performance": {
+        "score": 7,
+        "why": "Fast document reads, limited queries"
+      },
+      "maintainability": {
+        "score": 6,
+        "why": "Denormalised model, rules"
+      },
+      "security": {
+        "score": 8,
+        "why": "Security rules, Google infrastructure"
+      }
+    },
+    "attrs": {
+      "access": {
+        "managed": {
+          "gcp": true,
+          "any": true
+        },
+        "self_host": false
+      },
+      "kind": "document",
+      "acid": 0.85,
+      "ceiling": 9.0,
+      "runs_on": [
+        "gcp"
+      ],
+      "sla": 99.99,
+      "sla_ha": 99.999
+    },
+    "capabilities": {
+      "sync": 0.95,
+      "realtime": 0.95,
+      "multi_tenant": 0.5,
+      "search": 0.1
+    },
+    "cost": {
+      "curve": [
+        [
+          1,
+          0,
+          5
+        ],
+        [
+          30,
+          5,
+          30
+        ],
+        [
+          300,
+          40,
+          160
+        ],
+        [
+          3000,
+          400,
+          1500
+        ],
+        [
+          30000,
+          3500,
+          12000
+        ]
+      ],
+      "ha_factor": 1.0
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "hipaa",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "best_for": [
+      "Mobile offline-first apps"
+    ],
+    "avoid_when": [
+      "Relational reporting and exports"
+    ],
+    "pros": [
+      "Offline mobile sync is built in"
+    ],
+    "cons": [
+      "Costs scale with reads",
+      "Weak ad-hoc queries"
+    ],
+    "strong_types": [
+      "social",
+      "realtime_collab",
+      "marketplace",
+      "gaming",
+      "internal_tool"
+    ],
+    "weak_types": [
+      "fintech",
+      "data_analytics"
+    ],
+    "requires": {
+      "backend": [
+        "firebase",
+        "express",
+        "nestjs",
+        "fastapi",
+        "go_chi",
+        "django",
+        "spring_boot",
+        "none_be"
+      ]
+    },
+    "synergy": [
+      "firebase",
+      "flutter",
+      "expo_rn",
+      "kotlin_android"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Firestore pricing",
+        "url": "https://firebase.google.com/pricing"
+      },
+      {
+        "title": "Firestore locations",
+        "url": "https://firebase.google.com/docs/firestore/locations"
+      },
+      {
+        "title": "Cloud Firestore SLA",
+        "url": "https://cloud.google.com/firestore/sla"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "billed_by": "gcp"
+  },
+  {
+    "id": "mongodb",
+    "name": "MongoDB (Atlas or self-hosted)",
+    "layer": "database",
+    "category": "Document",
+    "languages": [],
+    "maturity": 9,
+    "ops_burden": 2,
+    "complexity": 4,
+    "learning_curve": 3,
+    "talent_pool": 8,
+    "lock_in": 3,
+    "scores": {
+      "cost": {
+        "score": 7,
+        "why": "Atlas free tier, dedicated clusters from ~$57/month"
+      },
+      "time_to_market": {
+        "score": 8,
+        "why": "Flexible schema speeds early iteration"
+      },
+      "scalability": {
+        "score": 8,
+        "why": "Native sharding and replica sets"
+      },
+      "performance": {
+        "score": 8,
+        "why": "Fast reads on denormalised documents"
+      },
+      "maintainability": {
+        "score": 6,
+        "why": "Schema drift needs discipline"
+      },
+      "security": {
+        "score": 8,
+        "why": "Encryption, queryable encryption, SOC 2"
+      }
+    },
+    "attrs": {
+      "access": {
+        "managed": {
+          "any": true
+        },
+        "self_host": true
+      },
+      "kind": "document",
+      "acid": 0.85,
+      "ceiling": 9.0,
+      "runs_on": [
+        "aws",
+        "gcp",
+        "azure"
+      ]
+    },
+    "capabilities": {
+      "search": 0.8,
+      "realtime": 0.5,
+      "sync": 0.5,
+      "multi_tenant": 0.7
+    },
+    "cost": {
+      "curve": [
+        [
+          1,
+          0,
+          60
+        ],
+        [
+          30,
+          57,
+          120
+        ],
+        [
+          300,
+          200,
+          520
+        ],
+        [
+          3000,
+          1100,
+          3000
+        ],
+        [
+          30000,
+          6000,
+          15000
+        ]
+      ],
+      "ha_factor": 1.2
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Document-shaped data, MEAN/MERN"
+    ],
+    "avoid_when": [
+      "Heavily relational finance data"
+    ],
+    "pros": [
+      "Flexible documents, built-in search"
+    ],
+    "cons": [
+      "Transactions across documents costlier"
+    ],
+    "strong_types": [
+      "social",
+      "content_site",
+      "iot",
+      "realtime_collab",
+      "ecommerce",
+      "ai_ml_product"
+    ],
+    "weak_types": [
+      "fintech"
+    ],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "MongoDB Atlas pricing",
+        "url": "https://www.mongodb.com/pricing"
+      },
+      {
+        "title": "Atlas cloud providers and regions",
+        "url": "https://www.mongodb.com/docs/atlas/cloud-providers-regions/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "mysql",
+    "name": "MySQL (managed or self-hosted)",
+    "layer": "database",
+    "category": "Relational",
+    "languages": [],
+    "maturity": 10,
+    "ops_burden": 3,
+    "complexity": 3,
+    "learning_curve": 3,
+    "talent_pool": 9,
+    "lock_in": 1,
+    "scores": {
+      "cost": {
+        "score": 8,
+        "why": "Free engine; managed from ~$15/month"
+      },
+      "time_to_market": {
+        "score": 8,
+        "why": "Familiar, huge tooling base"
+      },
+      "scalability": {
+        "score": 8,
+        "why": "Read replicas, proven at web scale"
+      },
+      "performance": {
+        "score": 8,
+        "why": "Fast on simple OLTP"
+      },
+      "maintainability": {
+        "score": 8,
+        "why": "Stable and widely known"
+      },
+      "security": {
+        "score": 7,
+        "why": "Mature; fewer built-in security features than Postgres"
+      }
+    },
+    "attrs": {
+      "access": {
+        "managed": {
+          "aws": true,
+          "gcp": true,
+          "azure": true,
+          "digitalocean": true,
+          "any": false
+        },
+        "self_host": true
+      },
+      "kind": "relational",
+      "acid": 1.0,
+      "ceiling": 8.0
+    },
+    "capabilities": {
+      "search": 0.4,
+      "multi_tenant": 0.7,
+      "jobs": 0.3
+    },
+    "cost": {
+      "curve": [
+        [
+          1,
+          14,
+          28
+        ],
+        [
+          30,
+          45,
+          90
+        ],
+        [
+          300,
+          160,
+          360
+        ],
+        [
+          3000,
+          900,
+          2200
+        ],
+        [
+          30000,
+          4500,
+          11000
+        ]
+      ],
+      "per_gb_storage": [
+        0.1,
+        0.23
+      ],
+      "ha_factor": 2.0
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "PHP/LAMP stacks"
+    ],
+    "avoid_when": [
+      "Complex analytics in the OLTP DB"
+    ],
+    "pros": [
+      "Very familiar to PHP teams"
+    ],
+    "cons": [
+      "Fewer advanced SQL features than Postgres"
+    ],
+    "strong_types": [
+      "ecommerce",
+      "content_site",
+      "saas_b2b",
+      "marketplace",
+      "web_app"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "laravel"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "MySQL docs",
+        "url": "https://dev.mysql.com/doc/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "neon",
+    "name": "Neon (serverless Postgres)",
+    "layer": "database",
+    "category": "Relational, serverless",
+    "languages": [],
+    "maturity": 7,
+    "ops_burden": 0,
+    "complexity": 2,
+    "learning_curve": 2,
+    "talent_pool": 8,
+    "lock_in": 2,
+    "scores": {
+      "cost": {
+        "score": 9,
+        "why": "Scale-to-zero and free tier"
+      },
+      "time_to_market": {
+        "score": 9,
+        "why": "Branching and instant provisioning"
+      },
+      "scalability": {
+        "score": 7,
+        "why": "Autoscaling compute, storage separated"
+      },
+      "performance": {
+        "score": 7,
+        "why": "Cold starts after idle"
+      },
+      "maintainability": {
+        "score": 8,
+        "why": "Plain Postgres, migrations portable"
+      },
+      "security": {
+        "score": 8,
+        "why": "SOC 2, encryption, IP allow lists"
+      }
+    },
+    "attrs": {
+      "access": {
+        "managed": {
+          "any": true
+        },
+        "self_host": false
+      },
+      "kind": "relational",
+      "acid": 1.0,
+      "ceiling": 7.0,
+      "runs_on": [
+        "aws",
+        "azure"
+      ]
+    },
+    "capabilities": {
+      "search": 0.55,
+      "multi_tenant": 0.85,
+      "jobs": 0.2
+    },
+    "cost": {
+      "curve": [
+        [
+          1,
+          0,
+          19
+        ],
+        [
+          30,
+          19,
+          69
+        ],
+        [
+          300,
+          69,
+          250
+        ],
+        [
+          3000,
+          400,
+          1200
+        ]
+      ],
+      "ha_factor": 1.2
+    },
+    "regions": [
+      "us",
+      "eu",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "best_for": [
+      "Serverless web apps"
+    ],
+    "avoid_when": [
+      "Strict in-country residency in India"
+    ],
+    "pros": [
+      "Great for small and bursty apps"
+    ],
+    "cons": [
+      "No India region",
+      "Cold starts"
+    ],
+    "strong_types": [
+      "saas_b2b",
+      "web_app",
+      "marketplace",
+      "ecommerce",
+      "internal_tool"
+    ],
+    "weak_types": [
+      "fintech"
+    ],
+    "requires": {},
+    "synergy": [
+      "vercel",
+      "nextjs_api",
+      "cloudflare_workers",
+      "render"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Neon pricing",
+        "url": "https://neon.com/pricing"
+      },
+      {
+        "title": "Neon regions",
+        "url": "https://neon.com/docs/introduction/regions"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "none_db",
+    "name": "None (no database)",
+    "layer": "database",
+    "category": "No persistent data store",
+    "languages": [],
+    "maturity": 10,
+    "ops_burden": 0,
+    "complexity": 0,
+    "learning_curve": 0,
+    "talent_pool": 10,
+    "lock_in": 0,
+    "scores": {
+      "cost": {
+        "score": 10,
+        "why": "Nothing to run, secure or pay for"
+      },
+      "time_to_market": {
+        "score": 10,
+        "why": "Nothing to run, secure or pay for"
+      },
+      "scalability": {
+        "score": 10,
+        "why": "Nothing to run, secure or pay for"
+      },
+      "performance": {
+        "score": 10,
+        "why": "Nothing to run, secure or pay for"
+      },
+      "maintainability": {
+        "score": 10,
+        "why": "Nothing to run, secure or pay for"
+      },
+      "security": {
+        "score": 10,
+        "why": "Nothing to run, secure or pay for"
+      }
+    },
+    "attrs": {
+      "access": {
+        "managed": {
+          "any": true
+        },
+        "self_host": true
+      },
+      "kind": "none",
+      "acid": 0,
+      "ceiling": 10.0
+    },
+    "capabilities": {},
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Static content sites"
+    ],
+    "avoid_when": [
+      "Any user data"
+    ],
+    "pros": [
+      "No data to protect"
+    ],
+    "cons": [
+      "No dynamic data"
+    ],
+    "strong_types": [
+      "content_site"
+    ],
+    "weak_types": [
+      "saas_b2b",
+      "fintech",
+      "marketplace",
+      "social",
+      "realtime_collab",
+      "ecommerce",
+      "healthtech",
+      "internal_tool",
+      "web_app"
+    ],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Jamstack overview",
+        "url": "https://jamstack.org/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "oracle_db",
+    "name": "Oracle Database",
+    "layer": "database",
+    "category": "Relational enterprise",
+    "languages": [],
+    "maturity": 10,
+    "ops_burden": 5,
+    "complexity": 7,
+    "learning_curve": 7,
+    "talent_pool": 5,
+    "lock_in": 8,
+    "scores": {
+      "cost": {
+        "score": 3,
+        "why": "Expensive licences unless on OCI Autonomous"
+      },
+      "time_to_market": {
+        "score": 6,
+        "why": "Heavy, DBA-driven"
+      },
+      "scalability": {
+        "score": 9,
+        "why": "RAC, Exadata scale"
+      },
+      "performance": {
+        "score": 9,
+        "why": "Highly tunable"
+      },
+      "maintainability": {
+        "score": 7,
+        "why": "Mature but specialised"
+      },
+      "security": {
+        "score": 9,
+        "why": "Comprehensive security features"
+      }
+    },
+    "attrs": {
+      "access": {
+        "managed": {
+          "any": false,
+          "aws": true
+        },
+        "self_host": true
+      },
+      "kind": "relational",
+      "acid": 1.0,
+      "ceiling": 9.5,
+      "licensed": true
+    },
+    "capabilities": {
+      "search": 0.5,
+      "multi_tenant": 0.9
+    },
+    "cost": {
+      "curve": [
+        [
+          1,
+          150,
+          300
+        ],
+        [
+          30,
+          300,
+          700
+        ],
+        [
+          300,
+          900,
+          2200
+        ],
+        [
+          3000,
+          4000,
+          12000
+        ]
+      ],
+      "ha_factor": 1.5
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Existing Oracle estates"
+    ],
+    "avoid_when": [
+      "Startups"
+    ],
+    "pros": [
+      "Enterprise features"
+    ],
+    "cons": [
+      "Cost and lock-in"
+    ],
+    "strong_types": [
+      "fintech",
+      "saas_b2b"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "spring_boot"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Oracle Database",
+        "url": "https://www.oracle.com/database/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "postgresql",
+    "name": "PostgreSQL (managed or self-hosted)",
+    "layer": "database",
+    "category": "Relational",
+    "languages": [],
+    "maturity": 10,
+    "ops_burden": 3,
+    "complexity": 3,
+    "learning_curve": 3,
+    "talent_pool": 10,
+    "lock_in": 1,
+    "scores": {
+      "cost": {
+        "score": 8,
+        "why": "Free engine; managed instances start near $15/month"
+      },
+      "time_to_market": {
+        "score": 9,
+        "why": "SQL, migrations and ORMs everywhere"
+      },
+      "scalability": {
+        "score": 8,
+        "why": "Vertical plus read replicas; partitioning, scale-out via extensions"
+      },
+      "performance": {
+        "score": 8,
+        "why": "Excellent query planner, rich indexing"
+      },
+      "maintainability": {
+        "score": 9,
+        "why": "Standard SQL and stable ecosystem"
+      },
+      "security": {
+        "score": 9,
+        "why": "Row-level security, mature auditing, encryption"
+      }
+    },
+    "attrs": {
+      "access": {
+        "managed": {
+          "aws": true,
+          "gcp": true,
+          "azure": true,
+          "digitalocean": true,
+          "any": false,
+          "render": true,
+          "railway": true
+        },
+        "self_host": true
+      },
+      "kind": "relational",
+      "acid": 1.0,
+      "ceiling": 8.5
+    },
+    "capabilities": {
+      "search": 0.55,
+      "realtime": 0.2,
+      "multi_tenant": 0.9,
+      "sync": 0.1,
+      "jobs": 0.4
+    },
+    "cost": {
+      "curve": [
+        [
+          1,
+          14,
+          28
+        ],
+        [
+          30,
+          45,
+          90
+        ],
+        [
+          300,
+          160,
+          360
+        ],
+        [
+          3000,
+          900,
+          2200
+        ],
+        [
+          30000,
+          4500,
+          11000
+        ]
+      ],
+      "per_gb_storage": [
+        0.1,
+        0.23
+      ],
+      "ha_factor": 2.0
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "General transactional workloads"
+    ],
+    "avoid_when": [
+      "Massive write-only time series"
+    ],
+    "pros": [
+      "Right default for most products",
+      "Portable across clouds"
+    ],
+    "cons": [
+      "Write scaling beyond one primary needs design"
+    ],
+    "strong_types": [
+      "fintech",
+      "saas_b2b",
+      "marketplace",
+      "ecommerce",
+      "healthtech",
+      "web_app",
+      "internal_tool",
+      "data_analytics",
+      "social"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "PostgreSQL docs",
+        "url": "https://www.postgresql.org/docs/"
+      },
+      {
+        "title": "Stack Overflow Developer Survey 2024 databases",
+        "url": "https://survey.stackoverflow.co/2024/technology#1-databases"
+      },
+      {
+        "title": "AWS RDS pricing",
+        "url": "https://aws.amazon.com/rds/postgresql/pricing/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "sql_server",
+    "name": "Microsoft SQL Server / Azure SQL",
+    "layer": "database",
+    "category": "Relational",
+    "languages": [],
+    "maturity": 10,
+    "ops_burden": 3,
+    "complexity": 4,
+    "learning_curve": 3,
+    "talent_pool": 8,
+    "lock_in": 4,
+    "scores": {
+      "cost": {
+        "score": 5,
+        "why": "Per-core licensing; Azure SQL from ~$5 basic tier"
+      },
+      "time_to_market": {
+        "score": 8,
+        "why": "Great tooling, Entra ID auth"
+      },
+      "scalability": {
+        "score": 8,
+        "why": "Hyperscale and read scale-out"
+      },
+      "performance": {
+        "score": 8,
+        "why": "Strong optimiser"
+      },
+      "maintainability": {
+        "score": 8,
+        "why": "Mature tooling"
+      },
+      "security": {
+        "score": 9,
+        "why": "TDE, Always Encrypted, Entra ID"
+      }
+    },
+    "attrs": {
+      "access": {
+        "managed": {
+          "azure": true,
+          "aws": true,
+          "any": false
+        },
+        "self_host": "windows_or_linux_vm"
+      },
+      "kind": "relational",
+      "acid": 1.0,
+      "ceiling": 9.0,
+      "licensed": true
+    },
+    "capabilities": {
+      "search": 0.6,
+      "multi_tenant": 0.85,
+      "jobs": 0.3
+    },
+    "cost": {
+      "curve": [
+        [
+          1,
+          5,
+          15
+        ],
+        [
+          30,
+          30,
+          80
+        ],
+        [
+          300,
+          150,
+          400
+        ],
+        [
+          3000,
+          1000,
+          2800
+        ],
+        [
+          30000,
+          5500,
+          14000
+        ]
+      ],
+      "per_gb_storage": [
+        0.12,
+        0.25
+      ],
+      "ha_factor": 1.5
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      ".NET shops and Entra ID tenants"
+    ],
+    "avoid_when": [
+      "Cost-sensitive greenfield on non-Microsoft stacks"
+    ],
+    "pros": [
+      "Fits Microsoft estates, can join on-prem data"
+    ],
+    "cons": [
+      "Licensing cost off Azure"
+    ],
+    "strong_types": [
+      "internal_tool",
+      "saas_b2b",
+      "fintech",
+      "healthtech",
+      "ecommerce"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "aspnet_core",
+      "azure_app_service",
+      "entra_id",
+      "windows_iis",
+      "azure_container_apps"
+    ],
+    "friction": [
+      "go_chi",
+      "rails",
+      "phoenix"
+    ],
+    "sources": [
+      {
+        "title": "Azure SQL pricing",
+        "url": "https://azure.microsoft.com/pricing/details/azure-sql-database/single/"
+      },
+      {
+        "title": "SQL Server docs",
+        "url": "https://learn.microsoft.com/sql/sql-server/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "sqlite",
+    "name": "SQLite (embedded)",
+    "layer": "database",
+    "category": "Embedded relational",
+    "languages": [],
+    "maturity": 10,
+    "ops_burden": 1,
+    "complexity": 1,
+    "learning_curve": 1,
+    "talent_pool": 8,
+    "lock_in": 0,
+    "scores": {
+      "cost": {
+        "score": 10,
+        "why": "Free, no server"
+      },
+      "time_to_market": {
+        "score": 10,
+        "why": "Zero setup"
+      },
+      "scalability": {
+        "score": 3,
+        "why": "Single writer, one host"
+      },
+      "performance": {
+        "score": 8,
+        "why": "Very fast for single-node reads"
+      },
+      "maintainability": {
+        "score": 8,
+        "why": "One file, simple backups"
+      },
+      "security": {
+        "score": 7,
+        "why": "File-level security only"
+      }
+    },
+    "attrs": {
+      "access": {
+        "managed": {},
+        "self_host": "persistent_disk"
+      },
+      "kind": "relational",
+      "acid": 1.0,
+      "ceiling": 3.0,
+      "single_node": true
+    },
+    "capabilities": {
+      "search": 0.5,
+      "multi_tenant": 0.3
+    },
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Small apps on one server"
+    ],
+    "avoid_when": [
+      "Any HA or multi-instance setup"
+    ],
+    "pros": [
+      "No operations"
+    ],
+    "cons": [
+      "Single node only"
+    ],
+    "strong_types": [
+      "content_site",
+      "internal_tool",
+      "web_app"
+    ],
+    "weak_types": [
+      "fintech",
+      "realtime_collab",
+      "social",
+      "marketplace",
+      "healthtech",
+      "ecommerce",
+      "iot"
+    ],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "SQLite when to use",
+        "url": "https://www.sqlite.org/whentouse.html"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "supabase_postgres",
+    "name": "Supabase Postgres",
+    "layer": "database",
+    "category": "Relational with BaaS layer",
+    "languages": [],
+    "maturity": 7,
+    "ops_burden": 0,
+    "complexity": 2,
+    "learning_curve": 3,
+    "talent_pool": 7,
+    "lock_in": 2,
+    "scores": {
+      "cost": {
+        "score": 9,
+        "why": "Free tier then flat Pro pricing"
+      },
+      "time_to_market": {
+        "score": 9,
+        "why": "Dashboard, auth and APIs on top"
+      },
+      "scalability": {
+        "score": 7,
+        "why": "Compute add-ons and read replicas"
+      },
+      "performance": {
+        "score": 8,
+        "why": "Postgres with pooled connections"
+      },
+      "maintainability": {
+        "score": 7,
+        "why": "Standard Postgres, RLS policies to maintain"
+      },
+      "security": {
+        "score": 8,
+        "why": "RLS, SOC 2 Type II, HIPAA add-on"
+      }
+    },
+    "attrs": {
+      "access": {
+        "managed": {
+          "any": true
+        },
+        "self_host": false
+      },
+      "kind": "relational",
+      "acid": 1.0,
+      "ceiling": 7.0,
+      "runs_on": [
+        "aws"
+      ],
+      "sla": 99.9,
+      "sla_ha": 99.9
+    },
+    "capabilities": {
+      "search": 0.55,
+      "realtime": 0.8,
+      "multi_tenant": 0.9,
+      "sync": 0.2
+    },
+    "cost": {
+      "curve": [
+        [
+          1,
+          0,
+          25
+        ],
+        [
+          30,
+          25,
+          110
+        ],
+        [
+          300,
+          110,
+          410
+        ],
+        [
+          3000,
+          600,
+          1800
+        ]
+      ],
+      "ha_factor": 1.3
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "hipaa",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "best_for": [
+      "BaaS-style products"
+    ],
+    "avoid_when": [
+      "Strict air-gapped"
+    ],
+    "pros": [
+      "Auth + DB + realtime in one"
+    ],
+    "cons": [
+      "Paid plan needed for production SLAs"
+    ],
+    "strong_types": [
+      "saas_b2b",
+      "web_app",
+      "marketplace",
+      "internal_tool",
+      "social"
+    ],
+    "weak_types": [],
+    "requires": {
+      "backend": [
+        "supabase",
+        "express",
+        "nestjs",
+        "fastapi",
+        "django",
+        "nextjs_api",
+        "none_be",
+        "go_chi",
+        "laravel",
+        "rails",
+        "phoenix",
+        "spring_boot",
+        "aspnet_core"
+      ]
+    },
+    "synergy": [
+      "supabase"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Supabase pricing",
+        "url": "https://supabase.com/pricing"
+      },
+      {
+        "title": "Supabase regions",
+        "url": "https://supabase.com/docs/guides/platform/regions"
+      },
+      {
+        "title": "Supabase SLA (Team and Enterprise plans)",
+        "url": "https://supabase.com/docs/guides/platform/sla"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "clickhouse",
+    "name": "ClickHouse",
+    "layer": "database",
+    "category": "Columnar analytics database",
+    "languages": [],
+    "maturity": 8,
+    "ops_burden": 3,
+    "complexity": 5,
+    "learning_curve": 4,
+    "talent_pool": 4,
+    "lock_in": 2,
+    "scores": {
+      "cost": {
+        "score": 8,
+        "why": "Open source; managed cloud from about $50/month"
+      },
+      "time_to_market": {
+        "score": 6,
+        "why": "SQL, but a different modelling mindset than OLTP"
+      },
+      "scalability": {
+        "score": 10,
+        "why": "Scans billions of rows per second across shards"
+      },
+      "performance": {
+        "score": 10,
+        "why": "Columnar storage and vectorised execution"
+      },
+      "maintainability": {
+        "score": 7,
+        "why": "Clustering and merges need attention"
+      },
+      "security": {
+        "score": 7,
+        "why": "RBAC, TLS and encryption at rest"
+      }
+    },
+    "attrs": {
+      "access": {
+        "managed": {
+          "any": true
+        },
+        "self_host": true
+      },
+      "kind": "analytics",
+      "acid": 0.6,
+      "ceiling": 9.5,
+      "runs_on": [
+        "aws",
+        "gcp",
+        "azure"
+      ]
+    },
+    "capabilities": {
+      "search": 0.6,
+      "multi_tenant": 0.6
+    },
+    "cost": {
+      "curve": [
+        [
+          1,
+          0,
+          40
+        ],
+        [
+          30,
+          50,
+          200
+        ],
+        [
+          300,
+          200,
+          800
+        ],
+        [
+          3000,
+          900,
+          3500
+        ]
+      ],
+      "per_gb_storage": [
+        0.02,
+        0.05
+      ],
+      "ha_factor": 1.6
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "hipaa",
+      "gdpr"
+    ],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Event, log and metrics analytics"
+    ],
+    "avoid_when": [
+      "Transactional systems of record"
+    ],
+    "pros": [
+      "Very fast aggregations over large event data"
+    ],
+    "cons": [
+      "Weak for row-level updates and transactions"
+    ],
+    "strong_types": [
+      "data_analytics",
+      "iot",
+      "api_platform"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "ClickHouse docs",
+        "url": "https://clickhouse.com/docs"
+      },
+      {
+        "title": "ClickHouse Cloud pricing",
+        "url": "https://clickhouse.com/pricing"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "timescaledb",
+    "name": "TimescaleDB (PostgreSQL time-series)",
+    "layer": "database",
+    "category": "Time-series on PostgreSQL",
+    "languages": [],
+    "maturity": 8,
+    "ops_burden": 3,
+    "complexity": 5,
+    "learning_curve": 4,
+    "talent_pool": 4,
+    "lock_in": 2,
+    "scores": {
+      "cost": {
+        "score": 7,
+        "why": "Free self-hosted; managed Tiger Cloud from about $40/month"
+      },
+      "time_to_market": {
+        "score": 8,
+        "why": "Plain SQL and Postgres tooling"
+      },
+      "scalability": {
+        "score": 8,
+        "why": "Hypertables, compression and continuous aggregates"
+      },
+      "performance": {
+        "score": 9,
+        "why": "Fast ingestion and time-range queries"
+      },
+      "maintainability": {
+        "score": 8,
+        "why": "Postgres operations, one extension more"
+      },
+      "security": {
+        "score": 8,
+        "why": "Inherits Postgres security features"
+      }
+    },
+    "attrs": {
+      "access": {
+        "managed": {
+          "any": true
+        },
+        "self_host": true
+      },
+      "kind": "timeseries",
+      "acid": 1.0,
+      "ceiling": 9.0,
+      "runs_on": [
+        "aws",
+        "azure"
+      ]
+    },
+    "capabilities": {
+      "search": 0.5,
+      "multi_tenant": 0.7
+    },
+    "cost": {
+      "curve": [
+        [
+          1,
+          0,
+          30
+        ],
+        [
+          30,
+          40,
+          150
+        ],
+        [
+          300,
+          200,
+          700
+        ],
+        [
+          3000,
+          900,
+          3000
+        ]
+      ],
+      "per_gb_storage": [
+        0.05,
+        0.12
+      ],
+      "ha_factor": 1.6
+    },
+    "regions": [
+      "us",
+      "eu",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "gdpr"
+    ],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Sensor, metrics and event time-series"
+    ],
+    "avoid_when": [
+      "Pure document or key-value workloads"
+    ],
+    "pros": [
+      "Time-series speed with full SQL and joins"
+    ],
+    "cons": [
+      "Smaller managed footprint than plain Postgres"
+    ],
+    "strong_types": [
+      "iot",
+      "data_analytics"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "TimescaleDB docs",
+        "url": "https://docs.timescale.com/"
+      },
+      {
+        "title": "Timescale pricing",
+        "url": "https://www.timescale.com/pricing"
+      },
+      {
+        "title": "Azure Database for PostgreSQL extensions (timescaledb)",
+        "url": "https://learn.microsoft.com/azure/postgresql/extensions/concepts-extensions-considerations"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "bigquery",
+    "name": "Google BigQuery",
+    "layer": "database",
+    "category": "Serverless data warehouse",
+    "languages": [],
+    "maturity": 8,
+    "ops_burden": 3,
+    "complexity": 5,
+    "learning_curve": 4,
+    "talent_pool": 4,
+    "lock_in": 2,
+    "scores": {
+      "cost": {
+        "score": 7,
+        "why": "Pay per query and storage; free monthly tier"
+      },
+      "time_to_market": {
+        "score": 8,
+        "why": "No servers or indexes to manage"
+      },
+      "scalability": {
+        "score": 10,
+        "why": "Petabyte scale without provisioning"
+      },
+      "performance": {
+        "score": 7,
+        "why": "Seconds per query, not built for low-latency lookups"
+      },
+      "maintainability": {
+        "score": 9,
+        "why": "Fully managed"
+      },
+      "security": {
+        "score": 9,
+        "why": "IAM, CMEK and audit logs"
+      }
+    },
+    "attrs": {
+      "access": {
+        "managed": {
+          "gcp": true
+        },
+        "self_host": false
+      },
+      "kind": "analytics",
+      "acid": 0.6,
+      "ceiling": 9.5
+    },
+    "capabilities": {
+      "search": 0.5,
+      "multi_tenant": 0.6
+    },
+    "cost": {
+      "fixed": [
+        0,
+        10
+      ],
+      "per_gb_storage": [
+        0.02,
+        0.02
+      ],
+      "per_m_requests": [
+        0.5,
+        3.0
+      ]
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "best_for": [
+      "Analytics and reporting over large datasets"
+    ],
+    "avoid_when": [
+      "Low-latency transactional apps"
+    ],
+    "pros": [
+      "Zero operations at any scale"
+    ],
+    "cons": [
+      "Not for transactional serving; cost depends on query volume"
+    ],
+    "strong_types": [
+      "data_analytics",
+      "iot"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "BigQuery docs",
+        "url": "https://cloud.google.com/bigquery/docs"
+      },
+      {
+        "title": "BigQuery pricing",
+        "url": "https://cloud.google.com/bigquery/pricing"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "billed_by": "gcp"
+  }
+]

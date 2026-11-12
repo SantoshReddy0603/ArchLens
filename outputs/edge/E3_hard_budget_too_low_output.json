@@ -1,0 +1,461 @@
+{
+  "scenario_id": "E3",
+  "engine_version": "1.0.0",
+  "status": "infeasible",
+  "summary": "No stack satisfies all hard constraints at once; the critical warnings name what blocks it and what to relax.",
+  "architecture_style": "other",
+  "stack": null,
+  "estimated_monthly_cost_usd": {
+    "min": 0,
+    "max": 0,
+    "assumptions": [
+      "No estimate: no feasible stack."
+    ]
+  },
+  "warnings": [
+    {
+      "code": "BUDGET_TOO_LOW_FOR_SCALE",
+      "severity": "critical",
+      "message": "The load estimate (peak about 1500 requests/s, 400,000 users in 12 months) usually needs at least $260 per month of infrastructure; the budget is $40.",
+      "fields": [
+        "budget.monthly_infra_usd",
+        "scale.peak_concurrent_users"
+      ]
+    },
+    {
+      "code": "PCI_SCOPE",
+      "severity": "info",
+      "message": "Use a hosted checkout from a PCI DSS certified provider so card data never reaches your servers.",
+      "fields": [
+        "requirements.payments"
+      ]
+    },
+    {
+      "code": "BUDGET_INFEASIBLE",
+      "severity": "critical",
+      "message": "Every compatible stack costs more than the hard budget of $40 per month. The cheapest option is React Native (Expo) with Firebase (BaaS) and Cloud Firestore on None (provided by the backend platform), about $250-$600 per month.",
+      "fields": [
+        "budget.monthly_infra_usd",
+        "scale.users_12_months"
+      ]
+    },
+    {
+      "code": "FEASIBLE_IF_CHANGED",
+      "severity": "info",
+      "message": "If you treat the budget as firm rather than hard, a stack becomes possible: React Native (Expo) with Supabase (BaaS) and Supabase Postgres on None (core layers about $560-$1,200 per month).",
+      "fields": [
+        "extra.budget_strictness"
+      ]
+    }
+  ],
+  "assumptions": [],
+  "validation_errors": [],
+  "decision_trace": {
+    "pipeline": [
+      "validate input",
+      "derive profile",
+      "filter each layer by hard constraints",
+      "enumerate compatible stacks"
+    ],
+    "stopped_at": "no feasible stack",
+    "layers": {
+      "frontend": {
+        "candidates": 24,
+        "eliminated": [
+          {
+            "id": "godot",
+            "name": "Godot Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "none_fe",
+            "name": "None (API only)",
+            "reasons": [
+              "the project has client platforms to build"
+            ]
+          },
+          {
+            "id": "unity",
+            "name": "Unity",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "unreal",
+            "name": "Unreal Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "angular",
+            "name": "Angular",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "astro",
+            "name": "Astro",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "blazor",
+            "name": "Blazor (ASP.NET Core)",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "django_htmx",
+            "name": "Django templates + htmx",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "electron",
+            "name": "Electron",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "eleventy",
+            "name": "Eleventy (11ty)",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "hugo",
+            "name": "Hugo",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "kotlin_android",
+            "name": "Kotlin + Jetpack Compose (Android native)",
+            "reasons": [
+              "does not serve ios well enough on its own"
+            ]
+          },
+          {
+            "id": "laravel_livewire",
+            "name": "Laravel Blade + Livewire",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "nextjs",
+            "name": "Next.js",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "nuxt",
+            "name": "Nuxt",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "rails_hotwire",
+            "name": "Rails + Hotwire",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "react_vite",
+            "name": "React + Vite (SPA)",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "sveltekit",
+            "name": "SvelteKit",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "swift_ios",
+            "name": "Swift + SwiftUI (iOS native)",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "tauri",
+            "name": "Tauri",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "vue_vite",
+            "name": "Vue 3 + Vite (SPA)",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          }
+        ]
+      },
+      "backend": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "colyseus",
+            "name": "Colyseus (Node.js game server)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "nakama",
+            "name": "Nakama (Go game backend)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "none_be",
+            "name": "No backend (static)",
+            "reasons": [
+              "the project needs server-side logic (accounts, payments, uploads, realtime or non-content features)"
+            ]
+          }
+        ]
+      },
+      "database": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "bigquery",
+            "name": "Google BigQuery",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          },
+          {
+            "id": "clickhouse",
+            "name": "ClickHouse",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          },
+          {
+            "id": "none_db",
+            "name": "None (no database)",
+            "reasons": [
+              "the project needs persistent data"
+            ]
+          },
+          {
+            "id": "timescaledb",
+            "name": "TimescaleDB (PostgreSQL time-series)",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          }
+        ]
+      },
+      "hosting": {
+        "candidates": 27,
+        "eliminated": [
+          {
+            "id": "github_pages",
+            "name": "GitHub Pages",
+            "reasons": [
+              "expected traffic (about 7899 GB/month) exceeds the 100 GB/month soft limit"
+            ]
+          },
+          {
+            "id": "onprem_k8s",
+            "name": "Self-managed Kubernetes (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          },
+          {
+            "id": "onprem_linux_vm",
+            "name": "Self-managed Linux servers (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          },
+          {
+            "id": "windows_iis",
+            "name": "Windows Server + IIS (self-hosted)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          }
+        ]
+      }
+    },
+    "stack_search": {
+      "considered": 6048,
+      "pruned_by_reason": {
+        "backend bundled with a specific database": 540,
+        "backend bundled with a specific frontend": 216,
+        "database cannot be reached from the host": 204,
+        "database tied to another backend": 219,
+        "other incompatibility": 42,
+        "runtime not supported by the host": 4716
+      },
+      "removed_by_hard_budget": 4827
+    }
+  },
+  "profile": {
+    "project_type": "marketplace",
+    "client_platforms": [
+      "android",
+      "ios"
+    ],
+    "api_only": false,
+    "users_launch": 20000,
+    "users_12m": 400000,
+    "peak_concurrent": 15000,
+    "peak_estimated": false,
+    "peak_eff": 15000,
+    "peak_rps": 1500.0,
+    "avg_rps": 150.0,
+    "monthly_requests": 197484176.5813,
+    "egress_gb": 7899.3671,
+    "data_gb": 800,
+    "traffic_pattern": "spiky",
+    "workload": "balanced",
+    "scale_need": 8.085,
+    "scale_tier": 4,
+    "team_size": 3,
+    "experience": "mixed",
+    "exp_factor": 0.4,
+    "has_devops": false,
+    "ops_capacity": 0.2363,
+    "skills": [
+      "javascript",
+      "python"
+    ],
+    "appetite": 0.5,
+    "beginner_sens": 0.4,
+    "lock_in_tolerance": "medium",
+    "hiring_plan": "none",
+    "mobile_preference": "no_preference",
+    "licenses": [],
+    "effort_pw": 19.2,
+    "capacity_pw": 21.06,
+    "effort_ratio": 0.9117,
+    "time_pressure": 0.3198,
+    "mvp_weeks": 12,
+    "budget": 40.0,
+    "budget_tier": 1,
+    "budget_tightness": 0.5968,
+    "budget_strictness": "hard",
+    "availability": "99.9",
+    "avail_level": 3.0,
+    "avail_required": 5.8,
+    "p95": null,
+    "latency_need": 0.25,
+    "residency": "none",
+    "compliance": [],
+    "regulated_count": 0,
+    "deployment": "managed_cloud",
+    "cloud_pref": "any",
+    "existing_systems": [],
+    "license_texts": [],
+    "cloud_credits_usd": null,
+    "realtime": true,
+    "offline": false,
+    "search": false,
+    "files": false,
+    "payments": true,
+    "auth": "email_password",
+    "multi_tenant": false,
+    "ml": "none",
+    "seo": false,
+    "needs_server_logic": true,
+    "needs_persistence": true,
+    "static_candidate": false,
+    "geography": "global",
+    "data_sensitivity": "financial",
+    "hints": {
+      "low_end_devices": false,
+      "poor_connectivity": false,
+      "upi": false,
+      "location": false,
+      "tabular_ml": false
+    },
+    "india_ctx": false,
+    "weights": {
+      "cost": 0.203,
+      "maintainability": 0.1271,
+      "performance": 0.1589,
+      "scalability": 0.1907,
+      "security": 0.1525,
+      "time_to_market": 0.1678
+    },
+    "weight_multipliers": {
+      "cost": 1.5968,
+      "time_to_market": 1.3198,
+      "scalability": 1.5,
+      "performance": 1.25,
+      "maintainability": 1.0,
+      "security": 1.2
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "allowed_complexity": 7.7326,
+    "notes": []
+  },
+  "score": null,
+  "ranking": [],
+  "repairs": [
+    {
+      "field": "extra.budget_strictness",
+      "change": "treat the budget as firm rather than hard",
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Supabase (BaaS)",
+        "database": "Supabase Postgres",
+        "hosting": "None"
+      },
+      "cost_usd": [
+        562,
+        1227
+      ],
+      "score": 79.619
+    }
+  ],
+  "closest_option": {
+    "rank": 1,
+    "stack": {
+      "frontend": "React Native (Expo)",
+      "backend": "Firebase (BaaS)",
+      "database": "Cloud Firestore",
+      "hosting": "None"
+    },
+    "score": 75.083,
+    "quality": 0.8154,
+    "fit": 0.9491,
+    "penalty": 12.475,
+    "cost_usd": [
+      252,
+      601
+    ]
+  }
+}

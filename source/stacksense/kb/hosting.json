@@ -1,0 +1,3508 @@
+[
+  {
+    "id": "aws_amplify",
+    "name": "AWS Amplify Hosting",
+    "layer": "hosting",
+    "category": "Managed front-end hosting on AWS",
+    "languages": [],
+    "maturity": 8,
+    "ops_burden": 0,
+    "complexity": 2,
+    "learning_curve": 2,
+    "talent_pool": 6,
+    "lock_in": 4,
+    "scores": {
+      "cost": {
+        "score": 8,
+        "why": "Pay per build minute and GB served"
+      },
+      "time_to_market": {
+        "score": 8,
+        "why": "Git deploys, SSR support"
+      },
+      "scalability": {
+        "score": 8,
+        "why": "CloudFront-backed"
+      },
+      "performance": {
+        "score": 7,
+        "why": "CloudFront plus Lambda SSR"
+      },
+      "maintainability": {
+        "score": 7,
+        "why": "Managed"
+      },
+      "security": {
+        "score": 8,
+        "why": "AWS controls"
+      }
+    },
+    "attrs": {
+      "provider": "aws",
+      "environment": "cloud",
+      "runtimes": [
+        "none",
+        "baas",
+        "functions"
+      ],
+      "static_only": false,
+      "persistent_disk": false,
+      "sla": 99.9,
+      "sla_ha": 99.9,
+      "managed_on": [
+        "aws"
+      ]
+    },
+    "capabilities": {},
+    "cost": {
+      "fixed": [
+        0,
+        15
+      ],
+      "per_gb_egress": [
+        0.0,
+        0.15
+      ],
+      "free_egress_gb": 100
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "best_for": [
+      "Front ends on AWS"
+    ],
+    "avoid_when": [
+      "Heavy servers"
+    ],
+    "pros": [
+      "Stays inside AWS"
+    ],
+    "cons": [
+      "Console and build quirks"
+    ],
+    "strong_types": [
+      "web_app",
+      "saas_b2b",
+      "content_site"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Amplify Hosting pricing",
+        "url": "https://aws.amazon.com/amplify/pricing/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "aws_ec2",
+    "name": "AWS EC2 (self-managed VMs)",
+    "layer": "hosting",
+    "category": "Cloud VMs",
+    "languages": [],
+    "maturity": 10,
+    "ops_burden": 4,
+    "complexity": 5,
+    "learning_curve": 5,
+    "talent_pool": 9,
+    "lock_in": 2,
+    "scores": {
+      "cost": {
+        "score": 7,
+        "why": "t4g/t3 instances cheap, extras add up"
+      },
+      "time_to_market": {
+        "score": 5,
+        "why": "You build deployment and ops"
+      },
+      "scalability": {
+        "score": 8,
+        "why": "Auto Scaling groups"
+      },
+      "performance": {
+        "score": 8,
+        "why": "Wide instance choice"
+      },
+      "maintainability": {
+        "score": 5,
+        "why": "OS and runtime patching is yours"
+      },
+      "security": {
+        "score": 8,
+        "why": "VPC, IAM, KMS"
+      }
+    },
+    "attrs": {
+      "provider": "aws",
+      "environment": "vm",
+      "runtimes": [
+        "node",
+        "python",
+        "java",
+        "dotnet",
+        "go",
+        "php",
+        "ruby",
+        "elixir",
+        "rust",
+        "container"
+      ],
+      "static_only": false,
+      "persistent_disk": true,
+      "sla": 99.5,
+      "sla_ha": 99.99,
+      "managed_on": [
+        "aws"
+      ]
+    },
+    "capabilities": {},
+    "cost": {
+      "curve": [
+        [
+          1,
+          12,
+          25
+        ],
+        [
+          30,
+          40,
+          100
+        ],
+        [
+          300,
+          250,
+          700
+        ],
+        [
+          3000,
+          1600,
+          4200
+        ],
+        [
+          30000,
+          9500,
+          24000
+        ]
+      ],
+      "per_gb_egress": [
+        0.09,
+        0.09
+      ],
+      "free_egress_gb": 100,
+      "ha_factor": 2.0
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Teams with infra skills"
+    ],
+    "avoid_when": [
+      "Teams without DevOps"
+    ],
+    "pros": [
+      "Maximum control"
+    ],
+    "cons": [
+      "Highest ops burden"
+    ],
+    "strong_types": [
+      "saas_b2b",
+      "marketplace",
+      "fintech"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "postgresql",
+      "mysql",
+      "dynamodb"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "EC2 pricing",
+        "url": "https://aws.amazon.com/ec2/pricing/on-demand/"
+      },
+      {
+        "title": "EC2 SLA",
+        "url": "https://aws.amazon.com/compute/sla/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "aws_ecs_fargate",
+    "name": "AWS ECS on Fargate",
+    "layer": "hosting",
+    "category": "Managed containers",
+    "languages": [],
+    "maturity": 9,
+    "ops_burden": 3,
+    "complexity": 5,
+    "learning_curve": 6,
+    "talent_pool": 9,
+    "lock_in": 4,
+    "scores": {
+      "cost": {
+        "score": 6,
+        "why": "ALB and task minimums set a cost floor near $30"
+      },
+      "time_to_market": {
+        "score": 6,
+        "why": "Needs Docker, IAM, networking setup"
+      },
+      "scalability": {
+        "score": 9,
+        "why": "Task autoscaling, no servers"
+      },
+      "performance": {
+        "score": 8,
+        "why": "Right-sizable tasks"
+      },
+      "maintainability": {
+        "score": 7,
+        "why": "No hosts to patch"
+      },
+      "security": {
+        "score": 9,
+        "why": "IAM roles, VPC isolation"
+      }
+    },
+    "attrs": {
+      "provider": "aws",
+      "environment": "cloud",
+      "runtimes": [
+        "node",
+        "python",
+        "java",
+        "dotnet",
+        "go",
+        "php",
+        "ruby",
+        "elixir",
+        "rust",
+        "container"
+      ],
+      "static_only": false,
+      "persistent_disk": false,
+      "sla": 99.99,
+      "sla_ha": 99.99,
+      "managed_on": [
+        "aws"
+      ]
+    },
+    "capabilities": {},
+    "cost": {
+      "curve": [
+        [
+          1,
+          28,
+          50
+        ],
+        [
+          30,
+          70,
+          140
+        ],
+        [
+          300,
+          280,
+          650
+        ],
+        [
+          3000,
+          1600,
+          3800
+        ],
+        [
+          30000,
+          9500,
+          22000
+        ]
+      ],
+      "per_gb_egress": [
+        0.09,
+        0.09
+      ],
+      "free_egress_gb": 100,
+      "ha_factor": 1.7
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": false,
+    "best_for": [
+      "Growing production services on AWS"
+    ],
+    "avoid_when": [
+      "Tiny hobby apps"
+    ],
+    "pros": [
+      "Serverless containers with 99.99% SLA"
+    ],
+    "cons": [
+      "More setup than PaaS"
+    ],
+    "strong_types": [
+      "saas_b2b",
+      "marketplace",
+      "fintech",
+      "realtime_collab",
+      "api_platform",
+      "ecommerce",
+      "healthtech",
+      "social"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "postgresql",
+      "mysql",
+      "dynamodb",
+      "redis"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Fargate pricing",
+        "url": "https://aws.amazon.com/fargate/pricing/"
+      },
+      {
+        "title": "ECS SLA",
+        "url": "https://aws.amazon.com/ecs/sla/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "aws_eks",
+    "name": "AWS EKS (Kubernetes)",
+    "layer": "hosting",
+    "category": "Managed Kubernetes",
+    "languages": [],
+    "maturity": 9,
+    "ops_burden": 7,
+    "complexity": 8,
+    "learning_curve": 8,
+    "talent_pool": 7,
+    "lock_in": 2,
+    "scores": {
+      "cost": {
+        "score": 4,
+        "why": "$73/month control plane plus nodes"
+      },
+      "time_to_market": {
+        "score": 4,
+        "why": "Cluster set-up and platform engineering"
+      },
+      "scalability": {
+        "score": 10,
+        "why": "Scales to thousands of pods"
+      },
+      "performance": {
+        "score": 9,
+        "why": "Tunable"
+      },
+      "maintainability": {
+        "score": 6,
+        "why": "Kubernetes upgrades and add-ons"
+      },
+      "security": {
+        "score": 9,
+        "why": "IAM, network policy"
+      }
+    },
+    "attrs": {
+      "provider": "aws",
+      "environment": "cloud",
+      "runtimes": [
+        "node",
+        "python",
+        "java",
+        "dotnet",
+        "go",
+        "php",
+        "ruby",
+        "elixir",
+        "rust",
+        "container"
+      ],
+      "static_only": false,
+      "persistent_disk": true,
+      "sla": 99.95,
+      "sla_ha": 99.99,
+      "managed_on": [
+        "aws"
+      ]
+    },
+    "capabilities": {},
+    "cost": {
+      "curve": [
+        [
+          1,
+          150,
+          240
+        ],
+        [
+          30,
+          190,
+          330
+        ],
+        [
+          300,
+          450,
+          1100
+        ],
+        [
+          3000,
+          2000,
+          5200
+        ],
+        [
+          30000,
+          10500,
+          26000
+        ]
+      ],
+      "per_gb_egress": [
+        0.09,
+        0.09
+      ],
+      "free_egress_gb": 100,
+      "ha_factor": 1.3
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": false,
+    "best_for": [
+      "Large teams with DevOps"
+    ],
+    "avoid_when": [
+      "Small teams"
+    ],
+    "pros": [
+      "Highest flexibility"
+    ],
+    "cons": [
+      "Needs platform team"
+    ],
+    "strong_types": [
+      "marketplace",
+      "fintech",
+      "saas_b2b",
+      "gaming",
+      "data_analytics"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "EKS pricing",
+        "url": "https://aws.amazon.com/eks/pricing/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "aws_elastic_beanstalk",
+    "name": "AWS Elastic Beanstalk",
+    "layer": "hosting",
+    "category": "AWS PaaS for web apps",
+    "languages": [],
+    "maturity": 8,
+    "ops_burden": 3,
+    "complexity": 3,
+    "learning_curve": 3,
+    "talent_pool": 6,
+    "lock_in": 3,
+    "scores": {
+      "cost": {
+        "score": 7,
+        "why": "Pay for the underlying EC2/ALB only"
+      },
+      "time_to_market": {
+        "score": 8,
+        "why": "Upload code, platform handles provisioning"
+      },
+      "scalability": {
+        "score": 7,
+        "why": "Autoscaling groups"
+      },
+      "performance": {
+        "score": 7,
+        "why": "Standard EC2 performance"
+      },
+      "maintainability": {
+        "score": 6,
+        "why": "Platform branch upgrades needed"
+      },
+      "security": {
+        "score": 8,
+        "why": "VPC, IAM"
+      }
+    },
+    "attrs": {
+      "provider": "aws",
+      "environment": "cloud",
+      "runtimes": [
+        "node",
+        "python",
+        "java",
+        "dotnet",
+        "go",
+        "php",
+        "ruby",
+        "container"
+      ],
+      "static_only": false,
+      "persistent_disk": true,
+      "sla": 99.99,
+      "sla_ha": 99.99,
+      "managed_on": [
+        "aws"
+      ]
+    },
+    "capabilities": {},
+    "cost": {
+      "curve": [
+        [
+          1,
+          25,
+          50
+        ],
+        [
+          30,
+          60,
+          130
+        ],
+        [
+          300,
+          260,
+          650
+        ],
+        [
+          3000,
+          1600,
+          4200
+        ]
+      ],
+      "per_gb_egress": [
+        0.09,
+        0.09
+      ],
+      "free_egress_gb": 100,
+      "ha_factor": 1.8
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": false,
+    "best_for": [
+      "Small teams already on AWS"
+    ],
+    "avoid_when": [
+      "Cutting-edge container workflows"
+    ],
+    "pros": [
+      "Simple AWS PaaS"
+    ],
+    "cons": [
+      "Less active than ECS/Amplify"
+    ],
+    "strong_types": [
+      "saas_b2b",
+      "web_app",
+      "internal_tool"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Elastic Beanstalk",
+        "url": "https://aws.amazon.com/elasticbeanstalk/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "aws_lambda",
+    "name": "AWS Lambda + API Gateway",
+    "layer": "hosting",
+    "category": "Serverless functions",
+    "languages": [],
+    "maturity": 10,
+    "ops_burden": 2,
+    "complexity": 5,
+    "learning_curve": 6,
+    "talent_pool": 8,
+    "lock_in": 6,
+    "scores": {
+      "cost": {
+        "score": 9,
+        "why": "Pay per request, free tier"
+      },
+      "time_to_market": {
+        "score": 7,
+        "why": "No servers, but event wiring and IAM"
+      },
+      "scalability": {
+        "score": 9,
+        "why": "Automatic scale to thousands of concurrent"
+      },
+      "performance": {
+        "score": 6,
+        "why": "Cold starts, per-invocation limits"
+      },
+      "maintainability": {
+        "score": 6,
+        "why": "Many small pieces to track"
+      },
+      "security": {
+        "score": 9,
+        "why": "IAM per function"
+      }
+    },
+    "attrs": {
+      "provider": "aws",
+      "environment": "cloud",
+      "runtimes": [
+        "functions",
+        "none",
+        "baas",
+        "node",
+        "python",
+        "go",
+        "java",
+        "dotnet",
+        "ruby"
+      ],
+      "static_only": false,
+      "persistent_disk": false,
+      "sla": 99.95,
+      "sla_ha": 99.95,
+      "managed_on": [
+        "aws"
+      ]
+    },
+    "capabilities": {},
+    "cost": {
+      "curve": [
+        [
+          1,
+          0,
+          2
+        ],
+        [
+          30,
+          2,
+          12
+        ],
+        [
+          300,
+          20,
+          100
+        ],
+        [
+          3000,
+          250,
+          1000
+        ],
+        [
+          30000,
+          2500,
+          9000
+        ]
+      ],
+      "per_m_requests": [
+        1.0,
+        3.5
+      ],
+      "per_gb_egress": [
+        0.09,
+        0.09
+      ],
+      "free_egress_gb": 100,
+      "ha_factor": 1.0
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": false,
+    "best_for": [
+      "Spiky API workloads"
+    ],
+    "avoid_when": [
+      "Heavy, steady CPU loads"
+    ],
+    "pros": [
+      "Near-zero idle cost"
+    ],
+    "cons": [
+      "No long-lived connections without API Gateway websockets",
+      "Cold starts"
+    ],
+    "strong_types": [
+      "api_platform",
+      "iot",
+      "web_app",
+      "saas_b2b",
+      "ecommerce"
+    ],
+    "weak_types": [
+      "realtime_collab",
+      "gaming"
+    ],
+    "requires": {},
+    "synergy": [
+      "dynamodb",
+      "aws_amplify"
+    ],
+    "friction": [
+      "sql_server"
+    ],
+    "sources": [
+      {
+        "title": "Lambda pricing",
+        "url": "https://aws.amazon.com/lambda/pricing/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "azure_app_service",
+    "name": "Azure App Service",
+    "layer": "hosting",
+    "category": "Managed web app PaaS",
+    "languages": [],
+    "maturity": 10,
+    "ops_burden": 2,
+    "complexity": 3,
+    "learning_curve": 3,
+    "talent_pool": 8,
+    "lock_in": 3,
+    "scores": {
+      "cost": {
+        "score": 6,
+        "why": "Basic ~$13, Premium tiers $70-$150 per instance"
+      },
+      "time_to_market": {
+        "score": 9,
+        "why": "Deploy code directly, slots, Entra ID auth"
+      },
+      "scalability": {
+        "score": 8,
+        "why": "Scale out instances, autoscale rules"
+      },
+      "performance": {
+        "score": 7,
+        "why": "Dedicated instances"
+      },
+      "maintainability": {
+        "score": 8,
+        "why": "Managed patching"
+      },
+      "security": {
+        "score": 9,
+        "why": "Entra ID, managed identity, compliance catalogue"
+      }
+    },
+    "attrs": {
+      "provider": "azure",
+      "environment": "cloud",
+      "runtimes": [
+        "node",
+        "python",
+        "java",
+        "dotnet",
+        "php",
+        "container"
+      ],
+      "static_only": false,
+      "persistent_disk": true,
+      "sla": 99.95,
+      "sla_ha": 99.95,
+      "managed_on": [
+        "azure"
+      ]
+    },
+    "capabilities": {},
+    "cost": {
+      "curve": [
+        [
+          1,
+          13,
+          30
+        ],
+        [
+          30,
+          55,
+          140
+        ],
+        [
+          300,
+          220,
+          560
+        ],
+        [
+          3000,
+          1400,
+          3600
+        ],
+        [
+          30000,
+          8000,
+          20000
+        ]
+      ],
+      "per_gb_egress": [
+        0.087,
+        0.087
+      ],
+      "free_egress_gb": 100,
+      "ha_factor": 2.0
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": false,
+    "best_for": [
+      ".NET and Entra ID shops"
+    ],
+    "avoid_when": [
+      "Go and Elixir backends"
+    ],
+    "pros": [
+      "Best fit for .NET on Azure"
+    ],
+    "cons": [
+      "Per-instance pricing"
+    ],
+    "strong_types": [
+      "internal_tool",
+      "saas_b2b",
+      "fintech",
+      "healthtech",
+      "web_app",
+      "ecommerce"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "aspnet_core",
+      "sql_server",
+      "entra_id",
+      "blazor",
+      "angular"
+    ],
+    "friction": [
+      "go_chi",
+      "rails",
+      "phoenix"
+    ],
+    "sources": [
+      {
+        "title": "App Service pricing",
+        "url": "https://azure.microsoft.com/pricing/details/app-service/linux/"
+      },
+      {
+        "title": "App Service SLA",
+        "url": "https://azure.microsoft.com/support/legal/sla/app-service/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "azure_container_apps",
+    "name": "Azure Container Apps",
+    "layer": "hosting",
+    "category": "Serverless containers on Azure",
+    "languages": [],
+    "maturity": 7,
+    "ops_burden": 2,
+    "complexity": 4,
+    "learning_curve": 4,
+    "talent_pool": 5,
+    "lock_in": 3,
+    "scores": {
+      "cost": {
+        "score": 8,
+        "why": "Consumption plan with free grant"
+      },
+      "time_to_market": {
+        "score": 7,
+        "why": "Container deploy, Dapr optional"
+      },
+      "scalability": {
+        "score": 9,
+        "why": "KEDA-based autoscale"
+      },
+      "performance": {
+        "score": 7,
+        "why": "Containers, cold starts when scaled to zero"
+      },
+      "maintainability": {
+        "score": 7,
+        "why": "Managed"
+      },
+      "security": {
+        "score": 8,
+        "why": "Entra ID, managed identity"
+      }
+    },
+    "attrs": {
+      "provider": "azure",
+      "environment": "cloud",
+      "runtimes": [
+        "node",
+        "python",
+        "java",
+        "dotnet",
+        "go",
+        "php",
+        "ruby",
+        "elixir",
+        "rust",
+        "container"
+      ],
+      "static_only": false,
+      "persistent_disk": false,
+      "sla": 99.95,
+      "sla_ha": 99.95,
+      "managed_on": [
+        "azure"
+      ]
+    },
+    "capabilities": {},
+    "cost": {
+      "curve": [
+        [
+          1,
+          0,
+          15
+        ],
+        [
+          30,
+          15,
+          60
+        ],
+        [
+          300,
+          100,
+          350
+        ],
+        [
+          3000,
+          800,
+          2600
+        ],
+        [
+          30000,
+          7000,
+          19000
+        ]
+      ],
+      "per_gb_egress": [
+        0.087,
+        0.087
+      ],
+      "free_egress_gb": 100,
+      "ha_factor": 1.2
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": false,
+    "best_for": [
+      "Containers on Azure"
+    ],
+    "avoid_when": [],
+    "pros": [
+      "Scale to zero on Azure"
+    ],
+    "cons": [
+      "Newer service"
+    ],
+    "strong_types": [
+      "saas_b2b",
+      "api_platform",
+      "internal_tool",
+      "web_app"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "aspnet_core",
+      "sql_server",
+      "cosmos_db"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Container Apps pricing",
+        "url": "https://azure.microsoft.com/pricing/details/container-apps/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "azure_static_web_apps",
+    "name": "Azure Static Web Apps",
+    "layer": "hosting",
+    "category": "Static hosting with managed functions",
+    "languages": [],
+    "maturity": 8,
+    "ops_burden": 0,
+    "complexity": 1,
+    "learning_curve": 2,
+    "talent_pool": 5,
+    "lock_in": 3,
+    "scores": {
+      "cost": {
+        "score": 9,
+        "why": "Free tier, Standard $9/app"
+      },
+      "time_to_market": {
+        "score": 8,
+        "why": "GitHub Actions deploy, built-in auth"
+      },
+      "scalability": {
+        "score": 8,
+        "why": "Global distribution"
+      },
+      "performance": {
+        "score": 8,
+        "why": "CDN"
+      },
+      "maintainability": {
+        "score": 8,
+        "why": "Managed"
+      },
+      "security": {
+        "score": 8,
+        "why": "Entra ID auth integration"
+      }
+    },
+    "attrs": {
+      "provider": "azure",
+      "environment": "cloud",
+      "runtimes": [
+        "none",
+        "baas",
+        "functions"
+      ],
+      "static_only": false,
+      "persistent_disk": false,
+      "sla": 99.95,
+      "sla_ha": 99.95,
+      "managed_on": [
+        "azure"
+      ]
+    },
+    "capabilities": {},
+    "cost": {
+      "fixed": [
+        0,
+        9
+      ],
+      "per_gb_egress": [
+        0.0,
+        0.15
+      ],
+      "free_egress_gb": 100
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "best_for": [
+      "SPA on Azure"
+    ],
+    "avoid_when": [
+      "Complex backends"
+    ],
+    "pros": [
+      "Entra ID auth built in"
+    ],
+    "cons": [
+      "Region list for functions limited"
+    ],
+    "strong_types": [
+      "web_app",
+      "saas_b2b",
+      "internal_tool",
+      "content_site"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "entra_id",
+      "angular",
+      "react_vite",
+      "blazor"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Azure Static Web Apps pricing",
+        "url": "https://azure.microsoft.com/pricing/details/app-service/static/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "azure_vm",
+    "name": "Azure Virtual Machines",
+    "layer": "hosting",
+    "category": "Cloud VMs",
+    "languages": [],
+    "maturity": 10,
+    "ops_burden": 4,
+    "complexity": 5,
+    "learning_curve": 5,
+    "talent_pool": 7,
+    "lock_in": 2,
+    "scores": {
+      "cost": {
+        "score": 7,
+        "why": "B-series cheap, extras add up"
+      },
+      "time_to_market": {
+        "score": 5,
+        "why": "You build deployment and ops"
+      },
+      "scalability": {
+        "score": 8,
+        "why": "Scale sets"
+      },
+      "performance": {
+        "score": 8,
+        "why": "Many VM sizes"
+      },
+      "maintainability": {
+        "score": 5,
+        "why": "You patch"
+      },
+      "security": {
+        "score": 8,
+        "why": "Entra ID, Key Vault"
+      }
+    },
+    "attrs": {
+      "provider": "azure",
+      "environment": "vm",
+      "runtimes": [
+        "node",
+        "python",
+        "java",
+        "dotnet",
+        "go",
+        "php",
+        "ruby",
+        "elixir",
+        "rust",
+        "container"
+      ],
+      "static_only": false,
+      "persistent_disk": true,
+      "sla": 99.9,
+      "sla_ha": 99.99,
+      "managed_on": [
+        "azure"
+      ]
+    },
+    "capabilities": {},
+    "cost": {
+      "curve": [
+        [
+          1,
+          12,
+          28
+        ],
+        [
+          30,
+          40,
+          110
+        ],
+        [
+          300,
+          260,
+          720
+        ],
+        [
+          3000,
+          1700,
+          4400
+        ]
+      ],
+      "per_gb_egress": [
+        0.087,
+        0.087
+      ],
+      "free_egress_gb": 100,
+      "ha_factor": 2.0
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Lift-and-shift Windows apps"
+    ],
+    "avoid_when": [
+      "Small teams without ops"
+    ],
+    "pros": [
+      "Windows Server friendly"
+    ],
+    "cons": [
+      "High ops burden"
+    ],
+    "strong_types": [
+      "internal_tool",
+      "saas_b2b"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "sql_server",
+      "aspnet_core"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Azure VM pricing",
+        "url": "https://azure.microsoft.com/pricing/details/virtual-machines/linux/"
+      },
+      {
+        "title": "Azure SLA for Virtual Machines (99.9% single instance, 99.99% across zones)",
+        "url": "https://www.microsoft.com/licensing/docs/view/Service-Level-Agreements-SLA-for-Online-Services"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "cloudflare_pages",
+    "name": "Cloudflare Pages",
+    "layer": "hosting",
+    "category": "Static + edge functions",
+    "languages": [],
+    "maturity": 8,
+    "ops_burden": 0,
+    "complexity": 1,
+    "learning_curve": 1,
+    "talent_pool": 6,
+    "lock_in": 2,
+    "scores": {
+      "cost": {
+        "score": 10,
+        "why": "Free tier with unlimited static bandwidth"
+      },
+      "time_to_market": {
+        "score": 9,
+        "why": "Git deploys, previews"
+      },
+      "scalability": {
+        "score": 10,
+        "why": "Global edge network"
+      },
+      "performance": {
+        "score": 10,
+        "why": "Edge delivery in 300+ cities"
+      },
+      "maintainability": {
+        "score": 8,
+        "why": "Simple"
+      },
+      "security": {
+        "score": 8,
+        "why": "DDoS protection included"
+      }
+    },
+    "attrs": {
+      "provider": "cloudflare",
+      "environment": "cloud",
+      "runtimes": [
+        "none",
+        "baas"
+      ],
+      "static_only": true,
+      "persistent_disk": false,
+      "sla": 99.9,
+      "sla_ha": 99.9,
+      "managed_on": [],
+      "sla_contract": false
+    },
+    "capabilities": {},
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ],
+      "per_gb_egress": [
+        0,
+        0
+      ]
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "gdpr",
+      "pci_dss"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "best_for": [
+      "Static and SPA front ends"
+    ],
+    "avoid_when": [
+      "Server runtimes"
+    ],
+    "pros": [
+      "Free bandwidth",
+      "Strong edge network"
+    ],
+    "cons": [
+      "Static-first",
+      "No published uptime SLA below the Enterprise plan"
+    ],
+    "strong_types": [
+      "content_site",
+      "saas_b2b",
+      "web_app"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Cloudflare Pages",
+        "url": "https://developers.cloudflare.com/pages/"
+      },
+      {
+        "title": "Cloudflare Pages limits",
+        "url": "https://developers.cloudflare.com/pages/platform/limits/"
+      },
+      {
+        "title": "Cloudflare Pages pricing (free plan: unlimited static requests and bandwidth)",
+        "url": "https://www.cloudflare.com/plans/developer-platform/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "cloudflare_workers",
+    "name": "Cloudflare Workers",
+    "layer": "hosting",
+    "category": "Edge serverless",
+    "languages": [],
+    "maturity": 8,
+    "ops_burden": 0,
+    "complexity": 3,
+    "learning_curve": 4,
+    "talent_pool": 4,
+    "lock_in": 6,
+    "scores": {
+      "cost": {
+        "score": 9,
+        "why": "Generous free tier, $5/month paid"
+      },
+      "time_to_market": {
+        "score": 7,
+        "why": "Fast deploys, different runtime constraints"
+      },
+      "scalability": {
+        "score": 10,
+        "why": "Global auto-scale"
+      },
+      "performance": {
+        "score": 10,
+        "why": "No cold starts, edge execution"
+      },
+      "maintainability": {
+        "score": 7,
+        "why": "Runtime restrictions"
+      },
+      "security": {
+        "score": 8,
+        "why": "Isolates, DDoS"
+      }
+    },
+    "attrs": {
+      "provider": "cloudflare",
+      "environment": "cloud",
+      "runtimes": [
+        "none",
+        "baas",
+        "functions"
+      ],
+      "static_only": false,
+      "persistent_disk": false,
+      "sla": 99.9,
+      "sla_ha": 99.99,
+      "managed_on": []
+    },
+    "capabilities": {},
+    "cost": {
+      "fixed": [
+        0,
+        5
+      ],
+      "per_m_requests": [
+        0.0,
+        0.3
+      ],
+      "free_requests_m": 3
+    },
+    "regions": [
+      "us",
+      "eu",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "gdpr",
+      "pci_dss"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "best_for": [
+      "Lightweight edge APIs"
+    ],
+    "avoid_when": [
+      "Heavy libraries and long jobs"
+    ],
+    "pros": [
+      "Very cheap at scale"
+    ],
+    "cons": [
+      "Not a normal Node runtime"
+    ],
+    "strong_types": [
+      "api_platform",
+      "web_app",
+      "content_site"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Workers pricing",
+        "url": "https://developers.cloudflare.com/workers/platform/pricing/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "digitalocean_droplet",
+    "name": "DigitalOcean App Platform / Droplets",
+    "layer": "hosting",
+    "category": "Simple cloud VMs and PaaS",
+    "languages": [],
+    "maturity": 8,
+    "ops_burden": 3,
+    "complexity": 3,
+    "learning_curve": 3,
+    "talent_pool": 6,
+    "lock_in": 1,
+    "scores": {
+      "cost": {
+        "score": 9,
+        "why": "Droplets from $4-6/month, App Platform from $5"
+      },
+      "time_to_market": {
+        "score": 7,
+        "why": "Straightforward, manual setup on Droplets"
+      },
+      "scalability": {
+        "score": 6,
+        "why": "Scale by adding droplets"
+      },
+      "performance": {
+        "score": 7,
+        "why": "Standard VMs"
+      },
+      "maintainability": {
+        "score": 6,
+        "why": "You patch the OS on Droplets"
+      },
+      "security": {
+        "score": 7,
+        "why": "SOC 2, firewalls"
+      }
+    },
+    "attrs": {
+      "provider": "digitalocean",
+      "environment": "vm",
+      "runtimes": [
+        "node",
+        "python",
+        "java",
+        "dotnet",
+        "go",
+        "php",
+        "ruby",
+        "elixir",
+        "rust",
+        "container"
+      ],
+      "static_only": false,
+      "persistent_disk": true,
+      "sla": 99.99,
+      "sla_ha": 99.99,
+      "managed_on": []
+    },
+    "capabilities": {},
+    "cost": {
+      "curve": [
+        [
+          1,
+          6,
+          12
+        ],
+        [
+          30,
+          24,
+          60
+        ],
+        [
+          300,
+          160,
+          400
+        ],
+        [
+          3000,
+          800,
+          2200
+        ]
+      ],
+      "per_gb_egress": [
+        0.0,
+        0.01
+      ],
+      "free_egress_gb": 1000,
+      "ha_factor": 2.0
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "hipaa",
+      "gdpr"
+    ],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Budget-conscious teams"
+    ],
+    "avoid_when": [
+      "Complex compliance regimes"
+    ],
+    "pros": [
+      "Predictable low prices",
+      "Bangalore region"
+    ],
+    "cons": [
+      "Fewer managed services than hyperscalers"
+    ],
+    "strong_types": [
+      "web_app",
+      "ecommerce",
+      "content_site",
+      "saas_b2b",
+      "internal_tool"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "DigitalOcean pricing",
+        "url": "https://www.digitalocean.com/pricing"
+      },
+      {
+        "title": "DigitalOcean regions",
+        "url": "https://docs.digitalocean.com/platform/regional-availability/"
+      },
+      {
+        "title": "DigitalOcean Data Processing Agreement",
+        "url": "https://www.digitalocean.com/legal/data-processing-agreement"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "firebase_hosting",
+    "name": "Firebase Hosting",
+    "layer": "hosting",
+    "category": "Static CDN hosting",
+    "languages": [],
+    "maturity": 9,
+    "ops_burden": 0,
+    "complexity": 1,
+    "learning_curve": 1,
+    "talent_pool": 6,
+    "lock_in": 3,
+    "scores": {
+      "cost": {
+        "score": 9,
+        "why": "Free quota then pay as you go"
+      },
+      "time_to_market": {
+        "score": 9,
+        "why": "One command deploy, integrates with Firebase"
+      },
+      "scalability": {
+        "score": 9,
+        "why": "Global CDN"
+      },
+      "performance": {
+        "score": 8,
+        "why": "CDN delivery"
+      },
+      "maintainability": {
+        "score": 8,
+        "why": "Managed"
+      },
+      "security": {
+        "score": 8,
+        "why": "Managed TLS, Google infra"
+      }
+    },
+    "attrs": {
+      "provider": "gcp",
+      "environment": "cloud",
+      "runtimes": [
+        "none",
+        "baas"
+      ],
+      "static_only": true,
+      "persistent_disk": false,
+      "sla": 99.95,
+      "sla_ha": 99.95,
+      "managed_on": [
+        "gcp"
+      ]
+    },
+    "capabilities": {},
+    "cost": {
+      "fixed": [
+        0,
+        5
+      ],
+      "per_gb_egress": [
+        0,
+        0.15
+      ],
+      "free_egress_gb": 10
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "best_for": [
+      "Firebase apps"
+    ],
+    "avoid_when": [
+      "Server runtimes"
+    ],
+    "pros": [
+      "Pairs with Firebase backend"
+    ],
+    "cons": [
+      "Static or Cloud Functions rewrites only"
+    ],
+    "strong_types": [
+      "content_site",
+      "web_app"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "firebase",
+      "firestore"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Firebase Hosting",
+        "url": "https://firebase.google.com/docs/hosting"
+      },
+      {
+        "title": "Firebase pricing",
+        "url": "https://firebase.google.com/pricing"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "fly_io",
+    "name": "Fly.io",
+    "layer": "hosting",
+    "category": "Edge containers on VMs",
+    "languages": [],
+    "maturity": 7,
+    "ops_burden": 2,
+    "complexity": 3,
+    "learning_curve": 4,
+    "talent_pool": 4,
+    "lock_in": 2,
+    "scores": {
+      "cost": {
+        "score": 8,
+        "why": "Pay per machine second"
+      },
+      "time_to_market": {
+        "score": 7,
+        "why": "flyctl deploys, some networking concepts"
+      },
+      "scalability": {
+        "score": 8,
+        "why": "Multi-region machines"
+      },
+      "performance": {
+        "score": 8,
+        "why": "Anycast, close to users"
+      },
+      "maintainability": {
+        "score": 6,
+        "why": "Operational maturity varies"
+      },
+      "security": {
+        "score": 7,
+        "why": "Private networking"
+      }
+    },
+    "attrs": {
+      "provider": "fly",
+      "environment": "cloud",
+      "runtimes": [
+        "node",
+        "python",
+        "java",
+        "dotnet",
+        "go",
+        "php",
+        "ruby",
+        "elixir",
+        "rust",
+        "container"
+      ],
+      "static_only": false,
+      "persistent_disk": true,
+      "sla": 99.9,
+      "sla_ha": 99.95,
+      "managed_on": []
+    },
+    "capabilities": {},
+    "cost": {
+      "curve": [
+        [
+          1,
+          5,
+          20
+        ],
+        [
+          30,
+          20,
+          70
+        ],
+        [
+          300,
+          120,
+          400
+        ],
+        [
+          3000,
+          800,
+          2600
+        ]
+      ],
+      "per_gb_egress": [
+        0.0,
+        0.02
+      ],
+      "free_egress_gb": 100,
+      "ha_factor": 2.0
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "hipaa",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "best_for": [
+      "Global realtime services"
+    ],
+    "avoid_when": [
+      "Teams needing hand-holding"
+    ],
+    "pros": [
+      "Multi-region with small footprint"
+    ],
+    "cons": [
+      "Reliability history less steady than hyperscalers"
+    ],
+    "strong_types": [
+      "realtime_collab",
+      "api_platform",
+      "web_app",
+      "saas_b2b",
+      "gaming"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Fly.io pricing",
+        "url": "https://fly.io/docs/about/pricing/"
+      },
+      {
+        "title": "Fly.io regions",
+        "url": "https://fly.io/docs/reference/regions/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "gce_vm",
+    "name": "Google Compute Engine",
+    "layer": "hosting",
+    "category": "Cloud VMs",
+    "languages": [],
+    "maturity": 10,
+    "ops_burden": 4,
+    "complexity": 5,
+    "learning_curve": 5,
+    "talent_pool": 6,
+    "lock_in": 2,
+    "scores": {
+      "cost": {
+        "score": 7,
+        "why": "e2 instances cheap, sustained-use discounts"
+      },
+      "time_to_market": {
+        "score": 5,
+        "why": "You build deployment and ops"
+      },
+      "scalability": {
+        "score": 8,
+        "why": "Managed instance groups"
+      },
+      "performance": {
+        "score": 8,
+        "why": "Wide machine types"
+      },
+      "maintainability": {
+        "score": 5,
+        "why": "You patch"
+      },
+      "security": {
+        "score": 8,
+        "why": "IAM, Shielded VMs"
+      }
+    },
+    "attrs": {
+      "provider": "gcp",
+      "environment": "vm",
+      "runtimes": [
+        "node",
+        "python",
+        "java",
+        "dotnet",
+        "go",
+        "php",
+        "ruby",
+        "elixir",
+        "rust",
+        "container"
+      ],
+      "static_only": false,
+      "persistent_disk": true,
+      "sla": 99.9,
+      "sla_ha": 99.99,
+      "managed_on": [
+        "gcp"
+      ]
+    },
+    "capabilities": {},
+    "cost": {
+      "curve": [
+        [
+          1,
+          12,
+          25
+        ],
+        [
+          30,
+          40,
+          100
+        ],
+        [
+          300,
+          240,
+          680
+        ],
+        [
+          3000,
+          1600,
+          4200
+        ]
+      ],
+      "per_gb_egress": [
+        0.085,
+        0.085
+      ],
+      "free_egress_gb": 100,
+      "ha_factor": 2.0
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Teams with infra skills"
+    ],
+    "avoid_when": [
+      "Teams without DevOps"
+    ],
+    "pros": [
+      "Strong network"
+    ],
+    "cons": [
+      "High ops burden"
+    ],
+    "strong_types": [
+      "saas_b2b"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Compute Engine pricing",
+        "url": "https://cloud.google.com/compute/all-pricing"
+      },
+      {
+        "title": "Compute Engine SLA (99.9% single instance, 99.99% across zones)",
+        "url": "https://cloud.google.com/compute/sla"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "github_pages",
+    "name": "GitHub Pages",
+    "layer": "hosting",
+    "category": "Static hosting",
+    "languages": [],
+    "maturity": 9,
+    "ops_burden": 0,
+    "complexity": 1,
+    "learning_curve": 1,
+    "talent_pool": 9,
+    "lock_in": 1,
+    "scores": {
+      "cost": {
+        "score": 10,
+        "why": "Free for public sites"
+      },
+      "time_to_market": {
+        "score": 9,
+        "why": "Push to deploy, zero config"
+      },
+      "scalability": {
+        "score": 8,
+        "why": "Served via CDN, bandwidth soft limits"
+      },
+      "performance": {
+        "score": 8,
+        "why": "CDN edge delivery"
+      },
+      "maintainability": {
+        "score": 8,
+        "why": "Git-driven"
+      },
+      "security": {
+        "score": 7,
+        "why": "Static only; no SLA"
+      }
+    },
+    "attrs": {
+      "provider": "github",
+      "environment": "cloud",
+      "runtimes": [
+        "none"
+      ],
+      "static_only": true,
+      "persistent_disk": false,
+      "sla": 99.5,
+      "sla_ha": 99.5,
+      "managed_on": [],
+      "max_egress_gb": 100,
+      "sla_contract": false
+    },
+    "capabilities": {},
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [],
+    "self_hostable": false,
+    "requires_saas": true,
+    "best_for": [
+      "Portfolios, docs"
+    ],
+    "avoid_when": [
+      "Anything dynamic"
+    ],
+    "pros": [
+      "Free",
+      "Simple"
+    ],
+    "cons": [
+      "Static only",
+      "No SLA",
+      "Soft traffic limits (100 GB/month)"
+    ],
+    "strong_types": [
+      "content_site"
+    ],
+    "weak_types": [
+      "fintech",
+      "saas_b2b",
+      "marketplace",
+      "social"
+    ],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "GitHub Pages docs",
+        "url": "https://docs.github.com/pages"
+      },
+      {
+        "title": "GitHub Pages limits",
+        "url": "https://docs.github.com/pages/getting-started-with-github-pages/github-pages-limits"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "gke_cloud_run",
+    "name": "Google Cloud Run",
+    "layer": "hosting",
+    "category": "Serverless containers",
+    "languages": [],
+    "maturity": 9,
+    "ops_burden": 1,
+    "complexity": 3,
+    "learning_curve": 3,
+    "talent_pool": 6,
+    "lock_in": 2,
+    "scores": {
+      "cost": {
+        "score": 9,
+        "why": "Pay per use, scale to zero, generous free tier"
+      },
+      "time_to_market": {
+        "score": 8,
+        "why": "Deploy a container, get HTTPS"
+      },
+      "scalability": {
+        "score": 9,
+        "why": "Autoscale to many instances"
+      },
+      "performance": {
+        "score": 7,
+        "why": "Cold starts, request concurrency"
+      },
+      "maintainability": {
+        "score": 8,
+        "why": "Managed"
+      },
+      "security": {
+        "score": 8,
+        "why": "IAM, Binary Authorization"
+      }
+    },
+    "attrs": {
+      "provider": "gcp",
+      "environment": "cloud",
+      "runtimes": [
+        "node",
+        "python",
+        "java",
+        "dotnet",
+        "go",
+        "php",
+        "ruby",
+        "elixir",
+        "rust",
+        "container"
+      ],
+      "static_only": false,
+      "persistent_disk": false,
+      "sla": 99.95,
+      "sla_ha": 99.95,
+      "managed_on": [
+        "gcp"
+      ]
+    },
+    "capabilities": {},
+    "cost": {
+      "curve": [
+        [
+          1,
+          0,
+          10
+        ],
+        [
+          30,
+          10,
+          50
+        ],
+        [
+          300,
+          80,
+          300
+        ],
+        [
+          3000,
+          600,
+          2200
+        ],
+        [
+          30000,
+          6000,
+          17000
+        ]
+      ],
+      "per_gb_egress": [
+        0.12,
+        0.12
+      ],
+      "free_egress_gb": 1,
+      "per_m_requests": [
+        0.4,
+        0.4
+      ],
+      "ha_factor": 1.0
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": false,
+    "best_for": [
+      "Containerised apps on GCP"
+    ],
+    "avoid_when": [
+      "Stateful local disk"
+    ],
+    "pros": [
+      "Container simplicity with scale-to-zero"
+    ],
+    "cons": [
+      "GCP only"
+    ],
+    "strong_types": [
+      "saas_b2b",
+      "api_platform",
+      "web_app",
+      "ai_ml_product",
+      "marketplace",
+      "realtime_collab",
+      "ecommerce"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "firestore",
+      "postgresql"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Cloud Run pricing",
+        "url": "https://cloud.google.com/run/pricing"
+      },
+      {
+        "title": "Cloud Run SLA",
+        "url": "https://cloud.google.com/run/sla"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "hetzner_vps",
+    "name": "Hetzner Cloud VPS",
+    "layer": "hosting",
+    "category": "Low-cost cloud VMs",
+    "languages": [],
+    "maturity": 8,
+    "ops_burden": 4,
+    "complexity": 3,
+    "learning_curve": 4,
+    "talent_pool": 4,
+    "lock_in": 0,
+    "scores": {
+      "cost": {
+        "score": 10,
+        "why": "Among the cheapest VMs, generous traffic"
+      },
+      "time_to_market": {
+        "score": 6,
+        "why": "You set up everything"
+      },
+      "scalability": {
+        "score": 6,
+        "why": "Add servers manually"
+      },
+      "performance": {
+        "score": 7,
+        "why": "Dedicated vCPU options"
+      },
+      "maintainability": {
+        "score": 5,
+        "why": "You maintain OS and runtime"
+      },
+      "security": {
+        "score": 6,
+        "why": "ISO 27001, EU"
+      }
+    },
+    "attrs": {
+      "provider": "hetzner",
+      "environment": "vm",
+      "runtimes": [
+        "node",
+        "python",
+        "java",
+        "dotnet",
+        "go",
+        "php",
+        "ruby",
+        "elixir",
+        "rust",
+        "container"
+      ],
+      "static_only": false,
+      "persistent_disk": true,
+      "sla": 99.9,
+      "sla_ha": 99.9,
+      "managed_on": []
+    },
+    "capabilities": {},
+    "cost": {
+      "curve": [
+        [
+          1,
+          4,
+          8
+        ],
+        [
+          30,
+          12,
+          35
+        ],
+        [
+          300,
+          70,
+          220
+        ],
+        [
+          3000,
+          400,
+          1400
+        ]
+      ],
+      "per_gb_egress": [
+        0.0,
+        0.0
+      ],
+      "ha_factor": 2.0
+    },
+    "regions": [
+      "eu",
+      "us",
+      "other"
+    ],
+    "certs": [
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "EU cost-sensitive teams with ops skills"
+    ],
+    "avoid_when": [
+      "India residency"
+    ],
+    "pros": [
+      "Cheapest compute"
+    ],
+    "cons": [
+      "No India region",
+      "All ops are yours"
+    ],
+    "strong_types": [
+      "web_app",
+      "saas_b2b",
+      "content_site"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Hetzner Cloud",
+        "url": "https://www.hetzner.com/cloud/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "netlify",
+    "name": "Netlify",
+    "layer": "hosting",
+    "category": "JAMstack platform",
+    "languages": [],
+    "maturity": 8,
+    "ops_burden": 0,
+    "complexity": 1,
+    "learning_curve": 1,
+    "talent_pool": 6,
+    "lock_in": 3,
+    "scores": {
+      "cost": {
+        "score": 9,
+        "why": "Free tier, credit-based paid plans"
+      },
+      "time_to_market": {
+        "score": 10,
+        "why": "Git deploys, forms, functions, previews"
+      },
+      "scalability": {
+        "score": 8,
+        "why": "Global CDN and serverless functions"
+      },
+      "performance": {
+        "score": 8,
+        "why": "CDN delivery, functions cold start"
+      },
+      "maintainability": {
+        "score": 8,
+        "why": "Hosted workflow"
+      },
+      "security": {
+        "score": 7,
+        "why": "SOC 2, shared platform"
+      }
+    },
+    "attrs": {
+      "provider": "netlify",
+      "environment": "cloud",
+      "runtimes": [
+        "none",
+        "baas",
+        "functions"
+      ],
+      "static_only": false,
+      "persistent_disk": false,
+      "sla": 99.9,
+      "sla_ha": 99.99,
+      "managed_on": []
+    },
+    "capabilities": {},
+    "cost": {
+      "fixed": [
+        0,
+        19
+      ],
+      "per_gb_egress": [
+        0.0,
+        0.55
+      ],
+      "free_egress_gb": 100
+    },
+    "regions": [
+      "us",
+      "eu",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "best_for": [
+      "Static, SPA, light serverless"
+    ],
+    "avoid_when": [
+      "Long-running servers"
+    ],
+    "pros": [
+      "Very quick to launch"
+    ],
+    "cons": [
+      "Bandwidth overage costs",
+      "No India function region"
+    ],
+    "strong_types": [
+      "content_site",
+      "web_app",
+      "saas_b2b",
+      "ecommerce"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Netlify pricing",
+        "url": "https://www.netlify.com/pricing/"
+      },
+      {
+        "title": "Netlify functions",
+        "url": "https://docs.netlify.com/functions/overview/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "onprem_k8s",
+    "name": "Self-managed Kubernetes (on-premise)",
+    "layer": "hosting",
+    "category": "On-premise container platform",
+    "languages": [],
+    "maturity": 9,
+    "ops_burden": 8,
+    "complexity": 8,
+    "learning_curve": 8,
+    "talent_pool": 7,
+    "lock_in": 0,
+    "scores": {
+      "cost": {
+        "score": 5,
+        "why": "Needs hardware and staff time"
+      },
+      "time_to_market": {
+        "score": 4,
+        "why": "Platform engineering needed"
+      },
+      "scalability": {
+        "score": 9,
+        "why": "Scales across your hardware"
+      },
+      "performance": {
+        "score": 8,
+        "why": "Direct hardware"
+      },
+      "maintainability": {
+        "score": 5,
+        "why": "Everything is yours to upgrade"
+      },
+      "security": {
+        "score": 8,
+        "why": "Network-isolated, you control everything"
+      }
+    },
+    "attrs": {
+      "provider": "onprem",
+      "environment": "onprem",
+      "runtimes": [
+        "node",
+        "python",
+        "java",
+        "dotnet",
+        "go",
+        "php",
+        "ruby",
+        "elixir",
+        "rust",
+        "container"
+      ],
+      "static_only": false,
+      "persistent_disk": true,
+      "sla": 99.9,
+      "sla_ha": 99.95,
+      "managed_on": []
+    },
+    "capabilities": {},
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ],
+      "ha_factor": 1.0
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Large on-premise estates"
+    ],
+    "avoid_when": [
+      "Small teams"
+    ],
+    "pros": [
+      "Works air-gapped"
+    ],
+    "cons": [
+      "Needs a platform team"
+    ],
+    "strong_types": [
+      "saas_b2b",
+      "fintech",
+      "internal_tool"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Kubernetes docs",
+        "url": "https://kubernetes.io/docs/home/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "onprem_linux_vm",
+    "name": "Self-managed Linux servers (on-premise)",
+    "layer": "hosting",
+    "category": "On-premise Linux VMs",
+    "languages": [],
+    "maturity": 10,
+    "ops_burden": 6,
+    "complexity": 4,
+    "learning_curve": 4,
+    "talent_pool": 8,
+    "lock_in": 0,
+    "scores": {
+      "cost": {
+        "score": 6,
+        "why": "Hardware you own"
+      },
+      "time_to_market": {
+        "score": 5,
+        "why": "Manual set-up"
+      },
+      "scalability": {
+        "score": 5,
+        "why": "Add servers by hand"
+      },
+      "performance": {
+        "score": 7,
+        "why": "Direct hardware"
+      },
+      "maintainability": {
+        "score": 5,
+        "why": "Patching is yours"
+      },
+      "security": {
+        "score": 7,
+        "why": "Isolated network possible"
+      }
+    },
+    "attrs": {
+      "provider": "onprem",
+      "environment": "onprem",
+      "runtimes": [
+        "node",
+        "python",
+        "java",
+        "dotnet",
+        "go",
+        "php",
+        "ruby",
+        "elixir",
+        "rust",
+        "container"
+      ],
+      "static_only": false,
+      "persistent_disk": true,
+      "sla": 99.9,
+      "sla_ha": 99.95,
+      "managed_on": []
+    },
+    "capabilities": {},
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ],
+      "ha_factor": 1.0
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "On-premise or air-gapped"
+    ],
+    "avoid_when": [
+      "Teams without sysadmins"
+    ],
+    "pros": [
+      "Works air-gapped"
+    ],
+    "cons": [
+      "Ops burden"
+    ],
+    "strong_types": [
+      "internal_tool",
+      "saas_b2b"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Debian stable",
+        "url": "https://www.debian.org/releases/stable/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "railway",
+    "name": "Railway",
+    "layer": "hosting",
+    "category": "Developer PaaS",
+    "languages": [],
+    "maturity": 6,
+    "ops_burden": 1,
+    "complexity": 2,
+    "learning_curve": 2,
+    "talent_pool": 4,
+    "lock_in": 2,
+    "scores": {
+      "cost": {
+        "score": 8,
+        "why": "Usage-based, small apps a few dollars"
+      },
+      "time_to_market": {
+        "score": 9,
+        "why": "Instant deploys, databases one click"
+      },
+      "scalability": {
+        "score": 7,
+        "why": "Autoscale by replicas"
+      },
+      "performance": {
+        "score": 7,
+        "why": "Standard containers"
+      },
+      "maintainability": {
+        "score": 7,
+        "why": "Low ops"
+      },
+      "security": {
+        "score": 6,
+        "why": "Younger platform"
+      }
+    },
+    "attrs": {
+      "provider": "railway",
+      "environment": "cloud",
+      "runtimes": [
+        "node",
+        "python",
+        "java",
+        "dotnet",
+        "go",
+        "php",
+        "ruby",
+        "elixir",
+        "rust",
+        "container"
+      ],
+      "static_only": false,
+      "persistent_disk": true,
+      "sla": 99.5,
+      "sla_ha": 99.9,
+      "managed_on": []
+    },
+    "capabilities": {},
+    "cost": {
+      "curve": [
+        [
+          1,
+          5,
+          20
+        ],
+        [
+          30,
+          20,
+          80
+        ],
+        [
+          300,
+          120,
+          400
+        ],
+        [
+          3000,
+          800,
+          2600
+        ]
+      ],
+      "per_gb_egress": [
+        0.0,
+        0.1
+      ],
+      "free_egress_gb": 100,
+      "ha_factor": 2.0
+    },
+    "regions": [
+      "us",
+      "eu",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "best_for": [
+      "Prototypes and small apps"
+    ],
+    "avoid_when": [
+      "Strict SLA or residency"
+    ],
+    "pros": [
+      "Very fast to start"
+    ],
+    "cons": [
+      "Fewer enterprise assurances",
+      "No India region"
+    ],
+    "strong_types": [
+      "web_app",
+      "saas_b2b",
+      "internal_tool"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Railway pricing",
+        "url": "https://railway.com/pricing"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "render",
+    "name": "Render",
+    "layer": "hosting",
+    "category": "Simple PaaS",
+    "languages": [],
+    "maturity": 8,
+    "ops_burden": 1,
+    "complexity": 2,
+    "learning_curve": 2,
+    "talent_pool": 6,
+    "lock_in": 2,
+    "scores": {
+      "cost": {
+        "score": 8,
+        "why": "Free static, services from $7/month"
+      },
+      "time_to_market": {
+        "score": 9,
+        "why": "Git deploys, managed DB and Redis"
+      },
+      "scalability": {
+        "score": 7,
+        "why": "Scale up and out manually or by autoscale"
+      },
+      "performance": {
+        "score": 7,
+        "why": "Standard instances"
+      },
+      "maintainability": {
+        "score": 8,
+        "why": "Low ops"
+      },
+      "security": {
+        "score": 7,
+        "why": "SOC 2, private networking"
+      }
+    },
+    "attrs": {
+      "provider": "render",
+      "environment": "cloud",
+      "runtimes": [
+        "node",
+        "python",
+        "java",
+        "dotnet",
+        "go",
+        "php",
+        "ruby",
+        "elixir",
+        "rust",
+        "container"
+      ],
+      "static_only": false,
+      "persistent_disk": true,
+      "sla": 99.9,
+      "sla_ha": 99.95,
+      "managed_on": []
+    },
+    "capabilities": {},
+    "cost": {
+      "curve": [
+        [
+          1,
+          7,
+          25
+        ],
+        [
+          30,
+          25,
+          85
+        ],
+        [
+          300,
+          150,
+          450
+        ],
+        [
+          3000,
+          900,
+          2800
+        ]
+      ],
+      "per_gb_egress": [
+        0.0,
+        0.3
+      ],
+      "free_egress_gb": 100,
+      "ha_factor": 2.0
+    },
+    "regions": [
+      "us",
+      "eu",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "hipaa",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "best_for": [
+      "Small teams wanting PaaS"
+    ],
+    "avoid_when": [
+      "Strict residency in India"
+    ],
+    "pros": [
+      "Heroku-like simplicity"
+    ],
+    "cons": [
+      "No India region"
+    ],
+    "strong_types": [
+      "saas_b2b",
+      "web_app",
+      "marketplace",
+      "internal_tool"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Render pricing",
+        "url": "https://render.com/pricing"
+      },
+      {
+        "title": "Render regions",
+        "url": "https://render.com/docs/regions"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "vercel",
+    "name": "Vercel",
+    "layer": "hosting",
+    "category": "Front-end cloud with serverless",
+    "languages": [],
+    "maturity": 8,
+    "ops_burden": 0,
+    "complexity": 1,
+    "learning_curve": 1,
+    "talent_pool": 6,
+    "lock_in": 5,
+    "scores": {
+      "cost": {
+        "score": 8,
+        "why": "Hobby is non-commercial; Pro $20/seat plus usage"
+      },
+      "time_to_market": {
+        "score": 10,
+        "why": "Best Next.js deploy flow, previews"
+      },
+      "scalability": {
+        "score": 9,
+        "why": "Edge network, auto-scaling functions"
+      },
+      "performance": {
+        "score": 8,
+        "why": "Edge CDN, function cold starts"
+      },
+      "maintainability": {
+        "score": 8,
+        "why": "Managed"
+      },
+      "security": {
+        "score": 8,
+        "why": "SOC 2, DDoS protection"
+      }
+    },
+    "attrs": {
+      "provider": "vercel",
+      "environment": "cloud",
+      "runtimes": [
+        "none",
+        "baas",
+        "functions"
+      ],
+      "static_only": false,
+      "persistent_disk": false,
+      "sla": 99.9,
+      "sla_ha": 99.99,
+      "managed_on": []
+    },
+    "capabilities": {},
+    "cost": {
+      "fixed": [
+        0,
+        20
+      ],
+      "per_seat": [
+        0,
+        20
+      ],
+      "per_gb_egress": [
+        0.0,
+        0.15
+      ],
+      "free_egress_gb": 100,
+      "per_m_requests": [
+        0.0,
+        2.0
+      ]
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "gdpr",
+      "iso27001"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "best_for": [
+      "Next.js sites and apps"
+    ],
+    "avoid_when": [
+      "Long-lived servers and websockets"
+    ],
+    "pros": [
+      "Zero-config Next.js"
+    ],
+    "cons": [
+      "Usage costs rise sharply at scale",
+      "Lock-in to platform features"
+    ],
+    "strong_types": [
+      "web_app",
+      "saas_b2b",
+      "ecommerce",
+      "content_site",
+      "marketplace"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "nextjs",
+      "nextjs_api"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Vercel pricing",
+        "url": "https://vercel.com/pricing"
+      },
+      {
+        "title": "Vercel regions",
+        "url": "https://vercel.com/docs/regions"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "windows_iis",
+    "name": "Windows Server + IIS (self-hosted)",
+    "layer": "hosting",
+    "category": "On-premise Windows web server",
+    "languages": [],
+    "maturity": 10,
+    "ops_burden": 6,
+    "complexity": 4,
+    "learning_curve": 3,
+    "talent_pool": 7,
+    "lock_in": 2,
+    "scores": {
+      "cost": {
+        "score": 5,
+        "why": "Windows Server is licensed per core unless licences are already owned; listed licences earn a reuse bonus"
+      },
+      "time_to_market": {
+        "score": 6,
+        "why": "Standard for .NET shops"
+      },
+      "scalability": {
+        "score": 5,
+        "why": "Scale by adding servers behind a load balancer"
+      },
+      "performance": {
+        "score": 7,
+        "why": "Native .NET hosting"
+      },
+      "maintainability": {
+        "score": 5,
+        "why": "Patching and certificates are yours"
+      },
+      "security": {
+        "score": 7,
+        "why": "Domain-joined, depends on your ops"
+      }
+    },
+    "attrs": {
+      "provider": "onprem",
+      "environment": "onprem",
+      "runtimes": [
+        "dotnet",
+        "php",
+        "node",
+        "container"
+      ],
+      "static_only": false,
+      "persistent_disk": true,
+      "sla": 99.9,
+      "sla_ha": 99.95,
+      "managed_on": []
+    },
+    "capabilities": {},
+    "cost": {
+      "curve": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3000,
+          0,
+          0
+        ]
+      ],
+      "fixed": [
+        0,
+        0
+      ],
+      "ha_factor": 1.0
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "On-premise .NET"
+    ],
+    "avoid_when": [
+      "Cloud-only requirements"
+    ],
+    "pros": [
+      "Uses existing hardware and licences"
+    ],
+    "cons": [
+      "Hardware and ops are yours",
+      "Node.js apps need the iisnode module, which is no longer actively developed, or a reverse proxy in front of a separate Node process"
+    ],
+    "strong_types": [
+      "internal_tool",
+      "saas_b2b"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "aspnet_core",
+      "sql_server"
+    ],
+    "friction": [
+      "express",
+      "nestjs",
+      "nextjs_api"
+    ],
+    "sources": [
+      {
+        "title": "IIS docs",
+        "url": "https://learn.microsoft.com/iis/"
+      },
+      {
+        "title": "Windows Server pricing (per-core licensing)",
+        "url": "https://www.microsoft.com/en-us/windows-server/pricing"
+      },
+      {
+        "title": "iisnode repository",
+        "url": "https://github.com/Azure/iisnode"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "none_host",
+    "name": "None (provided by the backend platform)",
+    "layer": "hosting",
+    "category": "No separate hosting",
+    "languages": [],
+    "maturity": 8,
+    "ops_burden": 0,
+    "complexity": 0,
+    "learning_curve": 1,
+    "talent_pool": 6,
+    "lock_in": 2,
+    "scores": {
+      "cost": {
+        "score": 10,
+        "why": "Nothing extra to pay for: the backend platform runs the server side"
+      },
+      "time_to_market": {
+        "score": 10,
+        "why": "No deployment pipeline to build for a mobile-only client"
+      },
+      "scalability": {
+        "score": 8,
+        "why": "Scales with the backend platform's managed infrastructure"
+      },
+      "performance": {
+        "score": 8,
+        "why": "Clients talk to the platform's regional endpoints directly"
+      },
+      "maintainability": {
+        "score": 9,
+        "why": "No servers or containers to patch"
+      },
+      "security": {
+        "score": 8,
+        "why": "Attack surface and patching are handled by the platform"
+      }
+    },
+    "attrs": {
+      "provider": "none",
+      "environment": "cloud",
+      "runtimes": [
+        "none",
+        "baas"
+      ],
+      "static_only": true,
+      "persistent_disk": false,
+      "sla": 99.9,
+      "sla_ha": 99.9,
+      "managed_on": []
+    },
+    "capabilities": {},
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": false,
+    "requires_saas": true,
+    "best_for": [
+      "Mobile-only apps on a managed backend platform"
+    ],
+    "avoid_when": [
+      "Any web client that needs pages served"
+    ],
+    "pros": [
+      "No hosting to run"
+    ],
+    "cons": [
+      "Availability is whatever the backend platform delivers"
+    ],
+    "strong_types": [],
+    "weak_types": [],
+    "requires": {
+      "backend": [
+        "supabase",
+        "firebase"
+      ]
+    },
+    "synergy": [
+      "supabase",
+      "firebase"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Supabase platform",
+        "url": "https://supabase.com/docs/guides/platform"
+      },
+      {
+        "title": "Firebase products",
+        "url": "https://firebase.google.com/products-build"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  }
+]

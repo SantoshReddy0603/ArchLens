@@ -1,0 +1,171 @@
+[
+ {
+  "id": "angularjs",
+  "pattern": "angular\\s?js|angular\\s?1\\.\\d",
+  "label": "AngularJS (1.x)",
+  "note": "End of life since 2022-01-01; no security patches.",
+  "source": "https://docs.angularjs.org/misc/version-support-status",
+  "last_verified": "2026-11"
+ },
+ {
+  "id": "python2",
+  "pattern": "python\\s?2(\\.\\d)?\\b",
+  "label": "Python 2",
+  "note": "End of life since 2020-01-01.",
+  "source": "https://www.python.org/doc/sunset-python-2/",
+  "last_verified": "2026-11"
+ },
+ {
+  "id": "azure_ad_b2c",
+  "pattern": "azure ad b2c|aad b2c",
+  "label": "Azure AD B2C",
+  "note": "Not sold to new customers since 2025-05-01; Microsoft points new projects to Entra External ID.",
+  "source": "https://learn.microsoft.com/azure/active-directory-b2c/faq",
+  "last_verified": "2026-11"
+ },
+ {
+  "id": "realm_device_sync",
+  "pattern": "realm|atlas device sync|atlas app services",
+  "label": "MongoDB Realm / Atlas Device Sync",
+  "note": "Atlas Device Sync and the Realm SDKs were deprecated with end of life on 2025-09-30.",
+  "source": "https://www.mongodb.com/docs/atlas/app-services/sync/device-sync-eol/",
+  "last_verified": "2026-11"
+ },
+ {
+  "id": "cra",
+  "pattern": "create[- ]react[- ]app|\\bcra\\b",
+  "label": "Create React App",
+  "note": "Deprecated by the React team in February 2025; use Vite or a framework.",
+  "source": "https://react.dev/blog/2025/02/14/sunsetting-create-react-app",
+  "last_verified": "2026-11"
+ },
+ {
+  "id": "dotnet_framework",
+  "pattern": "\\.net framework|asp\\.net web forms|webforms",
+  "label": ".NET Framework / Web Forms",
+  "note": "Maintenance only, no new features; new work should target modern .NET.",
+  "source": "https://dotnet.microsoft.com/platform/support/policy/dotnet-framework",
+  "last_verified": "2026-11"
+ },
+ {
+  "id": "node_eol",
+  "pattern": "node(\\.js)?\\s?v?(\\d|1\\d|2[01]|23|25)\\b(?![.\\d])",
+  "label": "End-of-life Node.js release",
+  "note": "Node.js 20 and older releases are past end of life; use an active LTS release.",
+  "source": "https://nodejs.org/en/about/previous-releases",
+  "last_verified": "2026-11"
+ },
+ {
+  "id": "firebase_dynamic_links",
+  "pattern": "firebase dynamic links",
+  "label": "Firebase Dynamic Links",
+  "note": "Shut down on 2025-08-25.",
+  "source": "https://firebase.google.com/support/dynamic-links-faq",
+  "last_verified": "2026-11"
+ },
+ {
+  "id": "codecommit",
+  "pattern": "codecommit",
+  "label": "AWS CodeCommit",
+  "note": "Closed to new customers on 2024-07-25.",
+  "source": "https://aws.amazon.com/blogs/devops/how-to-migrate-your-aws-codecommit-repository-to-another-git-provider/",
+  "last_verified": "2026-11"
+ },
+ {
+  "id": "spring_boot_2",
+  "pattern": "spring boot\\s?2(\\.\\d+)?",
+  "label": "Spring Boot 2.x",
+  "note": "Open-source support for 2.7 ended in 2023-11; upgrade to 3.x.",
+  "source": "https://spring.io/projects/spring-boot#support",
+  "last_verified": "2026-11"
+ },
+ {
+  "id": "windows_2012",
+  "pattern": "windows server 2012",
+  "label": "Windows Server 2012 / 2012 R2",
+  "note": "Extended support ended on 2023-10-10.",
+  "source": "https://learn.microsoft.com/lifecycle/products/windows-server-2012-r2",
+  "last_verified": "2026-11"
+ },
+ {
+  "id": "centos",
+  "pattern": "centos\\s?[78]\\b",
+  "label": "CentOS 7 / 8",
+  "note": "End of life (CentOS 7 on 2024-06-30, CentOS 8 in 2021).",
+  "source": "https://www.redhat.com/en/topics/linux/centos-linux-eol",
+  "last_verified": "2026-11"
+ },
+ {
+  "id": "python_old",
+  "pattern": "python\\s?3\\.[0-8]\\b",
+  "label": "Python 3.8 or older",
+  "note": "Python 3.8 reached end of life in October 2024.",
+  "source": "https://devguide.python.org/versions/",
+  "last_verified": "2026-11"
+ },
+ {
+  "id": "heroku_free",
+  "pattern": "heroku free",
+  "label": "Heroku free tier",
+  "note": "Free dynos and databases were removed in November 2022.",
+  "source": "https://blog.heroku.com/next-chapter",
+  "last_verified": "2026-11"
+ },
+ {
+  "id": "sql_server_old",
+  "pattern": "sql server\\s?(2008|2012|2014|2016)\\b",
+  "label": "SQL Server 2014 / 2016 or older",
+  "note": "SQL Server 2014 ended extended support in July 2024 and SQL Server 2016 on 2026-07-14; older versions ended earlier.",
+  "source": "https://learn.microsoft.com/lifecycle/products/sql-server-2016",
+  "last_verified": "2026-11"
+ },
+ {
+  "id": "mysql_57",
+  "pattern": "mysql\\s?(5\\.[0-7])\\b",
+  "label": "MySQL 5.7 or older",
+  "note": "MySQL 5.7 reached end of life in October 2023.",
+  "source": "https://www.mysql.com/support/eol-notice.html",
+  "last_verified": "2026-11"
+ },
+ {
+  "id": "vue2",
+  "pattern": "vue\\s?(js\\s?)?2(\\.\\d+)?\\b",
+  "label": "Vue 2",
+  "note": "Vue 2 reached end of life on 2023-12-31.",
+  "source": "https://v2.vuejs.org/eol/",
+  "last_verified": "2026-11"
+ },
+ {
+  "id": "php_old",
+  "pattern": "php\\s?(5(\\.\\d)?|7(\\.[0-4])?|8\\.0)\\b",
+  "label": "PHP 7.4 or older, PHP 8.0",
+  "note": "PHP 7.4 and 8.0 no longer receive security fixes (ended 2022-11 and 2023-11).",
+  "source": "https://www.php.net/supported-versions.php",
+  "last_verified": "2026-11"
+ },
+ {
+  "id": "ubuntu_old",
+  "pattern": "ubuntu\\s?(16|18|20)\\.04",
+  "label": "Ubuntu 20.04 or older",
+  "note": "Ubuntu 18.04 standard support ended in 2023-05 and 20.04 in 2025-05; later updates need paid Ubuntu Pro.",
+  "source": "https://ubuntu.com/about/release-cycle",
+  "last_verified": "2026-11"
+ },
+ {
+  "id": "postgres_old",
+  "pattern": "postgres(ql)?\\s?(9(\\.\\d)?|1[0-3])\\b",
+  "label": "PostgreSQL 13 or older",
+  "note": "PostgreSQL 13 reached end of life on 2025-11-13; older majors ended earlier.",
+  "source": "https://www.postgresql.org/support/versioning/",
+  "last_verified": "2026-11"
+ },
+ {
+  "id": "sql_server_aging",
+  "pattern": "sql server\\s?(2017|2019)\\b",
+  "label": "SQL Server 2017 / 2019",
+  "note": "Still supported but past mainstream support (2019: mainstream ended 2025-02-28, security fixes until 2030-01-08; 2017: security fixes until 2027-10-12). Plan the upgrade or a move to a managed SQL service as part of this project.",
+  "severity": "info",
+  "source": "https://learn.microsoft.com/lifecycle/products/sql-server-2019",
+  "last_verified": "2026-11"
+ }
+]

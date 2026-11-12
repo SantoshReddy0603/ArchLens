@@ -1,0 +1,71 @@
+{
+  "scenario_id": "E8",
+  "project": {
+    "name": "GlobalChat",
+    "type": "social",
+    "description": "Consumer chat app across 40 countries with media sharing and search.",
+    "platforms": [
+      "web",
+      "android",
+      "ios"
+    ]
+  },
+  "scale": {
+    "traffic_pattern": "spiky",
+    "workload": "write_heavy",
+    "users_at_launch": 500000,
+    "users_12_months": 5000000,
+    "peak_concurrent_users": 250000,
+    "data_volume_gb_12_months": 50000
+  },
+  "team": {
+    "has_devops": true,
+    "size": 25,
+    "experience": "senior",
+    "languages": [
+      "go",
+      "typescript",
+      "kotlin",
+      "swift"
+    ]
+  },
+  "budget": {
+    "monthly_infra_usd": 80000
+  },
+  "timeline": {
+    "mvp_weeks": 12
+  },
+  "infrastructure": {
+    "cloud_preference": "any",
+    "deployment_model": "managed_cloud",
+    "data_residency": "none",
+    "existing_systems": []
+  },
+  "requirements": {
+    "realtime": true,
+    "offline_support": false,
+    "full_text_search": true,
+    "file_media_storage": true,
+    "payments": false,
+    "auth": "email_password",
+    "multi_tenant": false,
+    "ml_features": "none",
+    "seo_critical": false,
+    "availability": "99.99",
+    "p95_latency_ms": 100
+  },
+  "compliance": [
+    "gdpr"
+  ],
+  "priorities": {
+    "cost": 3,
+    "time_to_market": 3,
+    "scalability": 5,
+    "performance": 5,
+    "maintainability": 3,
+    "security": 3
+  },
+  "extra": {
+    "user_geography": "global"
+  }
+}

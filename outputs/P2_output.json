@@ -1,0 +1,1752 @@
+{
+  "scenario_id": "P2",
+  "engine_version": "1.0.0",
+  "status": "ok_with_warnings",
+  "summary": "Serverless-first design: React Native (Expo) + Next.js, Supabase (BaaS), Supabase Postgres database on Cloudflare Pages. It matches the team's languages and is estimated at $130-$340 per month.",
+  "architecture_style": "serverless",
+  "stack": {
+    "frontend": {
+      "choice": "React Native (Expo) + Next.js",
+      "justification": "React Native (Expo) + Next.js matches the team's typescript/javascript skills; Next.js serves the web and React Native (Expo) the mobile app, so each platform gets a first-class client; renders pages ahead of time or on the server, which search engines can index; JavaScript team, OTA updates, managed builds.",
+      "driven_by": [
+        "team.languages",
+        "project.platforms",
+        "requirements.seo_critical",
+        "priorities.time_to_market"
+      ],
+      "alternatives": [
+        {
+          "choice": "Flutter + Next.js",
+          "why_not": "Flutter + Next.js scores 0.7 points lower overall, mainly on team skill fit (0.4 points)."
+        },
+        {
+          "choice": "Kotlin + Jetpack Compose (Android native) + Next.js",
+          "why_not": "Kotlin + Jetpack Compose (Android native) + Next.js scores 0.9 points lower overall, mainly on team skill fit (0.5 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Framework churn",
+        "Serverless costs grow with traffic",
+        "Two client codebases to build and maintain."
+      ]
+    },
+    "backend": {
+      "choice": "Supabase (BaaS)",
+      "justification": "Supabase (BaaS) matches the team's typescript/javascript skills; is a managed backend, so there are no servers to run; handles many concurrent realtime connections well; Auth, REST/GraphQL, storage, realtime out of the box.",
+      "driven_by": [
+        "team.languages",
+        "team.has_devops",
+        "team.size",
+        "requirements.realtime",
+        "priorities.time_to_market"
+      ],
+      "alternatives": [
+        {
+          "choice": "Python + Django",
+          "why_not": "Python + Django scores 2.7 points lower overall, mainly on budget fit (2.6 points) and compatibility with the rest of the stack (0.9 points). Estimated infrastructure about $260-$520/month versus about $130-$320/month."
+        },
+        {
+          "choice": "Next.js route handlers (serverless)",
+          "why_not": "Next.js route handlers (serverless) scores 3.6 points lower overall, mainly on time to market (1.0 points) and budget fit (0.9 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Complex logic is awkward",
+        "Vendor-specific RLS patterns"
+      ]
+    },
+    "database": {
+      "choice": "Supabase Postgres",
+      "justification": "Supabase Postgres gives ACID transactions for money-handling data; can be placed in Mumbai (ap-south-1) to keep data in India; has headroom for the expected load; dashboard, auth and APIs on top.",
+      "driven_by": [
+        "requirements.payments",
+        "infrastructure.data_residency",
+        "scale.peak_concurrent_users",
+        "priorities.time_to_market"
+      ],
+      "alternatives": [
+        {
+          "choice": "PostgreSQL (managed or self-hosted)",
+          "why_not": "PostgreSQL (managed or self-hosted) scores 2.8 points lower overall, mainly on budget fit (3.6 points) and performance (0.9 points). Estimated infrastructure about $350-$640/month versus about $130-$320/month."
+        },
+        {
+          "choice": "MySQL (managed or self-hosted)",
+          "why_not": "MySQL (managed or self-hosted) scores 4.0 points lower overall, mainly on budget fit (3.6 points) and performance (0.9 points). Estimated infrastructure about $350-$640/month versus about $130-$320/month."
+        }
+      ],
+      "tradeoffs": [
+        "Paid plan needed for production SLAs"
+      ]
+    },
+    "hosting": {
+      "choice": "Cloudflare Pages",
+      "justification": "Cloudflare Pages has no contractual SLA, though about 99.9% uptime is typical; accept that for the 99.9% target or choose a host with an SLA; git deploys, previews.",
+      "driven_by": [
+        "requirements.availability",
+        "priorities.time_to_market"
+      ],
+      "alternatives": [
+        {
+          "choice": "Firebase Hosting",
+          "why_not": "Firebase Hosting scores 2.1 points lower overall, mainly on budget fit (1.1 points) and performance (0.4 points). Estimated infrastructure about $130-$450/month versus about $130-$320/month."
+        },
+        {
+          "choice": "Azure Static Web Apps",
+          "why_not": "Azure Static Web Apps scores 2.5 points lower overall, mainly on budget fit (0.9 points) and time to market (0.5 points). Estimated infrastructure about $130-$440/month versus about $130-$320/month."
+        }
+      ],
+      "tradeoffs": [
+        "Static-first",
+        "No published uptime SLA below the Enterprise plan",
+        "Upper cost estimate ($130-$320/month) exceeds the $150 budget at peak."
+      ]
+    },
+    "supporting": [
+      {
+        "layer": "auth",
+        "choice": "Supabase Auth",
+        "justification": "Supabase Auth: users sign in (phone otp); included with Supabase, row-level security integration; already part of the chosen core stack.",
+        "driven_by": [
+          "requirements.auth"
+        ],
+        "alternatives": [
+          {
+            "choice": "No other eligible option",
+            "why_not": "No other auth service satisfies the hard constraints."
+          }
+        ],
+        "tradeoffs": []
+      },
+      {
+        "layer": "sms",
+        "choice": "MSG91",
+        "justification": "MSG91: phone one-time passwords need SMS delivery; india-focused OTP and SMS with DLT support.",
+        "driven_by": [
+          "requirements.auth"
+        ],
+        "alternatives": [
+          {
+            "choice": "Amazon SNS SMS",
+            "why_not": "Ranks lower (lower quality rating (7 vs 8), costs more (about $180 vs $120 per month at the high end)); score 0.60 vs 0.74."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $55-$120 per month."
+        ]
+      },
+      {
+        "layer": "payments",
+        "choice": "Razorpay",
+        "justification": "Razorpay: the product takes payments; RBI-licensed gateway with UPI, cards, netbanking, wallets; about 2% per transaction; free at this scale.",
+        "driven_by": [
+          "requirements.payments",
+          "infrastructure.data_residency",
+          "compliance"
+        ],
+        "alternatives": [
+          {
+            "choice": "Cashfree Payments",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9)); score 0.88 vs 0.93."
+          },
+          {
+            "choice": "Adyen",
+            "why_not": "A close second with a smaller fit to this stack; score 0.82 vs 0.93."
+          }
+        ],
+        "tradeoffs": []
+      },
+      {
+        "layer": "storage",
+        "choice": "Supabase Storage",
+        "justification": "Supabase Storage: users upload files; bundled with Supabase; already part of the chosen core stack.",
+        "driven_by": [
+          "requirements.file_media_storage",
+          "scale.data_volume_gb_12_months"
+        ],
+        "alternatives": [
+          {
+            "choice": "No other eligible option",
+            "why_not": "No other storage service satisfies the hard constraints."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $0 per month."
+        ]
+      },
+      {
+        "layer": "search",
+        "choice": "Typesense",
+        "justification": "Typesense: full-text search is required; in-memory fast search, open source, cloud or self-host.",
+        "driven_by": [
+          "requirements.full_text_search",
+          "scale.users_12_months"
+        ],
+        "alternatives": [
+          {
+            "choice": "Meilisearch",
+            "why_not": "A close second with a smaller fit to this stack; score 0.73 vs 0.73."
+          },
+          {
+            "choice": "Algolia",
+            "why_not": "Ranks lower (costs more (about $44 vs $21 per month at the high end), more lock-in); score 0.70 vs 0.73."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $0-$21 per month."
+        ]
+      },
+      {
+        "layer": "realtime",
+        "choice": "Supabase Realtime",
+        "justification": "Supabase Realtime: live updates are required; postgres changes, broadcast and presence over WebSockets, part of the Supabase platform; free at this scale.",
+        "driven_by": [
+          "requirements.realtime",
+          "scale.peak_concurrent_users"
+        ],
+        "alternatives": [
+          {
+            "choice": "Ably",
+            "why_not": "Ranks lower (costs more (about $95 vs $0 per month at the high end)); score 0.69 vs 0.88."
+          },
+          {
+            "choice": "Pusher Channels",
+            "why_not": "Ranks lower (costs more (about $120 vs $0 per month at the high end)); score 0.64 vs 0.88."
+          }
+        ],
+        "tradeoffs": []
+      },
+      {
+        "layer": "notifications",
+        "choice": "Firebase Cloud Messaging",
+        "justification": "Firebase Cloud Messaging: mobile users expect push notifications; free push for Android, iOS and web; free at this scale.",
+        "driven_by": [
+          "project.platforms"
+        ],
+        "alternatives": [
+          {
+            "choice": "Expo Push Notifications",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9)); score 0.79 vs 0.83."
+          },
+          {
+            "choice": "OneSignal",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $16 vs $0 per month at the high end)); score 0.75 vs 0.83."
+          }
+        ],
+        "tradeoffs": []
+      },
+      {
+        "layer": "ci_cd",
+        "choice": "GitHub Actions",
+        "justification": "GitHub Actions: automated build and deploy for the team; workflows next to the code; the 2,000 free minutes a month cover a small team, larger teams buy extra minutes; free at this scale.",
+        "driven_by": [
+          "team.size"
+        ],
+        "alternatives": [
+          {
+            "choice": "GitLab CI/CD",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $25 vs $0 per month at the high end), more to operate); score 0.73 vs 0.84."
+          },
+          {
+            "choice": "Azure DevOps Pipelines",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $26 vs $0 per month at the high end), more to operate); score 0.72 vs 0.84."
+          }
+        ],
+        "tradeoffs": []
+      },
+      {
+        "layer": "observability",
+        "choice": "UptimeRobot / Better Stack uptime checks",
+        "justification": "UptimeRobot / Better Stack uptime checks: production monitoring for the availability target; basic uptime pings for small sites.",
+        "driven_by": [
+          "requirements.availability",
+          "scale.users_12_months"
+        ],
+        "alternatives": [
+          {
+            "choice": "Amazon CloudWatch",
+            "why_not": "Ranks lower (costs more (about $26 vs $6 per month at the high end), more lock-in); score 0.68 vs 0.71."
+          },
+          {
+            "choice": "Azure Monitor / Application Insights",
+            "why_not": "Ranks lower (costs more (about $26 vs $6 per month at the high end), more lock-in); score 0.63 vs 0.71."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $0-$6 per month."
+        ]
+      }
+    ]
+  },
+  "estimated_monthly_cost_usd": {
+    "min": 130,
+    "max": 340,
+    "assumptions": [
+      "Load estimate: peak about 80 requests/second and about 20M requests/month from 30K users in 12 months.",
+      "Usage-priced items are shown as a band (0.75x to 1.3x of the estimate) because load figures are order-of-magnitude.",
+      "Public list prices of each product, in USD, without taxes, committed-use discounts or developer time.",
+      "The 99.9% availability target doubles or adds redundancy for hosting and database where needed.",
+      "Database (Supabase Postgres): about $79-$190/month",
+      "SMS (MSG91): about $55-$120/month",
+      "Storage (Supabase Storage): about $0/month",
+      "Search (Typesense): about $0-$21/month",
+      "Observability (UptimeRobot / Better Stack uptime checks): about $0-$6/month"
+    ]
+  },
+  "warnings": [
+    {
+      "code": "TIMELINE_VS_PLATFORMS",
+      "severity": "warning",
+      "message": "Estimated build effort is about 24 person-weeks against roughly 16 available in 8 weeks; reduce scope, drop a platform, or lean on managed services.",
+      "fields": [
+        "timeline.mvp_weeks",
+        "team.size",
+        "project.platforms"
+      ]
+    },
+    {
+      "code": "PCI_SCOPE",
+      "severity": "info",
+      "message": "Use a hosted checkout from a PCI DSS certified provider so card data never reaches your servers.",
+      "fields": [
+        "requirements.payments"
+      ]
+    },
+    {
+      "code": "SMS_DLT_REQUIRED",
+      "severity": "info",
+      "message": "SMS to Indian numbers needs DLT registration (entity, sender ID and message templates) with a telecom operator before launch; allow one to two weeks.",
+      "fields": [
+        "requirements.auth"
+      ]
+    },
+    {
+      "code": "DPDP_NOTES",
+      "severity": "info",
+      "message": "DPDP Act: record consent, support erasure and correction, notify breaches, and take extra care with children's data. Cross-border transfer is allowed except to countries the government restricts.",
+      "fields": [
+        "compliance",
+        "infrastructure.data_residency"
+      ]
+    },
+    {
+      "code": "BUDGET_AT_RISK",
+      "severity": "warning",
+      "message": "Expected cost ($130-$340) has its midpoint above the $150 budget; the low end fits. The largest items are database (Supabase Postgres, $79-$190) and SMS (MSG91, $55-$120), so start there: trim optional services, cap usage, or accept a tighter margin.",
+      "fields": [
+        "budget.monthly_infra_usd",
+        "scale.peak_concurrent_users"
+      ]
+    },
+    {
+      "code": "PCI_TOKENISATION",
+      "severity": "info",
+      "message": "Razorpay: use Standard Checkout or hosted fields so card numbers are tokenised by Razorpay and never touch your servers; this keeps you in the lightest PCI DSS scope.",
+      "fields": [
+        "requirements.payments"
+      ]
+    },
+    {
+      "code": "SMS_COST",
+      "severity": "warning",
+      "message": "SMS one-time passwords through MSG91 cost about $55-$120 per month, a large share of the budget; email magic links, passkeys or WhatsApp OTP cut this, and SMS can stay as a fallback.",
+      "fields": [
+        "requirements.auth",
+        "budget.monthly_infra_usd"
+      ]
+    },
+    {
+      "code": "OVERENGINEERING_AVOIDED",
+      "severity": "info",
+      "message": "A heavier setup (Python + Django with PostgreSQL (managed or self-hosted) on Fly.io) was considered and is 2.9 points behind; 1.6 of those points come from the extra complexity and operations work it puts on a team of 3 without a DevOps engineer.",
+      "fields": [
+        "team.size",
+        "team.has_devops",
+        "team.experience"
+      ]
+    }
+  ],
+  "assumptions": [
+    "No extra inputs supplied; neutral defaults are used (learning appetite medium, lock-in tolerance medium, budget strictness firm, no hiring plan, no mobile preference).",
+    "No compatible stack fits the $150 budget, so cost was compared against a reference of about $320 per month (the cheapest compatible stack plus 25%) to keep the cheaper options ahead.",
+    "No cache layer: about 80 requests/second and 30,000 users in 12 months are served directly by the database or BaaS.",
+    "No queue: background work is light enough for the backend or the provider's own webhooks and functions."
+  ],
+  "validation_errors": [],
+  "decision_trace": {
+    "pipeline": [
+      "validate input",
+      "derive profile",
+      "filter each layer by hard constraints",
+      "enumerate compatible stacks",
+      "score quality, fit and penalties",
+      "rank deterministically",
+      "select supporting services",
+      "estimate cost",
+      "explain"
+    ],
+    "weights": {
+      "cost": 0.1992,
+      "maintainability": 0.1026,
+      "performance": 0.1264,
+      "scalability": 0.1426,
+      "security": 0.1386,
+      "time_to_market": 0.2906
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "layers": {
+      "frontend": {
+        "candidates": 24,
+        "eliminated": [
+          {
+            "id": "angular",
+            "name": "Angular",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "angular",
+            "name": "Angular",
+            "reasons": [
+              "not strong enough on any required platform to be part of a pair"
+            ]
+          },
+          {
+            "id": "astro",
+            "name": "Astro",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "astro",
+            "name": "Astro",
+            "reasons": [
+              "not strong enough on any required platform to be part of a pair"
+            ]
+          },
+          {
+            "id": "blazor",
+            "name": "Blazor (ASP.NET Core)",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "blazor",
+            "name": "Blazor (ASP.NET Core)",
+            "reasons": [
+              "not strong enough on any required platform to be part of a pair"
+            ]
+          },
+          {
+            "id": "django_htmx",
+            "name": "Django templates + htmx",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "electron",
+            "name": "Electron",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "electron",
+            "name": "Electron",
+            "reasons": [
+              "not strong enough on any required platform to be part of a pair"
+            ]
+          },
+          {
+            "id": "eleventy",
+            "name": "Eleventy (11ty)",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "eleventy",
+            "name": "Eleventy (11ty)",
+            "reasons": [
+              "not strong enough on any required platform to be part of a pair"
+            ]
+          },
+          {
+            "id": "godot",
+            "name": "Godot Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "hugo",
+            "name": "Hugo",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "hugo",
+            "name": "Hugo",
+            "reasons": [
+              "not strong enough on any required platform to be part of a pair"
+            ]
+          },
+          {
+            "id": "kotlin_android",
+            "name": "Kotlin + Jetpack Compose (Android native)",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "laravel_livewire",
+            "name": "Laravel Blade + Livewire",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "maui",
+            "name": ".NET MAUI",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "nextjs",
+            "name": "Next.js",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "none_fe",
+            "name": "None (API only)",
+            "reasons": [
+              "the project has client platforms to build"
+            ]
+          },
+          {
+            "id": "nuxt",
+            "name": "Nuxt",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "nuxt",
+            "name": "Nuxt",
+            "reasons": [
+              "not strong enough on any required platform to be part of a pair"
+            ]
+          },
+          {
+            "id": "rails_hotwire",
+            "name": "Rails + Hotwire",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "react_vite",
+            "name": "React + Vite (SPA)",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "react_vite",
+            "name": "React + Vite (SPA)",
+            "reasons": [
+              "not strong enough on any required platform to be part of a pair"
+            ]
+          },
+          {
+            "id": "sveltekit",
+            "name": "SvelteKit",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "sveltekit",
+            "name": "SvelteKit",
+            "reasons": [
+              "not strong enough on any required platform to be part of a pair"
+            ]
+          },
+          {
+            "id": "swift_ios",
+            "name": "Swift + SwiftUI (iOS native)",
+            "reasons": [
+              "does not serve web/android well enough on its own"
+            ]
+          },
+          {
+            "id": "swift_ios",
+            "name": "Swift + SwiftUI (iOS native)",
+            "reasons": [
+              "not strong enough on any required platform to be part of a pair"
+            ]
+          },
+          {
+            "id": "tauri",
+            "name": "Tauri",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "tauri",
+            "name": "Tauri",
+            "reasons": [
+              "not strong enough on any required platform to be part of a pair"
+            ]
+          },
+          {
+            "id": "unity",
+            "name": "Unity",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "unreal",
+            "name": "Unreal Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "vue_vite",
+            "name": "Vue 3 + Vite (SPA)",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "vue_vite",
+            "name": "Vue 3 + Vite (SPA)",
+            "reasons": [
+              "not strong enough on any required platform to be part of a pair"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 8,
+        "shortlist": [
+          "expo_rn",
+          "nextjs",
+          "flutter",
+          "kotlin_android",
+          "maui",
+          "django_htmx",
+          "laravel_livewire",
+          "rails_hotwire"
+        ],
+        "chosen": [
+          "expo_rn",
+          "nextjs"
+        ]
+      },
+      "backend": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "colyseus",
+            "name": "Colyseus (Node.js game server)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "nakama",
+            "name": "Nakama (Go game backend)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "none_be",
+            "name": "No backend (static)",
+            "reasons": [
+              "the project needs server-side logic (accounts, payments, uploads, realtime or non-content features)"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 13,
+        "shortlist": [
+          "supabase",
+          "django",
+          "nextjs_api",
+          "nestjs",
+          "fastapi",
+          "laravel",
+          "rails",
+          "express"
+        ],
+        "chosen": [
+          "supabase"
+        ]
+      },
+      "database": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "bigquery",
+            "name": "Google BigQuery",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          },
+          {
+            "id": "clickhouse",
+            "name": "ClickHouse",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          },
+          {
+            "id": "neon",
+            "name": "Neon (serverless Postgres)",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "none_db",
+            "name": "None (no database)",
+            "reasons": [
+              "the project needs persistent data"
+            ]
+          },
+          {
+            "id": "timescaledb",
+            "name": "TimescaleDB (PostgreSQL time-series)",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 11,
+        "shortlist": [
+          "supabase_postgres",
+          "postgresql",
+          "mysql",
+          "cockroachdb",
+          "sql_server",
+          "firestore",
+          "mongodb",
+          "dynamodb"
+        ],
+        "chosen": [
+          "supabase_postgres"
+        ]
+      },
+      "hosting": {
+        "candidates": 27,
+        "eliminated": [
+          {
+            "id": "cloudflare_workers",
+            "name": "Cloudflare Workers",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "github_pages",
+            "name": "GitHub Pages",
+            "reasons": [
+              "expected traffic (about 790 GB/month) exceeds the 100 GB/month soft limit"
+            ]
+          },
+          {
+            "id": "hetzner_vps",
+            "name": "Hetzner Cloud VPS",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "netlify",
+            "name": "Netlify",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "none_host",
+            "name": "None (provided by the backend platform)",
+            "reasons": [
+              "a web client or API needs somewhere to be served from"
+            ]
+          },
+          {
+            "id": "onprem_k8s",
+            "name": "Self-managed Kubernetes (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          },
+          {
+            "id": "onprem_linux_vm",
+            "name": "Self-managed Linux servers (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          },
+          {
+            "id": "railway",
+            "name": "Railway",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "render",
+            "name": "Render",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "windows_iis",
+            "name": "Windows Server + IIS (self-hosted)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 17,
+        "shortlist": [
+          "cloudflare_pages",
+          "firebase_hosting",
+          "azure_static_web_apps",
+          "gke_cloud_run",
+          "fly_io",
+          "aws_amplify",
+          "vercel",
+          "azure_container_apps"
+        ],
+        "chosen": [
+          "cloudflare_pages"
+        ]
+      }
+    },
+    "stack_search": {
+      "considered": 25740,
+      "pruned_by_reason": {
+        "backend bundled with a specific database": 648,
+        "backend bundled with a specific frontend": 88,
+        "database cannot be reached from the host": 524,
+        "database tied to another backend": 434,
+        "frontend needs a specific backend": 15664,
+        "runtime not supported by the host": 18018
+      },
+      "scored": 8382,
+      "removed_by_hard_budget": 0,
+      "frontend_pairs": true,
+      "budget_reference_usd": 315
+    },
+    "top_stacks": [
+      {
+        "rank": 1,
+        "stack": [
+          "React Native (Expo) + Next.js",
+          "Supabase (BaaS)",
+          "Supabase Postgres",
+          "Cloudflare Pages"
+        ],
+        "score": 78.071,
+        "quality": 0.8315,
+        "fit": 0.9182,
+        "penalties": {
+          "hiring": 0.12,
+          "lock_in": 1.17,
+          "maturity": 0.5,
+          "two_codebases": 7.192
+        },
+        "fit_terms": {
+          "archetype": 0.9,
+          "budget": 0.76,
+          "capability": 0.921,
+          "compat": 0.867,
+          "ops": 1.0,
+          "skill": 1.0
+        }
+      },
+      {
+        "rank": 2,
+        "stack": [
+          "Flutter + Next.js",
+          "Supabase (BaaS)",
+          "Supabase Postgres",
+          "Cloudflare Pages"
+        ],
+        "score": 77.411,
+        "quality": 0.8303,
+        "fit": 0.905,
+        "penalties": {
+          "hiring": 0.12,
+          "lock_in": 1.17,
+          "maturity": 0.5,
+          "two_codebases": 7.192
+        },
+        "fit_terms": {
+          "archetype": 0.9,
+          "budget": 0.76,
+          "capability": 0.921,
+          "compat": 0.833,
+          "ops": 1.0,
+          "skill": 0.965
+        }
+      },
+      {
+        "rank": 3,
+        "stack": [
+          "Kotlin + Jetpack Compose (Android native) + Next.js",
+          "Supabase (BaaS)",
+          "Supabase Postgres",
+          "Cloudflare Pages"
+        ],
+        "score": 77.147,
+        "quality": 0.8307,
+        "fit": 0.9007,
+        "penalties": {
+          "hiring": 0.12,
+          "lock_in": 1.26,
+          "maturity": 0.5,
+          "two_codebases": 7.192
+        },
+        "fit_terms": {
+          "archetype": 0.9,
+          "budget": 0.76,
+          "capability": 0.921,
+          "compat": 0.8,
+          "ops": 1.0,
+          "skill": 0.961
+        }
+      },
+      {
+        "rank": 4,
+        "stack": [
+          "React Native (Expo)",
+          "Supabase (BaaS)",
+          "Supabase Postgres",
+          "Cloudflare Pages"
+        ],
+        "score": 76.586,
+        "quality": 0.8305,
+        "fit": 0.8909,
+        "penalties": {
+          "hiring": 0.12,
+          "lock_in": 0.562,
+          "maturity": 0.5,
+          "seo": 8.0
+        },
+        "fit_terms": {
+          "archetype": 0.9,
+          "budget": 0.76,
+          "capability": 0.798,
+          "compat": 0.867,
+          "ops": 1.0,
+          "skill": 1.0
+        }
+      },
+      {
+        "rank": 5,
+        "stack": [
+          ".NET MAUI + Next.js",
+          "Supabase (BaaS)",
+          "Supabase Postgres",
+          "Cloudflare Pages"
+        ],
+        "score": 76.266,
+        "quality": 0.8289,
+        "fit": 0.8887,
+        "penalties": {
+          "hiring": 0.24,
+          "lock_in": 1.26,
+          "maturity": 0.625,
+          "two_codebases": 7.192
+        },
+        "fit_terms": {
+          "archetype": 0.85,
+          "budget": 0.76,
+          "capability": 0.885,
+          "compat": 0.8,
+          "ops": 1.0,
+          "skill": 0.962
+        }
+      }
+    ],
+    "supporting": {
+      "auth": {
+        "chosen": "supabase_auth",
+        "covered_natively": true,
+        "score": 0.7832,
+        "alternatives": [],
+        "eliminated": [
+          {
+            "id": "auth0",
+            "name": "Auth0",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "clerk",
+            "name": "Clerk",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "entra_external_id",
+            "name": "Microsoft Entra External ID",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "entra_id",
+            "name": "Microsoft Entra ID (workforce SSO)",
+            "reasons": [
+              "workforce single sign-on is for employees, not consumer sign-in"
+            ]
+          },
+          {
+            "id": "firebase_auth",
+            "name": "Firebase Authentication",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "framework_auth",
+            "name": "Framework built-in auth (sessions/JWT)",
+            "reasons": [
+              "self-hosted identity needs a team that runs infrastructure"
+            ]
+          },
+          {
+            "id": "keycloak",
+            "name": "Keycloak",
+            "reasons": [
+              "self-hosted identity needs a team that runs infrastructure"
+            ]
+          }
+        ]
+      },
+      "sms": {
+        "chosen": "msg91",
+        "covered_natively": false,
+        "score": 0.7395,
+        "alternatives": [
+          "aws_sns_sms"
+        ],
+        "eliminated": [
+          {
+            "id": "firebase_phone_auth",
+            "name": "Firebase phone verification",
+            "reasons": [
+              "no india region available",
+              "is part of Firebase Authentication only"
+            ]
+          },
+          {
+            "id": "twilio_verify",
+            "name": "Twilio Verify / SMS",
+            "reasons": [
+              "no india region available"
+            ]
+          }
+        ]
+      },
+      "payments": {
+        "chosen": "razorpay",
+        "covered_natively": false,
+        "score": 0.9296,
+        "alternatives": [
+          "cashfree",
+          "adyen"
+        ],
+        "eliminated": [
+          {
+            "id": "paypal",
+            "name": "PayPal Checkout",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "stripe",
+            "name": "Stripe",
+            "reasons": [
+              "no india region available"
+            ]
+          }
+        ]
+      },
+      "storage": {
+        "chosen": "supabase_storage",
+        "covered_natively": true,
+        "score": 0.8028,
+        "alternatives": [],
+        "eliminated": [
+          {
+            "id": "backblaze_b2",
+            "name": "Backblaze B2",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "cloudflare_r2",
+            "name": "Cloudflare R2",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "firebase_storage",
+            "name": "Cloud Storage for Firebase",
+            "reasons": [
+              "is part of Firebase (BaaS) only"
+            ]
+          }
+        ]
+      },
+      "search": {
+        "chosen": "typesense",
+        "covered_natively": false,
+        "score": 0.7326,
+        "alternatives": [
+          "meilisearch",
+          "algolia"
+        ],
+        "eliminated": [
+          {
+            "id": "postgres_fts",
+            "name": "PostgreSQL full-text search",
+            "reasons": [
+              "needs a long-running process, which Cloudflare Pages does not provide"
+            ]
+          }
+        ]
+      },
+      "realtime": {
+        "chosen": "supabase_realtime",
+        "covered_natively": false,
+        "score": 0.88,
+        "alternatives": [
+          "ably",
+          "pusher"
+        ],
+        "eliminated": [
+          {
+            "id": "centrifugo",
+            "name": "Centrifugo",
+            "reasons": [
+              "needs a long-running process, which Cloudflare Pages does not provide"
+            ]
+          },
+          {
+            "id": "firestore_listeners",
+            "name": "Firestore real-time listeners",
+            "reasons": [
+              "is part of Firebase (BaaS)/Cloud Firestore only"
+            ]
+          },
+          {
+            "id": "framework_websocket",
+            "name": "WebSockets/SSE in the backend framework",
+            "reasons": [
+              "needs a long-running process, which Cloudflare Pages does not provide"
+            ]
+          },
+          {
+            "id": "liveblocks",
+            "name": "Liveblocks",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "yjs_hocuspocus",
+            "name": "Yjs with Hocuspocus",
+            "reasons": [
+              "needs a long-running process, which Cloudflare Pages does not provide"
+            ]
+          }
+        ]
+      },
+      "notifications": {
+        "chosen": "fcm",
+        "covered_natively": false,
+        "score": 0.83,
+        "alternatives": [
+          "expo_push",
+          "onesignal"
+        ],
+        "eliminated": []
+      },
+      "ci_cd": {
+        "chosen": "github_actions",
+        "covered_natively": false,
+        "score": 0.84,
+        "alternatives": [
+          "gitlab_ci",
+          "azure_devops"
+        ],
+        "eliminated": []
+      },
+      "observability": {
+        "chosen": "uptime_monitor",
+        "covered_natively": false,
+        "score": 0.711,
+        "alternatives": [
+          "cloudwatch",
+          "azure_monitor"
+        ],
+        "eliminated": [
+          {
+            "id": "datadog",
+            "name": "Datadog",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "glitchtip",
+            "name": "GlitchTip (self-hosted)",
+            "reasons": [
+              "self-hosted monitoring needs a team that runs infrastructure"
+            ]
+          },
+          {
+            "id": "grafana_cloud",
+            "name": "Grafana Cloud",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "prometheus_grafana",
+            "name": "Prometheus + Grafana (self-hosted)",
+            "reasons": [
+              "self-hosted monitoring needs a team that runs infrastructure"
+            ]
+          },
+          {
+            "id": "sentry",
+            "name": "Sentry",
+            "reasons": [
+              "no india region available"
+            ]
+          }
+        ]
+      }
+    },
+    "relaxed_constraints": [
+      "No cache layer: about 80 requests/second and 30,000 users in 12 months are served directly by the database or BaaS.",
+      "No queue: background work is light enough for the backend or the provider's own webhooks and functions."
+    ],
+    "score_formula": "score = 100 * (0.55 * Q + 0.45 * F) - penalties"
+  },
+  "profile": {
+    "project_type": "marketplace",
+    "client_platforms": [
+      "web",
+      "android"
+    ],
+    "api_only": false,
+    "users_launch": 2000,
+    "users_12m": 30000,
+    "peak_concurrent": 800,
+    "peak_estimated": false,
+    "peak_eff": 800,
+    "peak_rps": 80.0,
+    "avg_rps": 20.0,
+    "monthly_requests": 19748417.6581,
+    "egress_gb": 789.9367,
+    "data_gb": 50,
+    "traffic_pattern": "steady",
+    "workload": "balanced",
+    "scale_need": 5.1104,
+    "scale_tier": 2,
+    "team_size": 3,
+    "experience": "intermediate",
+    "exp_factor": 0.5,
+    "has_devops": false,
+    "ops_capacity": 0.2562,
+    "skills": [
+      "javascript",
+      "typescript",
+      "python"
+    ],
+    "appetite": 0.5,
+    "beginner_sens": 0.15,
+    "lock_in_tolerance": "medium",
+    "hiring_plan": "none",
+    "mobile_preference": "no_preference",
+    "licenses": [],
+    "effort_pw": 23.68,
+    "capacity_pw": 15.6,
+    "effort_ratio": 1.5179,
+    "time_pressure": 0.6987,
+    "mvp_weeks": 8,
+    "budget": 150.0,
+    "budget_tier": 2,
+    "budget_tightness": 0.4553,
+    "budget_strictness": "firm",
+    "availability": "99.9",
+    "avail_level": 3.0,
+    "avail_required": 5.8,
+    "p95": 500,
+    "latency_need": 0.2316,
+    "residency": "india",
+    "compliance": [
+      "dpdp"
+    ],
+    "regulated_count": 1,
+    "deployment": "managed_cloud",
+    "cloud_pref": "any",
+    "existing_systems": [],
+    "license_texts": [],
+    "cloud_credits_usd": null,
+    "realtime": true,
+    "offline": false,
+    "search": true,
+    "files": true,
+    "payments": true,
+    "auth": "phone_otp",
+    "multi_tenant": false,
+    "ml": "none",
+    "seo": true,
+    "needs_server_logic": true,
+    "needs_persistence": true,
+    "static_candidate": false,
+    "geography": "country",
+    "data_sensitivity": "financial",
+    "hints": {
+      "low_end_devices": false,
+      "poor_connectivity": false,
+      "upi": false,
+      "location": false,
+      "tabular_ml": false
+    },
+    "india_ctx": true,
+    "weights": {
+      "cost": 0.1992,
+      "maintainability": 0.1026,
+      "performance": 0.1264,
+      "scalability": 0.1426,
+      "security": 0.1386,
+      "time_to_market": 0.2906
+    },
+    "weight_multipliers": {
+      "cost": 1.4553,
+      "time_to_market": 1.6987,
+      "scalability": 1.3888,
+      "performance": 1.2316,
+      "maintainability": 1.0,
+      "security": 1.35
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "allowed_complexity": 6.4241,
+    "notes": [],
+    "budget_reference": 315.209
+  },
+  "score": {
+    "total": 78.071,
+    "quality": 0.8315,
+    "fit": 0.9182,
+    "penalty": 8.982,
+    "penalties": {
+      "availability": 0.0,
+      "cold_start": -0.0,
+      "data_model": 0.0,
+      "durability": 0.0,
+      "existing_reuse": -0.0,
+      "game_client": 0.0,
+      "game_server": 0.0,
+      "hiring": 0.12,
+      "lock_in": 1.17,
+      "maturity": 0.5,
+      "over_engineering": 0.0,
+      "seo": 0.0,
+      "soft_certs": 0.0,
+      "two_codebases": 7.192,
+      "under_provision": 0.0
+    },
+    "fit_terms": {
+      "archetype": 0.9,
+      "budget": 0.76,
+      "capability": 0.9214,
+      "compat": 0.8667,
+      "ops": 1.0,
+      "skill": 1.0
+    },
+    "criteria": {
+      "cost": 8.85,
+      "maintainability": 7.0,
+      "performance": 8.225,
+      "scalability": 7.041,
+      "security": 7.85,
+      "time_to_market": 9.3
+    }
+  },
+  "ranking": [
+    {
+      "rank": 1,
+      "stack": {
+        "frontend": "React Native (Expo) + Next.js",
+        "backend": "Supabase (BaaS)",
+        "database": "Supabase Postgres",
+        "hosting": "Cloudflare Pages"
+      },
+      "score": 78.071,
+      "quality": 0.8315,
+      "fit": 0.9182,
+      "penalty": 8.982,
+      "cost_usd": [
+        133,
+        316
+      ]
+    },
+    {
+      "rank": 2,
+      "stack": {
+        "frontend": "Flutter + Next.js",
+        "backend": "Supabase (BaaS)",
+        "database": "Supabase Postgres",
+        "hosting": "Cloudflare Pages"
+      },
+      "score": 77.411,
+      "quality": 0.8303,
+      "fit": 0.905,
+      "penalty": 8.982,
+      "cost_usd": [
+        133,
+        316
+      ]
+    },
+    {
+      "rank": 3,
+      "stack": {
+        "frontend": "Kotlin + Jetpack Compose (Android native) + Next.js",
+        "backend": "Supabase (BaaS)",
+        "database": "Supabase Postgres",
+        "hosting": "Cloudflare Pages"
+      },
+      "score": 77.147,
+      "quality": 0.8307,
+      "fit": 0.9007,
+      "penalty": 9.072,
+      "cost_usd": [
+        133,
+        316
+      ]
+    },
+    {
+      "rank": 4,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Supabase (BaaS)",
+        "database": "Supabase Postgres",
+        "hosting": "Cloudflare Pages"
+      },
+      "score": 76.586,
+      "quality": 0.8305,
+      "fit": 0.8909,
+      "penalty": 9.182,
+      "cost_usd": [
+        133,
+        316
+      ]
+    },
+    {
+      "rank": 5,
+      "stack": {
+        "frontend": ".NET MAUI + Next.js",
+        "backend": "Supabase (BaaS)",
+        "database": "Supabase Postgres",
+        "hosting": "Cloudflare Pages"
+      },
+      "score": 76.266,
+      "quality": 0.8289,
+      "fit": 0.8887,
+      "penalty": 9.317,
+      "cost_usd": [
+        133,
+        316
+      ]
+    },
+    {
+      "rank": 6,
+      "stack": {
+        "frontend": "React Native (Expo) + Next.js",
+        "backend": "Supabase (BaaS)",
+        "database": "Supabase Postgres",
+        "hosting": "Firebase Hosting"
+      },
+      "score": 76.014,
+      "quality": 0.818,
+      "fit": 0.891,
+      "penalty": 9.072,
+      "cost_usd": [
+        133,
+        450
+      ]
+    },
+    {
+      "rank": 7,
+      "stack": {
+        "frontend": "React Native (Expo) + Next.js",
+        "backend": "Supabase (BaaS)",
+        "database": "Supabase Postgres",
+        "hosting": "Azure Static Web Apps"
+      },
+      "score": 75.557,
+      "quality": 0.8093,
+      "fit": 0.8916,
+      "penalty": 9.072,
+      "cost_usd": [
+        133,
+        438
+      ]
+    },
+    {
+      "rank": 8,
+      "stack": {
+        "frontend": "Django templates + htmx + React Native (Expo)",
+        "backend": "Python + Django",
+        "database": "Supabase Postgres",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 75.391,
+      "quality": 0.8237,
+      "fit": 0.834,
+      "penalty": 7.442,
+      "cost_usd": [
+        261,
+        522
+      ]
+    },
+    {
+      "rank": 9,
+      "stack": {
+        "frontend": "Flutter + Next.js",
+        "backend": "Supabase (BaaS)",
+        "database": "Supabase Postgres",
+        "hosting": "Firebase Hosting"
+      },
+      "score": 75.354,
+      "quality": 0.8168,
+      "fit": 0.8779,
+      "penalty": 9.072,
+      "cost_usd": [
+        133,
+        450
+      ]
+    },
+    {
+      "rank": 10,
+      "stack": {
+        "frontend": "Django templates + htmx + React Native (Expo)",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 75.279,
+      "quality": 0.8277,
+      "fit": 0.821,
+      "penalty": 7.192,
+      "cost_usd": [
+        353,
+        638
+      ]
+    }
+  ],
+  "robustness": {
+    "verdict": "stable",
+    "margin_points": 0.66,
+    "runner_up": {
+      "frontend": "Flutter + Next.js",
+      "backend": "Supabase (BaaS)",
+      "database": "Supabase Postgres",
+      "hosting": "Cloudflare Pages"
+    },
+    "checks_run": 14,
+    "checks_held": 14,
+    "summary": "The same stack wins in all 14 checks: each priority counted twice or half as much, and the budget halved or doubled.",
+    "checks": [
+      {
+        "change": "cost counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "cost counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "time to market counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "time to market counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "scalability counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "scalability counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "performance counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "performance counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "maintainability counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "maintainability counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "security counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "security counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "budget halved ($75)",
+        "same_stack": true
+      },
+      {
+        "change": "budget doubled ($300)",
+        "same_stack": true
+      }
+    ]
+  },
+  "trade_off_options": [
+    {
+      "direction": "cheaper",
+      "title": "Spend less",
+      "available": true,
+      "stack": {
+        "frontend": "React Native (Expo) + Next.js",
+        "backend": "Firebase (BaaS)",
+        "database": "Cloud Firestore",
+        "hosting": "Cloudflare Pages"
+      },
+      "swaps": [
+        {
+          "layer": "backend",
+          "from": "Supabase (BaaS)",
+          "to": "Firebase (BaaS)"
+        },
+        {
+          "layer": "database",
+          "from": "Supabase Postgres",
+          "to": "Cloud Firestore"
+        }
+      ],
+      "score": 68.668,
+      "points_behind": 9.403,
+      "cost_usd": [
+        17,
+        50
+      ],
+      "gains": "about 85% cheaper on the core layers ($17-$50 against $130-$320 per month)",
+      "gives_up": [
+        "data-model fit (-8.0 pts)",
+        "vendor lock-in (-2.8 pts)",
+        "compatibility with the rest of the stack (-0.5 pts)"
+      ],
+      "summary": "Backend Supabase (BaaS) -> Firebase (BaaS); database Supabase Postgres -> Cloud Firestore: about 85% cheaper on the core layers ($17-$50 against $130-$320 per month). Gives up 9.4 points, mainly on data-model fit (-8.0 pts), vendor lock-in (-2.8 pts), compatibility with the rest of the stack (-0.5 pts)."
+    },
+    {
+      "direction": "more_headroom",
+      "title": "More headroom to scale",
+      "available": false,
+      "note": "Nothing within 12 points of the winner does clearly better here, so the chosen stack is already a strong pick on this."
+    },
+    {
+      "direction": "faster_build",
+      "title": "Ship sooner",
+      "available": false,
+      "note": "Nothing within 12 points of the winner does clearly better here, so the chosen stack is already a strong pick on this."
+    },
+    {
+      "direction": "less_lock_in",
+      "title": "Less vendor lock-in",
+      "available": true,
+      "stack": {
+        "frontend": "Django templates + htmx + React Native (Expo)",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "swaps": [
+        {
+          "layer": "frontend",
+          "from": "React Native (Expo) + Next.js",
+          "to": "Django templates + htmx + React Native (Expo)"
+        },
+        {
+          "layer": "backend",
+          "from": "Supabase (BaaS)",
+          "to": "Python + Django"
+        },
+        {
+          "layer": "database",
+          "from": "Supabase Postgres",
+          "to": "PostgreSQL (managed or self-hosted)"
+        },
+        {
+          "layer": "hosting",
+          "from": "Cloudflare Pages",
+          "to": "Google Cloud Run"
+        }
+      ],
+      "score": 75.279,
+      "points_behind": 2.792,
+      "cost_usd": [
+        353,
+        638
+      ],
+      "gains": "lock-in 1.7 instead of 3.3 (0-10 scale)",
+      "gives_up": [
+        "budget fit (-3.6 pts)",
+        "performance (-0.9 pts)",
+        "time to market (-0.5 pts)"
+      ],
+      "summary": "Frontend React Native (Expo) + Next.js -> Django templates + htmx + React Native (Expo); backend Supabase (BaaS) -> Python + Django; database Supabase Postgres -> PostgreSQL (managed or self-hosted); hosting Cloudflare Pages -> Google Cloud Run: lock-in 1.7 instead of 3.3 (0-10 scale). Gives up 2.8 points, mainly on budget fit (-3.6 pts), performance (-0.9 pts), time to market (-0.5 pts)."
+    }
+  ]
+}

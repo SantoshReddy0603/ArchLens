@@ -1,0 +1,50 @@
+{
+  "scenario_id": "E6",
+  "project": {
+    "name": "TinyBlog",
+    "type": "content_site",
+    "description": "A personal blog with a few posts a month.",
+    "platforms": [
+      "web"
+    ]
+  },
+  "scale": {
+    "traffic_pattern": "steady",
+    "workload": "balanced",
+    "users_at_launch": 200,
+    "users_12_months": 2000,
+    "peak_concurrent_users": 100,
+    "data_volume_gb_12_months": 20
+  },
+  "team": {
+    "has_devops": false,
+    "size": 3,
+    "experience": "mixed",
+    "languages": [
+      "javascript",
+      "python"
+    ]
+  },
+  "budget": {
+    "monthly_infra_usd": 0
+  },
+  "timeline": {
+    "mvp_weeks": 12
+  },
+  "infrastructure": {
+    "cloud_preference": "any",
+    "deployment_model": "managed_cloud",
+    "data_residency": "none"
+  },
+  "requirements": {
+    "auth": "none"
+  },
+  "priorities": {
+    "cost": 3,
+    "time_to_market": 3,
+    "scalability": 3,
+    "performance": 3,
+    "maintainability": 3,
+    "security": 3
+  }
+}

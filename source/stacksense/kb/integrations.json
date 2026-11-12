@@ -1,0 +1,292 @@
+[
+ {
+  "id": "entra",
+  "pattern": "entra|azure ad|active directory|azure active|microsoft 365|office 365|\\bm365\\b|\\bo365\\b",
+  "label": "Microsoft Entra ID / Microsoft 365",
+  "boosts": {
+   "auth": [
+    "entra_id"
+   ],
+   "backend": [
+    "aspnet_core"
+   ],
+   "hosting": [
+    "azure_app_service",
+    "azure_container_apps",
+    "azure_static_web_apps"
+   ]
+  },
+  "bonus": 1.5,
+  "note": "Existing Entra ID tenant: reuse it for sign-in instead of a second identity system.",
+  "source": "https://learn.microsoft.com/entra/identity/"
+ },
+ {
+  "id": "sql_server",
+  "pattern": "sql server|mssql|azure sql",
+  "label": "SQL Server",
+  "boosts": {
+   "database": [
+    "sql_server"
+   ],
+   "backend": [
+    "aspnet_core"
+   ]
+  },
+  "bonus": 3.5,
+  "note": "Existing SQL Server data: keep it as the system of record or connect to it (hybrid connectivity or data sync).",
+  "source": "https://learn.microsoft.com/sql/"
+ },
+ {
+  "id": "windows_server",
+  "pattern": "windows server|\\biis\\b|windows datacenter",
+  "label": "Windows Server",
+  "boosts": {
+   "hosting": [
+    "windows_iis",
+    "azure_vm"
+   ],
+   "backend": [
+    "aspnet_core"
+   ]
+  },
+  "bonus": 2.0,
+  "note": "Windows Server licences you already own cover IIS hosting; check core counts and Software Assurance before adding servers.",
+  "source": "https://www.microsoft.com/en-us/windows-server/pricing"
+ },
+ {
+  "id": "postgres",
+  "pattern": "postgres",
+  "label": "PostgreSQL",
+  "boosts": {
+   "database": [
+    "postgresql",
+    "neon",
+    "supabase_postgres"
+   ]
+  },
+  "bonus": 3.0,
+  "note": "Existing PostgreSQL data can be reused directly.",
+  "source": "https://www.postgresql.org/docs/"
+ },
+ {
+  "id": "mysql",
+  "pattern": "mysql|mariadb",
+  "label": "MySQL",
+  "boosts": {
+   "database": [
+    "mysql"
+   ]
+  },
+  "bonus": 3.0,
+  "note": "Existing MySQL data can be reused directly.",
+  "source": "https://dev.mysql.com/doc/"
+ },
+ {
+  "id": "oracle",
+  "pattern": "oracle",
+  "label": "Oracle Database",
+  "boosts": {
+   "database": [
+    "oracle_db"
+   ],
+   "backend": [
+    "spring_boot"
+   ]
+  },
+  "bonus": 3.0,
+  "note": "Existing Oracle data: JVM stacks have the best drivers.",
+  "source": "https://docs.oracle.com/en/database/"
+ },
+ {
+  "id": "mongodb",
+  "pattern": "mongo",
+  "label": "MongoDB",
+  "boosts": {
+   "database": [
+    "mongodb"
+   ]
+  },
+  "bonus": 3.0,
+  "note": "Existing MongoDB data can be reused directly.",
+  "source": "https://www.mongodb.com/docs/"
+ },
+ {
+  "id": "aws",
+  "pattern": "\\baws\\b|amazon web services|\\bs3\\b|dynamodb",
+  "label": "AWS",
+  "boosts": {
+   "hosting": [
+    "aws_ecs_fargate",
+    "aws_lambda",
+    "aws_elastic_beanstalk",
+    "aws_amplify",
+    "aws_ec2",
+    "aws_eks"
+   ]
+  },
+  "bonus": 1.2,
+  "note": "Existing AWS footprint: staying on AWS simplifies networking and billing.",
+  "source": "https://docs.aws.amazon.com/"
+ },
+ {
+  "id": "gcp",
+  "pattern": "\\bgcp\\b|google cloud|bigquery|firebase",
+  "label": "Google Cloud / Firebase",
+  "boosts": {
+   "hosting": [
+    "gke_cloud_run",
+    "firebase_hosting",
+    "gce_vm"
+   ],
+   "database": [
+    "firestore"
+   ]
+  },
+  "bonus": 1.2,
+  "note": "Existing Google Cloud footprint.",
+  "source": "https://cloud.google.com/docs"
+ },
+ {
+  "id": "azure",
+  "pattern": "\\bazure\\b",
+  "label": "Microsoft Azure",
+  "boosts": {
+   "hosting": [
+    "azure_app_service",
+    "azure_container_apps",
+    "azure_static_web_apps",
+    "azure_vm"
+   ]
+  },
+  "bonus": 1.2,
+  "note": "Existing Azure footprint.",
+  "source": "https://learn.microsoft.com/azure/"
+ },
+ {
+  "id": "kubernetes",
+  "pattern": "kubernetes|\\bk8s\\b|openshift",
+  "label": "Kubernetes",
+  "boosts": {
+   "hosting": [
+    "aws_eks",
+    "onprem_k8s",
+    "gke_cloud_run"
+   ]
+  },
+  "bonus": 1.2,
+  "note": "Existing Kubernetes platform: deploy containers there.",
+  "source": "https://kubernetes.io/docs/"
+ },
+ {
+  "id": "okta",
+  "pattern": "okta|auth0",
+  "label": "Okta / Auth0",
+  "boosts": {
+   "auth": [
+    "auth0"
+   ]
+  },
+  "bonus": 1.2,
+  "note": "Existing Okta/Auth0 tenant.",
+  "source": "https://developer.okta.com/docs/"
+ },
+ {
+  "id": "keycloak",
+  "pattern": "keycloak|ldap",
+  "label": "Keycloak / LDAP",
+  "boosts": {
+   "auth": [
+    "keycloak"
+   ]
+  },
+  "bonus": 1.2,
+  "note": "Existing directory: federate via Keycloak or LDAP.",
+  "source": "https://www.keycloak.org/documentation"
+ },
+ {
+  "id": "github",
+  "pattern": "github",
+  "label": "GitHub",
+  "boosts": {
+   "ci_cd": [
+    "github_actions"
+   ]
+  },
+  "bonus": 0.5,
+  "note": "Code on GitHub: Actions needs no extra tool.",
+  "source": "https://docs.github.com/"
+ },
+ {
+  "id": "gitlab",
+  "pattern": "gitlab",
+  "label": "GitLab",
+  "boosts": {
+   "ci_cd": [
+    "gitlab_ci"
+   ]
+  },
+  "bonus": 0.5,
+  "note": "Code on GitLab: use GitLab CI.",
+  "source": "https://docs.gitlab.com/"
+ },
+ {
+  "id": "jenkins",
+  "pattern": "jenkins",
+  "label": "Jenkins",
+  "boosts": {
+   "ci_cd": [
+    "jenkins"
+   ]
+  },
+  "bonus": 0.5,
+  "note": "Existing Jenkins pipelines.",
+  "source": "https://www.jenkins.io/doc/"
+ },
+ {
+  "id": "salesforce",
+  "pattern": "salesforce|sfdc",
+  "label": "Salesforce",
+  "boosts": {},
+  "bonus": 0.0,
+  "note": "Integrate over Salesforce REST/Bulk APIs with OAuth; budget API limits.",
+  "source": "https://developer.salesforce.com/docs"
+ },
+ {
+  "id": "sap",
+  "pattern": "\\bsap\\b|s/4hana",
+  "label": "SAP",
+  "boosts": {
+   "backend": [
+    "spring_boot",
+    "aspnet_core"
+   ]
+  },
+  "bonus": 0.5,
+  "note": "Integrate over OData/RFC; JVM and .NET have mature SAP connectors.",
+  "source": "https://help.sap.com/"
+ },
+ {
+  "id": "legacy_mainframe",
+  "pattern": "mainframe|cobol|as/400",
+  "label": "Mainframe",
+  "boosts": {},
+  "bonus": 0.0,
+  "note": "Wrap the legacy system behind an API gateway and avoid direct coupling.",
+  "source": "https://www.ibm.com/docs/en/zos"
+ },
+ {
+  "id": "redis",
+  "pattern": "redis|valkey",
+  "label": "Redis",
+  "boosts": {
+   "cache": [
+    "redis_managed",
+    "upstash_redis",
+    "valkey_selfhost"
+   ]
+  },
+  "bonus": 0.0,
+  "note": "Existing Redis: keep it as the cache and session store instead of adding a second one.",
+  "source": "https://redis.io/docs/"
+ }
+]

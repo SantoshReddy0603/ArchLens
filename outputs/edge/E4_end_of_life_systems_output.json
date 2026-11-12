@@ -1,0 +1,1290 @@
+{
+  "scenario_id": "E4",
+  "engine_version": "1.0.0",
+  "status": "ok_with_warnings",
+  "summary": "Serverless-first design: React + Vite (SPA), Supabase (BaaS), Supabase Postgres database on Cloudflare Pages. It matches the team's languages and is estimated at $28-$94 per month.",
+  "architecture_style": "serverless",
+  "stack": {
+    "frontend": {
+      "choice": "React + Vite (SPA)",
+      "justification": "React + Vite (SPA) matches the team's javascript skills; static bundle, any CDN host; is a proven choice for internal tool projects.",
+      "driven_by": [
+        "team.languages",
+        "priorities.cost",
+        "project.type"
+      ],
+      "alternatives": [
+        {
+          "choice": "Django templates + htmx",
+          "why_not": "Django templates + htmx is effectively tied (-0.49 points behind); the lead comes from performance."
+        },
+        {
+          "choice": "Vue 3 + Vite (SPA)",
+          "why_not": "Vue 3 + Vite (SPA) is a close second: only 0.0 points behind, with no single weakness."
+        }
+      ],
+      "tradeoffs": [
+        "Poor SEO without prerendering",
+        "Slow first load on weak devices"
+      ]
+    },
+    "backend": {
+      "choice": "Supabase (BaaS)",
+      "justification": "Supabase (BaaS) matches the team's javascript skills; is a managed backend, so there are no servers to run; generous free tier, predictable Pro plan; is a proven choice for internal tool projects.",
+      "driven_by": [
+        "team.languages",
+        "team.has_devops",
+        "team.size",
+        "priorities.cost",
+        "project.type"
+      ],
+      "alternatives": [
+        {
+          "choice": "Python + Django",
+          "why_not": "Python + Django is effectively tied (-0.49 points behind); the lead comes from performance."
+        },
+        {
+          "choice": "Node.js + NestJS",
+          "why_not": "Node.js + NestJS scores 1.7 points lower overall, mainly on time to market (1.0 points) and performance (0.8 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Complex logic is awkward",
+        "Vendor-specific RLS patterns"
+      ]
+    },
+    "database": {
+      "choice": "Supabase Postgres",
+      "justification": "Supabase Postgres reuses your existing PostgreSQL; free tier then flat Pro pricing; is a proven choice for internal tool projects.",
+      "driven_by": [
+        "infrastructure.existing_systems",
+        "priorities.cost",
+        "project.type"
+      ],
+      "alternatives": [
+        {
+          "choice": "PostgreSQL (managed or self-hosted)",
+          "why_not": "PostgreSQL (managed or self-hosted) is effectively tied (-0.49 points behind); the lead comes from performance."
+        },
+        {
+          "choice": "Neon (serverless Postgres)",
+          "why_not": "Neon (serverless Postgres) is effectively tied (-0.22 points behind); the lead comes from performance."
+        }
+      ],
+      "tradeoffs": [
+        "Paid plan needed for production SLAs"
+      ]
+    },
+    "hosting": {
+      "choice": "Cloudflare Pages",
+      "justification": "Cloudflare Pages has no contractual SLA, though about 99.9% uptime is typical; accept that for the 99.9% target or choose a host with an SLA; free tier with unlimited static bandwidth.",
+      "driven_by": [
+        "requirements.availability",
+        "priorities.cost"
+      ],
+      "alternatives": [
+        {
+          "choice": "Google Cloud Run",
+          "why_not": "Google Cloud Run is effectively tied (-0.49 points behind); the lead comes from performance."
+        },
+        {
+          "choice": "Render",
+          "why_not": "Render is effectively tied (-0.44 points behind); the lead comes from performance."
+        }
+      ],
+      "tradeoffs": [
+        "Static-first",
+        "No published uptime SLA below the Enterprise plan"
+      ]
+    },
+    "supporting": [
+      {
+        "layer": "auth",
+        "choice": "Supabase Auth",
+        "justification": "Supabase Auth: users sign in (email password); included with Supabase, row-level security integration; already part of the chosen core stack.",
+        "driven_by": [
+          "requirements.auth"
+        ],
+        "alternatives": [
+          {
+            "choice": "No other eligible option",
+            "why_not": "No other auth service satisfies the hard constraints."
+          }
+        ],
+        "tradeoffs": []
+      },
+      {
+        "layer": "email",
+        "choice": "Amazon SES",
+        "justification": "Amazon SES: email and password sign-in needs verification and reset emails; $0.10 per 1,000 emails, deliverability work is yours.",
+        "driven_by": [
+          "requirements.auth",
+          "requirements.payments"
+        ],
+        "alternatives": [
+          {
+            "choice": "Postmark",
+            "why_not": "Ranks lower (costs more (about $15 vs $4 per month at the high end)); score 0.78 vs 0.79."
+          },
+          {
+            "choice": "Resend",
+            "why_not": "Ranks lower (costs more (about $17 vs $4 per month at the high end)); score 0.76 vs 0.79."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $0-$4 per month."
+        ]
+      },
+      {
+        "layer": "ci_cd",
+        "choice": "GitHub Actions",
+        "justification": "GitHub Actions: automated build and deploy for the team; workflows next to the code; the 2,000 free minutes a month cover a small team, larger teams buy extra minutes; free at this scale.",
+        "driven_by": [
+          "team.size"
+        ],
+        "alternatives": [
+          {
+            "choice": "GitLab CI/CD",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $25 vs $0 per month at the high end), more to operate); score 0.73 vs 0.84."
+          },
+          {
+            "choice": "Azure DevOps Pipelines",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $26 vs $0 per month at the high end), more to operate); score 0.72 vs 0.84."
+          }
+        ],
+        "tradeoffs": []
+      },
+      {
+        "layer": "observability",
+        "choice": "Sentry",
+        "justification": "Sentry: production monitoring for the availability target; error tracking and performance with free developer plan.",
+        "driven_by": [
+          "requirements.availability",
+          "scale.users_12_months"
+        ],
+        "alternatives": [
+          {
+            "choice": "Grafana Cloud",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), more to operate); score 0.74 vs 0.78."
+          },
+          {
+            "choice": "UptimeRobot / Better Stack uptime checks",
+            "why_not": "Ranks lower (lower quality rating (6 vs 9)); score 0.71 vs 0.78."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $0-$22 per month."
+        ]
+      }
+    ]
+  },
+  "estimated_monthly_cost_usd": {
+    "min": 28,
+    "max": 94,
+    "assumptions": [
+      "Load estimate: peak about 10 requests/second and about 2.3M requests/month from 2K users in 12 months.",
+      "Usage-priced items are shown as a band (0.75x to 1.3x of the estimate) because load figures are order-of-magnitude.",
+      "Public list prices of each product, in USD, without taxes, committed-use discounts or developer time.",
+      "The 99.9% availability target doubles or adds redundancy for hosting and database where needed.",
+      "Database (Supabase Postgres): about $28-$68/month",
+      "Email (Amazon SES): about $0-$4/month",
+      "Observability (Sentry): about $0-$22/month"
+    ]
+  },
+  "warnings": [
+    {
+      "code": "EOL_EXISTING_SYSTEM",
+      "severity": "warning",
+      "message": "AngularJS (1.x): End of life since 2022-01-01; no security patches.",
+      "fields": [
+        "infrastructure.existing_systems"
+      ]
+    },
+    {
+      "code": "EOL_EXISTING_SYSTEM",
+      "severity": "warning",
+      "message": "Python 2: End of life since 2020-01-01.",
+      "fields": [
+        "infrastructure.existing_systems"
+      ]
+    },
+    {
+      "code": "EOL_EXISTING_SYSTEM",
+      "severity": "warning",
+      "message": "CentOS 7 / 8: End of life (CentOS 7 on 2024-06-30, CentOS 8 in 2021).",
+      "fields": [
+        "infrastructure.existing_systems"
+      ]
+    },
+    {
+      "code": "EOL_EXISTING_SYSTEM",
+      "severity": "warning",
+      "message": "PostgreSQL 13 or older: PostgreSQL 13 reached end of life on 2025-11-13; older majors ended earlier.",
+      "fields": [
+        "infrastructure.existing_systems"
+      ]
+    },
+    {
+      "code": "EXISTING_SYSTEM_REUSED",
+      "severity": "info",
+      "message": "PostgreSQL is reused through Supabase Postgres. Existing PostgreSQL data can be reused directly.",
+      "fields": [
+        "infrastructure.existing_systems"
+      ]
+    },
+    {
+      "code": "OVERENGINEERING_AVOIDED",
+      "severity": "info",
+      "message": "A heavier setup (Python + Django with PostgreSQL (managed or self-hosted) on Fly.io) was considered and is 2.0 points behind; 1.9 of those points come from the extra complexity and operations work it puts on a team of 3 without a DevOps engineer.",
+      "fields": [
+        "team.size",
+        "team.has_devops",
+        "team.experience"
+      ]
+    }
+  ],
+  "assumptions": [
+    "No extra inputs supplied; neutral defaults are used (learning appetite medium, lock-in tolerance medium, budget strictness firm, no hiring plan, no mobile preference).",
+    "No cache layer: about 10 requests/second and 2,000 users in 12 months are served directly by the database or BaaS."
+  ],
+  "validation_errors": [],
+  "decision_trace": {
+    "pipeline": [
+      "validate input",
+      "derive profile",
+      "filter each layer by hard constraints",
+      "enumerate compatible stacks",
+      "score quality, fit and penalties",
+      "rank deterministically",
+      "select supporting services",
+      "estimate cost",
+      "explain"
+    ],
+    "weights": {
+      "cost": 0.2036,
+      "maintainability": 0.1475,
+      "performance": 0.1843,
+      "scalability": 0.1697,
+      "security": 0.1475,
+      "time_to_market": 0.1475
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "layers": {
+      "frontend": {
+        "candidates": 24,
+        "eliminated": [
+          {
+            "id": "godot",
+            "name": "Godot Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "kotlin_android",
+            "name": "Kotlin + Jetpack Compose (Android native)",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "maui",
+            "name": ".NET MAUI",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "none_fe",
+            "name": "None (API only)",
+            "reasons": [
+              "the project has client platforms to build"
+            ]
+          },
+          {
+            "id": "swift_ios",
+            "name": "Swift + SwiftUI (iOS native)",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "unity",
+            "name": "Unity",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "unreal",
+            "name": "Unreal Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 17,
+        "shortlist": [
+          "django_htmx",
+          "react_vite",
+          "vue_vite",
+          "angular",
+          "electron",
+          "tauri",
+          "nuxt",
+          "sveltekit"
+        ],
+        "chosen": [
+          "react_vite"
+        ]
+      },
+      "backend": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "colyseus",
+            "name": "Colyseus (Node.js game server)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "nakama",
+            "name": "Nakama (Go game backend)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "none_be",
+            "name": "No backend (static)",
+            "reasons": [
+              "the project needs server-side logic (accounts, payments, uploads, realtime or non-content features)"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 13,
+        "shortlist": [
+          "django",
+          "supabase",
+          "nestjs",
+          "fastapi",
+          "express",
+          "laravel",
+          "go_chi",
+          "aspnet_core"
+        ],
+        "chosen": [
+          "supabase"
+        ]
+      },
+      "database": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "bigquery",
+            "name": "Google BigQuery",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          },
+          {
+            "id": "clickhouse",
+            "name": "ClickHouse",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          },
+          {
+            "id": "none_db",
+            "name": "None (no database)",
+            "reasons": [
+              "the project needs persistent data"
+            ]
+          },
+          {
+            "id": "timescaledb",
+            "name": "TimescaleDB (PostgreSQL time-series)",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 12,
+        "shortlist": [
+          "postgresql",
+          "neon",
+          "supabase_postgres",
+          "sqlite",
+          "mysql",
+          "mongodb",
+          "cockroachdb",
+          "sql_server"
+        ],
+        "chosen": [
+          "supabase_postgres"
+        ]
+      },
+      "hosting": {
+        "candidates": 27,
+        "eliminated": [
+          {
+            "id": "none_host",
+            "name": "None (provided by the backend platform)",
+            "reasons": [
+              "a web client or API needs somewhere to be served from"
+            ]
+          },
+          {
+            "id": "onprem_k8s",
+            "name": "Self-managed Kubernetes (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          },
+          {
+            "id": "onprem_linux_vm",
+            "name": "Self-managed Linux servers (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          },
+          {
+            "id": "windows_iis",
+            "name": "Windows Server + IIS (self-hosted)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 22,
+        "shortlist": [
+          "gke_cloud_run",
+          "render",
+          "cloudflare_pages",
+          "railway",
+          "azure_container_apps",
+          "digitalocean_droplet",
+          "azure_app_service",
+          "azure_static_web_apps"
+        ],
+        "chosen": [
+          "cloudflare_pages"
+        ]
+      }
+    },
+    "stack_search": {
+      "considered": 33864,
+      "pruned_by_reason": {
+        "backend bundled with a specific database": 2080,
+        "backend bundled with a specific frontend": 864,
+        "database cannot be reached from the host": 930,
+        "database tied to another backend": 972,
+        "frontend needs a specific backend": 7272,
+        "runtime not supported by the host": 27132
+      },
+      "scored": 21746,
+      "removed_by_hard_budget": 0,
+      "frontend_pairs": false,
+      "budget_reference_usd": 300
+    },
+    "top_stacks": [
+      {
+        "rank": 1,
+        "stack": [
+          "React + Vite (SPA)",
+          "Supabase (BaaS)",
+          "Supabase Postgres",
+          "Cloudflare Pages"
+        ],
+        "score": 87.992,
+        "quality": 0.7707,
+        "fit": 0.9705,
+        "penalties": {
+          "existing_reuse": -3.0,
+          "hiring": 0.12,
+          "lock_in": 0.45,
+          "maturity": 0.5
+        },
+        "fit_terms": {
+          "archetype": 0.9,
+          "budget": 0.94,
+          "capability": 0.982,
+          "compat": 0.933,
+          "ops": 1.0,
+          "skill": 1.0
+        }
+      },
+      {
+        "rank": 2,
+        "stack": [
+          "Django templates + htmx",
+          "Python + Django",
+          "PostgreSQL (managed or self-hosted)",
+          "Google Cloud Run"
+        ],
+        "score": 88.479,
+        "quality": 0.7825,
+        "fit": 0.9431,
+        "penalties": {
+          "existing_reuse": -3.0
+        },
+        "fit_terms": {
+          "archetype": 0.9,
+          "budget": 0.865,
+          "capability": 0.991,
+          "compat": 0.867,
+          "ops": 0.934,
+          "skill": 1.0
+        }
+      },
+      {
+        "rank": 3,
+        "stack": [
+          "Django templates + htmx",
+          "Python + Django",
+          "PostgreSQL (managed or self-hosted)",
+          "Render"
+        ],
+        "score": 88.437,
+        "quality": 0.7764,
+        "fit": 0.9496,
+        "penalties": {
+          "existing_reuse": -3.0
+        },
+        "fit_terms": {
+          "archetype": 1.0,
+          "budget": 0.82,
+          "capability": 0.991,
+          "compat": 0.933,
+          "ops": 0.934,
+          "skill": 1.0
+        }
+      },
+      {
+        "rank": 4,
+        "stack": [
+          "Django templates + htmx",
+          "Python + Django",
+          "Neon (serverless Postgres)",
+          "Render"
+        ],
+        "score": 88.21,
+        "quality": 0.7695,
+        "fit": 0.9586,
+        "penalties": {
+          "existing_reuse": -3.0,
+          "maturity": 0.25
+        },
+        "fit_terms": {
+          "archetype": 1.0,
+          "budget": 0.885,
+          "capability": 0.991,
+          "compat": 0.867,
+          "ops": 0.961,
+          "skill": 1.0
+        }
+      },
+      {
+        "rank": 5,
+        "stack": [
+          "Vue 3 + Vite (SPA)",
+          "Supabase (BaaS)",
+          "Supabase Postgres",
+          "Cloudflare Pages"
+        ],
+        "score": 87.966,
+        "quality": 0.7757,
+        "fit": 0.9638,
+        "penalties": {
+          "existing_reuse": -3.0,
+          "hiring": 0.12,
+          "lock_in": 0.45,
+          "maturity": 0.5
+        },
+        "fit_terms": {
+          "archetype": 0.9,
+          "budget": 0.94,
+          "capability": 0.982,
+          "compat": 0.867,
+          "ops": 1.0,
+          "skill": 1.0
+        }
+      }
+    ],
+    "supporting": {
+      "auth": {
+        "chosen": "supabase_auth",
+        "covered_natively": true,
+        "score": 0.88,
+        "alternatives": [],
+        "eliminated": [
+          {
+            "id": "entra_id",
+            "name": "Microsoft Entra ID (workforce SSO)",
+            "reasons": [
+              "workforce single sign-on is for employees, not consumer sign-in"
+            ]
+          },
+          {
+            "id": "framework_auth",
+            "name": "Framework built-in auth (sessions/JWT)",
+            "reasons": [
+              "self-hosted identity needs a team that runs infrastructure"
+            ]
+          },
+          {
+            "id": "keycloak",
+            "name": "Keycloak",
+            "reasons": [
+              "self-hosted identity needs a team that runs infrastructure"
+            ]
+          }
+        ]
+      },
+      "email": {
+        "chosen": "aws_ses",
+        "covered_natively": false,
+        "score": 0.7854,
+        "alternatives": [
+          "postmark",
+          "resend"
+        ],
+        "eliminated": []
+      },
+      "ci_cd": {
+        "chosen": "github_actions",
+        "covered_natively": false,
+        "score": 0.84,
+        "alternatives": [
+          "gitlab_ci",
+          "azure_devops"
+        ],
+        "eliminated": []
+      },
+      "observability": {
+        "chosen": "sentry",
+        "covered_natively": false,
+        "score": 0.7833,
+        "alternatives": [
+          "grafana_cloud",
+          "uptime_monitor"
+        ],
+        "eliminated": [
+          {
+            "id": "glitchtip",
+            "name": "GlitchTip (self-hosted)",
+            "reasons": [
+              "self-hosted monitoring needs a team that runs infrastructure"
+            ]
+          },
+          {
+            "id": "prometheus_grafana",
+            "name": "Prometheus + Grafana (self-hosted)",
+            "reasons": [
+              "self-hosted monitoring needs a team that runs infrastructure"
+            ]
+          }
+        ]
+      }
+    },
+    "relaxed_constraints": [
+      "No cache layer: about 10 requests/second and 2,000 users in 12 months are served directly by the database or BaaS."
+    ],
+    "score_formula": "score = 100 * (0.55 * Q + 0.45 * F) - penalties"
+  },
+  "profile": {
+    "project_type": "internal_tool",
+    "client_platforms": [
+      "web"
+    ],
+    "api_only": false,
+    "users_launch": 200,
+    "users_12m": 2000,
+    "peak_concurrent": 100,
+    "peak_estimated": false,
+    "peak_eff": 100,
+    "peak_rps": 10.0,
+    "avg_rps": 2.5,
+    "monthly_requests": 2280350.8502,
+    "egress_gb": 68.4105,
+    "data_gb": 20,
+    "traffic_pattern": "steady",
+    "workload": "balanced",
+    "scale_need": 3.2069,
+    "scale_tier": 1,
+    "team_size": 3,
+    "experience": "mixed",
+    "exp_factor": 0.4,
+    "has_devops": false,
+    "ops_capacity": 0.2363,
+    "skills": [
+      "javascript",
+      "python"
+    ],
+    "appetite": 0.5,
+    "beginner_sens": 0.4,
+    "lock_in_tolerance": "medium",
+    "hiring_plan": "none",
+    "mobile_preference": "no_preference",
+    "licenses": [],
+    "effort_pw": 4.0,
+    "capacity_pw": 21.06,
+    "effort_ratio": 0.1899,
+    "time_pressure": 0.0,
+    "mvp_weeks": 12,
+    "budget": 300.0,
+    "budget_tier": 3,
+    "budget_tightness": 0.3804,
+    "budget_strictness": "firm",
+    "availability": "99.9",
+    "avail_level": 3.0,
+    "avail_required": 5.8,
+    "p95": null,
+    "latency_need": 0.25,
+    "residency": "none",
+    "compliance": [],
+    "regulated_count": 0,
+    "deployment": "managed_cloud",
+    "cloud_pref": "any",
+    "existing_systems": [
+      "AngularJS 1.5 frontend",
+      "Python 2.7 Flask API",
+      "CentOS 7 servers",
+      "PostgreSQL 12"
+    ],
+    "license_texts": [],
+    "cloud_credits_usd": null,
+    "realtime": false,
+    "offline": false,
+    "search": false,
+    "files": false,
+    "payments": false,
+    "auth": "email_password",
+    "multi_tenant": false,
+    "ml": "none",
+    "seo": false,
+    "needs_server_logic": true,
+    "needs_persistence": true,
+    "static_candidate": false,
+    "geography": "global",
+    "data_sensitivity": "personal",
+    "hints": {
+      "low_end_devices": false,
+      "poor_connectivity": false,
+      "upi": false,
+      "location": false,
+      "tabular_ml": false
+    },
+    "india_ctx": false,
+    "weights": {
+      "cost": 0.2036,
+      "maintainability": 0.1475,
+      "performance": 0.1843,
+      "scalability": 0.1697,
+      "security": 0.1475,
+      "time_to_market": 0.1475
+    },
+    "weight_multipliers": {
+      "cost": 1.3804,
+      "time_to_market": 1.0,
+      "scalability": 1.1509,
+      "performance": 1.25,
+      "maintainability": 1.0,
+      "security": 1.0
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "allowed_complexity": 5.5375,
+    "notes": []
+  },
+  "score": {
+    "total": 87.992,
+    "quality": 0.7707,
+    "fit": 0.9705,
+    "penalty": -1.93,
+    "penalties": {
+      "availability": 0.0,
+      "cold_start": -0.0,
+      "data_model": 0.0,
+      "durability": 0.0,
+      "existing_reuse": -3.0,
+      "game_client": 0.0,
+      "game_server": 0.0,
+      "hiring": 0.12,
+      "lock_in": 0.45,
+      "maturity": 0.5,
+      "over_engineering": 0.0,
+      "seo": 0.0,
+      "soft_certs": 0.0,
+      "two_codebases": 0.0,
+      "under_provision": 0.0
+    },
+    "fit_terms": {
+      "archetype": 0.9,
+      "budget": 0.9396,
+      "capability": 0.9818,
+      "compat": 0.9333,
+      "ops": 1.0,
+      "skill": 1.0
+    },
+    "criteria": {
+      "cost": 9.0,
+      "maintainability": 7.0,
+      "performance": 8.0,
+      "scalability": 5.207,
+      "security": 7.7,
+      "time_to_market": 9.15
+    }
+  },
+  "ranking": [
+    {
+      "rank": 1,
+      "stack": {
+        "frontend": "React + Vite (SPA)",
+        "backend": "Supabase (BaaS)",
+        "database": "Supabase Postgres",
+        "hosting": "Cloudflare Pages"
+      },
+      "score": 87.992,
+      "quality": 0.7707,
+      "fit": 0.9705,
+      "penalty": -1.93,
+      "cost_usd": [
+        28,
+        78
+      ]
+    },
+    {
+      "rank": 2,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 88.479,
+      "quality": 0.7825,
+      "fit": 0.9431,
+      "penalty": -3.0,
+      "cost_usd": [
+        85,
+        162
+      ]
+    },
+    {
+      "rank": 3,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Render"
+      },
+      "score": 88.437,
+      "quality": 0.7764,
+      "fit": 0.9496,
+      "penalty": -3.0,
+      "cost_usd": [
+        108,
+        219
+      ]
+    },
+    {
+      "rank": 4,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "Neon (serverless Postgres)",
+        "hosting": "Render"
+      },
+      "score": 88.21,
+      "quality": 0.7695,
+      "fit": 0.9586,
+      "penalty": -2.75,
+      "cost_usd": [
+        60,
+        144
+      ]
+    },
+    {
+      "rank": 5,
+      "stack": {
+        "frontend": "Vue 3 + Vite (SPA)",
+        "backend": "Supabase (BaaS)",
+        "database": "Supabase Postgres",
+        "hosting": "Cloudflare Pages"
+      },
+      "score": 87.966,
+      "quality": 0.7757,
+      "fit": 0.9638,
+      "penalty": -1.93,
+      "cost_usd": [
+        28,
+        78
+      ]
+    },
+    {
+      "rank": 6,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "Neon (serverless Postgres)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 87.952,
+      "quality": 0.7756,
+      "fit": 0.9454,
+      "penalty": -2.75,
+      "cost_usd": [
+        37,
+        87
+      ]
+    },
+    {
+      "rank": 7,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "Supabase Postgres",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 87.848,
+      "quality": 0.7766,
+      "fit": 0.9419,
+      "penalty": -2.75,
+      "cost_usd": [
+        46,
+        112
+      ]
+    },
+    {
+      "rank": 8,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "Supabase Postgres",
+        "hosting": "Render"
+      },
+      "score": 87.806,
+      "quality": 0.7705,
+      "fit": 0.9485,
+      "penalty": -2.75,
+      "cost_usd": [
+        69,
+        169
+      ]
+    },
+    {
+      "rank": 9,
+      "stack": {
+        "frontend": "Angular",
+        "backend": "Supabase (BaaS)",
+        "database": "Supabase Postgres",
+        "hosting": "Cloudflare Pages"
+      },
+      "score": 87.365,
+      "quality": 0.7749,
+      "fit": 0.954,
+      "penalty": -1.817,
+      "cost_usd": [
+        28,
+        78
+      ]
+    },
+    {
+      "rank": 10,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Railway"
+      },
+      "score": 87.291,
+      "quality": 0.7676,
+      "fit": 0.9516,
+      "penalty": -2.25,
+      "cost_usd": [
+        100,
+        206
+      ]
+    }
+  ],
+  "robustness": {
+    "verdict": "sensitive",
+    "margin_points": -0.487,
+    "runner_up": {
+      "frontend": "Django templates + htmx",
+      "backend": "Python + Django",
+      "database": "PostgreSQL (managed or self-hosted)",
+      "hosting": "Google Cloud Run"
+    },
+    "checks_run": 14,
+    "checks_held": 8,
+    "summary": "The same stack wins in 8 of 14 checks. It switches to Vue 3 + Vite (SPA) (frontend) when cost counted half as much, performance counted twice as much; and to Django templates + htmx (frontend), Python + Django (backend), Neon (serverless Postgres) (database), Google Cloud Run (hosting) when performance counted half as much, maintainability counted twice as much, security counted twice as much; and to Django templates + htmx (frontend), Python + Django (backend), Neon (serverless Postgres) (database), Render (hosting) when budget doubled ($600). The runner-up scores 0.49 points higher but costs more, and stacks within 0.75 points count as a tie that the cheaper one wins.",
+    "checks": [
+      {
+        "change": "cost counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "cost counted half as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Vue 3 + Vite (SPA)",
+          "backend": "Supabase (BaaS)",
+          "database": "Supabase Postgres",
+          "hosting": "Cloudflare Pages"
+        },
+        "swaps": [
+          {
+            "layer": "frontend",
+            "from": "React + Vite (SPA)",
+            "to": "Vue 3 + Vite (SPA)"
+          }
+        ]
+      },
+      {
+        "change": "time to market counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "time to market counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "scalability counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "scalability counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "performance counted twice as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Vue 3 + Vite (SPA)",
+          "backend": "Supabase (BaaS)",
+          "database": "Supabase Postgres",
+          "hosting": "Cloudflare Pages"
+        },
+        "swaps": [
+          {
+            "layer": "frontend",
+            "from": "React + Vite (SPA)",
+            "to": "Vue 3 + Vite (SPA)"
+          }
+        ]
+      },
+      {
+        "change": "performance counted half as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Django templates + htmx",
+          "backend": "Python + Django",
+          "database": "Neon (serverless Postgres)",
+          "hosting": "Google Cloud Run"
+        },
+        "swaps": [
+          {
+            "layer": "frontend",
+            "from": "React + Vite (SPA)",
+            "to": "Django templates + htmx"
+          },
+          {
+            "layer": "backend",
+            "from": "Supabase (BaaS)",
+            "to": "Python + Django"
+          },
+          {
+            "layer": "database",
+            "from": "Supabase Postgres",
+            "to": "Neon (serverless Postgres)"
+          },
+          {
+            "layer": "hosting",
+            "from": "Cloudflare Pages",
+            "to": "Google Cloud Run"
+          }
+        ]
+      },
+      {
+        "change": "maintainability counted twice as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Django templates + htmx",
+          "backend": "Python + Django",
+          "database": "Neon (serverless Postgres)",
+          "hosting": "Google Cloud Run"
+        },
+        "swaps": [
+          {
+            "layer": "frontend",
+            "from": "React + Vite (SPA)",
+            "to": "Django templates + htmx"
+          },
+          {
+            "layer": "backend",
+            "from": "Supabase (BaaS)",
+            "to": "Python + Django"
+          },
+          {
+            "layer": "database",
+            "from": "Supabase Postgres",
+            "to": "Neon (serverless Postgres)"
+          },
+          {
+            "layer": "hosting",
+            "from": "Cloudflare Pages",
+            "to": "Google Cloud Run"
+          }
+        ]
+      },
+      {
+        "change": "maintainability counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "security counted twice as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Django templates + htmx",
+          "backend": "Python + Django",
+          "database": "Neon (serverless Postgres)",
+          "hosting": "Google Cloud Run"
+        },
+        "swaps": [
+          {
+            "layer": "frontend",
+            "from": "React + Vite (SPA)",
+            "to": "Django templates + htmx"
+          },
+          {
+            "layer": "backend",
+            "from": "Supabase (BaaS)",
+            "to": "Python + Django"
+          },
+          {
+            "layer": "database",
+            "from": "Supabase Postgres",
+            "to": "Neon (serverless Postgres)"
+          },
+          {
+            "layer": "hosting",
+            "from": "Cloudflare Pages",
+            "to": "Google Cloud Run"
+          }
+        ]
+      },
+      {
+        "change": "security counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "budget halved ($150)",
+        "same_stack": true
+      },
+      {
+        "change": "budget doubled ($600)",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Django templates + htmx",
+          "backend": "Python + Django",
+          "database": "Neon (serverless Postgres)",
+          "hosting": "Render"
+        },
+        "swaps": [
+          {
+            "layer": "frontend",
+            "from": "React + Vite (SPA)",
+            "to": "Django templates + htmx"
+          },
+          {
+            "layer": "backend",
+            "from": "Supabase (BaaS)",
+            "to": "Python + Django"
+          },
+          {
+            "layer": "database",
+            "from": "Supabase Postgres",
+            "to": "Neon (serverless Postgres)"
+          },
+          {
+            "layer": "hosting",
+            "from": "Cloudflare Pages",
+            "to": "Render"
+          }
+        ]
+      }
+    ]
+  },
+  "trade_off_options": [
+    {
+      "direction": "cheaper",
+      "title": "Spend less",
+      "available": true,
+      "stack": {
+        "frontend": "Next.js",
+        "backend": "Next.js route handlers (serverless)",
+        "database": "Neon (serverless Postgres)",
+        "hosting": "Azure Static Web Apps"
+      },
+      "swaps": [
+        {
+          "layer": "frontend",
+          "from": "React + Vite (SPA)",
+          "to": "Next.js"
+        },
+        {
+          "layer": "backend",
+          "from": "Supabase (BaaS)",
+          "to": "Next.js route handlers (serverless)"
+        },
+        {
+          "layer": "database",
+          "from": "Supabase Postgres",
+          "to": "Neon (serverless Postgres)"
+        },
+        {
+          "layer": "hosting",
+          "from": "Cloudflare Pages",
+          "to": "Azure Static Web Apps"
+        }
+      ],
+      "score": 83.477,
+      "points_behind": 4.515,
+      "cost_usd": [
+        19,
+        61
+      ],
+      "gains": "about 23% cheaper on the core layers ($19-$61 against $28-$78 per month)",
+      "gives_up": [
+        "coverage of the required features (-1.2 pts)",
+        "vendor lock-in (-1.0 pts)",
+        "performance (-0.9 pts)"
+      ],
+      "summary": "Frontend React + Vite (SPA) -> Next.js; backend Supabase (BaaS) -> Next.js route handlers (serverless); database Supabase Postgres -> Neon (serverless Postgres); hosting Cloudflare Pages -> Azure Static Web Apps: about 23% cheaper on the core layers ($19-$61 against $28-$78 per month). Gives up 4.5 points, mainly on coverage of the required features (-1.2 pts), vendor lock-in (-1.0 pts), performance (-0.9 pts)."
+    },
+    {
+      "direction": "more_headroom",
+      "title": "More headroom to scale",
+      "available": false,
+      "note": "Nothing within 12 points of the winner does clearly better here, so the chosen stack is already a strong pick on this."
+    },
+    {
+      "direction": "faster_build",
+      "title": "Ship sooner",
+      "available": false,
+      "note": "Nothing within 12 points of the winner does clearly better here, so the chosen stack is already a strong pick on this."
+    }
+  ]
+}

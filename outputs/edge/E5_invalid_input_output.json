@@ -1,0 +1,50 @@
+{
+  "scenario_id": "E5",
+  "engine_version": "1.0.0",
+  "status": "invalid_input",
+  "summary": "The scenario has 5 invalid or missing fields, so no recommendation was made; fix the listed fields and run again.",
+  "architecture_style": "other",
+  "stack": null,
+  "estimated_monthly_cost_usd": {
+    "min": 0,
+    "max": 0,
+    "assumptions": [
+      "No estimate: the input is invalid."
+    ]
+  },
+  "warnings": [],
+  "assumptions": [
+    "No extra inputs supplied; neutral defaults are used (learning appetite medium, lock-in tolerance medium, budget strictness firm, no hiring plan, no mobile preference)."
+  ],
+  "validation_errors": [
+    {
+      "field": "scale.users_12_months",
+      "message": "must be >= 0, got -50"
+    },
+    {
+      "field": "team.experience",
+      "message": "required field is missing; allowed values: beginner, intermediate, senior, mixed"
+    },
+    {
+      "field": "budget.monthly_infra_usd",
+      "message": "must be a number >= 0, got a string"
+    },
+    {
+      "field": "requirements.availability",
+      "message": "must be one of the strings \"99\", \"99.9\", \"99.95\", \"99.99\", got '99.5'"
+    },
+    {
+      "field": "priorities.cost",
+      "message": "must be between 1 and 5, got 9"
+    }
+  ],
+  "decision_trace": {
+    "pipeline": [
+      "validate input"
+    ],
+    "stopped_at": "validate input"
+  },
+  "profile": null,
+  "score": null,
+  "ranking": []
+}

@@ -1,0 +1,64 @@
+{
+  "scenario_id": "E1",
+  "project": {
+    "name": "WardRecords",
+    "type": "healthtech",
+    "description": "Patient records for a district hospital network. Must run inside the hospital data centre with no internet access.",
+    "platforms": [
+      "web"
+    ]
+  },
+  "scale": {
+    "traffic_pattern": "steady",
+    "workload": "balanced",
+    "users_at_launch": 200,
+    "users_12_months": 2000,
+    "peak_concurrent_users": 100,
+    "data_volume_gb_12_months": 20
+  },
+  "team": {
+    "has_devops": true,
+    "size": 5,
+    "experience": "mixed",
+    "languages": [
+      "java",
+      "typescript"
+    ]
+  },
+  "budget": {
+    "monthly_infra_usd": 300
+  },
+  "timeline": {
+    "mvp_weeks": 12
+  },
+  "infrastructure": {
+    "cloud_preference": "none",
+    "deployment_model": "air_gapped",
+    "data_residency": "india",
+    "existing_systems": []
+  },
+  "requirements": {
+    "realtime": false,
+    "offline_support": false,
+    "full_text_search": false,
+    "file_media_storage": false,
+    "payments": false,
+    "auth": "email_password",
+    "multi_tenant": false,
+    "ml_features": "none",
+    "seo_critical": false,
+    "availability": "99.9",
+    "p95_latency_ms": null
+  },
+  "compliance": [
+    "hipaa"
+  ],
+  "priorities": {
+    "cost": 3,
+    "time_to_market": 3,
+    "scalability": 3,
+    "performance": 3,
+    "maintainability": 4,
+    "security": 5
+  }
+}

@@ -1,0 +1,965 @@
+{
+  "scenario_id": "P1",
+  "engine_version": "1.0.0",
+  "status": "ok",
+  "summary": "Static-first site: Astro on Cloudflare Pages. It needs no server or database and is estimated at $0 per month.",
+  "architecture_style": "static",
+  "stack": {
+    "frontend": {
+      "choice": "Astro",
+      "justification": "Astro matches the team's javascript skills; renders pages ahead of time or on the server, which search engines can index; static output hosts free on any CDN; is a proven choice for content site projects.",
+      "driven_by": [
+        "team.languages",
+        "requirements.seo_critical",
+        "priorities.cost",
+        "project.type"
+      ],
+      "alternatives": [
+        {
+          "choice": "Eleventy (11ty)",
+          "why_not": "Eleventy (11ty) scores 1.4 points lower overall, mainly on time to market (0.6 points)."
+        },
+        {
+          "choice": "Hugo",
+          "why_not": "Hugo scores 1.5 points lower overall, mainly on time to market (1.2 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Interactive widgets need islands/hydration",
+        "Not meant for app-like UIs"
+      ]
+    },
+    "backend": {
+      "choice": "None",
+      "justification": "Pages are pre-rendered and the project needs no accounts or server-side logic, so no backend is run.",
+      "driven_by": [
+        "project.type",
+        "requirements.auth",
+        "requirements.payments"
+      ],
+      "alternatives": [
+        {
+          "choice": "Supabase (BaaS)",
+          "why_not": "Supabase (BaaS) scores 11.5 points lower overall, mainly on budget fit (8.1 points) and cost (0.9 points). Estimated infrastructure about $17-$41/month versus about $0/month."
+        },
+        {
+          "choice": "Node.js + Express",
+          "why_not": "Node.js + Express scores 12.5 points lower overall, mainly on budget fit (8.1 points) and cost (1.6 points). Estimated infrastructure about $21-$68/month versus about $0/month."
+        }
+      ],
+      "tradeoffs": []
+    },
+    "database": {
+      "choice": "None",
+      "justification": "There is no user data to persist; content lives in the repository.",
+      "driven_by": [
+        "project.type",
+        "requirements.auth"
+      ],
+      "alternatives": [
+        {
+          "choice": "Supabase Postgres",
+          "why_not": "Supabase Postgres scores 11.5 points lower overall, mainly on budget fit (8.1 points) and cost (0.9 points). Estimated infrastructure about $17-$41/month versus about $0/month."
+        },
+        {
+          "choice": "SQLite (embedded)",
+          "why_not": "SQLite (embedded) scores 13.6 points lower overall, mainly on budget fit (8.1 points) and cost (1.6 points). Estimated infrastructure about $21-$68/month versus about $0/month."
+        }
+      ],
+      "tradeoffs": []
+    },
+    "hosting": {
+      "choice": "Cloudflare Pages",
+      "justification": "Cloudflare Pages serves pre-built pages from a CDN at little or no cost; free tier with unlimited static bandwidth; is a proven choice for content site projects.",
+      "driven_by": [
+        "project.type",
+        "budget.monthly_infra_usd",
+        "priorities.cost"
+      ],
+      "alternatives": [
+        {
+          "choice": "Netlify",
+          "why_not": "Netlify scores 9.0 points lower overall, mainly on budget fit (8.1 points) and cost (0.6 points). Estimated infrastructure about $0-$140/month versus about $0/month."
+        },
+        {
+          "choice": "Firebase Hosting",
+          "why_not": "Firebase Hosting scores 9.2 points lower overall, mainly on budget fit (8.1 points) and cost (0.6 points). Estimated infrastructure about $0-$52/month versus about $0/month."
+        }
+      ],
+      "tradeoffs": [
+        "Static-first",
+        "No published uptime SLA below the Enterprise plan"
+      ]
+    },
+    "supporting": [
+      {
+        "layer": "forms",
+        "choice": "Web3Forms",
+        "justification": "Web3Forms: a content site needs a way to receive messages; free form endpoint for static sites; free at this scale.",
+        "driven_by": [
+          "project.type",
+          "requirements.auth"
+        ],
+        "alternatives": [
+          {
+            "choice": "Formspree",
+            "why_not": "Ranks lower (costs more (about $13 vs $0 per month at the high end)); score 0.63 vs 0.77."
+          }
+        ],
+        "tradeoffs": []
+      },
+      {
+        "layer": "analytics",
+        "choice": "PostHog",
+        "justification": "PostHog: a public site benefits from basic traffic analytics; product analytics, session replay, flags, free to 1M events a month; free at this scale.",
+        "driven_by": [
+          "project.type"
+        ],
+        "alternatives": [
+          {
+            "choice": "Google Analytics 4",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), more lock-in); score 0.79 vs 0.85."
+          },
+          {
+            "choice": "Plausible Analytics",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $15 vs $0 per month at the high end)); score 0.63 vs 0.85."
+          }
+        ],
+        "tradeoffs": []
+      },
+      {
+        "layer": "dns",
+        "choice": "Cloudflare DNS",
+        "justification": "Cloudflare DNS: a custom domain on static hosting needs DNS records; free, fast authoritative DNS; free at this scale.",
+        "driven_by": [
+          "infrastructure.deployment_model"
+        ],
+        "alternatives": [
+          {
+            "choice": "Amazon Route 53",
+            "why_not": "Ranks lower (more lock-in); score 0.67 vs 0.85."
+          },
+          {
+            "choice": "Google Cloud DNS",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), more lock-in); score 0.64 vs 0.85."
+          }
+        ],
+        "tradeoffs": []
+      }
+    ]
+  },
+  "estimated_monthly_cost_usd": {
+    "min": 0,
+    "max": 0,
+    "assumptions": [
+      "Load estimate: peak about 6 requests/second and about 592K requests/month from 3K users in 12 months.",
+      "Usage-priced items are shown as a band (0.75x to 1.3x of the estimate) because load figures are order-of-magnitude.",
+      "Public list prices of each product, in USD, without taxes, committed-use discounts or developer time.",
+      "Everything fits inside free tiers at this scale."
+    ]
+  },
+  "warnings": [
+    {
+      "code": "FREE_TIER_LIMITS",
+      "severity": "info",
+      "message": "A $0 budget relies on free plans; the stack fits them at this scale, but read the free-plan terms and limits of Cloudflare Pages, Web3Forms, PostHog and Cloudflare DNS (build minutes, request quotas, commercial-use rules) before launch.",
+      "fields": [
+        "budget.monthly_infra_usd"
+      ]
+    }
+  ],
+  "assumptions": [
+    "team.languages entries 'html', 'css' describe markup or data formats, not programming skills, and are not counted.",
+    "No extra inputs supplied; neutral defaults are used (learning appetite medium, lock-in tolerance medium, budget strictness firm, no hiring plan, no mobile preference).",
+    "No cache layer: about 6 requests/second and 3,000 users in 12 months are served directly by the database or BaaS."
+  ],
+  "validation_errors": [],
+  "decision_trace": {
+    "pipeline": [
+      "validate input",
+      "derive profile",
+      "filter each layer by hard constraints",
+      "enumerate compatible stacks",
+      "score quality, fit and penalties",
+      "rank deterministically",
+      "select supporting services",
+      "estimate cost",
+      "explain"
+    ],
+    "weights": {
+      "cost": 0.3867,
+      "maintainability": 0.116,
+      "performance": 0.145,
+      "scalability": 0.0421,
+      "security": 0.0773,
+      "time_to_market": 0.2329
+    },
+    "layer_weights": {
+      "frontend": 0.45,
+      "hosting": 0.3,
+      "database": 0.1,
+      "backend": 0.15
+    },
+    "layers": {
+      "frontend": {
+        "candidates": 24,
+        "eliminated": [
+          {
+            "id": "godot",
+            "name": "Godot Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "kotlin_android",
+            "name": "Kotlin + Jetpack Compose (Android native)",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "maui",
+            "name": ".NET MAUI",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "none_fe",
+            "name": "None (API only)",
+            "reasons": [
+              "the project has client platforms to build"
+            ]
+          },
+          {
+            "id": "swift_ios",
+            "name": "Swift + SwiftUI (iOS native)",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "unity",
+            "name": "Unity",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "unreal",
+            "name": "Unreal Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 17,
+        "shortlist": [
+          "astro",
+          "eleventy",
+          "hugo",
+          "sveltekit",
+          "nuxt",
+          "nextjs",
+          "angular",
+          "django_htmx"
+        ],
+        "chosen": [
+          "astro"
+        ]
+      },
+      "backend": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "colyseus",
+            "name": "Colyseus (Node.js game server)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "nakama",
+            "name": "Nakama (Go game backend)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 14,
+        "shortlist": [
+          "none_be",
+          "supabase",
+          "express",
+          "nestjs",
+          "django",
+          "laravel",
+          "go_chi",
+          "fastapi"
+        ],
+        "chosen": [
+          "none_be"
+        ]
+      },
+      "database": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "bigquery",
+            "name": "Google BigQuery",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          },
+          {
+            "id": "clickhouse",
+            "name": "ClickHouse",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          },
+          {
+            "id": "timescaledb",
+            "name": "TimescaleDB (PostgreSQL time-series)",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 13,
+        "shortlist": [
+          "none_db",
+          "supabase_postgres",
+          "sqlite",
+          "neon",
+          "firestore",
+          "postgresql",
+          "mysql",
+          "mongodb"
+        ],
+        "chosen": [
+          "none_db"
+        ]
+      },
+      "hosting": {
+        "candidates": 27,
+        "eliminated": [
+          {
+            "id": "github_pages",
+            "name": "GitHub Pages",
+            "reasons": [
+              "expected traffic (about 296 GB/month) exceeds the 100 GB/month soft limit"
+            ]
+          },
+          {
+            "id": "none_host",
+            "name": "None (provided by the backend platform)",
+            "reasons": [
+              "a web client or API needs somewhere to be served from"
+            ]
+          },
+          {
+            "id": "onprem_k8s",
+            "name": "Self-managed Kubernetes (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          },
+          {
+            "id": "onprem_linux_vm",
+            "name": "Self-managed Linux servers (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          },
+          {
+            "id": "windows_iis",
+            "name": "Windows Server + IIS (self-hosted)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 22,
+        "shortlist": [
+          "cloudflare_pages",
+          "netlify",
+          "firebase_hosting",
+          "azure_static_web_apps",
+          "vercel",
+          "cloudflare_workers",
+          "aws_amplify",
+          "render"
+        ],
+        "chosen": [
+          "cloudflare_pages"
+        ]
+      }
+    },
+    "stack_search": {
+      "considered": 38454,
+      "pruned_by_reason": {
+        "backend bundled with a specific database": 3536,
+        "backend bundled with a specific frontend": 936,
+        "database cannot be reached from the host": 930,
+        "database tied to another backend": 972,
+        "frontend needs a specific backend": 8294,
+        "runtime not supported by the host": 29614
+      },
+      "scored": 23786,
+      "removed_by_hard_budget": 0,
+      "frontend_pairs": false,
+      "budget_reference_usd": 0
+    },
+    "top_stacks": [
+      {
+        "rank": 1,
+        "stack": [
+          "Astro",
+          "No backend (static)",
+          "None (no database)",
+          "Cloudflare Pages"
+        ],
+        "score": 94.497,
+        "quality": 0.9348,
+        "fit": 0.9575,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 1.0,
+          "budget": 1.0,
+          "capability": 1.0,
+          "compat": 0.667,
+          "ops": 1.0,
+          "skill": 0.967
+        }
+      },
+      {
+        "rank": 2,
+        "stack": [
+          "Eleventy (11ty)",
+          "No backend (static)",
+          "None (no database)",
+          "Cloudflare Pages"
+        ],
+        "score": 93.144,
+        "quality": 0.9191,
+        "fit": 0.9575,
+        "penalties": {
+          "hiring": 0.24,
+          "maturity": 0.25
+        },
+        "fit_terms": {
+          "archetype": 1.0,
+          "budget": 1.0,
+          "capability": 1.0,
+          "compat": 0.667,
+          "ops": 1.0,
+          "skill": 0.967
+        }
+      },
+      {
+        "rank": 3,
+        "stack": [
+          "Hugo",
+          "No backend (static)",
+          "None (no database)",
+          "Cloudflare Pages"
+        ],
+        "score": 92.999,
+        "quality": 0.9138,
+        "fit": 0.9524,
+        "penalties": {
+          "hiring": 0.12
+        },
+        "fit_terms": {
+          "archetype": 1.0,
+          "budget": 1.0,
+          "capability": 1.0,
+          "compat": 0.667,
+          "ops": 1.0,
+          "skill": 0.949
+        }
+      },
+      {
+        "rank": 4,
+        "stack": [
+          "SvelteKit",
+          "No backend (static)",
+          "None (no database)",
+          "Cloudflare Pages"
+        ],
+        "score": 90.083,
+        "quality": 0.8708,
+        "fit": 0.9485,
+        "penalties": {
+          "hiring": 0.24,
+          "maturity": 0.25
+        },
+        "fit_terms": {
+          "archetype": 1.0,
+          "budget": 1.0,
+          "capability": 0.967,
+          "compat": 0.667,
+          "ops": 1.0,
+          "skill": 0.961
+        }
+      },
+      {
+        "rank": 5,
+        "stack": [
+          "Nuxt",
+          "No backend (static)",
+          "None (no database)",
+          "Cloudflare Pages"
+        ],
+        "score": 89.914,
+        "quality": 0.8642,
+        "fit": 0.9418,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 1.0,
+          "budget": 1.0,
+          "capability": 0.967,
+          "compat": 0.6,
+          "ops": 1.0,
+          "skill": 0.961
+        }
+      }
+    ],
+    "supporting": {
+      "forms": {
+        "chosen": "web3forms",
+        "covered_natively": false,
+        "score": 0.77,
+        "alternatives": [
+          "formspree"
+        ],
+        "eliminated": [
+          {
+            "id": "netlify_forms",
+            "name": "Netlify Forms",
+            "reasons": [
+              "is part of Netlify only"
+            ]
+          }
+        ]
+      },
+      "analytics": {
+        "chosen": "posthog",
+        "covered_natively": false,
+        "score": 0.85,
+        "alternatives": [
+          "ga4",
+          "plausible"
+        ],
+        "eliminated": []
+      },
+      "dns": {
+        "chosen": "cloudflare_dns",
+        "covered_natively": false,
+        "score": 0.85,
+        "alternatives": [
+          "route53",
+          "google_cloud_dns"
+        ],
+        "eliminated": []
+      }
+    },
+    "relaxed_constraints": [
+      "No cache layer: about 6 requests/second and 3,000 users in 12 months are served directly by the database or BaaS."
+    ],
+    "score_formula": "score = 100 * (0.55 * Q + 0.45 * F) - penalties"
+  },
+  "profile": {
+    "project_type": "content_site",
+    "client_platforms": [
+      "web"
+    ],
+    "api_only": false,
+    "users_launch": 200,
+    "users_12m": 3000,
+    "peak_concurrent": 50,
+    "peak_estimated": false,
+    "peak_eff": 60.0,
+    "peak_rps": 6.0,
+    "avg_rps": 1.5,
+    "monthly_requests": 592452.5297,
+    "egress_gb": 296.2263,
+    "data_gb": 1,
+    "traffic_pattern": "steady",
+    "workload": "read_heavy",
+    "scale_need": 2.7137,
+    "scale_tier": 1,
+    "team_size": 1,
+    "experience": "beginner",
+    "exp_factor": 0.0,
+    "has_devops": false,
+    "ops_capacity": 0.1188,
+    "skills": [
+      "javascript"
+    ],
+    "appetite": 0.5,
+    "beginner_sens": 1.0,
+    "lock_in_tolerance": "medium",
+    "hiring_plan": "none",
+    "mobile_preference": "no_preference",
+    "licenses": [],
+    "effort_pw": 1.1,
+    "capacity_pw": 0.91,
+    "effort_ratio": 1.2088,
+    "time_pressure": 0.5055,
+    "mvp_weeks": 2,
+    "budget": 0.0,
+    "budget_tier": 0,
+    "budget_tightness": 1.0,
+    "budget_strictness": "firm",
+    "availability": "99",
+    "avail_level": 2.0,
+    "avail_required": 4.0,
+    "p95": null,
+    "latency_need": 0.25,
+    "residency": "none",
+    "compliance": [],
+    "regulated_count": 0,
+    "deployment": "managed_cloud",
+    "cloud_pref": "any",
+    "existing_systems": [],
+    "license_texts": [],
+    "cloud_credits_usd": null,
+    "realtime": false,
+    "offline": false,
+    "search": false,
+    "files": false,
+    "payments": false,
+    "auth": "none",
+    "multi_tenant": false,
+    "ml": "none",
+    "seo": true,
+    "needs_server_logic": false,
+    "needs_persistence": false,
+    "static_candidate": true,
+    "geography": "global",
+    "data_sensitivity": "public",
+    "hints": {
+      "low_end_devices": false,
+      "poor_connectivity": false,
+      "upi": false,
+      "location": false,
+      "tabular_ml": false
+    },
+    "india_ctx": false,
+    "weights": {
+      "cost": 0.3867,
+      "maintainability": 0.116,
+      "performance": 0.145,
+      "scalability": 0.0421,
+      "security": 0.0773,
+      "time_to_market": 0.2329
+    },
+    "weight_multipliers": {
+      "cost": 2.0,
+      "time_to_market": 1.5055,
+      "scalability": 1.0892,
+      "performance": 1.25,
+      "maintainability": 1.0,
+      "security": 1.0
+    },
+    "layer_weights": {
+      "frontend": 0.45,
+      "hosting": 0.3,
+      "database": 0.1,
+      "backend": 0.15
+    },
+    "allowed_complexity": 3.8141,
+    "notes": []
+  },
+  "score": {
+    "total": 94.497,
+    "quality": 0.9348,
+    "fit": 0.9575,
+    "penalty": 0.0,
+    "penalties": {
+      "availability": 0.0,
+      "cold_start": -0.0,
+      "data_model": 0.0,
+      "durability": 0.0,
+      "existing_reuse": -0.0,
+      "game_client": 0.0,
+      "game_server": 0.0,
+      "hiring": 0.0,
+      "lock_in": 0.0,
+      "maturity": 0.0,
+      "over_engineering": 0.0,
+      "seo": 0.0,
+      "soft_certs": 0.0,
+      "two_codebases": 0.0,
+      "under_provision": 0.0
+    },
+    "fit_terms": {
+      "archetype": 1.0,
+      "budget": 1.0,
+      "capability": 1.0,
+      "compat": 0.6667,
+      "ops": 1.0,
+      "skill": 0.9671
+    },
+    "criteria": {
+      "cost": 10.0,
+      "maintainability": 8.5,
+      "performance": 10.0,
+      "scalability": 4.714,
+      "security": 8.95,
+      "time_to_market": 9.25
+    }
+  },
+  "ranking": [
+    {
+      "rank": 1,
+      "stack": {
+        "frontend": "Astro",
+        "backend": "None",
+        "database": "None",
+        "hosting": "Cloudflare Pages"
+      },
+      "score": 94.497,
+      "quality": 0.9348,
+      "fit": 0.9575,
+      "penalty": 0.0,
+      "cost_usd": [
+        0,
+        0
+      ]
+    },
+    {
+      "rank": 2,
+      "stack": {
+        "frontend": "Eleventy (11ty)",
+        "backend": "None",
+        "database": "None",
+        "hosting": "Cloudflare Pages"
+      },
+      "score": 93.144,
+      "quality": 0.9191,
+      "fit": 0.9575,
+      "penalty": 0.49,
+      "cost_usd": [
+        0,
+        0
+      ]
+    },
+    {
+      "rank": 3,
+      "stack": {
+        "frontend": "Hugo",
+        "backend": "None",
+        "database": "None",
+        "hosting": "Cloudflare Pages"
+      },
+      "score": 92.999,
+      "quality": 0.9138,
+      "fit": 0.9524,
+      "penalty": 0.12,
+      "cost_usd": [
+        0,
+        0
+      ]
+    },
+    {
+      "rank": 4,
+      "stack": {
+        "frontend": "SvelteKit",
+        "backend": "None",
+        "database": "None",
+        "hosting": "Cloudflare Pages"
+      },
+      "score": 90.083,
+      "quality": 0.8708,
+      "fit": 0.9485,
+      "penalty": 0.49,
+      "cost_usd": [
+        0,
+        0
+      ]
+    },
+    {
+      "rank": 5,
+      "stack": {
+        "frontend": "Nuxt",
+        "backend": "None",
+        "database": "None",
+        "hosting": "Cloudflare Pages"
+      },
+      "score": 89.914,
+      "quality": 0.8642,
+      "fit": 0.9418,
+      "penalty": 0.0,
+      "cost_usd": [
+        0,
+        0
+      ]
+    },
+    {
+      "rank": 6,
+      "stack": {
+        "frontend": "Next.js",
+        "backend": "None",
+        "database": "None",
+        "hosting": "Cloudflare Pages"
+      },
+      "score": 89.74,
+      "quality": 0.8747,
+      "fit": 0.9401,
+      "penalty": 0.675,
+      "cost_usd": [
+        0,
+        0
+      ]
+    },
+    {
+      "rank": 7,
+      "stack": {
+        "frontend": "Astro",
+        "backend": "None",
+        "database": "None",
+        "hosting": "Netlify"
+      },
+      "score": 85.544,
+      "quality": 0.9191,
+      "fit": 0.7776,
+      "penalty": 0.0,
+      "cost_usd": [
+        0,
+        135
+      ]
+    },
+    {
+      "rank": 8,
+      "stack": {
+        "frontend": "Astro",
+        "backend": "None",
+        "database": "None",
+        "hosting": "Firebase Hosting"
+      },
+      "score": 85.31,
+      "quality": 0.9144,
+      "fit": 0.7781,
+      "penalty": 0.0,
+      "cost_usd": [
+        0,
+        52
+      ]
+    },
+    {
+      "rank": 9,
+      "stack": {
+        "frontend": "Astro",
+        "backend": "None",
+        "database": "None",
+        "hosting": "Azure Static Web Apps"
+      },
+      "score": 84.451,
+      "quality": 0.9075,
+      "fit": 0.7676,
+      "penalty": 0.0,
+      "cost_usd": [
+        0,
+        40
+      ]
+    },
+    {
+      "rank": 10,
+      "stack": {
+        "frontend": "Eleventy (11ty)",
+        "backend": "None",
+        "database": "None",
+        "hosting": "Netlify"
+      },
+      "score": 84.191,
+      "quality": 0.9034,
+      "fit": 0.7776,
+      "penalty": 0.49,
+      "cost_usd": [
+        0,
+        135
+      ]
+    }
+  ],
+  "robustness": {
+    "verdict": "stable",
+    "margin_points": 1.353,
+    "runner_up": {
+      "frontend": "Eleventy (11ty)",
+      "backend": "None",
+      "database": "None",
+      "hosting": "Cloudflare Pages"
+    },
+    "checks_run": 12,
+    "checks_held": 12,
+    "summary": "The same stack wins in all 12 checks: each priority counted twice or half as much.",
+    "checks": [
+      {
+        "change": "cost counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "cost counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "time to market counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "time to market counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "scalability counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "scalability counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "performance counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "performance counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "maintainability counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "maintainability counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "security counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "security counted half as much",
+        "same_stack": true
+      }
+    ]
+  },
+  "trade_off_options": [
+    {
+      "direction": "more_headroom",
+      "title": "More headroom to scale",
+      "available": false,
+      "note": "Nothing within 12 points of the winner does clearly better here, so the chosen stack is already a strong pick on this."
+    },
+    {
+      "direction": "faster_build",
+      "title": "Ship sooner",
+      "available": false,
+      "note": "Nothing within 12 points of the winner does clearly better here, so the chosen stack is already a strong pick on this."
+    }
+  ]
+}

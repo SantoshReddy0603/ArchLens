@@ -1,0 +1,685 @@
+{
+  "scenario_id": "E2",
+  "engine_version": "1.0.0",
+  "status": "infeasible",
+  "summary": "No stack satisfies all hard constraints at once; the critical warnings name what blocks it and what to relax.",
+  "architecture_style": "other",
+  "stack": null,
+  "estimated_monthly_cost_usd": {
+    "min": 0,
+    "max": 0,
+    "assumptions": [
+      "No estimate: no feasible stack."
+    ]
+  },
+  "warnings": [
+    {
+      "code": "DEPLOYMENT_CLOUD_CONFLICT",
+      "severity": "critical",
+      "message": "air-gapped deployment cannot run on AWS; the cloud preference is ignored and an on-premise host is used.",
+      "fields": [
+        "infrastructure.deployment_model",
+        "infrastructure.cloud_preference"
+      ]
+    },
+    {
+      "code": "NO_FEASIBLE_STACK",
+      "severity": "critical",
+      "message": "Every hosting option is excluded: air-gapped deployment allows only on-premise hosting; cloud_preference is aws and this runs on onprem.",
+      "fields": [
+        "infrastructure",
+        "compliance"
+      ]
+    },
+    {
+      "code": "FEASIBLE_IF_CHANGED",
+      "severity": "info",
+      "message": "If you allow any cloud provider instead of aws, a stack becomes possible: React Native (Expo) with Node.js + NestJS and PostgreSQL (managed or self-hosted) on Self-managed Linux servers (on-premise) (core layers about $0-$8 per month).",
+      "fields": [
+        "infrastructure.cloud_preference"
+      ]
+    },
+    {
+      "code": "FEASIBLE_IF_CHANGED",
+      "severity": "info",
+      "message": "If you use managed cloud services instead of air-gapped, a stack becomes possible: React Native (Expo) with Supabase (BaaS) and Supabase Postgres on AWS Amplify Hosting (core layers about $28-$100 per month).",
+      "fields": [
+        "infrastructure.deployment_model"
+      ]
+    }
+  ],
+  "assumptions": [
+    "No extra inputs supplied; neutral defaults are used (learning appetite medium, lock-in tolerance medium, budget strictness firm, no hiring plan, no mobile preference)."
+  ],
+  "validation_errors": [],
+  "decision_trace": {
+    "pipeline": [
+      "validate input",
+      "derive profile",
+      "filter each layer by hard constraints",
+      "enumerate compatible stacks"
+    ],
+    "stopped_at": "no feasible stack",
+    "layers": {
+      "frontend": {
+        "candidates": 24,
+        "eliminated": [
+          {
+            "id": "godot",
+            "name": "Godot Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "none_fe",
+            "name": "None (API only)",
+            "reasons": [
+              "the project has client platforms to build"
+            ]
+          },
+          {
+            "id": "unity",
+            "name": "Unity",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "unreal",
+            "name": "Unreal Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "angular",
+            "name": "Angular",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "astro",
+            "name": "Astro",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "blazor",
+            "name": "Blazor (ASP.NET Core)",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "django_htmx",
+            "name": "Django templates + htmx",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "electron",
+            "name": "Electron",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "eleventy",
+            "name": "Eleventy (11ty)",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "hugo",
+            "name": "Hugo",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "kotlin_android",
+            "name": "Kotlin + Jetpack Compose (Android native)",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "laravel_livewire",
+            "name": "Laravel Blade + Livewire",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "maui",
+            "name": ".NET MAUI",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "nextjs",
+            "name": "Next.js",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "nuxt",
+            "name": "Nuxt",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "rails_hotwire",
+            "name": "Rails + Hotwire",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "react_vite",
+            "name": "React + Vite (SPA)",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "sveltekit",
+            "name": "SvelteKit",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "swift_ios",
+            "name": "Swift + SwiftUI (iOS native)",
+            "reasons": [
+              "does not serve web/android well enough on its own"
+            ]
+          },
+          {
+            "id": "tauri",
+            "name": "Tauri",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "vue_vite",
+            "name": "Vue 3 + Vite (SPA)",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          }
+        ]
+      },
+      "backend": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "colyseus",
+            "name": "Colyseus (Node.js game server)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "firebase",
+            "name": "Firebase (BaaS)",
+            "reasons": [
+              "air-gapped deployment needs self-hostable components without a mandatory SaaS dependency",
+              "cloud_preference is aws and this runs on gcp"
+            ]
+          },
+          {
+            "id": "nakama",
+            "name": "Nakama (Go game backend)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "none_be",
+            "name": "No backend (static)",
+            "reasons": [
+              "the project needs server-side logic (accounts, payments, uploads, realtime or non-content features)"
+            ]
+          }
+        ]
+      },
+      "database": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "bigquery",
+            "name": "Google BigQuery",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database",
+              "air-gapped deployment needs self-hostable components without a mandatory SaaS dependency"
+            ]
+          },
+          {
+            "id": "clickhouse",
+            "name": "ClickHouse",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          },
+          {
+            "id": "cosmos_db",
+            "name": "Azure Cosmos DB",
+            "reasons": [
+              "air-gapped deployment needs self-hostable components without a mandatory SaaS dependency"
+            ]
+          },
+          {
+            "id": "dynamodb",
+            "name": "Amazon DynamoDB",
+            "reasons": [
+              "air-gapped deployment needs self-hostable components without a mandatory SaaS dependency"
+            ]
+          },
+          {
+            "id": "firestore",
+            "name": "Cloud Firestore",
+            "reasons": [
+              "air-gapped deployment needs self-hostable components without a mandatory SaaS dependency"
+            ]
+          },
+          {
+            "id": "neon",
+            "name": "Neon (serverless Postgres)",
+            "reasons": [
+              "air-gapped deployment needs self-hostable components without a mandatory SaaS dependency"
+            ]
+          },
+          {
+            "id": "none_db",
+            "name": "None (no database)",
+            "reasons": [
+              "the project needs persistent data"
+            ]
+          },
+          {
+            "id": "supabase_postgres",
+            "name": "Supabase Postgres",
+            "reasons": [
+              "air-gapped deployment needs self-hostable components without a mandatory SaaS dependency"
+            ]
+          },
+          {
+            "id": "timescaledb",
+            "name": "TimescaleDB (PostgreSQL time-series)",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          }
+        ]
+      },
+      "hosting": {
+        "candidates": 27,
+        "eliminated": [
+          {
+            "id": "aws_amplify",
+            "name": "AWS Amplify Hosting",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting"
+            ]
+          },
+          {
+            "id": "aws_ec2",
+            "name": "AWS EC2 (self-managed VMs)",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting"
+            ]
+          },
+          {
+            "id": "aws_ecs_fargate",
+            "name": "AWS ECS on Fargate",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting"
+            ]
+          },
+          {
+            "id": "aws_eks",
+            "name": "AWS EKS (Kubernetes)",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting"
+            ]
+          },
+          {
+            "id": "aws_elastic_beanstalk",
+            "name": "AWS Elastic Beanstalk",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting"
+            ]
+          },
+          {
+            "id": "aws_lambda",
+            "name": "AWS Lambda + API Gateway",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting"
+            ]
+          },
+          {
+            "id": "azure_app_service",
+            "name": "Azure App Service",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference is aws and this runs on azure"
+            ]
+          },
+          {
+            "id": "azure_container_apps",
+            "name": "Azure Container Apps",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference is aws and this runs on azure"
+            ]
+          },
+          {
+            "id": "azure_static_web_apps",
+            "name": "Azure Static Web Apps",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference is aws and this runs on azure"
+            ]
+          },
+          {
+            "id": "azure_vm",
+            "name": "Azure Virtual Machines",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference is aws and this runs on azure"
+            ]
+          },
+          {
+            "id": "cloudflare_pages",
+            "name": "Cloudflare Pages",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference is aws and this runs on cloudflare"
+            ]
+          },
+          {
+            "id": "cloudflare_workers",
+            "name": "Cloudflare Workers",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference is aws and this runs on cloudflare"
+            ]
+          },
+          {
+            "id": "digitalocean_droplet",
+            "name": "DigitalOcean App Platform / Droplets",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference is aws and this runs on digitalocean"
+            ]
+          },
+          {
+            "id": "firebase_hosting",
+            "name": "Firebase Hosting",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference is aws and this runs on gcp"
+            ]
+          },
+          {
+            "id": "fly_io",
+            "name": "Fly.io",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference is aws and this runs on fly"
+            ]
+          },
+          {
+            "id": "gce_vm",
+            "name": "Google Compute Engine",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference is aws and this runs on gcp"
+            ]
+          },
+          {
+            "id": "github_pages",
+            "name": "GitHub Pages",
+            "reasons": [
+              "expected traffic (about 187 GB/month) exceeds the 100 GB/month soft limit",
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference is aws and this runs on github"
+            ]
+          },
+          {
+            "id": "gke_cloud_run",
+            "name": "Google Cloud Run",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference is aws and this runs on gcp"
+            ]
+          },
+          {
+            "id": "hetzner_vps",
+            "name": "Hetzner Cloud VPS",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference is aws and this runs on hetzner"
+            ]
+          },
+          {
+            "id": "netlify",
+            "name": "Netlify",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference is aws and this runs on netlify"
+            ]
+          },
+          {
+            "id": "none_host",
+            "name": "None (provided by the backend platform)",
+            "reasons": [
+              "a web client or API needs somewhere to be served from",
+              "air-gapped deployment allows only on-premise hosting"
+            ]
+          },
+          {
+            "id": "onprem_k8s",
+            "name": "Self-managed Kubernetes (on-premise)",
+            "reasons": [
+              "cloud_preference is aws and this runs on onprem"
+            ]
+          },
+          {
+            "id": "onprem_linux_vm",
+            "name": "Self-managed Linux servers (on-premise)",
+            "reasons": [
+              "cloud_preference is aws and this runs on onprem"
+            ]
+          },
+          {
+            "id": "railway",
+            "name": "Railway",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference is aws and this runs on railway"
+            ]
+          },
+          {
+            "id": "render",
+            "name": "Render",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference is aws and this runs on render"
+            ]
+          },
+          {
+            "id": "vercel",
+            "name": "Vercel",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference is aws and this runs on vercel"
+            ]
+          },
+          {
+            "id": "windows_iis",
+            "name": "Windows Server + IIS (self-hosted)",
+            "reasons": [
+              "cloud_preference is aws and this runs on onprem"
+            ]
+          }
+        ]
+      }
+    },
+    "stack_search": {
+      "considered": 0,
+      "pruned_by_reason": {},
+      "removed_by_hard_budget": 0
+    }
+  },
+  "profile": {
+    "project_type": "realtime_collab",
+    "client_platforms": [
+      "web",
+      "android"
+    ],
+    "api_only": false,
+    "users_launch": 200,
+    "users_12m": 2000,
+    "peak_concurrent": 100,
+    "peak_estimated": false,
+    "peak_eff": 100,
+    "peak_rps": 10.0,
+    "avg_rps": 2.5,
+    "monthly_requests": 6244997.9984,
+    "egress_gb": 187.3499,
+    "data_gb": 20,
+    "traffic_pattern": "steady",
+    "workload": "balanced",
+    "scale_need": 3.5276,
+    "scale_tier": 1,
+    "team_size": 3,
+    "experience": "mixed",
+    "exp_factor": 0.4,
+    "has_devops": false,
+    "ops_capacity": 0.2363,
+    "skills": [
+      "javascript",
+      "python"
+    ],
+    "appetite": 0.5,
+    "beginner_sens": 0.4,
+    "lock_in_tolerance": "medium",
+    "hiring_plan": "none",
+    "mobile_preference": "no_preference",
+    "licenses": [],
+    "effort_pw": 18.4,
+    "capacity_pw": 21.06,
+    "effort_ratio": 0.8737,
+    "time_pressure": 0.2961,
+    "mvp_weeks": 12,
+    "budget": 300.0,
+    "budget_tier": 3,
+    "budget_tightness": 0.3804,
+    "budget_strictness": "firm",
+    "availability": "99.9",
+    "avail_level": 3.0,
+    "avail_required": 5.8,
+    "p95": null,
+    "latency_need": 0.25,
+    "residency": "none",
+    "compliance": [],
+    "regulated_count": 0,
+    "deployment": "air_gapped",
+    "cloud_pref": "aws",
+    "existing_systems": [],
+    "license_texts": [],
+    "cloud_credits_usd": null,
+    "realtime": true,
+    "offline": false,
+    "search": false,
+    "files": false,
+    "payments": false,
+    "auth": "email_password",
+    "multi_tenant": false,
+    "ml": "none",
+    "seo": false,
+    "needs_server_logic": true,
+    "needs_persistence": true,
+    "static_candidate": false,
+    "geography": "global",
+    "data_sensitivity": "personal",
+    "hints": {
+      "low_end_devices": false,
+      "poor_connectivity": false,
+      "upi": false,
+      "location": false,
+      "tabular_ml": false
+    },
+    "india_ctx": false,
+    "weights": {
+      "cost": 0.1939,
+      "maintainability": 0.1405,
+      "performance": 0.1756,
+      "scalability": 0.1673,
+      "security": 0.1405,
+      "time_to_market": 0.1821
+    },
+    "weight_multipliers": {
+      "cost": 1.3804,
+      "time_to_market": 1.2961,
+      "scalability": 1.191,
+      "performance": 1.25,
+      "maintainability": 1.0,
+      "security": 1.0
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "allowed_complexity": 5.6818,
+    "notes": []
+  },
+  "score": null,
+  "ranking": [],
+  "repairs": [
+    {
+      "field": "infrastructure.cloud_preference",
+      "change": "allow any cloud provider instead of aws",
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Node.js + NestJS",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Self-managed Linux servers (on-premise)"
+      },
+      "cost_usd": [
+        0,
+        8
+      ],
+      "score": 69.938
+    },
+    {
+      "field": "infrastructure.deployment_model",
+      "change": "use managed cloud services instead of air-gapped",
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Supabase (BaaS)",
+        "database": "Supabase Postgres",
+        "hosting": "AWS Amplify Hosting"
+      },
+      "cost_usd": [
+        28,
+        105
+      ],
+      "score": 79.824
+    }
+  ]
+}

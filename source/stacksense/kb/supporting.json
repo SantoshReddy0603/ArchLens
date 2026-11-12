@@ -1,0 +1,5147 @@
+[
+  {
+    "id": "ably",
+    "name": "Ably",
+    "layer": "realtime",
+    "provider": "ably",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "fixed": [
+        0,
+        29
+      ],
+      "curve": [
+        [
+          30,
+          0,
+          29
+        ],
+        [
+          300,
+          100,
+          400
+        ],
+        [
+          3000,
+          800,
+          3000
+        ]
+      ]
+    },
+    "why": "Managed pub/sub with presence and history",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "soc2",
+      "hipaa",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "level": 0.95
+    },
+    "sources": [
+      {
+        "title": "Ably pricing",
+        "url": "https://ably.com/pricing"
+      },
+      {
+        "title": "Ably docs",
+        "url": "https://ably.com/docs"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "adyen",
+    "name": "Adyen",
+    "layer": "payments",
+    "provider": "adyen",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Enterprise-grade acquirer with unified commerce",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "pci_dss",
+      "iso27001",
+      "soc2"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "countries": [
+        "global"
+      ],
+      "upi": true,
+      "note": "Interchange plus a processing fee, not included"
+    },
+    "sources": [
+      {
+        "title": "Adyen pricing",
+        "url": "https://www.adyen.com/pricing"
+      },
+      {
+        "title": "Adyen docs",
+        "url": "https://docs.adyen.com/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "algolia",
+    "name": "Algolia",
+    "layer": "search",
+    "provider": "algolia",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 6,
+    "cost": {
+      "fixed": [
+        0,
+        60
+      ],
+      "per_m_requests": [
+        0.5,
+        1.0
+      ],
+      "free_requests_m": 0.01
+    },
+    "why": "Hosted search with best-in-class relevance; pricey at scale",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "hipaa",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Algolia pricing",
+        "url": "https://www.algolia.com/pricing/"
+      },
+      {
+        "title": "Algolia docs",
+        "url": "https://www.algolia.com/doc/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "anthropic_api",
+    "name": "Anthropic API",
+    "layer": "ml",
+    "provider": "anthropic",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "fixed": [
+        5,
+        300
+      ]
+    },
+    "why": "Hosted Claude models, strong at long-context and coding",
+    "regions": [
+      "us",
+      "eu",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "hipaa"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "sub": "llm"
+    },
+    "sources": [
+      {
+        "title": "Anthropic pricing",
+        "url": "https://www.anthropic.com/pricing"
+      },
+      {
+        "title": "Anthropic API docs",
+        "url": "https://docs.anthropic.com/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "auth0",
+    "name": "Auth0",
+    "layer": "auth",
+    "provider": "okta",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 6,
+    "cost": {
+      "fixed": [
+        0,
+        35
+      ],
+      "per_k_users": [
+        0,
+        23
+      ],
+      "free_users": 25000
+    },
+    "why": "Best-in-class hosted identity with SSO and social",
+    "regions": [
+      "us",
+      "eu",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "hipaa",
+      "pci_dss",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "modes": [
+        "email_password",
+        "social",
+        "phone_otp",
+        "enterprise_sso"
+      ],
+      "enterprise_sso": 1.0,
+      "phone_otp": 0.8
+    },
+    "sources": [
+      {
+        "title": "Auth0 pricing",
+        "url": "https://auth0.com/pricing"
+      },
+      {
+        "title": "Auth0 docs",
+        "url": "https://auth0.com/docs"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "aws_bedrock",
+    "name": "Amazon Bedrock",
+    "layer": "ml",
+    "provider": "aws",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "fixed": [
+        5,
+        300
+      ]
+    },
+    "why": "Multiple foundation models behind one AWS API",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "sub": "llm"
+    },
+    "sources": [
+      {
+        "title": "Bedrock pricing",
+        "url": "https://aws.amazon.com/bedrock/pricing/"
+      },
+      {
+        "title": "Bedrock docs",
+        "url": "https://docs.aws.amazon.com/bedrock/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "aws_ses",
+    "name": "Amazon SES",
+    "layer": "email",
+    "provider": "aws",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 2,
+    "cost": {
+      "fixed": [
+        0,
+        5
+      ]
+    },
+    "why": "$0.10 per 1,000 emails, deliverability work is yours",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "SES pricing",
+        "url": "https://aws.amazon.com/ses/pricing/"
+      },
+      {
+        "title": "SES docs",
+        "url": "https://docs.aws.amazon.com/ses/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "aws_sns_sms",
+    "name": "Amazon SNS SMS",
+    "layer": "sms",
+    "provider": "aws",
+    "quality": 7,
+    "ops_burden": 0,
+    "lock_in": 3,
+    "cost": {
+      "per_k_users": [
+        2,
+        8
+      ]
+    },
+    "why": "Cheap transactional SMS for AWS stacks, DLT registration still needed in India",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "countries": [
+        "global"
+      ]
+    },
+    "sources": [
+      {
+        "title": "SNS pricing",
+        "url": "https://aws.amazon.com/sns/pricing/"
+      },
+      {
+        "title": "SNS docs",
+        "url": "https://docs.aws.amazon.com/sns/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "aws_waf",
+    "name": "AWS WAF",
+    "layer": "waf",
+    "provider": "aws",
+    "quality": 8,
+    "ops_burden": 1,
+    "lock_in": 4,
+    "cost": {
+      "fixed": [
+        6,
+        30
+      ]
+    },
+    "why": "Rule-based web filtering for CloudFront and ALB",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "AWS WAF pricing",
+        "url": "https://aws.amazon.com/waf/pricing/"
+      },
+      {
+        "title": "AWS WAF docs",
+        "url": "https://docs.aws.amazon.com/waf/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "azure_blob",
+    "name": "Azure Blob Storage",
+    "layer": "storage",
+    "provider": "azure",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "per_gb_storage": [
+        0.018,
+        0.021
+      ],
+      "per_gb_egress": [
+        0.087,
+        0.087
+      ],
+      "free_egress_gb": 100,
+      "egress_share": 0.3
+    },
+    "why": "Object storage native to Azure",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Blob pricing",
+        "url": "https://azure.microsoft.com/pricing/details/storage/blobs/"
+      },
+      {
+        "title": "Blob Storage docs",
+        "url": "https://learn.microsoft.com/azure/storage/blobs/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "azure_devops",
+    "name": "Azure DevOps Pipelines",
+    "layer": "ci_cd",
+    "provider": "azure",
+    "quality": 8,
+    "ops_burden": 1,
+    "lock_in": 3,
+    "cost": {
+      "fixed": [
+        0,
+        30
+      ]
+    },
+    "why": "Pipelines with first-class Windows/.NET agents, five free users",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Azure DevOps pricing",
+        "url": "https://azure.microsoft.com/pricing/details/devops/azure-devops-services/"
+      },
+      {
+        "title": "Azure DevOps docs",
+        "url": "https://learn.microsoft.com/azure/devops/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "azure_dns",
+    "name": "Azure DNS",
+    "layer": "dns",
+    "provider": "azure",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 3,
+    "cost": {
+      "fixed": [
+        0.5,
+        1
+      ]
+    },
+    "why": "Hosted DNS integrated with Azure",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Azure DNS pricing",
+        "url": "https://azure.microsoft.com/pricing/details/dns/"
+      },
+      {
+        "title": "Azure DNS docs",
+        "url": "https://learn.microsoft.com/azure/dns/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "azure_front_door",
+    "name": "Azure Front Door",
+    "layer": "cdn",
+    "provider": "azure",
+    "quality": 8,
+    "ops_burden": 1,
+    "lock_in": 3,
+    "cost": {
+      "fixed": [
+        35,
+        35
+      ],
+      "per_gb_egress": [
+        0.083,
+        0.083
+      ]
+    },
+    "why": "CDN plus WAF integrated with Azure origins",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Front Door pricing",
+        "url": "https://azure.microsoft.com/pricing/details/frontdoor/"
+      },
+      {
+        "title": "Front Door docs",
+        "url": "https://learn.microsoft.com/azure/frontdoor/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "azure_ml",
+    "name": "Azure Machine Learning",
+    "layer": "ml",
+    "provider": "azure",
+    "quality": 8,
+    "ops_burden": 2,
+    "lock_in": 5,
+    "cost": {
+      "curve": [
+        [
+          1,
+          50,
+          400
+        ],
+        [
+          300,
+          300,
+          2500
+        ]
+      ]
+    },
+    "why": "Managed training and MLOps on Azure",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "sub": "training"
+    },
+    "sources": [
+      {
+        "title": "Azure ML pricing",
+        "url": "https://azure.microsoft.com/pricing/details/machine-learning/"
+      },
+      {
+        "title": "Azure Machine Learning docs",
+        "url": "https://learn.microsoft.com/azure/machine-learning/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "azure_monitor",
+    "name": "Azure Monitor / Application Insights",
+    "layer": "observability",
+    "provider": "azure",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "fixed": [
+        0,
+        30
+      ]
+    },
+    "why": "Native monitoring with strong .NET diagnostics",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "kind": "full"
+    },
+    "sources": [
+      {
+        "title": "Azure Monitor pricing",
+        "url": "https://azure.microsoft.com/pricing/details/monitor/"
+      },
+      {
+        "title": "Azure Monitor docs",
+        "url": "https://learn.microsoft.com/azure/azure-monitor/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "azure_openai",
+    "name": "Azure OpenAI Service",
+    "layer": "ml",
+    "provider": "azure",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "fixed": [
+        5,
+        300
+      ]
+    },
+    "why": "OpenAI models inside Azure with regional deployment and enterprise controls",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "sub": "llm"
+    },
+    "sources": [
+      {
+        "title": "Azure OpenAI pricing",
+        "url": "https://azure.microsoft.com/pricing/details/cognitive-services/openai-service/"
+      },
+      {
+        "title": "Azure OpenAI docs",
+        "url": "https://learn.microsoft.com/azure/ai-services/openai/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "azure_service_bus",
+    "name": "Azure Service Bus",
+    "layer": "queue",
+    "provider": "azure",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "fixed": [
+        10,
+        10
+      ],
+      "per_m_requests": [
+        0.05,
+        0.05
+      ]
+    },
+    "why": "Enterprise queues and topics for .NET/Azure",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Service Bus pricing",
+        "url": "https://azure.microsoft.com/pricing/details/service-bus/"
+      },
+      {
+        "title": "Service Bus docs",
+        "url": "https://learn.microsoft.com/azure/service-bus-messaging/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "azure_signalr",
+    "name": "Azure SignalR Service",
+    "layer": "realtime",
+    "provider": "azure",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "fixed": [
+        0,
+        49
+      ],
+      "curve": [
+        [
+          300,
+          49,
+          100
+        ],
+        [
+          3000,
+          300,
+          900
+        ]
+      ]
+    },
+    "why": "Managed SignalR for ASP.NET Core",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "level": 0.9,
+      "pairs_with": [
+        "aspnet_core"
+      ]
+    },
+    "sources": [
+      {
+        "title": "SignalR pricing",
+        "url": "https://azure.microsoft.com/pricing/details/signalr-service/"
+      },
+      {
+        "title": "SignalR Service docs",
+        "url": "https://learn.microsoft.com/azure/azure-signalr/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "azure_waf",
+    "name": "Azure Web Application Firewall",
+    "layer": "waf",
+    "provider": "azure",
+    "quality": 8,
+    "ops_burden": 1,
+    "lock_in": 4,
+    "cost": {
+      "fixed": [
+        35,
+        60
+      ]
+    },
+    "why": "WAF on Front Door or Application Gateway",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Azure WAF pricing",
+        "url": "https://azure.microsoft.com/pricing/details/web-application-firewall/"
+      },
+      {
+        "title": "Azure WAF docs",
+        "url": "https://learn.microsoft.com/azure/web-application-firewall/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "backblaze_b2",
+    "name": "Backblaze B2",
+    "layer": "storage",
+    "provider": "backblaze",
+    "quality": 7,
+    "ops_burden": 0,
+    "lock_in": 1,
+    "cost": {
+      "per_gb_storage": [
+        0.006,
+        0.006
+      ],
+      "per_gb_egress": [
+        0.01,
+        0.01
+      ],
+      "free_egress_gb": 0,
+      "egress_share": 0.3
+    },
+    "why": "Cheapest S3-compatible storage",
+    "regions": [
+      "us",
+      "eu"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "B2 pricing",
+        "url": "https://www.backblaze.com/cloud-storage/pricing"
+      },
+      {
+        "title": "B2 docs",
+        "url": "https://www.backblaze.com/docs/cloud-storage"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "brevo",
+    "name": "Brevo",
+    "layer": "email",
+    "provider": "brevo",
+    "quality": 7,
+    "ops_burden": 0,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        9
+      ]
+    },
+    "why": "Free 300 emails per day, transactional and marketing",
+    "regions": [
+      "eu",
+      "us",
+      "other"
+    ],
+    "certs": [
+      "gdpr",
+      "iso27001"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Brevo pricing",
+        "url": "https://www.brevo.com/pricing/"
+      },
+      {
+        "title": "Brevo developer docs",
+        "url": "https://developers.brevo.com/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "bullmq",
+    "name": "BullMQ (on Redis)",
+    "layer": "queue",
+    "provider": "self",
+    "quality": 8,
+    "ops_burden": 1,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Job queue for Node reusing the existing Redis",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "langs": [
+        "javascript",
+        "typescript"
+      ],
+      "needs": [
+        "cache"
+      ]
+    },
+    "sources": [
+      {
+        "title": "BullMQ",
+        "url": "https://docs.bullmq.io/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "bunny_cdn",
+    "name": "Bunny CDN",
+    "layer": "cdn",
+    "provider": "bunny",
+    "quality": 7,
+    "ops_burden": 0,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        1,
+        1
+      ],
+      "per_gb_egress": [
+        0.01,
+        0.03
+      ]
+    },
+    "why": "Very cheap pay-as-you-go delivery",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Bunny pricing",
+        "url": "https://bunny.net/pricing/cdn/"
+      },
+      {
+        "title": "Bunny docs",
+        "url": "https://docs.bunny.net/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "cashfree",
+    "name": "Cashfree Payments",
+    "layer": "payments",
+    "provider": "cashfree",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 3,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "RBI-licensed gateway with UPI and payouts",
+    "regions": [
+      "india"
+    ],
+    "certs": [
+      "pci_dss",
+      "iso27001"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "countries": [
+        "india"
+      ],
+      "upi": true,
+      "note": "Transaction fee about 1.95%, not included in the infrastructure band"
+    },
+    "sources": [
+      {
+        "title": "Cashfree pricing",
+        "url": "https://www.cashfree.com/pricing/"
+      },
+      {
+        "title": "Cashfree docs",
+        "url": "https://docs.cashfree.com/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "celery",
+    "name": "Celery (on Redis/RabbitMQ)",
+    "layer": "queue",
+    "provider": "self",
+    "quality": 8,
+    "ops_burden": 2,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Standard Python task queue",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "langs": [
+        "python"
+      ]
+    },
+    "sources": [
+      {
+        "title": "Celery docs",
+        "url": "https://docs.celeryq.dev/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "centrifugo",
+    "name": "Centrifugo",
+    "layer": "realtime",
+    "provider": "self",
+    "quality": 8,
+    "ops_burden": 2,
+    "lock_in": 1,
+    "cost": {
+      "curve": [
+        [
+          30,
+          0,
+          10
+        ],
+        [
+          300,
+          15,
+          60
+        ],
+        [
+          3000,
+          100,
+          400
+        ]
+      ]
+    },
+    "why": "Self-hosted websocket server in Go, works with any backend",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "level": 0.9
+    },
+    "sources": [
+      {
+        "title": "Centrifugo docs",
+        "url": "https://centrifugal.dev/docs/getting-started/introduction"
+      },
+      {
+        "title": "Centrifugo repository",
+        "url": "https://github.com/centrifugal/centrifugo"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "clerk",
+    "name": "Clerk",
+    "layer": "auth",
+    "provider": "clerk",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 6,
+    "cost": {
+      "fixed": [
+        0,
+        25
+      ],
+      "per_k_users": [
+        0,
+        20
+      ],
+      "free_users": 10000
+    },
+    "why": "Drop-in UI components, fast to integrate for React/Next.js",
+    "regions": [
+      "us"
+    ],
+    "certs": [
+      "soc2",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "modes": [
+        "email_password",
+        "social",
+        "phone_otp",
+        "enterprise_sso"
+      ],
+      "enterprise_sso": 0.7,
+      "phone_otp": 0.9,
+      "frontends": [
+        "nextjs",
+        "react_vite",
+        "expo_rn",
+        "astro",
+        "nuxt"
+      ]
+    },
+    "sources": [
+      {
+        "title": "Clerk pricing",
+        "url": "https://clerk.com/pricing"
+      },
+      {
+        "title": "Clerk docs",
+        "url": "https://clerk.com/docs"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "cloudflare_cdn",
+    "name": "Cloudflare CDN",
+    "layer": "cdn",
+    "provider": "cloudflare",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 2,
+    "cost": {
+      "fixed": [
+        0,
+        20
+      ]
+    },
+    "why": "Free global CDN with DDoS protection; unlimited bandwidth on free plan",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "pci_dss",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "includes_dns": true
+    },
+    "sources": [
+      {
+        "title": "Cloudflare plans",
+        "url": "https://www.cloudflare.com/plans/"
+      },
+      {
+        "title": "Cloudflare CDN docs",
+        "url": "https://developers.cloudflare.com/cache/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "cloudflare_dns",
+    "name": "Cloudflare DNS",
+    "layer": "dns",
+    "provider": "cloudflare",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Free, fast authoritative DNS",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Cloudflare DNS",
+        "url": "https://developers.cloudflare.com/dns/"
+      },
+      {
+        "title": "Cloudflare Customer DPA",
+        "url": "https://www.cloudflare.com/cloudflare-customer-dpa/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "cloudflare_r2",
+    "name": "Cloudflare R2",
+    "layer": "storage",
+    "provider": "cloudflare",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 2,
+    "cost": {
+      "per_gb_storage": [
+        0.015,
+        0.015
+      ],
+      "per_gb_egress": [
+        0,
+        0
+      ],
+      "egress_share": 0.3
+    },
+    "why": "S3-compatible with zero egress fees",
+    "regions": [
+      "us",
+      "eu",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "R2 pricing",
+        "url": "https://developers.cloudflare.com/r2/pricing/"
+      },
+      {
+        "title": "R2 docs",
+        "url": "https://developers.cloudflare.com/r2/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "cloudflare_waf",
+    "name": "Cloudflare WAF",
+    "layer": "waf",
+    "provider": "cloudflare",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 2,
+    "cost": {
+      "fixed": [
+        20,
+        20
+      ]
+    },
+    "why": "Managed rules and bot protection from the Pro plan",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "pci_dss",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Cloudflare WAF",
+        "url": "https://developers.cloudflare.com/waf/"
+      },
+      {
+        "title": "Cloudflare Customer DPA",
+        "url": "https://www.cloudflare.com/cloudflare-customer-dpa/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "cloudfront",
+    "name": "Amazon CloudFront",
+    "layer": "cdn",
+    "provider": "aws",
+    "quality": 9,
+    "ops_burden": 1,
+    "lock_in": 3,
+    "cost": {
+      "per_gb_egress": [
+        0.085,
+        0.085
+      ],
+      "free_egress_gb": 1000
+    },
+    "why": "Deep AWS integration, India edge presence, 1 TB free per month",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "CloudFront pricing",
+        "url": "https://aws.amazon.com/cloudfront/pricing/"
+      },
+      {
+        "title": "CloudFront docs",
+        "url": "https://docs.aws.amazon.com/cloudfront/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "cloudwatch",
+    "name": "Amazon CloudWatch",
+    "layer": "observability",
+    "provider": "aws",
+    "quality": 7,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "fixed": [
+        0,
+        30
+      ]
+    },
+    "why": "Native AWS metrics, logs and alarms",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "kind": "full"
+    },
+    "sources": [
+      {
+        "title": "CloudWatch pricing",
+        "url": "https://aws.amazon.com/cloudwatch/pricing/"
+      },
+      {
+        "title": "CloudWatch docs",
+        "url": "https://docs.aws.amazon.com/cloudwatch/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "cognito",
+    "name": "Amazon Cognito",
+    "layer": "auth",
+    "provider": "aws",
+    "quality": 7,
+    "ops_burden": 1,
+    "lock_in": 7,
+    "cost": {
+      "per_k_users": [
+        6,
+        13
+      ],
+      "free_users": 10000
+    },
+    "why": "Cheap user pools with SAML/OIDC federation; clunky developer experience",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "modes": [
+        "email_password",
+        "social",
+        "phone_otp",
+        "enterprise_sso"
+      ],
+      "enterprise_sso": 0.8,
+      "phone_otp": 0.7
+    },
+    "sources": [
+      {
+        "title": "Cognito pricing",
+        "url": "https://aws.amazon.com/cognito/pricing/"
+      },
+      {
+        "title": "Cognito docs",
+        "url": "https://docs.aws.amazon.com/cognito/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "couchdb_pouchdb",
+    "name": "CouchDB + PouchDB",
+    "layer": "sync",
+    "provider": "self",
+    "quality": 7,
+    "ops_burden": 3,
+    "lock_in": 1,
+    "cost": {
+      "curve": [
+        [
+          1,
+          0,
+          15
+        ],
+        [
+          300,
+          30,
+          100
+        ]
+      ]
+    },
+    "why": "Mature replication protocol, open source",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "level": 0.85,
+      "dbs": [
+        "postgresql",
+        "mongodb",
+        "mysql",
+        "sqlite",
+        "sql_server"
+      ],
+      "clients": [
+        "react_vite",
+        "vue_vite",
+        "angular",
+        "nextjs",
+        "expo_rn"
+      ]
+    },
+    "sources": [
+      {
+        "title": "CouchDB docs",
+        "url": "https://docs.couchdb.org/"
+      },
+      {
+        "title": "PouchDB",
+        "url": "https://pouchdb.com/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "datadog",
+    "name": "Datadog",
+    "layer": "observability",
+    "provider": "datadog",
+    "quality": 10,
+    "ops_burden": 0,
+    "lock_in": 5,
+    "cost": {
+      "fixed": [
+        15,
+        150
+      ]
+    },
+    "why": "Most complete SaaS observability, expensive as you add hosts",
+    "regions": [
+      "us",
+      "eu",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "hipaa",
+      "pci_dss",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "kind": "full",
+      "min_scale": 5.0
+    },
+    "sources": [
+      {
+        "title": "Datadog pricing",
+        "url": "https://www.datadoghq.com/pricing/"
+      },
+      {
+        "title": "Datadog docs",
+        "url": "https://docs.datadoghq.com/"
+      },
+      {
+        "title": "Datadog Data Processing Addendum",
+        "url": "https://www.datadoghq.com/legal/data-processing-addendum/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "entra_external_id",
+    "name": "Microsoft Entra External ID",
+    "layer": "auth",
+    "provider": "azure",
+    "quality": 8,
+    "ops_burden": 1,
+    "lock_in": 5,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ],
+      "per_k_users": [
+        0,
+        3
+      ],
+      "free_users": 50000
+    },
+    "why": "Customer identity on Azure with 50,000 free monthly active users",
+    "regions": [
+      "us",
+      "eu",
+      "other"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "modes": [
+        "email_password",
+        "social",
+        "enterprise_sso"
+      ],
+      "enterprise_sso": 0.8,
+      "phone_otp": 0.5
+    },
+    "sources": [
+      {
+        "title": "Entra External ID pricing",
+        "url": "https://learn.microsoft.com/entra/external-id/external-identities-pricing"
+      },
+      {
+        "title": "Entra External ID docs",
+        "url": "https://learn.microsoft.com/entra/external-id/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "entra_id",
+    "name": "Microsoft Entra ID (workforce SSO)",
+    "layer": "auth",
+    "provider": "azure",
+    "quality": 9,
+    "ops_burden": 1,
+    "lock_in": 5,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ],
+      "per_k_users": [
+        0,
+        0
+      ]
+    },
+    "why": "Workforce single sign-on with conditional access; the free tier covers SSO for apps",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "modes": [
+        "enterprise_sso",
+        "email_password"
+      ],
+      "enterprise_sso": 1.0,
+      "phone_otp": 0.4,
+      "integrates": [
+        "entra",
+        "microsoft 365",
+        "azure ad",
+        "office 365",
+        "m365"
+      ],
+      "workforce": true
+    },
+    "sources": [
+      {
+        "title": "Entra ID pricing",
+        "url": "https://www.microsoft.com/security/business/microsoft-entra-pricing"
+      },
+      {
+        "title": "Entra ID docs",
+        "url": "https://learn.microsoft.com/entra/identity/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "expo_push",
+    "name": "Expo Push Notifications",
+    "layer": "notifications",
+    "provider": "expo",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 3,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "One API for FCM and APNs in Expo apps",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "clients": [
+        "expo_rn"
+      ]
+    },
+    "sources": [
+      {
+        "title": "Expo push",
+        "url": "https://docs.expo.dev/push-notifications/overview/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "fcm",
+    "name": "Firebase Cloud Messaging",
+    "layer": "notifications",
+    "provider": "gcp",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 3,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Free push for Android, iOS and web",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "FCM docs",
+        "url": "https://firebase.google.com/docs/cloud-messaging"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "firebase_auth",
+    "name": "Firebase Authentication",
+    "layer": "auth",
+    "provider": "gcp",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 6,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ],
+      "per_k_users": [
+        0,
+        5.5
+      ],
+      "free_users": 50000
+    },
+    "why": "Email, social and phone sign-in with good mobile SDKs",
+    "regions": [
+      "us",
+      "eu",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "modes": [
+        "email_password",
+        "social",
+        "phone_otp"
+      ],
+      "enterprise_sso": 0.5,
+      "phone_otp": 1.0,
+      "native_with": [
+        "firebase"
+      ]
+    },
+    "sources": [
+      {
+        "title": "Firebase Auth",
+        "url": "https://firebase.google.com/docs/auth"
+      },
+      {
+        "title": "Identity Platform pricing",
+        "url": "https://cloud.google.com/identity-platform/pricing"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "firebase_phone_auth",
+    "name": "Firebase phone verification",
+    "layer": "sms",
+    "provider": "gcp",
+    "quality": 7,
+    "ops_burden": 0,
+    "lock_in": 5,
+    "cost": {
+      "per_k_users": [
+        8,
+        20
+      ]
+    },
+    "why": "OTP bundled into Firebase Authentication",
+    "regions": [
+      "us",
+      "eu",
+      "other"
+    ],
+    "certs": [],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "countries": [
+        "global"
+      ],
+      "bundled_with": [
+        "firebase_auth"
+      ]
+    },
+    "sources": [
+      {
+        "title": "Identity Platform pricing",
+        "url": "https://cloud.google.com/identity-platform/pricing"
+      },
+      {
+        "title": "Firebase phone auth",
+        "url": "https://firebase.google.com/docs/auth/web/phone-auth"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "firebase_storage",
+    "name": "Cloud Storage for Firebase",
+    "layer": "storage",
+    "provider": "gcp",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 5,
+    "cost": {
+      "per_gb_storage": [
+        0.026,
+        0.026
+      ],
+      "per_gb_egress": [
+        0.12,
+        0.12
+      ],
+      "free_egress_gb": 10,
+      "egress_share": 0.3
+    },
+    "why": "Mobile-friendly uploads with security rules",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "bundled_with": [
+        "firebase"
+      ]
+    },
+    "sources": [
+      {
+        "title": "Firebase pricing",
+        "url": "https://firebase.google.com/pricing"
+      },
+      {
+        "title": "Cloud Storage for Firebase",
+        "url": "https://firebase.google.com/docs/storage"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "firestore_offline",
+    "name": "Firestore offline persistence",
+    "layer": "sync",
+    "provider": "gcp",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 6,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Offline cache and automatic reconciliation in the Firebase SDKs",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "level": 0.95,
+      "dbs": [
+        "firestore"
+      ],
+      "clients": [
+        "flutter",
+        "expo_rn",
+        "kotlin_android",
+        "swift_ios",
+        "react_vite"
+      ],
+      "native": true
+    },
+    "sources": [
+      {
+        "title": "Firestore offline data",
+        "url": "https://firebase.google.com/docs/firestore/manage-data/enable-offline"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "flutter_drift_sync",
+    "name": "Drift (SQLite) + sync endpoint",
+    "layer": "sync",
+    "provider": "self",
+    "quality": 7,
+    "ops_burden": 2,
+    "lock_in": 2,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Typed local SQLite for Flutter with a custom sync API",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "level": 0.75,
+      "dbs": [
+        "postgresql",
+        "mysql",
+        "mongodb",
+        "sql_server"
+      ],
+      "clients": [
+        "flutter"
+      ]
+    },
+    "sources": [
+      {
+        "title": "Drift docs",
+        "url": "https://drift.simonbinder.eu/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "formspree",
+    "name": "Formspree",
+    "layer": "forms",
+    "provider": "formspree",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        15
+      ]
+    },
+    "why": "Static-site contact forms with spam filtering, free for 50 submissions per month",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Formspree pricing",
+        "url": "https://formspree.io/plans"
+      },
+      {
+        "title": "Formspree docs",
+        "url": "https://help.formspree.io/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "framework_auth",
+    "name": "Framework built-in auth (sessions/JWT)",
+    "layer": "auth",
+    "provider": "self",
+    "quality": 6,
+    "ops_burden": 1,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "No external service; Django/Laravel/ASP.NET Identity ship with it",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "modes": [
+        "email_password",
+        "social"
+      ],
+      "enterprise_sso": 0.3,
+      "phone_otp": 0.2
+    },
+    "sources": [
+      {
+        "title": "OWASP authentication cheat sheet",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "ga4",
+    "name": "Google Analytics 4",
+    "layer": "analytics",
+    "provider": "google",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 3,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Free, ubiquitous web analytics",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Google Analytics",
+        "url": "https://marketingplatform.google.com/about/analytics/"
+      },
+      {
+        "title": "GA4 help",
+        "url": "https://support.google.com/analytics"
+      },
+      {
+        "title": "Google Ads Data Processing Terms",
+        "url": "https://business.safety.google/adsprocessorterms/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "gcp_pubsub",
+    "name": "Google Pub/Sub",
+    "layer": "queue",
+    "provider": "gcp",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "per_gb_egress": [
+        0.04,
+        0.04
+      ],
+      "free_egress_gb": 10
+    },
+    "why": "Managed messaging with global scale",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Pub/Sub pricing",
+        "url": "https://cloud.google.com/pubsub/pricing"
+      },
+      {
+        "title": "Pub/Sub docs",
+        "url": "https://cloud.google.com/pubsub/docs"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "gcs",
+    "name": "Google Cloud Storage",
+    "layer": "storage",
+    "provider": "gcp",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "per_gb_storage": [
+        0.02,
+        0.023
+      ],
+      "per_gb_egress": [
+        0.12,
+        0.12
+      ],
+      "egress_share": 0.3
+    },
+    "why": "Durable object store with strong GCP integration",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "GCS pricing",
+        "url": "https://cloud.google.com/storage/pricing"
+      },
+      {
+        "title": "Cloud Storage docs",
+        "url": "https://cloud.google.com/storage/docs"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "gemini_api",
+    "name": "Google Gemini API (Vertex AI)",
+    "layer": "ml",
+    "provider": "gcp",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "fixed": [
+        5,
+        250
+      ]
+    },
+    "why": "Hosted Gemini models with GCP regional controls",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "sub": "llm"
+    },
+    "sources": [
+      {
+        "title": "Vertex AI pricing",
+        "url": "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+      },
+      {
+        "title": "Gemini API docs",
+        "url": "https://ai.google.dev/gemini-api/docs"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "github_actions",
+    "name": "GitHub Actions",
+    "layer": "ci_cd",
+    "provider": "github",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 2,
+    "cost": {
+      "per_seat": [
+        0,
+        4
+      ],
+      "free_seats": 3
+    },
+    "why": "Workflows next to the code; the 2,000 free minutes a month cover a small team, larger teams buy extra minutes",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Actions billing",
+        "url": "https://docs.github.com/billing/managing-billing-for-your-products/managing-billing-for-github-actions/about-billing-for-github-actions"
+      },
+      {
+        "title": "GitHub Actions docs",
+        "url": "https://docs.github.com/actions"
+      },
+      {
+        "title": "GitHub Data Protection Agreement",
+        "url": "https://docs.github.com/en/site-policy/privacy-policies/github-data-protection-agreement"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "gitlab_ci",
+    "name": "GitLab CI/CD",
+    "layer": "ci_cd",
+    "provider": "gitlab",
+    "quality": 8,
+    "ops_burden": 1,
+    "lock_in": 2,
+    "cost": {
+      "fixed": [
+        0,
+        29
+      ]
+    },
+    "why": "Integrated pipelines, self-managed option",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001"
+    ],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "GitLab pricing",
+        "url": "https://about.gitlab.com/pricing/"
+      },
+      {
+        "title": "GitLab CI docs",
+        "url": "https://docs.gitlab.com/ee/ci/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "google_cloud_dns",
+    "name": "Google Cloud DNS",
+    "layer": "dns",
+    "provider": "gcp",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 3,
+    "cost": {
+      "fixed": [
+        0.2,
+        1
+      ]
+    },
+    "why": "Hosted DNS with 100% SLA",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Cloud DNS pricing",
+        "url": "https://cloud.google.com/dns/pricing"
+      },
+      {
+        "title": "Cloud DNS docs",
+        "url": "https://cloud.google.com/dns/docs"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "grafana_cloud",
+    "name": "Grafana Cloud",
+    "layer": "observability",
+    "provider": "grafana",
+    "quality": 8,
+    "ops_burden": 1,
+    "lock_in": 2,
+    "cost": {
+      "fixed": [
+        0,
+        19
+      ]
+    },
+    "why": "Metrics, logs, traces on a free tier",
+    "regions": [
+      "us",
+      "eu",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "kind": "full"
+    },
+    "sources": [
+      {
+        "title": "Grafana Cloud pricing",
+        "url": "https://grafana.com/pricing/"
+      },
+      {
+        "title": "Grafana Cloud docs",
+        "url": "https://grafana.com/docs/grafana-cloud/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "jenkins",
+    "name": "Jenkins",
+    "layer": "ci_cd",
+    "provider": "self",
+    "quality": 7,
+    "ops_burden": 5,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Self-hosted automation server for air-gapped sites",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "heavy_ci": true
+    },
+    "sources": [
+      {
+        "title": "Jenkins",
+        "url": "https://www.jenkins.io/doc/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "kafka",
+    "name": "Apache Kafka",
+    "layer": "queue",
+    "provider": "self",
+    "quality": 9,
+    "ops_burden": 6,
+    "lock_in": 1,
+    "cost": {
+      "curve": [
+        [
+          1,
+          100,
+          250
+        ],
+        [
+          300,
+          300,
+          800
+        ],
+        [
+          3000,
+          800,
+          2400
+        ]
+      ]
+    },
+    "why": "Durable high-throughput event log, heavy to run",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "min_scale": 5.5
+    },
+    "sources": [
+      {
+        "title": "Kafka docs",
+        "url": "https://kafka.apache.org/documentation/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "keycloak",
+    "name": "Keycloak",
+    "layer": "auth",
+    "provider": "self",
+    "quality": 8,
+    "ops_burden": 4,
+    "lock_in": 1,
+    "cost": {
+      "curve": [
+        [
+          1,
+          0,
+          10
+        ],
+        [
+          300,
+          20,
+          80
+        ]
+      ]
+    },
+    "why": "Open-source identity server with SSO, runs fully on-premise",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "modes": [
+        "email_password",
+        "social",
+        "enterprise_sso"
+      ],
+      "enterprise_sso": 0.95,
+      "phone_otp": 0.3
+    },
+    "sources": [
+      {
+        "title": "Keycloak docs",
+        "url": "https://www.keycloak.org/documentation"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "liveblocks",
+    "name": "Liveblocks",
+    "layer": "realtime",
+    "provider": "liveblocks",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 6,
+    "cost": {
+      "fixed": [
+        0,
+        99
+      ]
+    },
+    "why": "Managed presence and CRDT collaboration primitives",
+    "regions": [
+      "us",
+      "eu"
+    ],
+    "certs": [
+      "soc2",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "level": 0.95,
+      "collab": true
+    },
+    "sources": [
+      {
+        "title": "Liveblocks pricing",
+        "url": "https://liveblocks.io/pricing"
+      },
+      {
+        "title": "Liveblocks docs",
+        "url": "https://liveblocks.io/docs"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "meilisearch",
+    "name": "Meilisearch",
+    "layer": "search",
+    "provider": "meilisearch",
+    "quality": 8,
+    "ops_burden": 2,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        30
+      ]
+    },
+    "why": "Typo-tolerant search, simple to run (cloud from ~$30)",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Meilisearch pricing",
+        "url": "https://www.meilisearch.com/pricing"
+      },
+      {
+        "title": "Meilisearch docs",
+        "url": "https://www.meilisearch.com/docs"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "minio",
+    "name": "MinIO (self-hosted)",
+    "layer": "storage",
+    "provider": "self",
+    "quality": 8,
+    "ops_burden": 3,
+    "lock_in": 1,
+    "cost": {
+      "per_gb_storage": [
+        0.01,
+        0.03
+      ]
+    },
+    "why": "S3-compatible store that runs on-premise or air-gapped",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "MinIO docs",
+        "url": "https://min.io/docs/minio/linux/index.html"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "msg91",
+    "name": "MSG91",
+    "layer": "sms",
+    "provider": "msg91",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 2,
+    "cost": {
+      "per_k_users": [
+        1.5,
+        5
+      ]
+    },
+    "why": "India-focused OTP and SMS with DLT support",
+    "regions": [
+      "india",
+      "other"
+    ],
+    "certs": [
+      "iso27001"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "countries": [
+        "india"
+      ],
+      "dlt": true
+    },
+    "sources": [
+      {
+        "title": "MSG91 pricing",
+        "url": "https://msg91.com/in/pricing/sms"
+      },
+      {
+        "title": "MSG91 docs",
+        "url": "https://docs.msg91.com/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "nats",
+    "name": "NATS JetStream",
+    "layer": "queue",
+    "provider": "self",
+    "quality": 8,
+    "ops_burden": 2,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ],
+      "curve": [
+        [
+          300,
+          0,
+          40
+        ],
+        [
+          3000,
+          40,
+          160
+        ]
+      ]
+    },
+    "why": "Lightweight single-binary messaging, good fit for Go",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "NATS docs",
+        "url": "https://docs.nats.io/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "netlify_forms",
+    "name": "Netlify Forms",
+    "layer": "forms",
+    "provider": "netlify",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "fixed": [
+        0,
+        19
+      ]
+    },
+    "why": "Built-in forms when hosted on Netlify",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "bundled_with": [
+        "netlify"
+      ]
+    },
+    "sources": [
+      {
+        "title": "Netlify Forms",
+        "url": "https://docs.netlify.com/forms/setup/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "onesignal",
+    "name": "OneSignal",
+    "layer": "notifications",
+    "provider": "onesignal",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 3,
+    "cost": {
+      "fixed": [
+        0,
+        19
+      ]
+    },
+    "why": "Dashboard and segmentation on top of FCM/APNs, free mobile push",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "soc2",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "OneSignal pricing",
+        "url": "https://onesignal.com/pricing"
+      },
+      {
+        "title": "OneSignal docs",
+        "url": "https://documentation.onesignal.com/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "openai_api",
+    "name": "OpenAI API",
+    "layer": "ml",
+    "provider": "openai",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "fixed": [
+        5,
+        300
+      ]
+    },
+    "why": "Leading hosted LLMs; usage priced per token",
+    "regions": [
+      "us",
+      "eu"
+    ],
+    "certs": [
+      "soc2",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "sub": "llm"
+    },
+    "sources": [
+      {
+        "title": "OpenAI pricing",
+        "url": "https://openai.com/api/pricing/"
+      },
+      {
+        "title": "OpenAI API docs",
+        "url": "https://platform.openai.com/docs"
+      },
+      {
+        "title": "OpenAI Data Processing Addendum",
+        "url": "https://openai.com/policies/data-processing-addendum/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "opensearch",
+    "name": "OpenSearch / Elasticsearch",
+    "layer": "search",
+    "provider": "any_cloud",
+    "quality": 9,
+    "ops_burden": 4,
+    "lock_in": 2,
+    "cost": {
+      "curve": [
+        [
+          1,
+          50,
+          100
+        ],
+        [
+          300,
+          150,
+          500
+        ],
+        [
+          3000,
+          700,
+          2200
+        ]
+      ]
+    },
+    "why": "Full-featured search and analytics cluster, high ops",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "OpenSearch docs",
+        "url": "https://opensearch.org/docs/latest/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "paypal",
+    "name": "PayPal Checkout",
+    "layer": "payments",
+    "provider": "paypal",
+    "quality": 7,
+    "ops_burden": 0,
+    "lock_in": 3,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Widely trusted wallet and card checkout globally",
+    "regions": [
+      "us",
+      "eu",
+      "other"
+    ],
+    "certs": [
+      "pci_dss"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "countries": [
+        "global"
+      ],
+      "upi": false,
+      "note": "Transaction fee about 3.5% + fixed amount, not included"
+    },
+    "sources": [
+      {
+        "title": "PayPal fees",
+        "url": "https://www.paypal.com/us/business/paypal-business-fees"
+      },
+      {
+        "title": "PayPal developer docs",
+        "url": "https://developer.paypal.com/docs/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "pgvector",
+    "name": "pgvector",
+    "layer": "ml",
+    "provider": "self",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Vector search inside PostgreSQL, no extra service",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "sub": "vector",
+      "db_native": [
+        "postgresql",
+        "neon",
+        "supabase_postgres"
+      ]
+    },
+    "sources": [
+      {
+        "title": "pgvector",
+        "url": "https://github.com/pgvector/pgvector"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "pinecone",
+    "name": "Pinecone",
+    "layer": "ml",
+    "provider": "pinecone",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 5,
+    "cost": {
+      "fixed": [
+        0,
+        50
+      ]
+    },
+    "why": "Managed vector database",
+    "regions": [
+      "us",
+      "eu"
+    ],
+    "certs": [
+      "soc2",
+      "hipaa",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "sub": "vector"
+    },
+    "sources": [
+      {
+        "title": "Pinecone pricing",
+        "url": "https://www.pinecone.io/pricing/"
+      },
+      {
+        "title": "Pinecone docs",
+        "url": "https://docs.pinecone.io/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "plausible",
+    "name": "Plausible Analytics",
+    "layer": "analytics",
+    "provider": "plausible",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        9,
+        19
+      ]
+    },
+    "why": "Privacy-friendly lightweight analytics, no cookie banner needed",
+    "regions": [
+      "eu"
+    ],
+    "certs": [
+      "gdpr"
+    ],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Plausible pricing",
+        "url": "https://plausible.io/#pricing"
+      },
+      {
+        "title": "Plausible docs",
+        "url": "https://plausible.io/docs"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "postgres_fts",
+    "name": "PostgreSQL full-text search",
+    "layer": "search",
+    "provider": "self",
+    "quality": 6,
+    "ops_burden": 0,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Built into the database: no extra service up to moderate catalogue sizes",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "db_native": [
+        "postgresql",
+        "neon",
+        "supabase_postgres"
+      ],
+      "max_docs": 1000000.0,
+      "quality_native": 0.55
+    },
+    "sources": [
+      {
+        "title": "Postgres full-text search",
+        "url": "https://www.postgresql.org/docs/current/textsearch.html"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "posthog",
+    "name": "PostHog",
+    "layer": "analytics",
+    "provider": "posthog",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Product analytics, session replay, flags, free to 1M events a month",
+    "regions": [
+      "us",
+      "eu"
+    ],
+    "certs": [
+      "soc2",
+      "hipaa",
+      "gdpr"
+    ],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "PostHog pricing",
+        "url": "https://posthog.com/pricing"
+      },
+      {
+        "title": "PostHog docs",
+        "url": "https://posthog.com/docs"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "postmark",
+    "name": "Postmark",
+    "layer": "email",
+    "provider": "postmark",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        15,
+        15
+      ]
+    },
+    "why": "High deliverability for transactional email",
+    "regions": [
+      "us",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Postmark pricing",
+        "url": "https://postmarkapp.com/pricing"
+      },
+      {
+        "title": "Postmark docs",
+        "url": "https://postmarkapp.com/developer"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "powersync",
+    "name": "PowerSync",
+    "layer": "sync",
+    "provider": "powersync",
+    "quality": 8,
+    "ops_burden": 1,
+    "lock_in": 3,
+    "cost": {
+      "fixed": [
+        0,
+        49
+      ]
+    },
+    "why": "Offline-first SQLite sync for Postgres, MongoDB and MySQL backends",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "level": 0.9,
+      "dbs": [
+        "postgresql",
+        "supabase_postgres",
+        "neon",
+        "mongodb",
+        "mysql"
+      ],
+      "clients": [
+        "flutter",
+        "expo_rn",
+        "kotlin_android",
+        "swift_ios"
+      ]
+    },
+    "sources": [
+      {
+        "title": "PowerSync docs",
+        "url": "https://docs.powersync.com/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "prometheus_grafana",
+    "name": "Prometheus + Grafana (self-hosted)",
+    "layer": "observability",
+    "provider": "self",
+    "quality": 8,
+    "ops_burden": 4,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        10
+      ]
+    },
+    "why": "Open-source metrics stack for on-premise",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "kind": "full"
+    },
+    "sources": [
+      {
+        "title": "Prometheus docs",
+        "url": "https://prometheus.io/docs/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "pusher",
+    "name": "Pusher Channels",
+    "layer": "realtime",
+    "provider": "pusher",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "fixed": [
+        0,
+        49
+      ],
+      "curve": [
+        [
+          300,
+          49,
+          99
+        ],
+        [
+          3000,
+          299,
+          899
+        ]
+      ]
+    },
+    "why": "Simple managed websockets",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "soc2",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "level": 0.8
+    },
+    "sources": [
+      {
+        "title": "Pusher pricing",
+        "url": "https://pusher.com/channels/pricing/"
+      },
+      {
+        "title": "Pusher docs",
+        "url": "https://pusher.com/docs"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "qdrant",
+    "name": "Qdrant",
+    "layer": "ml",
+    "provider": "qdrant",
+    "quality": 8,
+    "ops_burden": 2,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        25
+      ]
+    },
+    "why": "Dedicated open-source vector database, cloud or self-hosted",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "sub": "vector"
+    },
+    "sources": [
+      {
+        "title": "Qdrant pricing",
+        "url": "https://qdrant.tech/pricing/"
+      },
+      {
+        "title": "Qdrant docs",
+        "url": "https://qdrant.tech/documentation/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "rabbitmq",
+    "name": "RabbitMQ",
+    "layer": "queue",
+    "provider": "self",
+    "quality": 8,
+    "ops_burden": 3,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        19
+      ],
+      "curve": [
+        [
+          300,
+          0,
+          100
+        ],
+        [
+          3000,
+          200,
+          600
+        ]
+      ]
+    },
+    "why": "Mature broker, self-host or CloudAMQP",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "RabbitMQ docs",
+        "url": "https://www.rabbitmq.com/docs"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "razorpay",
+    "name": "Razorpay",
+    "layer": "payments",
+    "provider": "razorpay",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 3,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "RBI-licensed gateway with UPI, cards, netbanking, wallets; about 2% per transaction",
+    "regions": [
+      "india"
+    ],
+    "certs": [
+      "pci_dss",
+      "iso27001"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "countries": [
+        "india"
+      ],
+      "upi": true,
+      "note": "Transaction fee about 2%, not included in the infrastructure band"
+    },
+    "sources": [
+      {
+        "title": "Razorpay pricing",
+        "url": "https://razorpay.com/pricing/"
+      },
+      {
+        "title": "Razorpay docs",
+        "url": "https://razorpay.com/docs/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "redis_managed",
+    "name": "Managed Redis/Valkey (ElastiCache, Memorystore, Azure Cache)",
+    "layer": "cache",
+    "provider": "any_cloud",
+    "quality": 9,
+    "ops_burden": 1,
+    "lock_in": 2,
+    "cost": {
+      "curve": [
+        [
+          1,
+          13,
+          30
+        ],
+        [
+          300,
+          25,
+          100
+        ],
+        [
+          3000,
+          150,
+          600
+        ]
+      ],
+      "ha_factor": 2.0
+    },
+    "why": "Native cloud cache with replicas and failover",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "ElastiCache pricing",
+        "url": "https://aws.amazon.com/elasticache/pricing/"
+      },
+      {
+        "title": "Memorystore docs",
+        "url": "https://cloud.google.com/memorystore/docs"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "resend",
+    "name": "Resend",
+    "layer": "email",
+    "provider": "resend",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        20
+      ]
+    },
+    "why": "Developer-friendly API, free 3,000 emails per month",
+    "regions": [
+      "us",
+      "eu",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Resend pricing",
+        "url": "https://resend.com/pricing"
+      },
+      {
+        "title": "Resend docs",
+        "url": "https://resend.com/docs"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "room_workmanager",
+    "name": "Room + WorkManager sync (native Android)",
+    "layer": "sync",
+    "provider": "self",
+    "quality": 8,
+    "ops_burden": 2,
+    "lock_in": 2,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Platform-recommended offline-first pattern with a REST sync endpoint",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "level": 0.85,
+      "dbs": [
+        "postgresql",
+        "mysql",
+        "mongodb",
+        "sql_server"
+      ],
+      "clients": [
+        "kotlin_android"
+      ]
+    },
+    "sources": [
+      {
+        "title": "Android offline-first guide",
+        "url": "https://developer.android.com/topic/architecture/data-layer/offline-first"
+      },
+      {
+        "title": "Room docs",
+        "url": "https://developer.android.com/training/data-storage/room"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "route53",
+    "name": "Amazon Route 53",
+    "layer": "dns",
+    "provider": "aws",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 3,
+    "cost": {
+      "fixed": [
+        0.5,
+        1
+      ]
+    },
+    "why": "Reliable DNS with health checks",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Route 53 pricing",
+        "url": "https://aws.amazon.com/route53/pricing/"
+      },
+      {
+        "title": "Route 53 docs",
+        "url": "https://docs.aws.amazon.com/route53/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "s3",
+    "name": "Amazon S3",
+    "layer": "storage",
+    "provider": "aws",
+    "quality": 10,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "per_gb_storage": [
+        0.023,
+        0.023
+      ],
+      "per_gb_egress": [
+        0.09,
+        0.09
+      ],
+      "free_egress_gb": 100,
+      "egress_share": 0.3
+    },
+    "why": "11 nines durability, de facto object storage",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "S3 pricing",
+        "url": "https://aws.amazon.com/s3/pricing/"
+      },
+      {
+        "title": "S3 docs",
+        "url": "https://docs.aws.amazon.com/s3/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "sagemaker",
+    "name": "Amazon SageMaker",
+    "layer": "ml",
+    "provider": "aws",
+    "quality": 9,
+    "ops_burden": 2,
+    "lock_in": 5,
+    "cost": {
+      "curve": [
+        [
+          1,
+          50,
+          400
+        ],
+        [
+          300,
+          300,
+          2500
+        ]
+      ]
+    },
+    "why": "Managed training and hosting of custom models",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "sub": "training"
+    },
+    "sources": [
+      {
+        "title": "SageMaker pricing",
+        "url": "https://aws.amazon.com/sagemaker/pricing/"
+      },
+      {
+        "title": "SageMaker docs",
+        "url": "https://docs.aws.amazon.com/sagemaker/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "sendgrid",
+    "name": "Twilio SendGrid",
+    "layer": "email",
+    "provider": "twilio",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 2,
+    "cost": {
+      "fixed": [
+        0,
+        20
+      ]
+    },
+    "why": "Established transactional email, free 100 per day",
+    "regions": [
+      "us",
+      "eu",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "hipaa",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "SendGrid pricing",
+        "url": "https://sendgrid.com/en-us/pricing"
+      },
+      {
+        "title": "SendGrid docs",
+        "url": "https://www.twilio.com/docs/sendgrid"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "sentry",
+    "name": "Sentry",
+    "layer": "observability",
+    "provider": "sentry",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 2,
+    "cost": {
+      "fixed": [
+        0,
+        26
+      ]
+    },
+    "why": "Error tracking and performance with free developer plan",
+    "regions": [
+      "us",
+      "eu"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "hipaa"
+    ],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "kind": "errors"
+    },
+    "sources": [
+      {
+        "title": "Sentry pricing",
+        "url": "https://sentry.io/pricing/"
+      },
+      {
+        "title": "Sentry docs",
+        "url": "https://docs.sentry.io/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "sqs",
+    "name": "Amazon SQS",
+    "layer": "queue",
+    "provider": "aws",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "per_m_requests": [
+        0.4,
+        0.4
+      ],
+      "free_requests_m": 1
+    },
+    "why": "Zero-ops managed queue with pay per request",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "SQS pricing",
+        "url": "https://aws.amazon.com/sqs/pricing/"
+      },
+      {
+        "title": "SQS docs",
+        "url": "https://docs.aws.amazon.com/sqs/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "stripe",
+    "name": "Stripe",
+    "layer": "payments",
+    "provider": "stripe",
+    "quality": 10,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Best developer experience and global coverage",
+    "regions": [
+      "us",
+      "eu",
+      "other"
+    ],
+    "certs": [
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "countries": [
+        "global"
+      ],
+      "upi": false,
+      "note": "Transaction fee about 2.9% + $0.30 in the US, not included"
+    },
+    "sources": [
+      {
+        "title": "Stripe pricing",
+        "url": "https://stripe.com/pricing"
+      },
+      {
+        "title": "Stripe India",
+        "url": "https://stripe.com/in"
+      },
+      {
+        "title": "Stripe Data Processing Agreement",
+        "url": "https://stripe.com/legal/dpa"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "cons": [
+      "Limited availability and UPI support for new Indian businesses"
+    ]
+  },
+  {
+    "id": "supabase_auth",
+    "name": "Supabase Auth",
+    "layer": "auth",
+    "provider": "supabase",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ],
+      "per_k_users": [
+        0,
+        3.25
+      ],
+      "free_users": 100000
+    },
+    "why": "Included with Supabase, row-level security integration",
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "gdpr"
+    ],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "modes": [
+        "email_password",
+        "social",
+        "phone_otp",
+        "enterprise_sso"
+      ],
+      "enterprise_sso": 0.6,
+      "phone_otp": 0.8,
+      "bundled_with": [
+        "supabase"
+      ]
+    },
+    "sources": [
+      {
+        "title": "Supabase pricing",
+        "url": "https://supabase.com/pricing"
+      },
+      {
+        "title": "Supabase Auth docs",
+        "url": "https://supabase.com/docs/guides/auth"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "supabase_storage",
+    "name": "Supabase Storage",
+    "layer": "storage",
+    "provider": "supabase",
+    "quality": 7,
+    "ops_burden": 0,
+    "lock_in": 3,
+    "cost": {
+      "per_gb_storage": [
+        0.021,
+        0.021
+      ],
+      "per_gb_egress": [
+        0.09,
+        0.09
+      ],
+      "free_egress_gb": 250,
+      "egress_share": 0.3
+    },
+    "why": "Bundled with Supabase",
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "bundled_with": [
+        "supabase"
+      ]
+    },
+    "sources": [
+      {
+        "title": "Supabase pricing",
+        "url": "https://supabase.com/pricing"
+      },
+      {
+        "title": "Supabase Storage docs",
+        "url": "https://supabase.com/docs/guides/storage"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "twilio_verify",
+    "name": "Twilio Verify / SMS",
+    "layer": "sms",
+    "provider": "twilio",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 3,
+    "cost": {
+      "per_k_users": [
+        40,
+        90
+      ]
+    },
+    "why": "Global OTP delivery; India routes need DLT registration and cost more",
+    "regions": [
+      "us",
+      "eu",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "hipaa",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "countries": [
+        "global"
+      ]
+    },
+    "sources": [
+      {
+        "title": "Twilio SMS pricing India",
+        "url": "https://www.twilio.com/en-us/sms/pricing/in"
+      },
+      {
+        "title": "Twilio Verify pricing",
+        "url": "https://www.twilio.com/en-us/verify/pricing"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "typesense",
+    "name": "Typesense",
+    "layer": "search",
+    "provider": "typesense",
+    "quality": 8,
+    "ops_burden": 2,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        25
+      ]
+    },
+    "why": "In-memory fast search, open source, cloud or self-host",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Typesense docs",
+        "url": "https://typesense.org/docs/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "upstash_redis",
+    "name": "Upstash Redis",
+    "layer": "cache",
+    "provider": "upstash",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 2,
+    "cost": {
+      "fixed": [
+        0,
+        10
+      ],
+      "per_m_requests": [
+        0.2,
+        0.2
+      ],
+      "free_requests_m": 0.5
+    },
+    "why": "Serverless Redis billed per request, suits functions",
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Upstash pricing",
+        "url": "https://upstash.com/pricing"
+      },
+      {
+        "title": "Upstash docs",
+        "url": "https://upstash.com/docs/redis/overall/getstarted"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "uptime_monitor",
+    "name": "UptimeRobot / Better Stack uptime checks",
+    "layer": "observability",
+    "provider": "uptimerobot",
+    "quality": 6,
+    "ops_burden": 0,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        7
+      ]
+    },
+    "why": "Basic uptime pings for small sites",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "kind": "uptime"
+    },
+    "sources": [
+      {
+        "title": "UptimeRobot pricing",
+        "url": "https://uptimerobot.com/pricing/"
+      },
+      {
+        "title": "UptimeRobot API",
+        "url": "https://uptimerobot.com/api/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "valkey_selfhost",
+    "name": "Self-hosted Redis/Valkey",
+    "layer": "cache",
+    "provider": "self",
+    "quality": 8,
+    "ops_burden": 4,
+    "lock_in": 1,
+    "cost": {
+      "curve": [
+        [
+          1,
+          0,
+          5
+        ],
+        [
+          300,
+          10,
+          40
+        ],
+        [
+          3000,
+          80,
+          300
+        ]
+      ]
+    },
+    "why": "Runs next to the app on the same host with no vendor",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Valkey",
+        "url": "https://valkey.io/"
+      },
+      {
+        "title": "Valkey docs",
+        "url": "https://valkey.io/documentation/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "vertex_ai",
+    "name": "Vertex AI (training)",
+    "layer": "ml",
+    "provider": "gcp",
+    "quality": 9,
+    "ops_burden": 2,
+    "lock_in": 5,
+    "cost": {
+      "curve": [
+        [
+          1,
+          50,
+          400
+        ],
+        [
+          300,
+          300,
+          2500
+        ]
+      ]
+    },
+    "why": "Managed training with TPUs/GPUs",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "sub": "training"
+    },
+    "sources": [
+      {
+        "title": "Vertex AI pricing",
+        "url": "https://cloud.google.com/vertex-ai/pricing"
+      },
+      {
+        "title": "Vertex AI docs",
+        "url": "https://cloud.google.com/vertex-ai/docs"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "vllm_selfhost",
+    "name": "Self-hosted open models (vLLM/Ollama)",
+    "layer": "ml",
+    "provider": "self",
+    "quality": 7,
+    "ops_burden": 6,
+    "lock_in": 1,
+    "cost": {
+      "curve": [
+        [
+          1,
+          150,
+          800
+        ],
+        [
+          300,
+          600,
+          3000
+        ]
+      ]
+    },
+    "why": "Fully air-gapped inference on your own GPUs",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "sub": "llm",
+      "private_model": true
+    },
+    "sources": [
+      {
+        "title": "vLLM docs",
+        "url": "https://docs.vllm.ai/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "watermelondb_sync",
+    "name": "WatermelonDB sync",
+    "layer": "sync",
+    "provider": "self",
+    "quality": 7,
+    "ops_burden": 2,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Local-first SQLite for React Native with a pull/push sync protocol you implement",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "level": 0.7,
+      "dbs": [
+        "postgresql",
+        "mysql",
+        "mongodb",
+        "supabase_postgres"
+      ],
+      "clients": [
+        "expo_rn"
+      ]
+    },
+    "sources": [
+      {
+        "title": "WatermelonDB",
+        "url": "https://watermelondb.dev/docs/Sync/Intro"
+      },
+      {
+        "title": "WatermelonDB docs",
+        "url": "https://watermelondb.dev/docs"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "web3forms",
+    "name": "Web3Forms",
+    "layer": "forms",
+    "provider": "web3forms",
+    "quality": 7,
+    "ops_burden": 0,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Free form endpoint for static sites",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Web3Forms",
+        "url": "https://web3forms.com/"
+      },
+      {
+        "title": "Web3Forms docs",
+        "url": "https://docs.web3forms.com/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "requires_saas": true,
+    "self_hostable": false,
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "regions": [
+      "*"
+    ],
+    "id": "identity_platform",
+    "name": "Google Cloud Identity Platform",
+    "layer": "auth",
+    "provider": "gcp",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 5,
+    "cost": {
+      "per_k_users": [
+        0,
+        5
+      ],
+      "free_users": 49000
+    },
+    "why": "Firebase Authentication with an SLA, multi-tenancy and HIPAA coverage",
+    "attrs": {
+      "modes": [
+        "email_password",
+        "social",
+        "phone_otp",
+        "enterprise_sso"
+      ],
+      "phone_otp": 1.0,
+      "enterprise_sso": 0.9
+    },
+    "sources": [
+      {
+        "title": "Identity Platform",
+        "url": "https://cloud.google.com/identity-platform/docs"
+      },
+      {
+        "title": "Identity Platform pricing",
+        "url": "https://cloud.google.com/identity-platform/pricing"
+      }
+    ]
+  },
+  {
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "requires_saas": false,
+    "self_hostable": true,
+    "certs": [],
+    "regions": [
+      "*"
+    ],
+    "id": "glitchtip",
+    "name": "GlitchTip (self-hosted)",
+    "layer": "observability",
+    "provider": "self",
+    "quality": 6,
+    "ops_burden": 4,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        10
+      ]
+    },
+    "why": "Self-hosted, Sentry-compatible error tracking",
+    "attrs": {
+      "kind": "errors"
+    },
+    "sources": [
+      {
+        "title": "GlitchTip docs",
+        "url": "https://glitchtip.com/documentation"
+      },
+      {
+        "title": "GlitchTip source",
+        "url": "https://gitlab.com/glitchtip"
+      }
+    ]
+  },
+  {
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "requires_saas": true,
+    "self_hostable": false,
+    "certs": [],
+    "regions": [
+      "*"
+    ],
+    "id": "firestore_listeners",
+    "name": "Firestore real-time listeners",
+    "layer": "realtime",
+    "provider": "gcp",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 7,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Built-in snapshot listeners push document changes to every connected client",
+    "attrs": {
+      "level": 0.9,
+      "bundled_with": [
+        "firebase",
+        "firestore"
+      ]
+    },
+    "sources": [
+      {
+        "title": "Firestore real-time updates",
+        "url": "https://firebase.google.com/docs/firestore/query-data/listen"
+      },
+      {
+        "title": "Firestore pricing",
+        "url": "https://firebase.google.com/docs/firestore/pricing"
+      }
+    ]
+  },
+  {
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "requires_saas": true,
+    "self_hostable": false,
+    "certs": [],
+    "regions": [
+      "*"
+    ],
+    "id": "supabase_realtime",
+    "name": "Supabase Realtime",
+    "layer": "realtime",
+    "provider": "supabase",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Postgres changes, broadcast and presence over WebSockets, part of the Supabase platform",
+    "attrs": {
+      "level": 0.85,
+      "bundled_with": [
+        "supabase",
+        "supabase_postgres"
+      ]
+    },
+    "sources": [
+      {
+        "title": "Supabase Realtime",
+        "url": "https://supabase.com/docs/guides/realtime"
+      },
+      {
+        "title": "Supabase pricing",
+        "url": "https://supabase.com/pricing"
+      }
+    ]
+  },
+  {
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "requires_saas": false,
+    "self_hostable": true,
+    "certs": [],
+    "regions": [
+      "*"
+    ],
+    "id": "framework_websocket",
+    "name": "WebSockets/SSE in the backend framework",
+    "layer": "realtime",
+    "provider": "self",
+    "quality": 6,
+    "ops_burden": 2,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "The backend serves WebSocket or server-sent-event connections itself",
+    "attrs": {
+      "level": 0.8,
+      "native": true
+    },
+    "sources": [
+      {
+        "title": "WebSocket protocol (RFC 6455)",
+        "url": "https://www.rfc-editor.org/rfc/rfc6455"
+      },
+      {
+        "title": "Server-sent events",
+        "url": "https://html.spec.whatwg.org/multipage/server-sent-events.html"
+      }
+    ]
+  },
+  {
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "requires_saas": false,
+    "self_hostable": true,
+    "certs": [],
+    "regions": [
+      "*"
+    ],
+    "id": "yjs_hocuspocus",
+    "name": "Yjs with Hocuspocus",
+    "layer": "realtime",
+    "provider": "self",
+    "quality": 8,
+    "ops_burden": 3,
+    "lock_in": 2,
+    "cost": {
+      "curve": [
+        [
+          30,
+          0,
+          10
+        ],
+        [
+          300,
+          15,
+          60
+        ],
+        [
+          3000,
+          100,
+          400
+        ]
+      ]
+    },
+    "why": "CRDT shared documents (Yjs) with a WebSocket sync server, so simultaneous edits merge without conflicts",
+    "attrs": {
+      "level": 0.9,
+      "collab": true,
+      "crdt": true
+    },
+    "sources": [
+      {
+        "title": "Yjs docs",
+        "url": "https://docs.yjs.dev/"
+      },
+      {
+        "title": "Hocuspocus docs",
+        "url": "https://tiptap.dev/docs/hocuspocus/introduction"
+      }
+    ]
+  },
+  {
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "requires_saas": true,
+    "self_hostable": false,
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "regions": [
+      "*"
+    ],
+    "id": "sagemaker_jumpstart",
+    "name": "Amazon SageMaker JumpStart (private model endpoint)",
+    "layer": "ml",
+    "provider": "aws",
+    "quality": 8,
+    "ops_burden": 2,
+    "lock_in": 4,
+    "cost": {
+      "curve": [
+        [
+          1,
+          100,
+          600
+        ],
+        [
+          300,
+          400,
+          3000
+        ]
+      ]
+    },
+    "why": "Models hosted as an endpoint inside your own AWS account, so data stays within your boundary",
+    "attrs": {
+      "sub": "llm",
+      "private_model": true
+    },
+    "sources": [
+      {
+        "title": "SageMaker JumpStart",
+        "url": "https://docs.aws.amazon.com/sagemaker/latest/dg/studio-jumpstart.html"
+      },
+      {
+        "title": "SageMaker pricing",
+        "url": "https://aws.amazon.com/sagemaker/pricing/"
+      }
+    ]
+  },
+  {
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "requires_saas": true,
+    "self_hostable": false,
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "regions": [
+      "*"
+    ],
+    "id": "vertex_model_garden",
+    "name": "Vertex AI Model Garden (private endpoint)",
+    "layer": "ml",
+    "provider": "gcp",
+    "quality": 8,
+    "ops_burden": 2,
+    "lock_in": 4,
+    "cost": {
+      "curve": [
+        [
+          1,
+          100,
+          600
+        ],
+        [
+          300,
+          400,
+          3000
+        ]
+      ]
+    },
+    "why": "Models hosted as an endpoint inside your own Google Cloud project",
+    "attrs": {
+      "sub": "llm",
+      "private_model": true
+    },
+    "sources": [
+      {
+        "title": "Vertex AI Model Garden",
+        "url": "https://cloud.google.com/vertex-ai/docs/start/explore-models"
+      },
+      {
+        "title": "Vertex AI pricing",
+        "url": "https://cloud.google.com/vertex-ai/pricing"
+      }
+    ]
+  },
+  {
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "requires_saas": false,
+    "self_hostable": true,
+    "certs": [],
+    "regions": [
+      "*"
+    ],
+    "id": "emqx",
+    "name": "EMQX (MQTT broker)",
+    "layer": "ingest",
+    "provider": "self",
+    "quality": 8,
+    "ops_burden": 3,
+    "lock_in": 2,
+    "cost": {
+      "curve": [
+        [
+          30,
+          0,
+          30
+        ],
+        [
+          300,
+          40,
+          150
+        ],
+        [
+          3000,
+          200,
+          900
+        ]
+      ]
+    },
+    "why": "Self-hosted MQTT broker that handles millions of device connections",
+    "attrs": {},
+    "sources": [
+      {
+        "title": "EMQX docs",
+        "url": "https://docs.emqx.com/en/emqx/latest/"
+      },
+      {
+        "title": "EMQX pricing",
+        "url": "https://www.emqx.com/en/pricing"
+      }
+    ]
+  },
+  {
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "requires_saas": true,
+    "self_hostable": false,
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "regions": [
+      "*"
+    ],
+    "id": "aws_iot_core",
+    "name": "AWS IoT Core",
+    "layer": "ingest",
+    "provider": "aws",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 6,
+    "cost": {
+      "per_m_requests": [
+        1.0,
+        1.0
+      ],
+      "free_requests_m": 0.5,
+      "fixed": [
+        0,
+        5
+      ]
+    },
+    "why": "Managed MQTT ingestion with device registry and rules",
+    "attrs": {},
+    "sources": [
+      {
+        "title": "AWS IoT Core",
+        "url": "https://docs.aws.amazon.com/iot/latest/developerguide/what-is-aws-iot.html"
+      },
+      {
+        "title": "AWS IoT Core pricing",
+        "url": "https://aws.amazon.com/iot-core/pricing/"
+      }
+    ]
+  },
+  {
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "requires_saas": true,
+    "self_hostable": false,
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "regions": [
+      "*"
+    ],
+    "id": "azure_iot_hub",
+    "name": "Azure IoT Hub",
+    "layer": "ingest",
+    "provider": "azure",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 6,
+    "cost": {
+      "fixed": [
+        25,
+        250
+      ]
+    },
+    "why": "Managed device-to-cloud messaging for Azure estates",
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Azure IoT Hub",
+        "url": "https://learn.microsoft.com/azure/iot-hub/"
+      },
+      {
+        "title": "IoT Hub pricing",
+        "url": "https://azure.microsoft.com/pricing/details/iot-hub/"
+      }
+    ]
+  },
+  {
+    "id": "sagemaker_endpoint",
+    "name": "Amazon SageMaker real-time endpoint (small instance)",
+    "layer": "ml",
+    "provider": "aws",
+    "quality": 8,
+    "ops_burden": 2,
+    "lock_in": 4,
+    "cost": {
+      "curve": [
+        [
+          1,
+          45,
+          150
+        ],
+        [
+          300,
+          90,
+          500
+        ]
+      ]
+    },
+    "why": "Hosts a tabular scoring model (gradient boosting or similar) on one or two small instances inside your own AWS account",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "sub": "inference",
+      "private_model": true
+    },
+    "sources": [
+      {
+        "title": "SageMaker pricing",
+        "url": "https://aws.amazon.com/sagemaker/pricing/"
+      },
+      {
+        "title": "SageMaker real-time inference",
+        "url": "https://docs.aws.amazon.com/sagemaker/latest/dg/realtime-endpoints.html"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "vertex_endpoint",
+    "name": "Vertex AI online prediction endpoint (small machine)",
+    "layer": "ml",
+    "provider": "gcp",
+    "quality": 8,
+    "ops_burden": 2,
+    "lock_in": 4,
+    "cost": {
+      "curve": [
+        [
+          1,
+          45,
+          150
+        ],
+        [
+          300,
+          90,
+          500
+        ]
+      ]
+    },
+    "why": "Hosts a tabular scoring model on small machines inside your own Google Cloud project",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "sub": "inference",
+      "private_model": true
+    },
+    "sources": [
+      {
+        "title": "Vertex AI pricing",
+        "url": "https://cloud.google.com/vertex-ai/pricing"
+      },
+      {
+        "title": "Vertex AI online prediction",
+        "url": "https://cloud.google.com/vertex-ai/docs/predictions/overview"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "azure_ml_endpoint",
+    "name": "Azure Machine Learning online endpoint (small instance)",
+    "layer": "ml",
+    "provider": "azure",
+    "quality": 8,
+    "ops_burden": 2,
+    "lock_in": 4,
+    "cost": {
+      "curve": [
+        [
+          1,
+          45,
+          150
+        ],
+        [
+          300,
+          90,
+          500
+        ]
+      ]
+    },
+    "why": "Hosts a tabular scoring model on small instances inside your own Azure subscription",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "sub": "inference",
+      "private_model": true
+    },
+    "sources": [
+      {
+        "title": "Azure Machine Learning pricing",
+        "url": "https://azure.microsoft.com/en-us/pricing/details/machine-learning/"
+      },
+      {
+        "title": "Azure ML online endpoints",
+        "url": "https://learn.microsoft.com/en-us/azure/machine-learning/concept-endpoints-online"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "model_server_selfhost",
+    "name": "Self-hosted model server (BentoML or FastAPI with ONNX) on the app cluster",
+    "layer": "ml",
+    "provider": "self",
+    "quality": 7,
+    "ops_burden": 4,
+    "lock_in": 1,
+    "cost": {
+      "curve": [
+        [
+          1,
+          0,
+          15
+        ],
+        [
+          300,
+          25,
+          120
+        ]
+      ]
+    },
+    "why": "Serves a small scoring model next to the app with no vendor, at the price of running it yourself",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "sub": "inference",
+      "private_model": true
+    },
+    "sources": [
+      {
+        "title": "BentoML docs",
+        "url": "https://docs.bentoml.com/"
+      },
+      {
+        "title": "ONNX Runtime",
+        "url": "https://onnxruntime.ai/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  }
+]

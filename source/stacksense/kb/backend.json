@@ -1,0 +1,1755 @@
+[
+  {
+    "id": "aspnet_core",
+    "name": "C# + ASP.NET Core",
+    "layer": "backend",
+    "category": ".NET web framework",
+    "languages": [
+      "csharp"
+    ],
+    "maturity": 10,
+    "ops_burden": 3,
+    "complexity": 5,
+    "learning_curve": 4,
+    "talent_pool": 8,
+    "lock_in": 2,
+    "scores": {
+      "cost": {
+        "score": 8,
+        "why": "Free runtime, efficient per instance"
+      },
+      "time_to_market": {
+        "score": 7,
+        "why": "Strong tooling and templates, Identity built in"
+      },
+      "scalability": {
+        "score": 9,
+        "why": "Among the fastest mainstream frameworks"
+      },
+      "performance": {
+        "score": 9,
+        "why": "Top-tier throughput in TechEmpower benchmarks"
+      },
+      "maintainability": {
+        "score": 9,
+        "why": "Strong typing and LTS releases"
+      },
+      "security": {
+        "score": 9,
+        "why": "Identity, data protection, Entra ID integration built in"
+      }
+    },
+    "attrs": {
+      "runtime": "dotnet"
+    },
+    "capabilities": {
+      "realtime": 0.9,
+      "auth": 0.9,
+      "jobs": 0.75,
+      "api": 1.0
+    },
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "C# teams, Microsoft estate"
+    ],
+    "avoid_when": [
+      "Teams with no .NET skills"
+    ],
+    "pros": [
+      "SignalR for realtime",
+      "First-class Azure/Entra integration"
+    ],
+    "cons": [
+      "Smaller community outside enterprise"
+    ],
+    "strong_types": [
+      "internal_tool",
+      "saas_b2b",
+      "fintech",
+      "healthtech",
+      "api_platform",
+      "marketplace",
+      "ecommerce"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "azure_app_service",
+      "sql_server",
+      "azure_sql",
+      "entra_id",
+      "windows_iis",
+      "blazor",
+      "azure_container_apps"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "ASP.NET Core docs",
+        "url": "https://learn.microsoft.com/aspnet/core/"
+      },
+      {
+        "title": "TechEmpower benchmarks",
+        "url": "https://www.techempower.com/benchmarks/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "django",
+    "name": "Python + Django",
+    "layer": "backend",
+    "category": "Batteries-included Python web framework",
+    "languages": [
+      "python"
+    ],
+    "maturity": 10,
+    "ops_burden": 3,
+    "complexity": 4,
+    "learning_curve": 3,
+    "talent_pool": 8,
+    "lock_in": 1,
+    "scores": {
+      "cost": {
+        "score": 9,
+        "why": "Free, runs on one small VM"
+      },
+      "time_to_market": {
+        "score": 10,
+        "why": "Admin, ORM, auth, forms ready on day one"
+      },
+      "scalability": {
+        "score": 7,
+        "why": "Scales out with caches and replicas; sync by default"
+      },
+      "performance": {
+        "score": 6,
+        "why": "Reasonable, not the fastest"
+      },
+      "maintainability": {
+        "score": 9,
+        "why": "Strong conventions, long-term support releases"
+      },
+      "security": {
+        "score": 9,
+        "why": "CSRF, XSS, SQLi protections and auth on by default"
+      }
+    },
+    "attrs": {
+      "runtime": "python"
+    },
+    "capabilities": {
+      "realtime": 0.55,
+      "auth": 0.95,
+      "jobs": 0.5,
+      "api": 0.85,
+      "admin": 1.0,
+      "ml": 0.8
+    },
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Python teams, admin-heavy apps"
+    ],
+    "avoid_when": [
+      "Ultra-low-latency services"
+    ],
+    "pros": [
+      "Fastest path to a secure CRUD back end"
+    ],
+    "cons": [
+      "Sync-first, so realtime needs Channels"
+    ],
+    "strong_types": [
+      "internal_tool",
+      "saas_b2b",
+      "content_site",
+      "marketplace",
+      "web_app",
+      "healthtech",
+      "data_analytics",
+      "ecommerce"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "postgresql",
+      "redis",
+      "django_htmx",
+      "render",
+      "aws_elastic_beanstalk",
+      "railway"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Django docs",
+        "url": "https://docs.djangoproject.com/"
+      },
+      {
+        "title": "Django security",
+        "url": "https://docs.djangoproject.com/en/stable/topics/security/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "express",
+    "name": "Node.js + Express",
+    "layer": "backend",
+    "category": "Minimal Node HTTP framework",
+    "languages": [
+      "javascript",
+      "typescript"
+    ],
+    "maturity": 9,
+    "ops_burden": 3,
+    "complexity": 3,
+    "learning_curve": 2,
+    "talent_pool": 10,
+    "lock_in": 1,
+    "scores": {
+      "cost": {
+        "score": 9,
+        "why": "Free, runs on the smallest container or serverless function"
+      },
+      "time_to_market": {
+        "score": 8,
+        "why": "Huge npm ecosystem and examples, little structure imposed"
+      },
+      "scalability": {
+        "score": 7,
+        "why": "Event loop handles many I/O connections; CPU work needs workers"
+      },
+      "performance": {
+        "score": 7,
+        "why": "Fast I/O, single-threaded CPU limits"
+      },
+      "maintainability": {
+        "score": 5,
+        "why": "No built-in structure, quality depends on team discipline"
+      },
+      "security": {
+        "score": 6,
+        "why": "Security is assembled from middleware"
+      }
+    },
+    "attrs": {
+      "runtime": "node"
+    },
+    "capabilities": {
+      "realtime": 0.8,
+      "auth": 0.4,
+      "jobs": 0.4,
+      "api": 0.9
+    },
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Small JS/TS teams, simple APIs"
+    ],
+    "avoid_when": [
+      "Large teams without conventions"
+    ],
+    "pros": [
+      "Same language as the front end",
+      "Minimal"
+    ],
+    "cons": [
+      "Needs conventions from the team"
+    ],
+    "strong_types": [
+      "saas_b2b",
+      "web_app",
+      "realtime_collab",
+      "social",
+      "internal_tool",
+      "api_platform"
+    ],
+    "weak_types": [
+      "fintech"
+    ],
+    "requires": {},
+    "synergy": [
+      "postgresql",
+      "mongodb",
+      "redis",
+      "render",
+      "railway",
+      "aws_ecs_fargate"
+    ],
+    "friction": [
+      "windows_iis"
+    ],
+    "sources": [
+      {
+        "title": "Express",
+        "url": "https://expressjs.com/"
+      },
+      {
+        "title": "Node.js releases",
+        "url": "https://nodejs.org/en/about/previous-releases"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "fastapi",
+    "name": "Python + FastAPI",
+    "layer": "backend",
+    "category": "Async Python API framework",
+    "languages": [
+      "python"
+    ],
+    "maturity": 8,
+    "ops_burden": 3,
+    "complexity": 3,
+    "learning_curve": 3,
+    "talent_pool": 8,
+    "lock_in": 1,
+    "scores": {
+      "cost": {
+        "score": 9,
+        "why": "Free, small containers"
+      },
+      "time_to_market": {
+        "score": 9,
+        "why": "Type-hint driven validation, auto docs, quick CRUD"
+      },
+      "scalability": {
+        "score": 7,
+        "why": "ASGI scales horizontally, GIL limits CPU per process"
+      },
+      "performance": {
+        "score": 7,
+        "why": "Fast for Python, below Go/JVM"
+      },
+      "maintainability": {
+        "score": 8,
+        "why": "Typed models and OpenAPI keep contracts explicit"
+      },
+      "security": {
+        "score": 7,
+        "why": "Pydantic validation; auth is DIY or libraries"
+      }
+    },
+    "attrs": {
+      "runtime": "python"
+    },
+    "capabilities": {
+      "realtime": 0.7,
+      "auth": 0.35,
+      "jobs": 0.5,
+      "api": 1.0,
+      "ml": 1.0
+    },
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "ML-adjacent APIs and Python teams"
+    ],
+    "avoid_when": [
+      "Heavy CPU-bound services"
+    ],
+    "pros": [
+      "Best path for Python ML serving",
+      "Great docs generation"
+    ],
+    "cons": [
+      "Needs separate admin UI"
+    ],
+    "strong_types": [
+      "ai_ml_product",
+      "api_platform",
+      "data_analytics",
+      "saas_b2b",
+      "web_app",
+      "iot"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "postgresql",
+      "redis",
+      "aws_ecs_fargate",
+      "gke_cloud_run",
+      "render"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "FastAPI docs",
+        "url": "https://fastapi.tiangolo.com/"
+      },
+      {
+        "title": "Python Developers Survey",
+        "url": "https://lp.jetbrains.com/python-developers-survey-2024/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "firebase",
+    "name": "Firebase (BaaS)",
+    "layer": "backend",
+    "category": "Google serverless backend platform",
+    "languages": [
+      "typescript",
+      "javascript",
+      "dart",
+      "kotlin",
+      "swift"
+    ],
+    "maturity": 9,
+    "ops_burden": 0,
+    "complexity": 3,
+    "learning_curve": 3,
+    "talent_pool": 7,
+    "lock_in": 8,
+    "scores": {
+      "cost": {
+        "score": 8,
+        "why": "Spark/Blaze free quotas, usage bills can spike"
+      },
+      "time_to_market": {
+        "score": 10,
+        "why": "Auth, Firestore, FCM, hosting and functions integrated"
+      },
+      "scalability": {
+        "score": 8,
+        "why": "Auto-scaling serverless"
+      },
+      "performance": {
+        "score": 7,
+        "why": "Good for typical app traffic"
+      },
+      "maintainability": {
+        "score": 6,
+        "why": "Security rules and NoSQL modelling need care"
+      },
+      "security": {
+        "score": 8,
+        "why": "Google-grade infrastructure, rules-based access"
+      }
+    },
+    "attrs": {
+      "runtime": "baas",
+      "provider": "gcp",
+      "sla": 99.95,
+      "sla_ha": 99.99
+    },
+    "capabilities": {
+      "realtime": 0.95,
+      "auth": 0.95,
+      "jobs": 0.4,
+      "api": 0.6,
+      "sync": 0.9,
+      "storage": 0.85,
+      "notifications": 1.0
+    },
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "hipaa",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "best_for": [
+      "Mobile apps with offline sync and a small team"
+    ],
+    "avoid_when": [
+      "Relational reporting, strict data-portability needs"
+    ],
+    "pros": [
+      "Offline sync and push built in",
+      "Excellent mobile SDKs"
+    ],
+    "cons": [
+      "Hard vendor lock-in",
+      "Query limits of Firestore"
+    ],
+    "strong_types": [
+      "social",
+      "marketplace",
+      "web_app",
+      "realtime_collab",
+      "internal_tool",
+      "gaming"
+    ],
+    "weak_types": [
+      "fintech",
+      "data_analytics"
+    ],
+    "requires": {
+      "database": [
+        "firestore"
+      ]
+    },
+    "synergy": [
+      "firestore",
+      "flutter",
+      "expo_rn",
+      "firebase_hosting",
+      "kotlin_android"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Firebase docs",
+        "url": "https://firebase.google.com/docs"
+      },
+      {
+        "title": "Firebase compliance",
+        "url": "https://firebase.google.com/support/privacy"
+      },
+      {
+        "title": "Firebase service level agreements",
+        "url": "https://firebase.google.com/terms/service-level-agreement"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "billed_by": "gcp"
+  },
+  {
+    "id": "go_chi",
+    "name": "Go (net/http + chi)",
+    "layer": "backend",
+    "category": "Go HTTP services",
+    "languages": [
+      "go"
+    ],
+    "maturity": 9,
+    "ops_burden": 3,
+    "complexity": 5,
+    "learning_curve": 5,
+    "talent_pool": 6,
+    "lock_in": 1,
+    "scores": {
+      "cost": {
+        "score": 10,
+        "why": "Tiny memory footprint, cheap instances"
+      },
+      "time_to_market": {
+        "score": 6,
+        "why": "Explicit code and little scaffolding"
+      },
+      "scalability": {
+        "score": 10,
+        "why": "Goroutines scale to massive concurrency with small instances"
+      },
+      "performance": {
+        "score": 10,
+        "why": "Compiled, low latency"
+      },
+      "maintainability": {
+        "score": 8,
+        "why": "Simple language, explicit errors, fast builds"
+      },
+      "security": {
+        "score": 8,
+        "why": "Memory safe, small dependency surface"
+      }
+    },
+    "attrs": {
+      "runtime": "go"
+    },
+    "capabilities": {
+      "realtime": 0.95,
+      "auth": 0.3,
+      "jobs": 0.6,
+      "api": 0.95
+    },
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Realtime and high-concurrency services"
+    ],
+    "avoid_when": [
+      "Admin-heavy CRUD with a tight deadline"
+    ],
+    "pros": [
+      "Excellent concurrency and efficiency"
+    ],
+    "cons": [
+      "No batteries, more code per feature"
+    ],
+    "strong_types": [
+      "realtime_collab",
+      "api_platform",
+      "iot",
+      "gaming",
+      "social",
+      "saas_b2b",
+      "marketplace",
+      "data_analytics"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "postgresql",
+      "redis",
+      "nats",
+      "aws_ecs_fargate",
+      "gke_cloud_run",
+      "kafka",
+      "fly_io"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Go docs",
+        "url": "https://go.dev/doc/"
+      },
+      {
+        "title": "Go release policy",
+        "url": "https://go.dev/doc/devel/release"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "laravel",
+    "name": "PHP + Laravel",
+    "layer": "backend",
+    "category": "Full-stack PHP framework",
+    "languages": [
+      "php"
+    ],
+    "maturity": 9,
+    "ops_burden": 3,
+    "complexity": 3,
+    "learning_curve": 3,
+    "talent_pool": 7,
+    "lock_in": 1,
+    "scores": {
+      "cost": {
+        "score": 10,
+        "why": "Runs on cheap shared or VPS hosting"
+      },
+      "time_to_market": {
+        "score": 9,
+        "why": "Auth starters, queues, ORM, scaffolding"
+      },
+      "scalability": {
+        "score": 6,
+        "why": "Scales with workers and caches; per-request PHP bootstrap"
+      },
+      "performance": {
+        "score": 6,
+        "why": "Moderate, Octane improves"
+      },
+      "maintainability": {
+        "score": 8,
+        "why": "Clear conventions and large package ecosystem"
+      },
+      "security": {
+        "score": 8,
+        "why": "CSRF/XSS/SQLi defaults"
+      }
+    },
+    "attrs": {
+      "runtime": "php"
+    },
+    "capabilities": {
+      "realtime": 0.6,
+      "auth": 0.9,
+      "jobs": 0.85,
+      "api": 0.85,
+      "admin": 0.8
+    },
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "PHP teams and CMS-style products"
+    ],
+    "avoid_when": [
+      "Very high concurrency realtime"
+    ],
+    "pros": [
+      "Productive and cheap to host"
+    ],
+    "cons": [
+      "PHP tail performance"
+    ],
+    "strong_types": [
+      "ecommerce",
+      "content_site",
+      "internal_tool",
+      "saas_b2b",
+      "marketplace"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "mysql",
+      "postgresql",
+      "redis",
+      "laravel_livewire",
+      "digitalocean_droplet",
+      "aws_elastic_beanstalk"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Laravel docs",
+        "url": "https://laravel.com/docs"
+      },
+      {
+        "title": "PHP supported versions",
+        "url": "https://www.php.net/supported-versions.php"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "nestjs",
+    "name": "Node.js + NestJS",
+    "layer": "backend",
+    "category": "Structured TypeScript server framework",
+    "languages": [
+      "typescript"
+    ],
+    "maturity": 8,
+    "ops_burden": 3,
+    "complexity": 5,
+    "learning_curve": 5,
+    "talent_pool": 7,
+    "lock_in": 1,
+    "scores": {
+      "cost": {
+        "score": 9,
+        "why": "Free, container hosts"
+      },
+      "time_to_market": {
+        "score": 7,
+        "why": "Generators, modules, DI; more ceremony than Express"
+      },
+      "scalability": {
+        "score": 8,
+        "why": "Modular design, microservice transports, WebSocket gateways"
+      },
+      "performance": {
+        "score": 7,
+        "why": "Node I/O performance, Fastify adapter"
+      },
+      "maintainability": {
+        "score": 9,
+        "why": "Opinionated modules and DI keep large codebases tidy"
+      },
+      "security": {
+        "score": 7,
+        "why": "Guards, pipes and strong typing help, still app-level security"
+      }
+    },
+    "attrs": {
+      "runtime": "node"
+    },
+    "capabilities": {
+      "realtime": 0.9,
+      "auth": 0.55,
+      "jobs": 0.6,
+      "api": 1.0
+    },
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "TypeScript teams building growing APIs"
+    ],
+    "avoid_when": [
+      "Throwaway prototypes"
+    ],
+    "pros": [
+      "Angular-like structure on Node",
+      "WebSocket gateways built in"
+    ],
+    "cons": [
+      "More boilerplate"
+    ],
+    "strong_types": [
+      "saas_b2b",
+      "realtime_collab",
+      "web_app",
+      "marketplace",
+      "fintech",
+      "api_platform",
+      "social"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "postgresql",
+      "redis",
+      "aws_ecs_fargate",
+      "render",
+      "gke_cloud_run",
+      "kafka"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "NestJS docs",
+        "url": "https://docs.nestjs.com/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "nextjs_api",
+    "name": "Next.js route handlers (serverless)",
+    "layer": "backend",
+    "category": "Backend inside the Next.js app",
+    "languages": [
+      "typescript",
+      "javascript"
+    ],
+    "maturity": 8,
+    "ops_burden": 1,
+    "complexity": 3,
+    "learning_curve": 3,
+    "talent_pool": 9,
+    "lock_in": 4,
+    "scores": {
+      "cost": {
+        "score": 8,
+        "why": "No separate server, pay per invocation"
+      },
+      "time_to_market": {
+        "score": 9,
+        "why": "One repo and language for UI and API"
+      },
+      "scalability": {
+        "score": 7,
+        "why": "Serverless functions scale out, cold starts and cost at volume"
+      },
+      "performance": {
+        "score": 6,
+        "why": "Cold starts, limited long-lived connections"
+      },
+      "maintainability": {
+        "score": 6,
+        "why": "Backend logic coupled to the front-end repo"
+      },
+      "security": {
+        "score": 7,
+        "why": "Short-lived functions, standard app-level security"
+      }
+    },
+    "attrs": {
+      "runtime": "functions"
+    },
+    "capabilities": {
+      "realtime": 0.2,
+      "auth": 0.5,
+      "jobs": 0.2,
+      "api": 0.6
+    },
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Small JS teams, light APIs"
+    ],
+    "avoid_when": [
+      "Realtime, long jobs"
+    ],
+    "pros": [
+      "Fastest path for a JS team to a dynamic site"
+    ],
+    "cons": [
+      "No WebSockets on serverless",
+      "Platform coupling"
+    ],
+    "strong_types": [
+      "saas_b2b",
+      "web_app",
+      "ecommerce",
+      "content_site",
+      "marketplace"
+    ],
+    "weak_types": [
+      "realtime_collab",
+      "gaming",
+      "iot",
+      "data_analytics"
+    ],
+    "requires": {
+      "frontend": [
+        "nextjs"
+      ]
+    },
+    "synergy": [
+      "vercel",
+      "aws_amplify",
+      "netlify",
+      "neon",
+      "supabase_postgres"
+    ],
+    "friction": [
+      "github_pages"
+    ],
+    "sources": [
+      {
+        "title": "Next.js route handlers",
+        "url": "https://nextjs.org/docs/app/building-your-application/routing/route-handlers"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "none_be",
+    "name": "No backend (static)",
+    "layer": "backend",
+    "category": "Static only",
+    "languages": [],
+    "maturity": 10,
+    "ops_burden": 0,
+    "complexity": 0,
+    "learning_curve": 0,
+    "talent_pool": 10,
+    "lock_in": 0,
+    "scores": {
+      "cost": {
+        "score": 10,
+        "why": "Nothing to run"
+      },
+      "time_to_market": {
+        "score": 10,
+        "why": "Nothing to build"
+      },
+      "scalability": {
+        "score": 10,
+        "why": "CDN absorbs load"
+      },
+      "performance": {
+        "score": 10,
+        "why": "Static files"
+      },
+      "maintainability": {
+        "score": 10,
+        "why": "Nothing to maintain"
+      },
+      "security": {
+        "score": 10,
+        "why": "No server attack surface"
+      }
+    },
+    "attrs": {
+      "runtime": "none"
+    },
+    "capabilities": {
+      "api": 0.0
+    },
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Brochure and content sites"
+    ],
+    "avoid_when": [
+      "Anything needing accounts or data"
+    ],
+    "pros": [
+      "No server to secure or pay for"
+    ],
+    "cons": [
+      "No dynamic features"
+    ],
+    "strong_types": [
+      "content_site"
+    ],
+    "weak_types": [
+      "fintech",
+      "saas_b2b",
+      "marketplace",
+      "social",
+      "realtime_collab"
+    ],
+    "requires": {
+      "database": [
+        "none_db"
+      ]
+    },
+    "synergy": [],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Jamstack overview",
+        "url": "https://jamstack.org/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "phoenix",
+    "name": "Elixir + Phoenix",
+    "layer": "backend",
+    "category": "Realtime-oriented BEAM framework",
+    "languages": [
+      "elixir"
+    ],
+    "maturity": 7,
+    "ops_burden": 3,
+    "complexity": 6,
+    "learning_curve": 7,
+    "talent_pool": 2,
+    "lock_in": 1,
+    "scores": {
+      "cost": {
+        "score": 8,
+        "why": "Efficient per node"
+      },
+      "time_to_market": {
+        "score": 7,
+        "why": "LiveView speeds realtime UIs; unfamiliar language"
+      },
+      "scalability": {
+        "score": 10,
+        "why": "BEAM handles millions of lightweight processes"
+      },
+      "performance": {
+        "score": 9,
+        "why": "Soft-realtime latencies"
+      },
+      "maintainability": {
+        "score": 8,
+        "why": "Functional, fault tolerant supervision"
+      },
+      "security": {
+        "score": 8,
+        "why": "Mature security tooling"
+      }
+    },
+    "attrs": {
+      "runtime": "elixir"
+    },
+    "capabilities": {
+      "realtime": 1.0,
+      "auth": 0.6,
+      "jobs": 0.7,
+      "api": 0.85
+    },
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Realtime products by Elixir-capable teams"
+    ],
+    "avoid_when": [
+      "Teams without Elixir skills"
+    ],
+    "pros": [
+      "Best-in-class realtime"
+    ],
+    "cons": [
+      "Very small hiring pool"
+    ],
+    "strong_types": [
+      "realtime_collab",
+      "social",
+      "iot",
+      "gaming"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "postgresql",
+      "fly_io",
+      "redis"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Phoenix docs",
+        "url": "https://hexdocs.pm/phoenix/overview.html"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "rails",
+    "name": "Ruby on Rails",
+    "layer": "backend",
+    "category": "Convention-driven Ruby framework",
+    "languages": [
+      "ruby"
+    ],
+    "maturity": 9,
+    "ops_burden": 3,
+    "complexity": 4,
+    "learning_curve": 4,
+    "talent_pool": 4,
+    "lock_in": 1,
+    "scores": {
+      "cost": {
+        "score": 9,
+        "why": "Free, small VMs"
+      },
+      "time_to_market": {
+        "score": 9,
+        "why": "Generators and conventions, Rails 8 auth generator"
+      },
+      "scalability": {
+        "score": 6,
+        "why": "Scales with caching and replicas; sync Ruby"
+      },
+      "performance": {
+        "score": 6,
+        "why": "Moderate throughput"
+      },
+      "maintainability": {
+        "score": 8,
+        "why": "Mature conventions"
+      },
+      "security": {
+        "score": 8,
+        "why": "Secure defaults"
+      }
+    },
+    "attrs": {
+      "runtime": "ruby"
+    },
+    "capabilities": {
+      "realtime": 0.7,
+      "auth": 0.8,
+      "jobs": 0.85,
+      "api": 0.8,
+      "admin": 0.6
+    },
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Ruby teams"
+    ],
+    "avoid_when": [
+      "Teams that must hire quickly"
+    ],
+    "pros": [
+      "Productive for MVPs"
+    ],
+    "cons": [
+      "Shrinking hiring pool"
+    ],
+    "strong_types": [
+      "marketplace",
+      "saas_b2b",
+      "ecommerce",
+      "content_site"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "postgresql",
+      "redis",
+      "rails_hotwire",
+      "render",
+      "fly_io"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Rails guides",
+        "url": "https://guides.rubyonrails.org/"
+      },
+      {
+        "title": "Rails maintenance policy",
+        "url": "https://rubyonrails.org/maintenance"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "spring_boot",
+    "name": "Java + Spring Boot",
+    "layer": "backend",
+    "category": "Enterprise JVM framework",
+    "languages": [
+      "java",
+      "kotlin"
+    ],
+    "maturity": 10,
+    "ops_burden": 4,
+    "complexity": 7,
+    "learning_curve": 6,
+    "talent_pool": 9,
+    "lock_in": 1,
+    "scores": {
+      "cost": {
+        "score": 7,
+        "why": "Free but needs more memory per instance"
+      },
+      "time_to_market": {
+        "score": 6,
+        "why": "Lots of configuration, huge starters and generators"
+      },
+      "scalability": {
+        "score": 9,
+        "why": "Proven at very large scale, threads/virtual threads, easy horizontal scale"
+      },
+      "performance": {
+        "score": 9,
+        "why": "JIT-optimised throughput and low tail latency"
+      },
+      "maintainability": {
+        "score": 9,
+        "why": "Strong typing, tooling and long-term support"
+      },
+      "security": {
+        "score": 9,
+        "why": "Spring Security, long audit history"
+      }
+    },
+    "attrs": {
+      "runtime": "java"
+    },
+    "capabilities": {
+      "realtime": 0.8,
+      "auth": 0.8,
+      "jobs": 0.85,
+      "api": 1.0
+    },
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "High-load transactional systems, Java teams"
+    ],
+    "avoid_when": [
+      "Weekend prototypes"
+    ],
+    "pros": [
+      "Enterprise-grade, best hiring pool for regulated stacks"
+    ],
+    "cons": [
+      "Heavier and slower to build",
+      "More memory"
+    ],
+    "strong_types": [
+      "fintech",
+      "saas_b2b",
+      "marketplace",
+      "ecommerce",
+      "healthtech",
+      "api_platform",
+      "data_analytics"
+    ],
+    "weak_types": [],
+    "requires": {},
+    "synergy": [
+      "postgresql",
+      "oracle_db",
+      "kafka",
+      "aws_ecs_fargate",
+      "aws_eks",
+      "azure_app_service",
+      "redis"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Spring Boot docs",
+        "url": "https://docs.spring.io/spring-boot/"
+      },
+      {
+        "title": "Spring Boot support policy",
+        "url": "https://spring.io/projects/spring-boot#support"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "supabase",
+    "name": "Supabase (BaaS)",
+    "layer": "backend",
+    "category": "Postgres-based backend as a service",
+    "languages": [
+      "typescript",
+      "javascript",
+      "sql"
+    ],
+    "maturity": 7,
+    "ops_burden": 0,
+    "complexity": 3,
+    "learning_curve": 4,
+    "talent_pool": 5,
+    "lock_in": 3,
+    "scores": {
+      "cost": {
+        "score": 8,
+        "why": "Generous free tier, predictable Pro plan"
+      },
+      "time_to_market": {
+        "score": 10,
+        "why": "Auth, REST/GraphQL, storage, realtime out of the box"
+      },
+      "scalability": {
+        "score": 7,
+        "why": "Scales on managed Postgres, limits on connections and functions"
+      },
+      "performance": {
+        "score": 7,
+        "why": "Direct Postgres with edge functions"
+      },
+      "maintainability": {
+        "score": 6,
+        "why": "Logic in RLS policies and edge functions can sprawl"
+      },
+      "security": {
+        "score": 8,
+        "why": "Row-level security, SOC 2 Type II"
+      }
+    },
+    "attrs": {
+      "runtime": "baas",
+      "provider": "aws",
+      "sla": 99.9,
+      "sla_ha": 99.9
+    },
+    "capabilities": {
+      "realtime": 0.8,
+      "auth": 0.9,
+      "jobs": 0.3,
+      "api": 0.8,
+      "sync": 0.2,
+      "storage": 0.8
+    },
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "regions": [
+      "us",
+      "eu",
+      "india",
+      "other"
+    ],
+    "certs": [
+      "soc2",
+      "hipaa"
+    ],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Small teams wanting auth plus DB fast"
+    ],
+    "avoid_when": [
+      "Complex domain logic and heavy batch jobs"
+    ],
+    "pros": [
+      "No servers to run",
+      "Open source and self-hostable"
+    ],
+    "cons": [
+      "Complex logic is awkward",
+      "Vendor-specific RLS patterns"
+    ],
+    "strong_types": [
+      "saas_b2b",
+      "web_app",
+      "marketplace",
+      "social",
+      "internal_tool",
+      "ecommerce",
+      "realtime_collab"
+    ],
+    "weak_types": [
+      "fintech",
+      "gaming"
+    ],
+    "requires": {
+      "database": [
+        "supabase_postgres"
+      ]
+    },
+    "synergy": [
+      "supabase_postgres",
+      "flutter",
+      "expo_rn",
+      "nextjs",
+      "react_vite",
+      "cloudflare_pages"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Supabase docs",
+        "url": "https://supabase.com/docs"
+      },
+      {
+        "title": "Supabase security",
+        "url": "https://supabase.com/security"
+      },
+      {
+        "title": "Supabase SLA (Team and Enterprise plans)",
+        "url": "https://supabase.com/docs/guides/platform/sla"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "colyseus",
+    "name": "Colyseus (Node.js game server)",
+    "layer": "backend",
+    "category": "Authoritative multiplayer rooms",
+    "languages": [
+      "typescript",
+      "javascript"
+    ],
+    "maturity": 9,
+    "ops_burden": 3,
+    "complexity": 4,
+    "learning_curve": 5,
+    "talent_pool": 6,
+    "lock_in": 1,
+    "scores": {
+      "cost": {
+        "score": 9,
+        "why": "Open source; one process serves many rooms"
+      },
+      "time_to_market": {
+        "score": 8,
+        "why": "Room and state-sync primitives out of the box"
+      },
+      "scalability": {
+        "score": 7,
+        "why": "Scale by adding processes behind a matchmaker"
+      },
+      "performance": {
+        "score": 7,
+        "why": "WebSocket state sync, fine for most turn and real-time games"
+      },
+      "maintainability": {
+        "score": 7,
+        "why": "TypeScript, active project"
+      },
+      "security": {
+        "score": 7,
+        "why": "Server-authoritative state"
+      }
+    },
+    "attrs": {
+      "runtime": "node",
+      "game_server": true
+    },
+    "capabilities": {
+      "realtime": 1.0,
+      "auth": 0.3,
+      "jobs": 0.3,
+      "api": 0.5
+    },
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Browser, mobile and casual multiplayer games"
+    ],
+    "avoid_when": [
+      "Large-scale FPS-style simulation"
+    ],
+    "pros": [
+      "Server-authoritative rooms with delta state sync",
+      "SDKs for Unity, Godot and the web"
+    ],
+    "cons": [
+      "Not for twitch-level UDP games",
+      "Node single-thread per room process"
+    ],
+    "strong_types": [
+      "gaming"
+    ],
+    "weak_types": [
+      "content_site",
+      "fintech",
+      "ecommerce",
+      "internal_tool",
+      "saas_b2b"
+    ],
+    "requires": {},
+    "synergy": [
+      "unity",
+      "godot"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Colyseus docs",
+        "url": "https://docs.colyseus.io/"
+      },
+      {
+        "title": "Colyseus repository",
+        "url": "https://github.com/colyseus/colyseus"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  },
+  {
+    "id": "nakama",
+    "name": "Nakama (Go game backend)",
+    "layer": "backend",
+    "category": "Open-source game services server",
+    "languages": [
+      "go",
+      "typescript",
+      "lua"
+    ],
+    "maturity": 9,
+    "ops_burden": 3,
+    "complexity": 5,
+    "learning_curve": 5,
+    "talent_pool": 6,
+    "lock_in": 1,
+    "scores": {
+      "cost": {
+        "score": 8,
+        "why": "Open source; managed Heroic Cloud costs extra"
+      },
+      "time_to_market": {
+        "score": 8,
+        "why": "Accounts, matchmaking, leaderboards and chat included"
+      },
+      "scalability": {
+        "score": 9,
+        "why": "Clustered, built for large player counts"
+      },
+      "performance": {
+        "score": 8,
+        "why": "Go core with a realtime socket API"
+      },
+      "maintainability": {
+        "score": 7,
+        "why": "Server logic in Go, Lua or TypeScript modules"
+      },
+      "security": {
+        "score": 8,
+        "why": "Server-side validation hooks"
+      }
+    },
+    "attrs": {
+      "runtime": "go",
+      "game_server": true
+    },
+    "capabilities": {
+      "realtime": 1.0,
+      "auth": 0.9,
+      "jobs": 0.5,
+      "api": 0.7
+    },
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "best_for": [
+      "Games that want ready-made social features"
+    ],
+    "avoid_when": [
+      "Non-game backends"
+    ],
+    "pros": [
+      "Accounts, matchmaking, leaderboards and chat included",
+      "Official Unity, Godot and Unreal clients"
+    ],
+    "cons": [
+      "Another service to operate",
+      "Needs CockroachDB or PostgreSQL"
+    ],
+    "strong_types": [
+      "gaming"
+    ],
+    "weak_types": [
+      "content_site",
+      "fintech",
+      "ecommerce",
+      "internal_tool",
+      "saas_b2b"
+    ],
+    "requires": {
+      "database": [
+        "postgresql",
+        "cockroachdb"
+      ]
+    },
+    "synergy": [
+      "unity",
+      "godot",
+      "unreal",
+      "postgresql",
+      "cockroachdb"
+    ],
+    "friction": [],
+    "sources": [
+      {
+        "title": "Nakama docs",
+        "url": "https://heroiclabs.com/docs/nakama/"
+      },
+      {
+        "title": "Nakama repository",
+        "url": "https://github.com/heroiclabs/nakama"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active"
+  }
+]

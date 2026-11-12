@@ -1,0 +1,1482 @@
+{
+  "scenario_id": "E1",
+  "engine_version": "1.0.0",
+  "status": "ok_with_warnings",
+  "summary": "Single deployable monolith: Angular, Java + Spring Boot, PostgreSQL (managed or self-hosted) database on Self-managed Linux servers (on-premise). It keeps data in Indian regions, matches the team's languages and is estimated at $0-$47 per month.",
+  "architecture_style": "monolith",
+  "stack": {
+    "frontend": {
+      "choice": "Angular",
+      "justification": "Angular matches the team's typescript skills; built-in XSS protections, long-term support.",
+      "driven_by": [
+        "team.languages",
+        "priorities.security"
+      ],
+      "alternatives": [
+        {
+          "choice": "Django templates + htmx",
+          "why_not": "Django templates + htmx scores 0.2 points lower overall, mainly on team skill fit (1.8 points) and performance (0.7 points)."
+        },
+        {
+          "choice": "Nuxt",
+          "why_not": "Nuxt scores 0.4 points lower overall, mainly on security (1.1 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Steep learning curve",
+        "Verbose"
+      ]
+    },
+    "backend": {
+      "choice": "Java + Spring Boot",
+      "justification": "Java + Spring Boot matches the team's java skills; Spring Security, long audit history; is a proven choice for healthtech projects.",
+      "driven_by": [
+        "team.languages",
+        "priorities.security",
+        "project.type"
+      ],
+      "alternatives": [
+        {
+          "choice": "Python + Django",
+          "why_not": "Python + Django scores 0.2 points lower overall, mainly on team skill fit (1.8 points) and performance (0.7 points)."
+        },
+        {
+          "choice": "Node.js + NestJS",
+          "why_not": "Node.js + NestJS scores 0.3 points lower overall, mainly on security (0.9 points) and performance (0.5 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Heavier and slower to build",
+        "More memory"
+      ]
+    },
+    "database": {
+      "choice": "PostgreSQL (managed or self-hosted)",
+      "justification": "PostgreSQL (managed or self-hosted) is available in Indian cloud regions; carries HIPAA attestation; runs on your own host, as the deployment model requires; row-level security, mature auditing, encryption.",
+      "driven_by": [
+        "infrastructure.data_residency",
+        "compliance",
+        "infrastructure.deployment_model",
+        "priorities.security"
+      ],
+      "alternatives": [
+        {
+          "choice": "MySQL (managed or self-hosted)",
+          "why_not": "MySQL (managed or self-hosted) scores 1.8 points lower overall, mainly on security (0.7 points)."
+        },
+        {
+          "choice": "Microsoft SQL Server / Azure SQL",
+          "why_not": "Microsoft SQL Server / Azure SQL scores 2.2 points lower overall, mainly on vendor lock-in (1.2 points) and team skill fit (1.1 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Write scaling beyond one primary needs design",
+        "You run, patch and back up this database yourself on Self-managed Linux servers (on-premise)."
+      ]
+    },
+    "hosting": {
+      "choice": "Self-managed Linux servers (on-premise)",
+      "justification": "Self-managed Linux servers (on-premise) has Indian cloud regions; fits the air-gapped deployment model; offers a 99.95% SLA, in line with the 99.9% target; isolated network possible.",
+      "driven_by": [
+        "infrastructure.data_residency",
+        "infrastructure.deployment_model",
+        "requirements.availability",
+        "priorities.security"
+      ],
+      "alternatives": [
+        {
+          "choice": "Self-managed Kubernetes (on-premise)",
+          "why_not": "Self-managed Kubernetes (on-premise) is a close second: only 0.1 points behind, with no single weakness."
+        },
+        {
+          "choice": "Windows Server + IIS (self-hosted)",
+          "why_not": "Windows Server + IIS (self-hosted) scores 0.4 points lower overall, mainly on team skill fit (0.9 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Ops burden",
+        "Needs real operations effort (patching, scaling, monitoring)."
+      ]
+    },
+    "supporting": [
+      {
+        "layer": "auth",
+        "choice": "Framework built-in auth (sessions/JWT)",
+        "justification": "Framework built-in auth (sessions/JWT): users sign in (email password); no external service; Django/Laravel/ASP.NET Identity ship with it; already part of the chosen core stack.",
+        "driven_by": [
+          "requirements.auth"
+        ],
+        "alternatives": [
+          {
+            "choice": "No other eligible option",
+            "why_not": "No other auth service satisfies the hard constraints."
+          }
+        ],
+        "tradeoffs": []
+      },
+      {
+        "layer": "ci_cd",
+        "choice": "GitLab CI/CD",
+        "justification": "GitLab CI/CD: automated build and deploy for the team; integrated pipelines, self-managed option.",
+        "driven_by": [
+          "team.size"
+        ],
+        "alternatives": [
+          {
+            "choice": "Azure DevOps Pipelines",
+            "why_not": "A close second with a smaller fit to this stack; score 0.72 vs 0.73."
+          },
+          {
+            "choice": "Jenkins",
+            "why_not": "Ranks lower (lower quality rating (7 vs 8), more to operate); score 0.56 vs 0.73."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $0-$25 per month."
+        ]
+      },
+      {
+        "layer": "observability",
+        "choice": "Sentry",
+        "justification": "Sentry: production monitoring for the availability target; error tracking and performance with free developer plan.",
+        "driven_by": [
+          "requirements.availability",
+          "scale.users_12_months"
+        ],
+        "alternatives": [
+          {
+            "choice": "Prometheus + Grafana (self-hosted)",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), more to operate); score 0.73 vs 0.78."
+          },
+          {
+            "choice": "GlitchTip (self-hosted)",
+            "why_not": "Ranks lower (lower quality rating (6 vs 9), more to operate); score 0.65 vs 0.78."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $0-$22 per month."
+        ]
+      }
+    ]
+  },
+  "estimated_monthly_cost_usd": {
+    "min": 0,
+    "max": 47,
+    "assumptions": [
+      "Load estimate: peak about 10 requests/second and about 1.4M requests/month from 2K users in 12 months.",
+      "Usage-priced items are shown as a band (0.75x to 1.3x of the estimate) because load figures are order-of-magnitude.",
+      "Public list prices of each product, in USD, without taxes, committed-use discounts or developer time.",
+      "The 99.9% availability target doubles or adds redundancy for hosting and database where needed.",
+      "CI/CD (GitLab CI/CD): about $0-$25/month",
+      "Observability (Sentry): about $0-$22/month"
+    ]
+  },
+  "warnings": [
+    {
+      "code": "COMPLIANCE_SELF_ATTEST",
+      "severity": "warning",
+      "message": "On-premise hosting has no provider attestation for HIPAA; you carry the audit evidence yourself.",
+      "fields": [
+        "compliance",
+        "infrastructure.deployment_model"
+      ]
+    },
+    {
+      "code": "HIPAA_BAA_NEEDED",
+      "severity": "warning",
+      "message": "HIPAA needs a signed business associate agreement with the host, database and every vendor that touches health data.",
+      "fields": [
+        "compliance"
+      ]
+    },
+    {
+      "code": "NO_COMPLIANT_SERVICE",
+      "severity": "critical",
+      "message": "No email option satisfies the hard constraints (air-gapped deployment forbids SaaS dependencies). The layer is left out of the recommendation.",
+      "fields": [
+        "requirements.auth",
+        "requirements.payments"
+      ]
+    }
+  ],
+  "assumptions": [
+    "No extra inputs supplied; neutral defaults are used (learning appetite medium, lock-in tolerance medium, budget strictness firm, no hiring plan, no mobile preference).",
+    "No cache layer: about 10 requests/second and 2,000 users in 12 months are served directly by the database or BaaS.",
+    "Relaxed: no compliant email service was found, so the layer is left unfilled."
+  ],
+  "validation_errors": [],
+  "decision_trace": {
+    "pipeline": [
+      "validate input",
+      "derive profile",
+      "filter each layer by hard constraints",
+      "enumerate compatible stacks",
+      "score quality, fit and penalties",
+      "rank deterministically",
+      "select supporting services",
+      "estimate cost",
+      "explain"
+    ],
+    "weights": {
+      "cost": 0.165,
+      "maintainability": 0.1594,
+      "performance": 0.1494,
+      "scalability": 0.1376,
+      "security": 0.269,
+      "time_to_market": 0.1196
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "layers": {
+      "frontend": {
+        "candidates": 24,
+        "eliminated": [
+          {
+            "id": "godot",
+            "name": "Godot Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "kotlin_android",
+            "name": "Kotlin + Jetpack Compose (Android native)",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "maui",
+            "name": ".NET MAUI",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "none_fe",
+            "name": "None (API only)",
+            "reasons": [
+              "the project has client platforms to build"
+            ]
+          },
+          {
+            "id": "swift_ios",
+            "name": "Swift + SwiftUI (iOS native)",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "unity",
+            "name": "Unity",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "unreal",
+            "name": "Unreal Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 17,
+        "shortlist": [
+          "angular",
+          "django_htmx",
+          "nuxt",
+          "vue_vite",
+          "blazor",
+          "astro",
+          "react_vite",
+          "sveltekit"
+        ],
+        "chosen": [
+          "angular"
+        ]
+      },
+      "backend": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "colyseus",
+            "name": "Colyseus (Node.js game server)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "firebase",
+            "name": "Firebase (BaaS)",
+            "reasons": [
+              "air-gapped deployment needs self-hostable components without a mandatory SaaS dependency",
+              "cloud_preference none means self-managed components only"
+            ]
+          },
+          {
+            "id": "nakama",
+            "name": "Nakama (Go game backend)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "none_be",
+            "name": "No backend (static)",
+            "reasons": [
+              "the project needs server-side logic (accounts, payments, uploads, realtime or non-content features)"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 10,
+        "shortlist": [
+          "spring_boot",
+          "django",
+          "nestjs",
+          "aspnet_core",
+          "laravel",
+          "express",
+          "go_chi",
+          "rails"
+        ],
+        "chosen": [
+          "spring_boot"
+        ]
+      },
+      "database": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "bigquery",
+            "name": "Google BigQuery",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database",
+              "air-gapped deployment needs self-hostable components without a mandatory SaaS dependency",
+              "cloud_preference none means self-managed components only"
+            ]
+          },
+          {
+            "id": "clickhouse",
+            "name": "ClickHouse",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          },
+          {
+            "id": "cosmos_db",
+            "name": "Azure Cosmos DB",
+            "reasons": [
+              "air-gapped deployment needs self-hostable components without a mandatory SaaS dependency",
+              "cloud_preference none means self-managed components only"
+            ]
+          },
+          {
+            "id": "dynamodb",
+            "name": "Amazon DynamoDB",
+            "reasons": [
+              "air-gapped deployment needs self-hostable components without a mandatory SaaS dependency",
+              "cloud_preference none means self-managed components only"
+            ]
+          },
+          {
+            "id": "firestore",
+            "name": "Cloud Firestore",
+            "reasons": [
+              "air-gapped deployment needs self-hostable components without a mandatory SaaS dependency",
+              "cloud_preference none means self-managed components only"
+            ]
+          },
+          {
+            "id": "neon",
+            "name": "Neon (serverless Postgres)",
+            "reasons": [
+              "air-gapped deployment needs self-hostable components without a mandatory SaaS dependency",
+              "cloud_preference none means self-managed components only",
+              "no india region available",
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "none_db",
+            "name": "None (no database)",
+            "reasons": [
+              "the project needs persistent data"
+            ]
+          },
+          {
+            "id": "sqlite",
+            "name": "SQLite (embedded)",
+            "reasons": [
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "supabase_postgres",
+            "name": "Supabase Postgres",
+            "reasons": [
+              "air-gapped deployment needs self-hostable components without a mandatory SaaS dependency",
+              "cloud_preference none means self-managed components only"
+            ]
+          },
+          {
+            "id": "timescaledb",
+            "name": "TimescaleDB (PostgreSQL time-series)",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database",
+              "no HIPAA attestation"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 6,
+        "shortlist": [
+          "postgresql",
+          "mysql",
+          "sql_server",
+          "cockroachdb",
+          "mongodb",
+          "oracle_db"
+        ],
+        "chosen": [
+          "postgresql"
+        ]
+      },
+      "hosting": {
+        "candidates": 27,
+        "eliminated": [
+          {
+            "id": "aws_amplify",
+            "name": "AWS Amplify Hosting",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference none means self-managed hosting only"
+            ]
+          },
+          {
+            "id": "aws_ec2",
+            "name": "AWS EC2 (self-managed VMs)",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting"
+            ]
+          },
+          {
+            "id": "aws_ecs_fargate",
+            "name": "AWS ECS on Fargate",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference none means self-managed hosting only"
+            ]
+          },
+          {
+            "id": "aws_eks",
+            "name": "AWS EKS (Kubernetes)",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference none means self-managed hosting only"
+            ]
+          },
+          {
+            "id": "aws_elastic_beanstalk",
+            "name": "AWS Elastic Beanstalk",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference none means self-managed hosting only"
+            ]
+          },
+          {
+            "id": "aws_lambda",
+            "name": "AWS Lambda + API Gateway",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference none means self-managed hosting only"
+            ]
+          },
+          {
+            "id": "azure_app_service",
+            "name": "Azure App Service",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference none means self-managed hosting only"
+            ]
+          },
+          {
+            "id": "azure_container_apps",
+            "name": "Azure Container Apps",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference none means self-managed hosting only"
+            ]
+          },
+          {
+            "id": "azure_static_web_apps",
+            "name": "Azure Static Web Apps",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference none means self-managed hosting only"
+            ]
+          },
+          {
+            "id": "azure_vm",
+            "name": "Azure Virtual Machines",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting"
+            ]
+          },
+          {
+            "id": "cloudflare_pages",
+            "name": "Cloudflare Pages",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference none means self-managed hosting only"
+            ]
+          },
+          {
+            "id": "cloudflare_workers",
+            "name": "Cloudflare Workers",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference none means self-managed hosting only",
+              "no india region available",
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "digitalocean_droplet",
+            "name": "DigitalOcean App Platform / Droplets",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting"
+            ]
+          },
+          {
+            "id": "firebase_hosting",
+            "name": "Firebase Hosting",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference none means self-managed hosting only"
+            ]
+          },
+          {
+            "id": "fly_io",
+            "name": "Fly.io",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference none means self-managed hosting only"
+            ]
+          },
+          {
+            "id": "gce_vm",
+            "name": "Google Compute Engine",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting"
+            ]
+          },
+          {
+            "id": "github_pages",
+            "name": "GitHub Pages",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference none means self-managed hosting only"
+            ]
+          },
+          {
+            "id": "gke_cloud_run",
+            "name": "Google Cloud Run",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference none means self-managed hosting only"
+            ]
+          },
+          {
+            "id": "hetzner_vps",
+            "name": "Hetzner Cloud VPS",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "no india region available",
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "netlify",
+            "name": "Netlify",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference none means self-managed hosting only",
+              "no india region available",
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "none_host",
+            "name": "None (provided by the backend platform)",
+            "reasons": [
+              "a web client or API needs somewhere to be served from",
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference none means self-managed hosting only"
+            ]
+          },
+          {
+            "id": "railway",
+            "name": "Railway",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference none means self-managed hosting only",
+              "no india region available",
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "render",
+            "name": "Render",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference none means self-managed hosting only",
+              "no india region available"
+            ]
+          },
+          {
+            "id": "vercel",
+            "name": "Vercel",
+            "reasons": [
+              "air-gapped deployment allows only on-premise hosting",
+              "cloud_preference none means self-managed hosting only",
+              "no HIPAA attestation"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 3,
+        "shortlist": [
+          "onprem_linux_vm",
+          "onprem_k8s",
+          "windows_iis"
+        ],
+        "chosen": [
+          "onprem_linux_vm"
+        ]
+      }
+    },
+    "stack_search": {
+      "considered": 2448,
+      "pruned_by_reason": {
+        "frontend needs a specific backend": 516,
+        "runtime not supported by the host": 1224
+      },
+      "scored": 1932,
+      "removed_by_hard_budget": 0,
+      "frontend_pairs": false,
+      "budget_reference_usd": 300
+    },
+    "top_stacks": [
+      {
+        "rank": 1,
+        "stack": [
+          "Angular",
+          "Java + Spring Boot",
+          "PostgreSQL (managed or self-hosted)",
+          "Self-managed Linux servers (on-premise)"
+        ],
+        "score": 80.054,
+        "quality": 0.7286,
+        "fit": 0.8884,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.8,
+          "budget": 0.994,
+          "capability": 0.864,
+          "compat": 0.747,
+          "ops": 0.843,
+          "skill": 0.939
+        }
+      },
+      {
+        "rank": 2,
+        "stack": [
+          "Angular",
+          "Java + Spring Boot",
+          "PostgreSQL (managed or self-hosted)",
+          "Self-managed Kubernetes (on-premise)"
+        ],
+        "score": 79.923,
+        "quality": 0.7335,
+        "fit": 0.8796,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.8,
+          "budget": 0.994,
+          "capability": 0.864,
+          "compat": 0.747,
+          "ops": 0.819,
+          "skill": 0.919
+        }
+      },
+      {
+        "rank": 3,
+        "stack": [
+          "Django templates + htmx",
+          "Python + Django",
+          "PostgreSQL (managed or self-hosted)",
+          "Self-managed Linux servers (on-premise)"
+        ],
+        "score": 79.86,
+        "quality": 0.7474,
+        "fit": 0.8612,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.8,
+          "budget": 0.994,
+          "capability": 0.882,
+          "compat": 0.813,
+          "ops": 0.852,
+          "skill": 0.799
+        }
+      },
+      {
+        "rank": 4,
+        "stack": [
+          "Angular",
+          "Node.js + NestJS",
+          "PostgreSQL (managed or self-hosted)",
+          "Self-managed Linux servers (on-premise)"
+        ],
+        "score": 79.769,
+        "quality": 0.717,
+        "fit": 0.8963,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.7,
+          "budget": 0.994,
+          "capability": 0.864,
+          "compat": 0.747,
+          "ops": 0.852,
+          "skill": 0.991
+        }
+      },
+      {
+        "rank": 5,
+        "stack": [
+          "Django templates + htmx",
+          "Python + Django",
+          "PostgreSQL (managed or self-hosted)",
+          "Self-managed Kubernetes (on-premise)"
+        ],
+        "score": 79.729,
+        "quality": 0.7522,
+        "fit": 0.8524,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.8,
+          "budget": 0.994,
+          "capability": 0.882,
+          "compat": 0.813,
+          "ops": 0.828,
+          "skill": 0.779
+        }
+      }
+    ],
+    "supporting": {
+      "auth": {
+        "chosen": "framework_auth",
+        "covered_natively": true,
+        "score": 0.838,
+        "alternatives": [],
+        "eliminated": [
+          {
+            "id": "auth0",
+            "name": "Auth0",
+            "reasons": [
+              "air-gapped deployment forbids SaaS dependencies",
+              "cloud_preference none needs self-managed services",
+              "no india region available"
+            ]
+          },
+          {
+            "id": "clerk",
+            "name": "Clerk",
+            "reasons": [
+              "air-gapped deployment forbids SaaS dependencies",
+              "cloud_preference none needs self-managed services",
+              "no india region available",
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "cognito",
+            "name": "Amazon Cognito",
+            "reasons": [
+              "air-gapped deployment forbids SaaS dependencies",
+              "cloud_preference none needs self-managed services"
+            ]
+          },
+          {
+            "id": "entra_external_id",
+            "name": "Microsoft Entra External ID",
+            "reasons": [
+              "air-gapped deployment forbids SaaS dependencies",
+              "cloud_preference none needs self-managed services",
+              "no india region available"
+            ]
+          },
+          {
+            "id": "entra_id",
+            "name": "Microsoft Entra ID (workforce SSO)",
+            "reasons": [
+              "air-gapped deployment forbids SaaS dependencies",
+              "cloud_preference none needs self-managed services",
+              "workforce single sign-on is for employees, not consumer sign-in"
+            ]
+          },
+          {
+            "id": "firebase_auth",
+            "name": "Firebase Authentication",
+            "reasons": [
+              "air-gapped deployment forbids SaaS dependencies",
+              "cloud_preference none needs self-managed services",
+              "no india region available",
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "identity_platform",
+            "name": "Google Cloud Identity Platform",
+            "reasons": [
+              "air-gapped deployment forbids SaaS dependencies",
+              "cloud_preference none needs self-managed services"
+            ]
+          },
+          {
+            "id": "supabase_auth",
+            "name": "Supabase Auth",
+            "reasons": [
+              "is part of Supabase (BaaS) only"
+            ]
+          }
+        ]
+      },
+      "ci_cd": {
+        "chosen": "gitlab_ci",
+        "covered_natively": false,
+        "score": 0.7269,
+        "alternatives": [
+          "azure_devops",
+          "jenkins"
+        ],
+        "eliminated": [
+          {
+            "id": "github_actions",
+            "name": "GitHub Actions",
+            "reasons": [
+              "air-gapped deployment forbids SaaS dependencies",
+              "cloud_preference none needs self-managed services"
+            ]
+          }
+        ]
+      },
+      "observability": {
+        "chosen": "sentry",
+        "covered_natively": false,
+        "score": 0.7833,
+        "alternatives": [
+          "prometheus_grafana",
+          "glitchtip"
+        ],
+        "eliminated": [
+          {
+            "id": "azure_monitor",
+            "name": "Azure Monitor / Application Insights",
+            "reasons": [
+              "air-gapped deployment forbids SaaS dependencies",
+              "cloud_preference none needs self-managed services"
+            ]
+          },
+          {
+            "id": "cloudwatch",
+            "name": "Amazon CloudWatch",
+            "reasons": [
+              "air-gapped deployment forbids SaaS dependencies",
+              "cloud_preference none needs self-managed services"
+            ]
+          },
+          {
+            "id": "datadog",
+            "name": "Datadog",
+            "reasons": [
+              "air-gapped deployment forbids SaaS dependencies",
+              "cloud_preference none needs self-managed services",
+              "no india region available"
+            ]
+          },
+          {
+            "id": "grafana_cloud",
+            "name": "Grafana Cloud",
+            "reasons": [
+              "air-gapped deployment forbids SaaS dependencies",
+              "cloud_preference none needs self-managed services",
+              "no india region available",
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "uptime_monitor",
+            "name": "UptimeRobot / Better Stack uptime checks",
+            "reasons": [
+              "air-gapped deployment forbids SaaS dependencies",
+              "cloud_preference none needs self-managed services",
+              "no HIPAA attestation"
+            ]
+          }
+        ]
+      }
+    },
+    "relaxed_constraints": [
+      "No cache layer: about 10 requests/second and 2,000 users in 12 months are served directly by the database or BaaS.",
+      "Relaxed: no compliant email service was found, so the layer is left unfilled."
+    ],
+    "score_formula": "score = 100 * (0.55 * Q + 0.45 * F) - penalties"
+  },
+  "profile": {
+    "project_type": "healthtech",
+    "client_platforms": [
+      "web"
+    ],
+    "api_only": false,
+    "users_launch": 200,
+    "users_12m": 2000,
+    "peak_concurrent": 100,
+    "peak_estimated": false,
+    "peak_eff": 100,
+    "peak_rps": 10.0,
+    "avg_rps": 2.5,
+    "monthly_requests": 1396424.0044,
+    "egress_gb": 41.8927,
+    "data_gb": 20,
+    "traffic_pattern": "steady",
+    "workload": "balanced",
+    "scale_need": 3.2069,
+    "scale_tier": 1,
+    "team_size": 5,
+    "experience": "mixed",
+    "exp_factor": 0.4,
+    "has_devops": true,
+    "ops_capacity": 0.7737,
+    "skills": [
+      "java",
+      "typescript"
+    ],
+    "appetite": 0.5,
+    "beginner_sens": 0.4,
+    "lock_in_tolerance": "medium",
+    "hiring_plan": "none",
+    "mobile_preference": "no_preference",
+    "licenses": [],
+    "effort_pw": 11.5,
+    "capacity_pw": 35.1,
+    "effort_ratio": 0.3276,
+    "time_pressure": 0.0,
+    "mvp_weeks": 12,
+    "budget": 300.0,
+    "budget_tier": 3,
+    "budget_tightness": 0.3804,
+    "budget_strictness": "firm",
+    "availability": "99.9",
+    "avail_level": 3.0,
+    "avail_required": 5.8,
+    "p95": null,
+    "latency_need": 0.25,
+    "residency": "india",
+    "compliance": [
+      "hipaa"
+    ],
+    "regulated_count": 1,
+    "deployment": "air_gapped",
+    "cloud_pref": "none",
+    "existing_systems": [],
+    "license_texts": [],
+    "cloud_credits_usd": null,
+    "realtime": false,
+    "offline": false,
+    "search": false,
+    "files": false,
+    "payments": false,
+    "auth": "email_password",
+    "multi_tenant": false,
+    "ml": "none",
+    "seo": false,
+    "needs_server_logic": true,
+    "needs_persistence": true,
+    "static_candidate": false,
+    "geography": "country",
+    "data_sensitivity": "health",
+    "hints": {
+      "low_end_devices": false,
+      "poor_connectivity": false,
+      "upi": false,
+      "location": false,
+      "tabular_ml": false
+    },
+    "india_ctx": true,
+    "weights": {
+      "cost": 0.165,
+      "maintainability": 0.1594,
+      "performance": 0.1494,
+      "scalability": 0.1376,
+      "security": 0.269,
+      "time_to_market": 0.1196
+    },
+    "weight_multipliers": {
+      "cost": 1.3804,
+      "time_to_market": 1.0,
+      "scalability": 1.1509,
+      "performance": 1.25,
+      "maintainability": 1.0,
+      "security": 1.35
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "allowed_complexity": 6.5837,
+    "notes": []
+  },
+  "score": {
+    "total": 80.054,
+    "quality": 0.7286,
+    "fit": 0.8884,
+    "penalty": 0.0,
+    "penalties": {
+      "availability": 0.0,
+      "cold_start": -0.0,
+      "data_model": 0.0,
+      "durability": 0.0,
+      "existing_reuse": -0.0,
+      "game_client": 0.0,
+      "game_server": 0.0,
+      "hiring": 0.0,
+      "lock_in": 0.0,
+      "maturity": 0.0,
+      "over_engineering": 0.0,
+      "seo": 0.0,
+      "soft_certs": 0.0,
+      "two_codebases": 0.0,
+      "under_provision": 0.0
+    },
+    "fit_terms": {
+      "archetype": 0.8,
+      "budget": 0.9945,
+      "capability": 0.8636,
+      "compat": 0.7467,
+      "ops": 0.8425,
+      "skill": 0.9386
+    },
+    "criteria": {
+      "cost": 7.1,
+      "maintainability": 7.8,
+      "performance": 7.85,
+      "scalability": 5.145,
+      "security": 8.25,
+      "time_to_market": 6.45
+    }
+  },
+  "ranking": [
+    {
+      "rank": 1,
+      "stack": {
+        "frontend": "Angular",
+        "backend": "Java + Spring Boot",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Self-managed Linux servers (on-premise)"
+      },
+      "score": 80.054,
+      "quality": 0.7286,
+      "fit": 0.8884,
+      "penalty": 0.0,
+      "cost_usd": [
+        0,
+        8
+      ]
+    },
+    {
+      "rank": 2,
+      "stack": {
+        "frontend": "Angular",
+        "backend": "Java + Spring Boot",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Self-managed Kubernetes (on-premise)"
+      },
+      "score": 79.923,
+      "quality": 0.7335,
+      "fit": 0.8796,
+      "penalty": 0.0,
+      "cost_usd": [
+        0,
+        8
+      ]
+    },
+    {
+      "rank": 3,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Self-managed Linux servers (on-premise)"
+      },
+      "score": 79.86,
+      "quality": 0.7474,
+      "fit": 0.8612,
+      "penalty": 0.0,
+      "cost_usd": [
+        0,
+        8
+      ]
+    },
+    {
+      "rank": 4,
+      "stack": {
+        "frontend": "Angular",
+        "backend": "Node.js + NestJS",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Self-managed Linux servers (on-premise)"
+      },
+      "score": 79.769,
+      "quality": 0.717,
+      "fit": 0.8963,
+      "penalty": 0.0,
+      "cost_usd": [
+        0,
+        8
+      ]
+    },
+    {
+      "rank": 5,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Self-managed Kubernetes (on-premise)"
+      },
+      "score": 79.729,
+      "quality": 0.7522,
+      "fit": 0.8524,
+      "penalty": 0.0,
+      "cost_usd": [
+        0,
+        8
+      ]
+    },
+    {
+      "rank": 6,
+      "stack": {
+        "frontend": "Angular",
+        "backend": "C# + ASP.NET Core",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Windows Server + IIS (self-hosted)"
+      },
+      "score": 79.68,
+      "quality": 0.7358,
+      "fit": 0.8713,
+      "penalty": 0.0,
+      "cost_usd": [
+        0,
+        8
+      ]
+    },
+    {
+      "rank": 7,
+      "stack": {
+        "frontend": "Nuxt",
+        "backend": "Node.js + NestJS",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Self-managed Linux servers (on-premise)"
+      },
+      "score": 79.679,
+      "quality": 0.714,
+      "fit": 0.898,
+      "penalty": 0.0,
+      "cost_usd": [
+        0,
+        8
+      ]
+    },
+    {
+      "rank": 8,
+      "stack": {
+        "frontend": "Nuxt",
+        "backend": "Java + Spring Boot",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Self-managed Linux servers (on-premise)"
+      },
+      "score": 79.664,
+      "quality": 0.7256,
+      "fit": 0.8834,
+      "penalty": 0.0,
+      "cost_usd": [
+        0,
+        8
+      ]
+    },
+    {
+      "rank": 9,
+      "stack": {
+        "frontend": "Angular",
+        "backend": "Node.js + NestJS",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Self-managed Kubernetes (on-premise)"
+      },
+      "score": 79.639,
+      "quality": 0.7219,
+      "fit": 0.8874,
+      "penalty": 0.0,
+      "cost_usd": [
+        0,
+        8
+      ]
+    },
+    {
+      "rank": 10,
+      "stack": {
+        "frontend": "Vue 3 + Vite (SPA)",
+        "backend": "Node.js + NestJS",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Self-managed Linux servers (on-premise)"
+      },
+      "score": 79.627,
+      "quality": 0.7126,
+      "fit": 0.8985,
+      "penalty": 0.0,
+      "cost_usd": [
+        0,
+        8
+      ]
+    }
+  ],
+  "robustness": {
+    "verdict": "sensitive",
+    "margin_points": 0.131,
+    "runner_up": {
+      "frontend": "Angular",
+      "backend": "Java + Spring Boot",
+      "database": "PostgreSQL (managed or self-hosted)",
+      "hosting": "Self-managed Kubernetes (on-premise)"
+    },
+    "checks_run": 14,
+    "checks_held": 7,
+    "summary": "The same stack wins in 7 of 14 checks. It switches to Django templates + htmx (frontend), Python + Django (backend) when cost counted twice as much, time to market counted twice as much, performance counted half as much; and to Self-managed Kubernetes (on-premise) (hosting) when cost counted half as much, performance counted twice as much, security counted twice as much; and to Vue 3 + Vite (SPA) (frontend), Node.js + NestJS (backend) when security counted half as much.",
+    "checks": [
+      {
+        "change": "cost counted twice as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Django templates + htmx",
+          "backend": "Python + Django",
+          "database": "PostgreSQL (managed or self-hosted)",
+          "hosting": "Self-managed Linux servers (on-premise)"
+        },
+        "swaps": [
+          {
+            "layer": "frontend",
+            "from": "Angular",
+            "to": "Django templates + htmx"
+          },
+          {
+            "layer": "backend",
+            "from": "Java + Spring Boot",
+            "to": "Python + Django"
+          }
+        ]
+      },
+      {
+        "change": "cost counted half as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Angular",
+          "backend": "Java + Spring Boot",
+          "database": "PostgreSQL (managed or self-hosted)",
+          "hosting": "Self-managed Kubernetes (on-premise)"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "Self-managed Linux servers (on-premise)",
+            "to": "Self-managed Kubernetes (on-premise)"
+          }
+        ]
+      },
+      {
+        "change": "time to market counted twice as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Django templates + htmx",
+          "backend": "Python + Django",
+          "database": "PostgreSQL (managed or self-hosted)",
+          "hosting": "Self-managed Linux servers (on-premise)"
+        },
+        "swaps": [
+          {
+            "layer": "frontend",
+            "from": "Angular",
+            "to": "Django templates + htmx"
+          },
+          {
+            "layer": "backend",
+            "from": "Java + Spring Boot",
+            "to": "Python + Django"
+          }
+        ]
+      },
+      {
+        "change": "time to market counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "scalability counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "scalability counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "performance counted twice as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Angular",
+          "backend": "Java + Spring Boot",
+          "database": "PostgreSQL (managed or self-hosted)",
+          "hosting": "Self-managed Kubernetes (on-premise)"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "Self-managed Linux servers (on-premise)",
+            "to": "Self-managed Kubernetes (on-premise)"
+          }
+        ]
+      },
+      {
+        "change": "performance counted half as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Django templates + htmx",
+          "backend": "Python + Django",
+          "database": "PostgreSQL (managed or self-hosted)",
+          "hosting": "Self-managed Linux servers (on-premise)"
+        },
+        "swaps": [
+          {
+            "layer": "frontend",
+            "from": "Angular",
+            "to": "Django templates + htmx"
+          },
+          {
+            "layer": "backend",
+            "from": "Java + Spring Boot",
+            "to": "Python + Django"
+          }
+        ]
+      },
+      {
+        "change": "maintainability counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "maintainability counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "security counted twice as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Angular",
+          "backend": "Java + Spring Boot",
+          "database": "PostgreSQL (managed or self-hosted)",
+          "hosting": "Self-managed Kubernetes (on-premise)"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "Self-managed Linux servers (on-premise)",
+            "to": "Self-managed Kubernetes (on-premise)"
+          }
+        ]
+      },
+      {
+        "change": "security counted half as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Vue 3 + Vite (SPA)",
+          "backend": "Node.js + NestJS",
+          "database": "PostgreSQL (managed or self-hosted)",
+          "hosting": "Self-managed Linux servers (on-premise)"
+        },
+        "swaps": [
+          {
+            "layer": "frontend",
+            "from": "Angular",
+            "to": "Vue 3 + Vite (SPA)"
+          },
+          {
+            "layer": "backend",
+            "from": "Java + Spring Boot",
+            "to": "Node.js + NestJS"
+          }
+        ]
+      },
+      {
+        "change": "budget halved ($150)",
+        "same_stack": true
+      },
+      {
+        "change": "budget doubled ($600)",
+        "same_stack": true
+      }
+    ]
+  },
+  "trade_off_options": [
+    {
+      "direction": "more_headroom",
+      "title": "More headroom to scale",
+      "available": false,
+      "note": "Nothing within 12 points of the winner does clearly better here, so the chosen stack is already a strong pick on this."
+    },
+    {
+      "direction": "faster_build",
+      "title": "Ship sooner",
+      "available": true,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Self-managed Linux servers (on-premise)"
+      },
+      "swaps": [
+        {
+          "layer": "frontend",
+          "from": "Angular",
+          "to": "Django templates + htmx"
+        },
+        {
+          "layer": "backend",
+          "from": "Java + Spring Boot",
+          "to": "Python + Django"
+        }
+      ],
+      "score": 79.86,
+      "points_behind": 0.194,
+      "cost_usd": [
+        0,
+        8
+      ],
+      "gains": "time to market 8.1 instead of 6.4",
+      "gives_up": [
+        "team skill fit (-1.8 pts)",
+        "performance (-0.7 pts)",
+        "maintainability (-0.1 pts)"
+      ],
+      "summary": "Frontend Angular -> Django templates + htmx; backend Java + Spring Boot -> Python + Django: time to market 8.1 instead of 6.4. Gives up 0.2 points, mainly on team skill fit (-1.8 pts), performance (-0.7 pts), maintainability (-0.1 pts)."
+    }
+  ]
+}

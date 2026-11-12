@@ -1,0 +1,1351 @@
+{
+  "scenario_id": "E7",
+  "engine_version": "1.0.0",
+  "status": "ok_with_warnings",
+  "summary": "Single deployable monolith: Django templates + htmx, Python + Django, PostgreSQL (managed or self-hosted) database on Google Cloud Run. It is estimated at $100-$190 per month.",
+  "architecture_style": "monolith",
+  "stack": {
+    "frontend": {
+      "choice": "Django templates + htmx",
+      "justification": "Django templates + htmx no JS build chain or separate front end.",
+      "driven_by": [
+        "priorities.cost"
+      ],
+      "alternatives": [
+        {
+          "choice": "Angular",
+          "why_not": "Angular scores 0.2 points lower overall, mainly on time to market (1.1 points) and security (0.6 points)."
+        },
+        {
+          "choice": "Laravel Blade + Livewire",
+          "why_not": "Laravel Blade + Livewire is a close second: only 0.5 points behind, with no single weakness."
+        }
+      ],
+      "tradeoffs": [
+        "Rich interactivity is harder",
+        "No offline",
+        "New to the team (python); plan for learning time."
+      ]
+    },
+    "backend": {
+      "choice": "Python + Django",
+      "justification": "Python + Django has mature security defaults for handling payments; free, runs on one small VM.",
+      "driven_by": [
+        "requirements.payments",
+        "priorities.cost"
+      ],
+      "alternatives": [
+        {
+          "choice": "Node.js + NestJS",
+          "why_not": "Node.js + NestJS scores 0.2 points lower overall, mainly on time to market (1.1 points) and security (0.6 points)."
+        },
+        {
+          "choice": "C# + ASP.NET Core",
+          "why_not": "C# + ASP.NET Core scores 0.4 points lower overall, mainly on time to market (1.1 points) and team skill fit (0.6 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Sync-first, so realtime needs Channels",
+        "New to the team (python); plan for learning time."
+      ]
+    },
+    "database": {
+      "choice": "PostgreSQL (managed or self-hosted)",
+      "justification": "PostgreSQL (managed or self-hosted) gives ACID transactions for money-handling data; carries PCI DSS attestation; row-level security, mature auditing, encryption; is a proven choice for fintech projects.",
+      "driven_by": [
+        "requirements.payments",
+        "compliance",
+        "priorities.security",
+        "project.type"
+      ],
+      "alternatives": [
+        {
+          "choice": "MySQL (managed or self-hosted)",
+          "why_not": "MySQL (managed or self-hosted) scores 1.6 points lower overall, mainly on security (0.5 points)."
+        },
+        {
+          "choice": "CockroachDB",
+          "why_not": "CockroachDB scores 2.5 points lower overall, mainly on cost (0.8 points) and compatibility with the rest of the stack (0.5 points). Estimated infrastructure about $56-$130/month versus about $91-$180/month."
+        }
+      ],
+      "tradeoffs": [
+        "Write scaling beyond one primary needs design"
+      ]
+    },
+    "hosting": {
+      "choice": "Google Cloud Run",
+      "justification": "Google Cloud Run offers a 99.95% SLA, in line with the 99.9% target; pay per use, scale to zero, generous free tier.",
+      "driven_by": [
+        "requirements.availability",
+        "priorities.cost"
+      ],
+      "alternatives": [
+        {
+          "choice": "Azure App Service",
+          "why_not": "Azure App Service scores 1.1 points lower overall, mainly on cost (0.9 points) and budget fit (0.8 points). Estimated infrastructure about $150-$300/month versus about $91-$180/month."
+        },
+        {
+          "choice": "Azure Container Apps",
+          "why_not": "Azure Container Apps is a close second: only 1.4 points behind, with no single weakness."
+        }
+      ],
+      "tradeoffs": [
+        "GCP only"
+      ]
+    },
+    "supporting": [
+      {
+        "layer": "auth",
+        "choice": "Google Cloud Identity Platform",
+        "justification": "Google Cloud Identity Platform: users sign in (enterprise sso); Firebase Authentication with an SLA, multi-tenancy and HIPAA coverage; free at this scale.",
+        "driven_by": [
+          "requirements.auth"
+        ],
+        "alternatives": [
+          {
+            "choice": "Auth0",
+            "why_not": "Ranks lower (costs more (about $30 vs $0 per month at the high end)); score 0.73 vs 0.80."
+          },
+          {
+            "choice": "Microsoft Entra ID (workforce SSO)",
+            "why_not": "Ranks lower (more to operate); score 0.71 vs 0.80."
+          }
+        ],
+        "tradeoffs": []
+      },
+      {
+        "layer": "payments",
+        "choice": "Stripe",
+        "justification": "Stripe: the product takes payments; best developer experience and global coverage; free at this scale.",
+        "driven_by": [
+          "requirements.payments",
+          "infrastructure.data_residency",
+          "compliance"
+        ],
+        "alternatives": [
+          {
+            "choice": "Razorpay",
+            "why_not": "Ranks lower (lower quality rating (9 vs 10)); score 0.83 vs 0.86."
+          },
+          {
+            "choice": "Adyen",
+            "why_not": "Ranks lower (lower quality rating (9 vs 10)); score 0.82 vs 0.86."
+          }
+        ],
+        "tradeoffs": []
+      },
+      {
+        "layer": "waf",
+        "choice": "Cloudflare WAF",
+        "justification": "Cloudflare WAF: card traffic under PCI DSS needs a web application firewall; managed rules and bot protection from the Pro plan.",
+        "driven_by": [
+          "compliance",
+          "requirements.payments"
+        ],
+        "alternatives": [
+          {
+            "choice": "AWS WAF",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), more to operate, more lock-in); score 0.70 vs 0.76."
+          },
+          {
+            "choice": "Azure Web Application Firewall",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $52 vs $20 per month at the high end), more to operate, more lock-in); score 0.65 vs 0.76."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $20 per month."
+        ]
+      },
+      {
+        "layer": "email",
+        "choice": "Amazon SES",
+        "justification": "Amazon SES: payments need emailed receipts and confirmations; $0.10 per 1,000 emails, deliverability work is yours.",
+        "driven_by": [
+          "requirements.auth",
+          "requirements.payments"
+        ],
+        "alternatives": [
+          {
+            "choice": "Postmark",
+            "why_not": "Ranks lower (costs more (about $15 vs $4 per month at the high end)); score 0.78 vs 0.79."
+          },
+          {
+            "choice": "Resend",
+            "why_not": "Ranks lower (costs more (about $17 vs $4 per month at the high end)); score 0.76 vs 0.79."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $0-$4 per month."
+        ]
+      },
+      {
+        "layer": "ci_cd",
+        "choice": "GitHub Actions",
+        "justification": "GitHub Actions: automated build and deploy for the team; workflows next to the code; the 2,000 free minutes a month cover a small team, larger teams buy extra minutes; free at this scale.",
+        "driven_by": [
+          "team.size"
+        ],
+        "alternatives": [
+          {
+            "choice": "GitLab CI/CD",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $25 vs $0 per month at the high end), more to operate); score 0.73 vs 0.84."
+          },
+          {
+            "choice": "Azure DevOps Pipelines",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $26 vs $0 per month at the high end), more to operate); score 0.72 vs 0.84."
+          }
+        ],
+        "tradeoffs": []
+      },
+      {
+        "layer": "observability",
+        "choice": "Sentry",
+        "justification": "Sentry: production monitoring for the availability target; error tracking and performance with free developer plan.",
+        "driven_by": [
+          "requirements.availability",
+          "scale.users_12_months"
+        ],
+        "alternatives": [
+          {
+            "choice": "Grafana Cloud",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), more to operate); score 0.74 vs 0.78."
+          },
+          {
+            "choice": "UptimeRobot / Better Stack uptime checks",
+            "why_not": "Ranks lower (lower quality rating (6 vs 9)); score 0.71 vs 0.78."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $0-$22 per month."
+        ]
+      }
+    ]
+  },
+  "estimated_monthly_cost_usd": {
+    "min": 100,
+    "max": 190,
+    "assumptions": [
+      "Load estimate: peak about 10 requests/second and about 1.4M requests/month from 2K users in 12 months.",
+      "Usage-priced items are shown as a band (0.75x to 1.3x of the estimate) because load figures are order-of-magnitude.",
+      "Public list prices of each product, in USD, without taxes, committed-use discounts or developer time.",
+      "The 99.9% availability target doubles or adds redundancy for hosting and database where needed.",
+      "Hosting (Google Cloud Run): about $14-$29/month",
+      "Database (PostgreSQL (managed or self-hosted)): about $67-$120/month",
+      "WAF (Cloudflare WAF): about $20/month",
+      "Email (Amazon SES): about $0-$4/month",
+      "Observability (Sentry): about $0-$22/month"
+    ]
+  },
+  "warnings": [
+    {
+      "code": "PCI_SCOPE",
+      "severity": "warning",
+      "message": "Use a hosted checkout or tokenisation from a PCI DSS Level 1 provider so card numbers never touch your servers; otherwise the whole stack is in PCI scope.",
+      "fields": [
+        "requirements.payments",
+        "compliance"
+      ]
+    },
+    {
+      "code": "SKILL_MISMATCH",
+      "severity": "warning",
+      "message": "The chosen stack uses languages the team does not know well; expect a learning curve (skill fit 37%).",
+      "fields": [
+        "team.languages",
+        "team.experience"
+      ]
+    }
+  ],
+  "assumptions": [
+    "No extra inputs supplied; neutral defaults are used (learning appetite medium, lock-in tolerance medium, budget strictness firm, no hiring plan, no mobile preference).",
+    "No cache layer: about 10 requests/second and 2,000 users in 12 months are served directly by the database or BaaS.",
+    "No queue: background work is light enough for the backend or the provider's own webhooks and functions."
+  ],
+  "validation_errors": [],
+  "decision_trace": {
+    "pipeline": [
+      "validate input",
+      "derive profile",
+      "filter each layer by hard constraints",
+      "enumerate compatible stacks",
+      "score quality, fit and penalties",
+      "rank deterministically",
+      "select supporting services",
+      "estimate cost",
+      "explain"
+    ],
+    "weights": {
+      "cost": 0.1917,
+      "maintainability": 0.1389,
+      "performance": 0.1736,
+      "scalability": 0.1598,
+      "security": 0.1875,
+      "time_to_market": 0.1486
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "layers": {
+      "frontend": {
+        "candidates": 24,
+        "eliminated": [
+          {
+            "id": "godot",
+            "name": "Godot Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "kotlin_android",
+            "name": "Kotlin + Jetpack Compose (Android native)",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "maui",
+            "name": ".NET MAUI",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "none_fe",
+            "name": "None (API only)",
+            "reasons": [
+              "the project has client platforms to build"
+            ]
+          },
+          {
+            "id": "swift_ios",
+            "name": "Swift + SwiftUI (iOS native)",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "unity",
+            "name": "Unity",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "unreal",
+            "name": "Unreal Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 17,
+        "shortlist": [
+          "django_htmx",
+          "angular",
+          "laravel_livewire",
+          "expo_rn",
+          "blazor",
+          "nuxt",
+          "vue_vite",
+          "rails_hotwire"
+        ],
+        "chosen": [
+          "django_htmx"
+        ]
+      },
+      "backend": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "colyseus",
+            "name": "Colyseus (Node.js game server)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "firebase",
+            "name": "Firebase (BaaS)",
+            "reasons": [
+              "no PCI_DSS attestation"
+            ]
+          },
+          {
+            "id": "nakama",
+            "name": "Nakama (Go game backend)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "none_be",
+            "name": "No backend (static)",
+            "reasons": [
+              "the project needs server-side logic (accounts, payments, uploads, realtime or non-content features)"
+            ]
+          },
+          {
+            "id": "supabase",
+            "name": "Supabase (BaaS)",
+            "reasons": [
+              "no PCI_DSS attestation"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 11,
+        "shortlist": [
+          "django",
+          "nestjs",
+          "aspnet_core",
+          "go_chi",
+          "laravel",
+          "spring_boot",
+          "fastapi",
+          "rails"
+        ],
+        "chosen": [
+          "django"
+        ]
+      },
+      "database": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "bigquery",
+            "name": "Google BigQuery",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          },
+          {
+            "id": "clickhouse",
+            "name": "ClickHouse",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database",
+              "no PCI_DSS attestation"
+            ]
+          },
+          {
+            "id": "firestore",
+            "name": "Cloud Firestore",
+            "reasons": [
+              "no PCI_DSS attestation"
+            ]
+          },
+          {
+            "id": "neon",
+            "name": "Neon (serverless Postgres)",
+            "reasons": [
+              "no PCI_DSS attestation"
+            ]
+          },
+          {
+            "id": "none_db",
+            "name": "None (no database)",
+            "reasons": [
+              "the project needs persistent data"
+            ]
+          },
+          {
+            "id": "sqlite",
+            "name": "SQLite (embedded)",
+            "reasons": [
+              "no PCI_DSS attestation"
+            ]
+          },
+          {
+            "id": "supabase_postgres",
+            "name": "Supabase Postgres",
+            "reasons": [
+              "no PCI_DSS attestation"
+            ]
+          },
+          {
+            "id": "timescaledb",
+            "name": "TimescaleDB (PostgreSQL time-series)",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database",
+              "no PCI_DSS attestation"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 8,
+        "shortlist": [
+          "postgresql",
+          "mysql",
+          "cockroachdb",
+          "sql_server",
+          "mongodb",
+          "oracle_db",
+          "dynamodb",
+          "cosmos_db"
+        ],
+        "chosen": [
+          "postgresql"
+        ]
+      },
+      "hosting": {
+        "candidates": 27,
+        "eliminated": [
+          {
+            "id": "digitalocean_droplet",
+            "name": "DigitalOcean App Platform / Droplets",
+            "reasons": [
+              "no PCI_DSS attestation"
+            ]
+          },
+          {
+            "id": "fly_io",
+            "name": "Fly.io",
+            "reasons": [
+              "no PCI_DSS attestation"
+            ]
+          },
+          {
+            "id": "hetzner_vps",
+            "name": "Hetzner Cloud VPS",
+            "reasons": [
+              "no PCI_DSS attestation"
+            ]
+          },
+          {
+            "id": "netlify",
+            "name": "Netlify",
+            "reasons": [
+              "no PCI_DSS attestation"
+            ]
+          },
+          {
+            "id": "none_host",
+            "name": "None (provided by the backend platform)",
+            "reasons": [
+              "a web client or API needs somewhere to be served from"
+            ]
+          },
+          {
+            "id": "onprem_k8s",
+            "name": "Self-managed Kubernetes (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          },
+          {
+            "id": "onprem_linux_vm",
+            "name": "Self-managed Linux servers (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          },
+          {
+            "id": "railway",
+            "name": "Railway",
+            "reasons": [
+              "no PCI_DSS attestation"
+            ]
+          },
+          {
+            "id": "render",
+            "name": "Render",
+            "reasons": [
+              "no PCI_DSS attestation"
+            ]
+          },
+          {
+            "id": "vercel",
+            "name": "Vercel",
+            "reasons": [
+              "no PCI_DSS attestation"
+            ]
+          },
+          {
+            "id": "windows_iis",
+            "name": "Windows Server + IIS (self-hosted)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 13,
+        "shortlist": [
+          "gke_cloud_run",
+          "azure_app_service",
+          "azure_container_apps",
+          "aws_elastic_beanstalk",
+          "aws_ec2",
+          "aws_lambda",
+          "aws_ecs_fargate",
+          "gce_vm"
+        ],
+        "chosen": [
+          "gke_cloud_run"
+        ]
+      }
+    },
+    "stack_search": {
+      "considered": 13328,
+      "pruned_by_reason": {
+        "backend bundled with a specific frontend": 384,
+        "database cannot be reached from the host": 407,
+        "frontend needs a specific backend": 2832,
+        "runtime not supported by the host": 10608
+      },
+      "scored": 9705,
+      "removed_by_hard_budget": 0,
+      "frontend_pairs": false,
+      "budget_reference_usd": 300
+    },
+    "top_stacks": [
+      {
+        "rank": 1,
+        "stack": [
+          "Django templates + htmx",
+          "Python + Django",
+          "PostgreSQL (managed or self-hosted)",
+          "Google Cloud Run"
+        ],
+        "score": 82.041,
+        "quality": 0.7872,
+        "fit": 0.861,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.7,
+          "budget": 0.853,
+          "capability": 0.877,
+          "compat": 0.867,
+          "ops": 0.934,
+          "skill": 0.861
+        }
+      },
+      {
+        "rank": 2,
+        "stack": [
+          "Angular",
+          "Node.js + NestJS",
+          "PostgreSQL (managed or self-hosted)",
+          "Google Cloud Run"
+        ],
+        "score": 81.88,
+        "quality": 0.7574,
+        "fit": 0.8938,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.9,
+          "budget": 0.853,
+          "capability": 0.954,
+          "compat": 0.867,
+          "ops": 0.934,
+          "skill": 0.861
+        }
+      },
+      {
+        "rank": 3,
+        "stack": [
+          "Angular",
+          "C# + ASP.NET Core",
+          "PostgreSQL (managed or self-hosted)",
+          "Google Cloud Run"
+        ],
+        "score": 81.603,
+        "quality": 0.7733,
+        "fit": 0.8682,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.9,
+          "budget": 0.853,
+          "capability": 0.962,
+          "compat": 0.733,
+          "ops": 0.934,
+          "skill": 0.811
+        }
+      },
+      {
+        "rank": 4,
+        "stack": [
+          "Angular",
+          "Go (net/http + chi)",
+          "PostgreSQL (managed or self-hosted)",
+          "Google Cloud Run"
+        ],
+        "score": 81.601,
+        "quality": 0.7758,
+        "fit": 0.8652,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.8,
+          "budget": 0.853,
+          "capability": 0.954,
+          "compat": 0.8,
+          "ops": 0.934,
+          "skill": 0.811
+        }
+      },
+      {
+        "rank": 5,
+        "stack": [
+          "Angular",
+          "Python + Django",
+          "PostgreSQL (managed or self-hosted)",
+          "Google Cloud Run"
+        ],
+        "score": 81.512,
+        "quality": 0.7768,
+        "fit": 0.8619,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.8,
+          "budget": 0.853,
+          "capability": 0.969,
+          "compat": 0.733,
+          "ops": 0.934,
+          "skill": 0.811
+        }
+      }
+    ],
+    "supporting": {
+      "auth": {
+        "chosen": "identity_platform",
+        "covered_natively": false,
+        "score": 0.8033,
+        "alternatives": [
+          "auth0",
+          "entra_id"
+        ],
+        "eliminated": [
+          {
+            "id": "clerk",
+            "name": "Clerk",
+            "reasons": [
+              "no PCI_DSS attestation"
+            ]
+          },
+          {
+            "id": "firebase_auth",
+            "name": "Firebase Authentication",
+            "reasons": [
+              "no PCI_DSS attestation"
+            ]
+          },
+          {
+            "id": "framework_auth",
+            "name": "Framework built-in auth (sessions/JWT)",
+            "reasons": [
+              "self-hosted identity needs a team that runs infrastructure"
+            ]
+          },
+          {
+            "id": "keycloak",
+            "name": "Keycloak",
+            "reasons": [
+              "self-hosted identity needs a team that runs infrastructure"
+            ]
+          },
+          {
+            "id": "supabase_auth",
+            "name": "Supabase Auth",
+            "reasons": [
+              "no PCI_DSS attestation",
+              "is part of Supabase (BaaS) only"
+            ]
+          }
+        ]
+      },
+      "payments": {
+        "chosen": "stripe",
+        "covered_natively": false,
+        "score": 0.86,
+        "alternatives": [
+          "razorpay",
+          "adyen"
+        ],
+        "eliminated": []
+      },
+      "waf": {
+        "chosen": "cloudflare_waf",
+        "covered_natively": false,
+        "score": 0.7582,
+        "alternatives": [
+          "aws_waf",
+          "azure_waf"
+        ],
+        "eliminated": []
+      },
+      "email": {
+        "chosen": "aws_ses",
+        "covered_natively": false,
+        "score": 0.7854,
+        "alternatives": [
+          "postmark",
+          "resend"
+        ],
+        "eliminated": []
+      },
+      "ci_cd": {
+        "chosen": "github_actions",
+        "covered_natively": false,
+        "score": 0.84,
+        "alternatives": [
+          "gitlab_ci",
+          "azure_devops"
+        ],
+        "eliminated": []
+      },
+      "observability": {
+        "chosen": "sentry",
+        "covered_natively": false,
+        "score": 0.7833,
+        "alternatives": [
+          "grafana_cloud",
+          "uptime_monitor"
+        ],
+        "eliminated": [
+          {
+            "id": "glitchtip",
+            "name": "GlitchTip (self-hosted)",
+            "reasons": [
+              "self-hosted monitoring needs a team that runs infrastructure"
+            ]
+          },
+          {
+            "id": "prometheus_grafana",
+            "name": "Prometheus + Grafana (self-hosted)",
+            "reasons": [
+              "self-hosted monitoring needs a team that runs infrastructure"
+            ]
+          }
+        ]
+      }
+    },
+    "relaxed_constraints": [
+      "No cache layer: about 10 requests/second and 2,000 users in 12 months are served directly by the database or BaaS.",
+      "No queue: background work is light enough for the backend or the provider's own webhooks and functions."
+    ],
+    "score_formula": "score = 100 * (0.55 * Q + 0.45 * F) - penalties"
+  },
+  "profile": {
+    "project_type": "fintech",
+    "client_platforms": [
+      "web"
+    ],
+    "api_only": false,
+    "users_launch": 200,
+    "users_12m": 2000,
+    "peak_concurrent": 100,
+    "peak_estimated": false,
+    "peak_eff": 100,
+    "peak_rps": 10.0,
+    "avg_rps": 2.5,
+    "monthly_requests": 1396424.0044,
+    "egress_gb": 41.8927,
+    "data_gb": 20,
+    "traffic_pattern": "steady",
+    "workload": "balanced",
+    "scale_need": 3.2069,
+    "scale_tier": 1,
+    "team_size": 3,
+    "experience": "senior",
+    "exp_factor": 1.0,
+    "has_devops": false,
+    "ops_capacity": 0.3563,
+    "skills": [
+      "cobol",
+      "sql"
+    ],
+    "appetite": 0.5,
+    "beginner_sens": 0.0,
+    "lock_in_tolerance": "medium",
+    "hiring_plan": "none",
+    "mobile_preference": "no_preference",
+    "licenses": [],
+    "effort_pw": 15.0,
+    "capacity_pw": 29.25,
+    "effort_ratio": 0.5128,
+    "time_pressure": 0.0705,
+    "mvp_weeks": 12,
+    "budget": 300.0,
+    "budget_tier": 3,
+    "budget_tightness": 0.3804,
+    "budget_strictness": "firm",
+    "availability": "99.9",
+    "avail_level": 3.0,
+    "avail_required": 5.8,
+    "p95": null,
+    "latency_need": 0.25,
+    "residency": "none",
+    "compliance": [
+      "pci_dss"
+    ],
+    "regulated_count": 1,
+    "deployment": "managed_cloud",
+    "cloud_pref": "any",
+    "existing_systems": [],
+    "license_texts": [],
+    "cloud_credits_usd": null,
+    "realtime": false,
+    "offline": false,
+    "search": false,
+    "files": false,
+    "payments": true,
+    "auth": "enterprise_sso",
+    "multi_tenant": false,
+    "ml": "none",
+    "seo": false,
+    "needs_server_logic": true,
+    "needs_persistence": true,
+    "static_candidate": false,
+    "geography": "global",
+    "data_sensitivity": "financial",
+    "hints": {
+      "low_end_devices": false,
+      "poor_connectivity": false,
+      "upi": false,
+      "location": false,
+      "tabular_ml": false
+    },
+    "india_ctx": false,
+    "weights": {
+      "cost": 0.1917,
+      "maintainability": 0.1389,
+      "performance": 0.1736,
+      "scalability": 0.1598,
+      "security": 0.1875,
+      "time_to_market": 0.1486
+    },
+    "weight_multipliers": {
+      "cost": 1.3804,
+      "time_to_market": 1.0705,
+      "scalability": 1.1509,
+      "performance": 1.25,
+      "maintainability": 1.0,
+      "security": 1.35
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "allowed_complexity": 5.7175,
+    "notes": []
+  },
+  "score": {
+    "total": 82.041,
+    "quality": 0.7872,
+    "fit": 0.861,
+    "penalty": 0.0,
+    "penalties": {
+      "availability": 0.0,
+      "cold_start": -0.0,
+      "data_model": 0.0,
+      "durability": 0.0,
+      "existing_reuse": -0.0,
+      "game_client": 0.0,
+      "game_server": 0.0,
+      "hiring": 0.0,
+      "lock_in": 0.0,
+      "maturity": 0.0,
+      "over_engineering": 0.0,
+      "seo": 0.0,
+      "soft_certs": 0.0,
+      "two_codebases": 0.0,
+      "under_provision": 0.0
+    },
+    "fit_terms": {
+      "archetype": 0.7,
+      "budget": 0.8531,
+      "capability": 0.8769,
+      "compat": 0.8667,
+      "ops": 0.934,
+      "skill": 0.861
+    },
+    "criteria": {
+      "cost": 8.9,
+      "maintainability": 8.55,
+      "performance": 6.95,
+      "scalability": 5.207,
+      "security": 8.55,
+      "time_to_market": 9.0
+    }
+  },
+  "ranking": [
+    {
+      "rank": 1,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 82.041,
+      "quality": 0.7872,
+      "fit": 0.861,
+      "penalty": 0.0,
+      "cost_usd": [
+        91,
+        177
+      ]
+    },
+    {
+      "rank": 2,
+      "stack": {
+        "frontend": "Angular",
+        "backend": "Node.js + NestJS",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 81.88,
+      "quality": 0.7574,
+      "fit": 0.8938,
+      "penalty": 0.0,
+      "cost_usd": [
+        91,
+        177
+      ]
+    },
+    {
+      "rank": 3,
+      "stack": {
+        "frontend": "Angular",
+        "backend": "C# + ASP.NET Core",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 81.603,
+      "quality": 0.7733,
+      "fit": 0.8682,
+      "penalty": 0.0,
+      "cost_usd": [
+        91,
+        177
+      ]
+    },
+    {
+      "rank": 4,
+      "stack": {
+        "frontend": "Angular",
+        "backend": "Go (net/http + chi)",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 81.601,
+      "quality": 0.7758,
+      "fit": 0.8652,
+      "penalty": 0.0,
+      "cost_usd": [
+        91,
+        177
+      ]
+    },
+    {
+      "rank": 5,
+      "stack": {
+        "frontend": "Angular",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 81.512,
+      "quality": 0.7768,
+      "fit": 0.8619,
+      "penalty": 0.0,
+      "cost_usd": [
+        91,
+        177
+      ]
+    },
+    {
+      "rank": 6,
+      "stack": {
+        "frontend": "Laravel Blade + Livewire",
+        "backend": "PHP + Laravel",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 81.497,
+      "quality": 0.7787,
+      "fit": 0.8593,
+      "penalty": 0.0,
+      "cost_usd": [
+        91,
+        177
+      ]
+    },
+    {
+      "rank": 7,
+      "stack": {
+        "frontend": "Angular",
+        "backend": "Java + Spring Boot",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 81.207,
+      "quality": 0.7631,
+      "fit": 0.8719,
+      "penalty": 0.0,
+      "cost_usd": [
+        91,
+        177
+      ]
+    },
+    {
+      "rank": 8,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Node.js + NestJS",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 81.139,
+      "quality": 0.7571,
+      "fit": 0.8777,
+      "penalty": 0.0,
+      "cost_usd": [
+        91,
+        177
+      ]
+    },
+    {
+      "rank": 9,
+      "stack": {
+        "frontend": "Angular",
+        "backend": "PHP + Laravel",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 80.969,
+      "quality": 0.7683,
+      "fit": 0.8602,
+      "penalty": 0.0,
+      "cost_usd": [
+        91,
+        177
+      ]
+    },
+    {
+      "rank": 10,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Azure App Service"
+      },
+      "score": 80.901,
+      "quality": 0.78,
+      "fit": 0.8494,
+      "penalty": 0.225,
+      "cost_usd": [
+        154,
+        296
+      ]
+    }
+  ],
+  "robustness": {
+    "verdict": "sensitive",
+    "margin_points": 0.16,
+    "runner_up": {
+      "frontend": "Angular",
+      "backend": "Node.js + NestJS",
+      "database": "PostgreSQL (managed or self-hosted)",
+      "hosting": "Google Cloud Run"
+    },
+    "checks_run": 14,
+    "checks_held": 9,
+    "summary": "The same stack wins in 9 of 14 checks. It switches to Angular (frontend), Node.js + NestJS (backend) when time to market counted half as much, scalability counted twice as much, maintainability counted twice as much, security counted half as much; and to Angular (frontend), Go (net/http + chi) (backend) when performance counted twice as much.",
+    "checks": [
+      {
+        "change": "cost counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "cost counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "time to market counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "time to market counted half as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Angular",
+          "backend": "Node.js + NestJS",
+          "database": "PostgreSQL (managed or self-hosted)",
+          "hosting": "Google Cloud Run"
+        },
+        "swaps": [
+          {
+            "layer": "frontend",
+            "from": "Django templates + htmx",
+            "to": "Angular"
+          },
+          {
+            "layer": "backend",
+            "from": "Python + Django",
+            "to": "Node.js + NestJS"
+          }
+        ]
+      },
+      {
+        "change": "scalability counted twice as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Angular",
+          "backend": "Node.js + NestJS",
+          "database": "PostgreSQL (managed or self-hosted)",
+          "hosting": "Google Cloud Run"
+        },
+        "swaps": [
+          {
+            "layer": "frontend",
+            "from": "Django templates + htmx",
+            "to": "Angular"
+          },
+          {
+            "layer": "backend",
+            "from": "Python + Django",
+            "to": "Node.js + NestJS"
+          }
+        ]
+      },
+      {
+        "change": "scalability counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "performance counted twice as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Angular",
+          "backend": "Go (net/http + chi)",
+          "database": "PostgreSQL (managed or self-hosted)",
+          "hosting": "Google Cloud Run"
+        },
+        "swaps": [
+          {
+            "layer": "frontend",
+            "from": "Django templates + htmx",
+            "to": "Angular"
+          },
+          {
+            "layer": "backend",
+            "from": "Python + Django",
+            "to": "Go (net/http + chi)"
+          }
+        ]
+      },
+      {
+        "change": "performance counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "maintainability counted twice as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Angular",
+          "backend": "Node.js + NestJS",
+          "database": "PostgreSQL (managed or self-hosted)",
+          "hosting": "Google Cloud Run"
+        },
+        "swaps": [
+          {
+            "layer": "frontend",
+            "from": "Django templates + htmx",
+            "to": "Angular"
+          },
+          {
+            "layer": "backend",
+            "from": "Python + Django",
+            "to": "Node.js + NestJS"
+          }
+        ]
+      },
+      {
+        "change": "maintainability counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "security counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "security counted half as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Angular",
+          "backend": "Node.js + NestJS",
+          "database": "PostgreSQL (managed or self-hosted)",
+          "hosting": "Google Cloud Run"
+        },
+        "swaps": [
+          {
+            "layer": "frontend",
+            "from": "Django templates + htmx",
+            "to": "Angular"
+          },
+          {
+            "layer": "backend",
+            "from": "Python + Django",
+            "to": "Node.js + NestJS"
+          }
+        ]
+      },
+      {
+        "change": "budget halved ($150)",
+        "same_stack": true
+      },
+      {
+        "change": "budget doubled ($600)",
+        "same_stack": true
+      }
+    ]
+  },
+  "trade_off_options": [
+    {
+      "direction": "cheaper",
+      "title": "Spend less",
+      "available": true,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "CockroachDB",
+        "hosting": "Google Cloud Run"
+      },
+      "swaps": [
+        {
+          "layer": "database",
+          "from": "PostgreSQL (managed or self-hosted)",
+          "to": "CockroachDB"
+        }
+      ],
+      "score": 79.59,
+      "points_behind": 2.451,
+      "cost_usd": [
+        56,
+        128
+      ],
+      "gains": "about 30% cheaper on the core layers ($56-$130 against $91-$180 per month)",
+      "gives_up": [
+        "compatibility with the rest of the stack (-0.5 pts)",
+        "time to market (-0.4 pts)",
+        "maintainability (-0.4 pts)"
+      ],
+      "summary": "Database PostgreSQL (managed or self-hosted) -> CockroachDB: about 30% cheaper on the core layers ($56-$130 against $91-$180 per month). Gives up 2.5 points, mainly on compatibility with the rest of the stack (-0.5 pts), time to market (-0.4 pts), maintainability (-0.4 pts)."
+    },
+    {
+      "direction": "more_headroom",
+      "title": "More headroom to scale",
+      "available": false,
+      "note": "Nothing within 12 points of the winner does clearly better here, so the chosen stack is already a strong pick on this."
+    },
+    {
+      "direction": "faster_build",
+      "title": "Ship sooner",
+      "available": false,
+      "note": "Nothing within 12 points of the winner does clearly better here, so the chosen stack is already a strong pick on this."
+    }
+  ]
+}

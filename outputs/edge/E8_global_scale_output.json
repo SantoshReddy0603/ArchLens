@@ -1,0 +1,1557 @@
+{
+  "scenario_id": "E8",
+  "engine_version": "1.0.0",
+  "status": "ok_with_warnings",
+  "summary": "Microservices: React Native (Expo), Go (net/http + chi), Amazon DynamoDB database on AWS EKS (Kubernetes). It matches the team's languages and exceeds the stated budget (about $103,200-$144,300 per month).",
+  "architecture_style": "microservices",
+  "stack": {
+    "frontend": {
+      "choice": "React Native (Expo)",
+      "justification": "React Native (Expo) matches the team's typescript skills; covers web and android and ios from one codebase; hermes and the new architecture are fast enough for most apps; is a proven choice for social projects.",
+      "driven_by": [
+        "team.languages",
+        "project.platforms",
+        "priorities.performance",
+        "project.type"
+      ],
+      "alternatives": [
+        {
+          "choice": "Flutter",
+          "why_not": "Flutter scores 0.9 points lower overall, mainly on team skill fit (1.1 points)."
+        }
+      ],
+      "tradeoffs": []
+    },
+    "backend": {
+      "choice": "Go (net/http + chi)",
+      "justification": "Go (net/http + chi) matches the team's go skills; handles many concurrent realtime connections well; compiled, low latency; is a proven choice for social projects.",
+      "driven_by": [
+        "team.languages",
+        "requirements.realtime",
+        "priorities.performance",
+        "project.type"
+      ],
+      "alternatives": [
+        {
+          "choice": "Elixir + Phoenix",
+          "why_not": "Elixir + Phoenix scores 2.6 points lower overall, mainly on team skill fit (1.2 points) and performance (0.5 points)."
+        },
+        {
+          "choice": "Java + Spring Boot",
+          "why_not": "Java + Spring Boot scores 5.4 points lower overall, mainly on headroom for the expected load (5.0 points) and performance (1.0 points)."
+        }
+      ],
+      "tradeoffs": [
+        "No batteries, more code per feature"
+      ]
+    },
+    "database": {
+      "choice": "Amazon DynamoDB",
+      "justification": "Amazon DynamoDB can be placed in Frankfurt (eu-central-1), an EU region, which keeps GDPR transfers simple; single-digit ms at any scale; is a proven choice for social projects.",
+      "driven_by": [
+        "compliance",
+        "priorities.performance",
+        "project.type"
+      ],
+      "alternatives": [
+        {
+          "choice": "Azure Cosmos DB",
+          "why_not": "Azure Cosmos DB scores 0.3 points lower overall, mainly on cost (0.4 points). Estimated infrastructure about $77,100-$114,000/month versus about $83,500-$118,400/month."
+        },
+        {
+          "choice": "Cloud Firestore",
+          "why_not": "Cloud Firestore scores 4.8 points lower overall, mainly on headroom for the expected load (5.0 points) and performance (1.4 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Ad-hoc queries are hard",
+        "AWS lock-in",
+        "High vendor lock-in: Amazon DynamoDB is hard to leave once the data model and SDKs are in use."
+      ]
+    },
+    "hosting": {
+      "choice": "AWS EKS (Kubernetes)",
+      "justification": "AWS EKS (Kubernetes) can be placed in Frankfurt (eu-central-1), an EU region, which keeps GDPR transfers simple; offers a 99.99% SLA, in line with the 99.99% target; tunable.",
+      "driven_by": [
+        "compliance",
+        "requirements.availability",
+        "priorities.performance"
+      ],
+      "alternatives": [
+        {
+          "choice": "AWS ECS on Fargate",
+          "why_not": "AWS ECS on Fargate scores 3.8 points lower overall, mainly on headroom for the expected load (5.0 points) and performance (0.5 points)."
+        },
+        {
+          "choice": "Google Compute Engine",
+          "why_not": "Google Compute Engine scores 7.9 points lower overall, mainly on headroom for the expected load (10.0 points) and scalability (1.6 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Needs platform team",
+        "Needs real operations effort (patching, scaling, monitoring).",
+        "Upper cost estimate ($83,500-$118,400/month) exceeds the $80,000 budget at peak."
+      ]
+    },
+    "supporting": [
+      {
+        "layer": "auth",
+        "choice": "Keycloak",
+        "justification": "Keycloak: users sign in (email password); open-source identity server with SSO, runs fully on-premise.",
+        "driven_by": [
+          "requirements.auth"
+        ],
+        "alternatives": [
+          {
+            "choice": "Framework built-in auth (sessions/JWT)",
+            "why_not": "Ranks lower (lower quality rating (6 vs 8)); score 0.72 vs 0.76."
+          },
+          {
+            "choice": "Auth0",
+            "why_not": "Ranks lower (costs more (about $126,500 vs $230 per month at the high end), more lock-in); score 0.64 vs 0.76."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $60-$230 per month."
+        ]
+      },
+      {
+        "layer": "storage",
+        "choice": "Amazon S3",
+        "justification": "Amazon S3: users upload files; 11 nines durability, de facto object storage.",
+        "driven_by": [
+          "requirements.file_media_storage",
+          "scale.data_volume_gb_12_months"
+        ],
+        "alternatives": [
+          {
+            "choice": "Cloudflare R2",
+            "why_not": "Ranks lower (lower quality rating (8 vs 10)); score 0.75 vs 0.82."
+          },
+          {
+            "choice": "MinIO (self-hosted)",
+            "why_not": "Ranks lower (lower quality rating (8 vs 10), more to operate); score 0.73 vs 0.82."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $17,400-$22,300 per month."
+        ]
+      },
+      {
+        "layer": "search",
+        "choice": "Typesense",
+        "justification": "Typesense: full-text search is required; in-memory fast search, open source, cloud or self-host.",
+        "driven_by": [
+          "requirements.full_text_search",
+          "scale.users_12_months"
+        ],
+        "alternatives": [
+          {
+            "choice": "Meilisearch",
+            "why_not": "A close second with a smaller fit to this stack; score 0.79 vs 0.79."
+          },
+          {
+            "choice": "Algolia",
+            "why_not": "Ranks lower (costs more (about $6,500 vs $21 per month at the high end), more lock-in); score 0.74 vs 0.79."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $0-$21 per month."
+        ]
+      },
+      {
+        "layer": "realtime",
+        "choice": "WebSockets/SSE in the backend framework",
+        "justification": "WebSockets/SSE in the backend framework: live updates are required; the backend serves WebSocket or server-sent-event connections itself; already part of the chosen core stack.",
+        "driven_by": [
+          "requirements.realtime",
+          "scale.peak_concurrent_users"
+        ],
+        "alternatives": [
+          {
+            "choice": "No other eligible option",
+            "why_not": "No other realtime service satisfies the hard constraints."
+          }
+        ],
+        "tradeoffs": []
+      },
+      {
+        "layer": "cache",
+        "choice": "Managed Redis/Valkey (ElastiCache, Memorystore, Azure Cache)",
+        "justification": "Managed Redis/Valkey (ElastiCache, Memorystore, Azure Cache): peak load of about 25,000 requests/second is better served from a cache than from the database; native cloud cache with replicas and failover.",
+        "driven_by": [
+          "scale.peak_concurrent_users",
+          "requirements.p95_latency_ms",
+          "scale.workload"
+        ],
+        "alternatives": [
+          {
+            "choice": "Upstash Redis",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9)); score 0.74 vs 0.80."
+          },
+          {
+            "choice": "Self-hosted Redis/Valkey",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), more to operate); score 0.71 vs 0.80."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $1,000-$2,400 per month."
+        ]
+      },
+      {
+        "layer": "queue",
+        "choice": "Amazon SQS",
+        "justification": "Amazon SQS: media processing at about 25,000 requests/second should leave the request path; zero-ops managed queue with pay per request.",
+        "driven_by": [
+          "scale.peak_concurrent_users",
+          "requirements.payments",
+          "requirements.file_media_storage"
+        ],
+        "alternatives": [
+          {
+            "choice": "NATS JetStream",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), more to operate); score 0.75 vs 0.86."
+          },
+          {
+            "choice": "RabbitMQ",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), more to operate); score 0.72 vs 0.86."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $2,400-$3,100 per month."
+        ]
+      },
+      {
+        "layer": "cdn",
+        "choice": "Cloudflare CDN",
+        "justification": "Cloudflare CDN: assets are delivered to a wide audience; free global CDN with DDoS protection; unlimited bandwidth on free plan.",
+        "driven_by": [
+          "scale.users_12_months",
+          "project.platforms"
+        ],
+        "alternatives": [
+          {
+            "choice": "Amazon CloudFront",
+            "why_not": "Ranks lower (costs more (about $66,200 vs $17 per month at the high end), more to operate); score 0.74 vs 0.84."
+          },
+          {
+            "choice": "Bunny CDN",
+            "why_not": "Ranks lower (lower quality rating (7 vs 9), costs more (about $17,300 vs $17 per month at the high end)); score 0.67 vs 0.84."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $0-$17 per month."
+        ]
+      },
+      {
+        "layer": "email",
+        "choice": "Amazon SES",
+        "justification": "Amazon SES: email and password sign-in needs verification and reset emails; $0.10 per 1,000 emails, deliverability work is yours.",
+        "driven_by": [
+          "requirements.auth",
+          "requirements.payments"
+        ],
+        "alternatives": [
+          {
+            "choice": "Postmark",
+            "why_not": "Ranks lower (costs more (about $15 vs $4 per month at the high end)); score 0.85 vs 0.88."
+          },
+          {
+            "choice": "Resend",
+            "why_not": "Ranks lower (costs more (about $17 vs $4 per month at the high end)); score 0.81 vs 0.88."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $0-$4 per month."
+        ]
+      },
+      {
+        "layer": "notifications",
+        "choice": "Firebase Cloud Messaging",
+        "justification": "Firebase Cloud Messaging: mobile users expect push notifications; free push for Android, iOS and web; free at this scale.",
+        "driven_by": [
+          "project.platforms"
+        ],
+        "alternatives": [
+          {
+            "choice": "OneSignal",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $16 vs $0 per month at the high end)); score 0.79 vs 0.83."
+          },
+          {
+            "choice": "Expo Push Notifications",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9)); score 0.75 vs 0.83."
+          }
+        ],
+        "tradeoffs": []
+      },
+      {
+        "layer": "ci_cd",
+        "choice": "GitHub Actions",
+        "justification": "GitHub Actions: automated build and deploy for the team; workflows next to the code; the 2,000 free minutes a month cover a small team, larger teams buy extra minutes.",
+        "driven_by": [
+          "team.size"
+        ],
+        "alternatives": [
+          {
+            "choice": "GitLab CI/CD",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), more to operate); score 0.79 vs 0.84."
+          },
+          {
+            "choice": "Azure DevOps Pipelines",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), more to operate); score 0.78 vs 0.84."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $0-$75 per month."
+        ]
+      },
+      {
+        "layer": "observability",
+        "choice": "Datadog",
+        "justification": "Datadog: production monitoring for the availability target; most complete SaaS observability, expensive as you add hosts.",
+        "driven_by": [
+          "requirements.availability",
+          "scale.users_12_months"
+        ],
+        "alternatives": [
+          {
+            "choice": "Sentry",
+            "why_not": "Ranks lower (lower quality rating (9 vs 10)); score 0.84 vs 0.85."
+          },
+          {
+            "choice": "Amazon CloudWatch",
+            "why_not": "Ranks lower (lower quality rating (7 vs 10)); score 0.82 vs 0.85."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $28-$80 per month."
+        ]
+      }
+    ]
+  },
+  "estimated_monthly_cost_usd": {
+    "min": 103190,
+    "max": 144330,
+    "assumptions": [
+      "Load estimate: peak about 25K requests/second and about 7B requests/month from 5M users in 12 months.",
+      "Usage-priced items are shown as a band (0.75x to 1.3x of the estimate) because load figures are order-of-magnitude.",
+      "Public list prices of each product, in USD, without taxes, committed-use discounts or developer time.",
+      "The 99.99% availability target doubles or adds redundancy for hosting and database where needed.",
+      "Hosting (AWS EKS (Kubernetes)): about $69,200-$97,600/month",
+      "Database (Amazon DynamoDB): about $13,000-$18,500/month",
+      "Auth (Keycloak): about $60-$230/month",
+      "Storage (Amazon S3): about $17,400-$22,300/month",
+      "Search (Typesense): about $0-$21/month",
+      "Cache (Managed Redis/Valkey (ElastiCache, Memorystore, Azure Cache)): about $1,000-$2,400/month",
+      "Queue (Amazon SQS): about $2,400-$3,100/month",
+      "CDN (Cloudflare CDN): about $0-$17/month",
+      "Email (Amazon SES): about $0-$4/month",
+      "CI/CD (GitHub Actions): about $0-$75/month",
+      "Observability (Datadog): about $28-$80/month"
+    ]
+  },
+  "warnings": [
+    {
+      "code": "GDPR_NOTES",
+      "severity": "info",
+      "message": "GDPR: keep a record of processing, sign a data processing agreement with every vendor that handles personal data, support access and erasure requests, and use standard contractual clauses for any transfer outside the EU/EEA; consider EU data residency to keep transfers simple.",
+      "fields": [
+        "compliance",
+        "infrastructure.data_residency"
+      ]
+    },
+    {
+      "code": "REALTIME_LATENCY",
+      "severity": "warning",
+      "message": "A p95 of 100 ms with live updates for users spread across regions is reachable only over persistent connections (WebSockets) to servers in the users' region; avoid cold-starting functions on the hot path and load-test the fan-out at the expected 250,000 concurrent users.",
+      "fields": [
+        "requirements.p95_latency_ms",
+        "requirements.realtime",
+        "scale.peak_concurrent_users"
+      ]
+    },
+    {
+      "code": "BUDGET_EXCEEDED",
+      "severity": "critical",
+      "message": "The cheapest compliant option still costs about $103,200-$144,300 per month, above the $80,000 budget.",
+      "fields": [
+        "budget.monthly_infra_usd"
+      ]
+    }
+  ],
+  "assumptions": [
+    "No compatible stack fits the $80,000 budget, so cost was compared against a reference of about $123,400 per month (the cheapest compatible stack plus 25%) to keep the cheaper options ahead.",
+    "Relaxed: the monthly budget of $80,000 was exceeded because no compliant stack fits inside it."
+  ],
+  "validation_errors": [],
+  "decision_trace": {
+    "pipeline": [
+      "validate input",
+      "derive profile",
+      "filter each layer by hard constraints",
+      "enumerate compatible stacks",
+      "score quality, fit and penalties",
+      "rank deterministically",
+      "select supporting services",
+      "estimate cost",
+      "explain"
+    ],
+    "weights": {
+      "cost": 0.1042,
+      "maintainability": 0.1042,
+      "performance": 0.3072,
+      "scalability": 0.2605,
+      "security": 0.1198,
+      "time_to_market": 0.1042
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "layers": {
+      "frontend": {
+        "candidates": 24,
+        "eliminated": [
+          {
+            "id": "angular",
+            "name": "Angular",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "astro",
+            "name": "Astro",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "blazor",
+            "name": "Blazor (ASP.NET Core)",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "django_htmx",
+            "name": "Django templates + htmx",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "electron",
+            "name": "Electron",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "eleventy",
+            "name": "Eleventy (11ty)",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "godot",
+            "name": "Godot Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "hugo",
+            "name": "Hugo",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "kotlin_android",
+            "name": "Kotlin + Jetpack Compose (Android native)",
+            "reasons": [
+              "does not serve web/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "laravel_livewire",
+            "name": "Laravel Blade + Livewire",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "maui",
+            "name": ".NET MAUI",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "nextjs",
+            "name": "Next.js",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "none_fe",
+            "name": "None (API only)",
+            "reasons": [
+              "the project has client platforms to build"
+            ]
+          },
+          {
+            "id": "nuxt",
+            "name": "Nuxt",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "rails_hotwire",
+            "name": "Rails + Hotwire",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "react_vite",
+            "name": "React + Vite (SPA)",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "sveltekit",
+            "name": "SvelteKit",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "swift_ios",
+            "name": "Swift + SwiftUI (iOS native)",
+            "reasons": [
+              "does not serve web/android well enough on its own"
+            ]
+          },
+          {
+            "id": "tauri",
+            "name": "Tauri",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "unity",
+            "name": "Unity",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "unreal",
+            "name": "Unreal Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "vue_vite",
+            "name": "Vue 3 + Vite (SPA)",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 2,
+        "shortlist": [
+          "expo_rn",
+          "flutter"
+        ],
+        "chosen": [
+          "expo_rn"
+        ]
+      },
+      "backend": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "colyseus",
+            "name": "Colyseus (Node.js game server)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "nakama",
+            "name": "Nakama (Go game backend)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "none_be",
+            "name": "No backend (static)",
+            "reasons": [
+              "the project needs server-side logic (accounts, payments, uploads, realtime or non-content features)"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 12,
+        "shortlist": [
+          "go_chi",
+          "phoenix",
+          "spring_boot",
+          "aspnet_core",
+          "nestjs",
+          "firebase",
+          "express",
+          "django"
+        ],
+        "chosen": [
+          "go_chi"
+        ]
+      },
+      "database": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "bigquery",
+            "name": "Google BigQuery",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          },
+          {
+            "id": "clickhouse",
+            "name": "ClickHouse",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          },
+          {
+            "id": "none_db",
+            "name": "None (no database)",
+            "reasons": [
+              "the project needs persistent data"
+            ]
+          },
+          {
+            "id": "timescaledb",
+            "name": "TimescaleDB (PostgreSQL time-series)",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 12,
+        "shortlist": [
+          "dynamodb",
+          "cosmos_db",
+          "firestore",
+          "cockroachdb",
+          "postgresql",
+          "oracle_db",
+          "mysql",
+          "mongodb"
+        ],
+        "chosen": [
+          "dynamodb"
+        ]
+      },
+      "hosting": {
+        "candidates": 27,
+        "eliminated": [
+          {
+            "id": "github_pages",
+            "name": "GitHub Pages",
+            "reasons": [
+              "expected traffic (about 698212 GB/month) exceeds the 100 GB/month soft limit"
+            ]
+          },
+          {
+            "id": "none_host",
+            "name": "None (provided by the backend platform)",
+            "reasons": [
+              "a web client or API needs somewhere to be served from"
+            ]
+          },
+          {
+            "id": "onprem_k8s",
+            "name": "Self-managed Kubernetes (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          },
+          {
+            "id": "onprem_linux_vm",
+            "name": "Self-managed Linux servers (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          },
+          {
+            "id": "windows_iis",
+            "name": "Windows Server + IIS (self-hosted)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 22,
+        "shortlist": [
+          "aws_eks",
+          "aws_ecs_fargate",
+          "gce_vm",
+          "aws_ec2",
+          "azure_vm",
+          "cloudflare_workers",
+          "vercel",
+          "gke_cloud_run"
+        ],
+        "chosen": [
+          "aws_eks"
+        ]
+      }
+    },
+    "stack_search": {
+      "considered": 3984,
+      "pruned_by_reason": {
+        "backend bundled with a specific database": 320,
+        "backend bundled with a specific frontend": 144,
+        "database cannot be reached from the host": 136,
+        "database tied to another backend": 142,
+        "runtime not supported by the host": 2880
+      },
+      "scored": 3242,
+      "removed_by_hard_budget": 0,
+      "frontend_pairs": false,
+      "budget_reference_usd": 123406
+    },
+    "top_stacks": [
+      {
+        "rank": 1,
+        "stack": [
+          "React Native (Expo)",
+          "Go (net/http + chi)",
+          "Amazon DynamoDB",
+          "AWS EKS (Kubernetes)"
+        ],
+        "score": 81.532,
+        "quality": 0.8342,
+        "fit": 0.8781,
+        "penalties": {
+          "availability": 0.6,
+          "lock_in": 3.263
+        },
+        "fit_terms": {
+          "archetype": 0.9,
+          "budget": 0.742,
+          "capability": 0.916,
+          "compat": 0.667,
+          "ops": 0.889,
+          "skill": 1.0
+        }
+      },
+      {
+        "rank": 2,
+        "stack": [
+          "React Native (Expo)",
+          "Go (net/http + chi)",
+          "Azure Cosmos DB",
+          "AWS EKS (Kubernetes)"
+        ],
+        "score": 81.19,
+        "quality": 0.8316,
+        "fit": 0.8736,
+        "penalties": {
+          "availability": 0.6,
+          "lock_in": 3.263
+        },
+        "fit_terms": {
+          "archetype": 0.9,
+          "budget": 0.754,
+          "capability": 0.916,
+          "compat": 0.6,
+          "ops": 0.889,
+          "skill": 1.0
+        }
+      },
+      {
+        "rank": 3,
+        "stack": [
+          "Flutter",
+          "Go (net/http + chi)",
+          "Amazon DynamoDB",
+          "AWS EKS (Kubernetes)"
+        ],
+        "score": 80.594,
+        "quality": 0.8373,
+        "fit": 0.8535,
+        "penalties": {
+          "availability": 0.6,
+          "lock_in": 3.263
+        },
+        "fit_terms": {
+          "archetype": 0.9,
+          "budget": 0.742,
+          "capability": 0.916,
+          "compat": 0.667,
+          "ops": 0.889,
+          "skill": 0.912
+        }
+      },
+      {
+        "rank": 4,
+        "stack": [
+          "Flutter",
+          "Go (net/http + chi)",
+          "Azure Cosmos DB",
+          "AWS EKS (Kubernetes)"
+        ],
+        "score": 80.252,
+        "quality": 0.8347,
+        "fit": 0.8491,
+        "penalties": {
+          "availability": 0.6,
+          "lock_in": 3.263
+        },
+        "fit_terms": {
+          "archetype": 0.9,
+          "budget": 0.754,
+          "capability": 0.916,
+          "compat": 0.6,
+          "ops": 0.889,
+          "skill": 0.912
+        }
+      },
+      {
+        "rank": 5,
+        "stack": [
+          "React Native (Expo)",
+          "Elixir + Phoenix",
+          "Amazon DynamoDB",
+          "AWS EKS (Kubernetes)"
+        ],
+        "score": 78.948,
+        "quality": 0.8219,
+        "fit": 0.8519,
+        "penalties": {
+          "availability": 0.6,
+          "hiring": 0.48,
+          "lock_in": 3.263,
+          "maturity": 0.25
+        },
+        "fit_terms": {
+          "archetype": 0.9,
+          "budget": 0.742,
+          "capability": 0.922,
+          "compat": 0.667,
+          "ops": 0.889,
+          "skill": 0.901
+        }
+      }
+    ],
+    "supporting": {
+      "auth": {
+        "chosen": "keycloak",
+        "covered_natively": false,
+        "score": 0.7594,
+        "alternatives": [
+          "framework_auth",
+          "auth0"
+        ],
+        "eliminated": [
+          {
+            "id": "entra_id",
+            "name": "Microsoft Entra ID (workforce SSO)",
+            "reasons": [
+              "workforce single sign-on is for employees, not consumer sign-in"
+            ]
+          },
+          {
+            "id": "supabase_auth",
+            "name": "Supabase Auth",
+            "reasons": [
+              "is part of Supabase (BaaS) only"
+            ]
+          }
+        ]
+      },
+      "storage": {
+        "chosen": "s3",
+        "covered_natively": false,
+        "score": 0.8197,
+        "alternatives": [
+          "cloudflare_r2",
+          "minio"
+        ],
+        "eliminated": [
+          {
+            "id": "firebase_storage",
+            "name": "Cloud Storage for Firebase",
+            "reasons": [
+              "is part of Firebase (BaaS) only"
+            ]
+          },
+          {
+            "id": "supabase_storage",
+            "name": "Supabase Storage",
+            "reasons": [
+              "is part of Supabase (BaaS) only"
+            ]
+          }
+        ]
+      },
+      "search": {
+        "chosen": "typesense",
+        "covered_natively": false,
+        "score": 0.7858,
+        "alternatives": [
+          "meilisearch",
+          "algolia"
+        ],
+        "eliminated": [
+          {
+            "id": "postgres_fts",
+            "name": "PostgreSQL full-text search",
+            "reasons": [
+              "needs PostgreSQL"
+            ]
+          }
+        ]
+      },
+      "realtime": {
+        "chosen": "framework_websocket",
+        "covered_natively": true,
+        "score": 0.746,
+        "alternatives": [],
+        "eliminated": [
+          {
+            "id": "firestore_listeners",
+            "name": "Firestore real-time listeners",
+            "reasons": [
+              "is part of Firebase (BaaS)/Cloud Firestore only"
+            ]
+          },
+          {
+            "id": "supabase_realtime",
+            "name": "Supabase Realtime",
+            "reasons": [
+              "is part of Supabase (BaaS)/Supabase Postgres only"
+            ]
+          }
+        ]
+      },
+      "cache": {
+        "chosen": "redis_managed",
+        "covered_natively": false,
+        "score": 0.8017,
+        "alternatives": [
+          "upstash_redis",
+          "valkey_selfhost"
+        ],
+        "eliminated": []
+      },
+      "queue": {
+        "chosen": "sqs",
+        "covered_natively": false,
+        "score": 0.8605,
+        "alternatives": [
+          "nats",
+          "rabbitmq"
+        ],
+        "eliminated": [
+          {
+            "id": "bullmq",
+            "name": "BullMQ (on Redis)",
+            "reasons": [
+              "works with javascript/typescript backends, not Go (net/http + chi)"
+            ]
+          },
+          {
+            "id": "celery",
+            "name": "Celery (on Redis/RabbitMQ)",
+            "reasons": [
+              "works with python backends, not Go (net/http + chi)"
+            ]
+          }
+        ]
+      },
+      "cdn": {
+        "chosen": "cloudflare_cdn",
+        "covered_natively": false,
+        "score": 0.8398,
+        "alternatives": [
+          "cloudfront",
+          "bunny_cdn"
+        ],
+        "eliminated": []
+      },
+      "email": {
+        "chosen": "aws_ses",
+        "covered_natively": false,
+        "score": 0.88,
+        "alternatives": [
+          "postmark",
+          "resend"
+        ],
+        "eliminated": []
+      },
+      "notifications": {
+        "chosen": "fcm",
+        "covered_natively": false,
+        "score": 0.83,
+        "alternatives": [
+          "onesignal",
+          "expo_push"
+        ],
+        "eliminated": []
+      },
+      "ci_cd": {
+        "chosen": "github_actions",
+        "covered_natively": false,
+        "score": 0.8393,
+        "alternatives": [
+          "gitlab_ci",
+          "azure_devops"
+        ],
+        "eliminated": []
+      },
+      "observability": {
+        "chosen": "datadog",
+        "covered_natively": false,
+        "score": 0.849,
+        "alternatives": [
+          "sentry",
+          "cloudwatch"
+        ],
+        "eliminated": []
+      }
+    },
+    "relaxed_constraints": [
+      "Relaxed: the monthly budget of $80,000 was exceeded because no compliant stack fits inside it."
+    ],
+    "score_formula": "score = 100 * (0.55 * Q + 0.45 * F) - penalties"
+  },
+  "profile": {
+    "project_type": "social",
+    "client_platforms": [
+      "web",
+      "android",
+      "ios"
+    ],
+    "api_only": false,
+    "users_launch": 500000,
+    "users_12m": 5000000,
+    "peak_concurrent": 250000,
+    "peak_estimated": false,
+    "peak_eff": 250000,
+    "peak_rps": 25000.0,
+    "avg_rps": 2500.0,
+    "monthly_requests": 6982120021.8845,
+    "egress_gb": 698212.0022,
+    "data_gb": 50000,
+    "traffic_pattern": "spiky",
+    "workload": "write_heavy",
+    "scale_need": 10.0,
+    "scale_tier": 5,
+    "team_size": 25,
+    "experience": "senior",
+    "exp_factor": 1.0,
+    "has_devops": true,
+    "ops_capacity": 0.95,
+    "skills": [
+      "go",
+      "typescript",
+      "kotlin",
+      "swift"
+    ],
+    "appetite": 0.5,
+    "beginner_sens": 0.0,
+    "lock_in_tolerance": "medium",
+    "hiring_plan": "none",
+    "mobile_preference": "no_preference",
+    "licenses": [],
+    "effort_pw": 35.2,
+    "capacity_pw": 243.75,
+    "effort_ratio": 0.1444,
+    "time_pressure": 0.0,
+    "mvp_weeks": 12,
+    "budget": 80000.0,
+    "budget_tier": 5,
+    "budget_tightness": 0.0,
+    "budget_strictness": "firm",
+    "availability": "99.99",
+    "avail_level": 4.0,
+    "avail_required": 7.6,
+    "p95": 100,
+    "latency_need": 0.7692,
+    "residency": "none",
+    "compliance": [
+      "gdpr"
+    ],
+    "regulated_count": 1,
+    "deployment": "managed_cloud",
+    "cloud_pref": "any",
+    "existing_systems": [],
+    "license_texts": [],
+    "cloud_credits_usd": null,
+    "realtime": true,
+    "offline": false,
+    "search": true,
+    "files": true,
+    "payments": false,
+    "auth": "email_password",
+    "multi_tenant": false,
+    "ml": "none",
+    "seo": false,
+    "needs_server_logic": true,
+    "needs_persistence": true,
+    "static_candidate": false,
+    "geography": "global",
+    "data_sensitivity": "personal",
+    "hints": {
+      "low_end_devices": false,
+      "poor_connectivity": false,
+      "upi": false,
+      "location": false,
+      "tabular_ml": false
+    },
+    "india_ctx": false,
+    "weights": {
+      "cost": 0.1042,
+      "maintainability": 0.1042,
+      "performance": 0.3072,
+      "scalability": 0.2605,
+      "security": 0.1198,
+      "time_to_market": 0.1042
+    },
+    "weight_multipliers": {
+      "cost": 1.0,
+      "time_to_market": 1.0,
+      "scalability": 1.5,
+      "performance": 1.7692,
+      "maintainability": 1.0,
+      "security": 1.15
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "allowed_complexity": 10.0,
+    "notes": [],
+    "budget_reference": 123405.6173
+  },
+  "score": {
+    "total": 81.532,
+    "quality": 0.8342,
+    "fit": 0.8781,
+    "penalty": 3.863,
+    "penalties": {
+      "availability": 0.6,
+      "cold_start": -0.0,
+      "data_model": 0.0,
+      "durability": 0.0,
+      "existing_reuse": -0.0,
+      "game_client": 0.0,
+      "game_server": 0.0,
+      "hiring": 0.0,
+      "lock_in": 3.263,
+      "maturity": 0.0,
+      "over_engineering": 0.0,
+      "seo": 0.0,
+      "soft_certs": 0.0,
+      "two_codebases": 0.0,
+      "under_provision": 0.0
+    },
+    "fit_terms": {
+      "archetype": 0.9,
+      "budget": 0.7418,
+      "capability": 0.9155,
+      "compat": 0.6667,
+      "ops": 0.889,
+      "skill": 1.0
+    },
+    "criteria": {
+      "cost": 7.4,
+      "maintainability": 6.75,
+      "performance": 9.0,
+      "scalability": 9.55,
+      "security": 8.4,
+      "time_to_market": 5.85
+    }
+  },
+  "ranking": [
+    {
+      "rank": 1,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Go (net/http + chi)",
+        "database": "Amazon DynamoDB",
+        "hosting": "AWS EKS (Kubernetes)"
+      },
+      "score": 81.532,
+      "quality": 0.8342,
+      "fit": 0.8781,
+      "penalty": 3.863,
+      "cost_usd": [
+        83549,
+        118436
+      ]
+    },
+    {
+      "rank": 2,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Go (net/http + chi)",
+        "database": "Azure Cosmos DB",
+        "hosting": "AWS EKS (Kubernetes)"
+      },
+      "score": 81.19,
+      "quality": 0.8316,
+      "fit": 0.8736,
+      "penalty": 3.863,
+      "cost_usd": [
+        77102,
+        114009
+      ]
+    },
+    {
+      "rank": 3,
+      "stack": {
+        "frontend": "Flutter",
+        "backend": "Go (net/http + chi)",
+        "database": "Amazon DynamoDB",
+        "hosting": "AWS EKS (Kubernetes)"
+      },
+      "score": 80.594,
+      "quality": 0.8373,
+      "fit": 0.8535,
+      "penalty": 3.863,
+      "cost_usd": [
+        83549,
+        118436
+      ]
+    },
+    {
+      "rank": 4,
+      "stack": {
+        "frontend": "Flutter",
+        "backend": "Go (net/http + chi)",
+        "database": "Azure Cosmos DB",
+        "hosting": "AWS EKS (Kubernetes)"
+      },
+      "score": 80.252,
+      "quality": 0.8347,
+      "fit": 0.8491,
+      "penalty": 3.863,
+      "cost_usd": [
+        77102,
+        114009
+      ]
+    },
+    {
+      "rank": 5,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Elixir + Phoenix",
+        "database": "Amazon DynamoDB",
+        "hosting": "AWS EKS (Kubernetes)"
+      },
+      "score": 78.948,
+      "quality": 0.8219,
+      "fit": 0.8519,
+      "penalty": 4.593,
+      "cost_usd": [
+        83549,
+        118436
+      ]
+    },
+    {
+      "rank": 6,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Elixir + Phoenix",
+        "database": "Azure Cosmos DB",
+        "hosting": "AWS EKS (Kubernetes)"
+      },
+      "score": 78.606,
+      "quality": 0.8193,
+      "fit": 0.8475,
+      "penalty": 4.593,
+      "cost_usd": [
+        77102,
+        114009
+      ]
+    },
+    {
+      "rank": 7,
+      "stack": {
+        "frontend": "Flutter",
+        "backend": "Elixir + Phoenix",
+        "database": "Amazon DynamoDB",
+        "hosting": "AWS EKS (Kubernetes)"
+      },
+      "score": 78.01,
+      "quality": 0.8249,
+      "fit": 0.8274,
+      "penalty": 4.593,
+      "cost_usd": [
+        83549,
+        118436
+      ]
+    },
+    {
+      "rank": 8,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Go (net/http + chi)",
+        "database": "Amazon DynamoDB",
+        "hosting": "AWS ECS on Fargate"
+      },
+      "score": 77.742,
+      "quality": 0.8328,
+      "fit": 0.8983,
+      "penalty": 8.488,
+      "cost_usd": [
+        85500,
+        121304
+      ]
+    },
+    {
+      "rank": 9,
+      "stack": {
+        "frontend": "Flutter",
+        "backend": "Elixir + Phoenix",
+        "database": "Azure Cosmos DB",
+        "hosting": "AWS EKS (Kubernetes)"
+      },
+      "score": 77.668,
+      "quality": 0.8223,
+      "fit": 0.823,
+      "penalty": 4.593,
+      "cost_usd": [
+        77102,
+        114009
+      ]
+    },
+    {
+      "rank": 10,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Go (net/http + chi)",
+        "database": "Azure Cosmos DB",
+        "hosting": "AWS ECS on Fargate"
+      },
+      "score": 77.4,
+      "quality": 0.8302,
+      "fit": 0.8939,
+      "penalty": 8.488,
+      "cost_usd": [
+        79053,
+        116878
+      ]
+    }
+  ],
+  "robustness": {
+    "verdict": "stable",
+    "margin_points": 0.342,
+    "runner_up": {
+      "frontend": "React Native (Expo)",
+      "backend": "Go (net/http + chi)",
+      "database": "Azure Cosmos DB",
+      "hosting": "AWS EKS (Kubernetes)"
+    },
+    "checks_run": 14,
+    "checks_held": 14,
+    "summary": "The same stack wins in all 14 checks: each priority counted twice or half as much, and the budget halved or doubled.",
+    "checks": [
+      {
+        "change": "cost counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "cost counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "time to market counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "time to market counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "scalability counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "scalability counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "performance counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "performance counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "maintainability counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "maintainability counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "security counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "security counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "budget halved ($40,000)",
+        "same_stack": true
+      },
+      {
+        "change": "budget doubled ($160,000)",
+        "same_stack": true
+      }
+    ]
+  },
+  "trade_off_options": [
+    {
+      "direction": "cheaper",
+      "title": "Spend less",
+      "available": true,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Firebase (BaaS)",
+        "database": "Cloud Firestore",
+        "hosting": "Cloudflare Workers"
+      },
+      "swaps": [
+        {
+          "layer": "backend",
+          "from": "Go (net/http + chi)",
+          "to": "Firebase (BaaS)"
+        },
+        {
+          "layer": "database",
+          "from": "Amazon DynamoDB",
+          "to": "Cloud Firestore"
+        },
+        {
+          "layer": "hosting",
+          "from": "AWS EKS (Kubernetes)",
+          "to": "Cloudflare Workers"
+        }
+      ],
+      "score": 72.779,
+      "points_behind": 8.753,
+      "cost_usd": [
+        3616,
+        10418
+      ],
+      "gains": "about 92% cheaper on the core layers ($3,600-$10,400 against $83,500-$118,400 per month)",
+      "gives_up": [
+        "headroom for the expected load (-10.0 pts)",
+        "performance (-1.9 pts)",
+        "vendor lock-in (-1.2 pts)"
+      ],
+      "summary": "Backend Go (net/http + chi) -> Firebase (BaaS); database Amazon DynamoDB -> Cloud Firestore; hosting AWS EKS (Kubernetes) -> Cloudflare Workers: about 92% cheaper on the core layers ($3,600-$10,400 against $83,500-$118,400 per month). Gives up 8.8 points, mainly on headroom for the expected load (-10.0 pts), performance (-1.9 pts), vendor lock-in (-1.2 pts)."
+    },
+    {
+      "direction": "more_headroom",
+      "title": "More headroom to scale",
+      "available": false,
+      "note": "Nothing within 12 points of the winner does clearly better here, so the chosen stack is already a strong pick on this."
+    },
+    {
+      "direction": "faster_build",
+      "title": "Ship sooner",
+      "available": true,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Go (net/http + chi)",
+        "database": "Azure Cosmos DB",
+        "hosting": "AWS ECS on Fargate"
+      },
+      "swaps": [
+        {
+          "layer": "database",
+          "from": "Amazon DynamoDB",
+          "to": "Azure Cosmos DB"
+        },
+        {
+          "layer": "hosting",
+          "from": "AWS EKS (Kubernetes)",
+          "to": "AWS ECS on Fargate"
+        }
+      ],
+      "score": 77.4,
+      "points_behind": 4.132,
+      "cost_usd": [
+        79053,
+        116878
+      ],
+      "gains": "time to market 6.7 instead of 5.8",
+      "gives_up": [
+        "headroom for the expected load (-5.0 pts)",
+        "performance (-0.5 pts)",
+        "scalability (-0.4 pts)"
+      ],
+      "summary": "Database Amazon DynamoDB -> Azure Cosmos DB; hosting AWS EKS (Kubernetes) -> AWS ECS on Fargate: time to market 6.7 instead of 5.8. Gives up 4.1 points, mainly on headroom for the expected load (-5.0 pts), performance (-0.5 pts), scalability (-0.4 pts)."
+    },
+    {
+      "direction": "less_lock_in",
+      "title": "Less vendor lock-in",
+      "available": true,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Go (net/http + chi)",
+        "database": "CockroachDB",
+        "hosting": "AWS ECS on Fargate"
+      },
+      "swaps": [
+        {
+          "layer": "database",
+          "from": "Amazon DynamoDB",
+          "to": "CockroachDB"
+        },
+        {
+          "layer": "hosting",
+          "from": "AWS EKS (Kubernetes)",
+          "to": "AWS ECS on Fargate"
+        }
+      ],
+      "score": 76.413,
+      "points_behind": 5.119,
+      "cost_usd": [
+        81525,
+        121230
+      ],
+      "gains": "lock-in 3.2 instead of 5.6 (0-10 scale)",
+      "gives_up": [
+        "headroom for the expected load (-5.0 pts)",
+        "compliance attestations (-1.5 pts)",
+        "performance (-1.4 pts)"
+      ],
+      "summary": "Database Amazon DynamoDB -> CockroachDB; hosting AWS EKS (Kubernetes) -> AWS ECS on Fargate: lock-in 3.2 instead of 5.6 (0-10 scale). Gives up 5.1 points, mainly on headroom for the expected load (-5.0 pts), compliance attestations (-1.5 pts), performance (-1.4 pts)."
+    }
+  ]
+}

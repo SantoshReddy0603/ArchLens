@@ -1,0 +1,1491 @@
+{
+  "scenario_id": "P5",
+  "engine_version": "1.0.0",
+  "status": "ok",
+  "summary": "Single deployable monolith: Blazor (ASP.NET Core), C# + ASP.NET Core, Microsoft SQL Server / Azure SQL database on Azure Container Apps. It keeps data in Indian regions, matches the team's languages and is estimated at $78-$190 per month.",
+  "architecture_style": "monolith",
+  "stack": {
+    "frontend": {
+      "choice": "Blazor (ASP.NET Core)",
+      "justification": "Blazor (ASP.NET Core) matches the team's csharp skills; C# end to end, component model, reuses Entra auth; is a proven choice for internal tool projects.",
+      "driven_by": [
+        "team.languages",
+        "priorities.time_to_market",
+        "project.type"
+      ],
+      "alternatives": [
+        {
+          "choice": "Angular",
+          "why_not": "Angular scores 0.8 points lower overall, mainly on budget fit (1.3 points) and cost (0.7 points). Estimated infrastructure about $180-$360/month versus about $77-$170/month."
+        },
+        {
+          "choice": "Vue 3 + Vite (SPA)",
+          "why_not": "Vue 3 + Vite (SPA) scores 0.9 points lower overall, mainly on budget fit (1.3 points) and compatibility with the rest of the stack (0.6 points). Estimated infrastructure about $180-$360/month versus about $77-$170/month."
+        }
+      ],
+      "tradeoffs": [
+        "Server mode ties UI to a live connection"
+      ]
+    },
+    "backend": {
+      "choice": "C# + ASP.NET Core",
+      "justification": "C# + ASP.NET Core matches the team's csharp skills; reuses your existing Microsoft Entra ID / Microsoft 365; strong typing and LTS releases; is a proven choice for internal tool projects.",
+      "driven_by": [
+        "team.languages",
+        "infrastructure.existing_systems",
+        "priorities.maintainability",
+        "project.type"
+      ],
+      "alternatives": [
+        {
+          "choice": "Python + Django",
+          "why_not": "Python + Django scores 5.7 points lower overall, mainly on reuse of existing systems (5.0 points) and team skill fit (2.3 points)."
+        },
+        {
+          "choice": "PHP + Laravel",
+          "why_not": "PHP + Laravel scores 6.6 points lower overall, mainly on reuse of existing systems (5.0 points) and team skill fit (2.3 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Smaller community outside enterprise"
+      ]
+    },
+    "database": {
+      "choice": "Microsoft SQL Server / Azure SQL",
+      "justification": "Microsoft SQL Server / Azure SQL reuses your existing SQL Server; can be placed in Central India (Pune) to keep data in India; great tooling, Entra ID auth; is a proven choice for internal tool projects.",
+      "driven_by": [
+        "infrastructure.existing_systems",
+        "infrastructure.data_residency",
+        "priorities.time_to_market",
+        "project.type"
+      ],
+      "alternatives": [
+        {
+          "choice": "PostgreSQL (managed or self-hosted)",
+          "why_not": "PostgreSQL (managed or self-hosted) scores 2.1 points lower overall, mainly on reuse of existing systems (3.5 points) and budget fit (0.5 points)."
+        },
+        {
+          "choice": "MySQL (managed or self-hosted)",
+          "why_not": "MySQL (managed or self-hosted) scores 3.6 points lower overall, mainly on reuse of existing systems (3.5 points) and security (0.5 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Licensing cost off Azure"
+      ]
+    },
+    "hosting": {
+      "choice": "Azure Container Apps",
+      "justification": "Azure Container Apps reuses your existing Microsoft Entra ID / Microsoft 365; runs on AZURE as preferred; can be placed in Central India (Pune) to keep data in India; offers a 99.95% SLA, in line with the 99.9% target.",
+      "driven_by": [
+        "infrastructure.existing_systems",
+        "infrastructure.cloud_preference",
+        "infrastructure.data_residency",
+        "requirements.availability"
+      ],
+      "alternatives": [
+        {
+          "choice": "Azure App Service",
+          "why_not": "Azure App Service is effectively tied (-0.27 points behind); the lead comes from budget fit."
+        },
+        {
+          "choice": "Azure Virtual Machines",
+          "why_not": "Azure Virtual Machines scores 4.9 points lower overall, mainly on reuse of existing systems (1.5 points) and operations load (1.2 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Newer service"
+      ]
+    },
+    "supporting": [
+      {
+        "layer": "auth",
+        "choice": "Microsoft Entra ID (workforce SSO)",
+        "justification": "Microsoft Entra ID (workforce SSO): users sign in (enterprise sso); workforce single sign-on with conditional access; the free tier covers SSO for apps; reuses your existing Microsoft Entra ID / Microsoft 365; free at this scale.",
+        "driven_by": [
+          "requirements.auth"
+        ],
+        "alternatives": [
+          {
+            "choice": "No other eligible option",
+            "why_not": "No other auth service satisfies the hard constraints."
+          }
+        ],
+        "tradeoffs": []
+      },
+      {
+        "layer": "storage",
+        "choice": "Azure Blob Storage",
+        "justification": "Azure Blob Storage: users upload files; object storage native to Azure; free at this scale.",
+        "driven_by": [
+          "requirements.file_media_storage",
+          "scale.data_volume_gb_12_months"
+        ],
+        "alternatives": [
+          {
+            "choice": "MinIO (self-hosted)",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), more to operate); score 0.74 vs 0.90."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $0 per month."
+        ]
+      },
+      {
+        "layer": "ci_cd",
+        "choice": "GitHub Actions",
+        "justification": "GitHub Actions: automated build and deploy for the team; workflows next to the code; the 2,000 free minutes a month cover a small team, larger teams buy extra minutes; free at this scale.",
+        "driven_by": [
+          "team.size"
+        ],
+        "alternatives": [
+          {
+            "choice": "Azure DevOps Pipelines",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $26 vs $0 per month at the high end), more to operate); score 0.80 vs 0.84."
+          },
+          {
+            "choice": "GitLab CI/CD",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $25 vs $0 per month at the high end), more to operate); score 0.73 vs 0.84."
+          }
+        ],
+        "tradeoffs": []
+      },
+      {
+        "layer": "observability",
+        "choice": "Azure Monitor / Application Insights",
+        "justification": "Azure Monitor / Application Insights: production monitoring for the availability target; native monitoring with strong .NET diagnostics.",
+        "driven_by": [
+          "requirements.availability",
+          "scale.users_12_months"
+        ],
+        "alternatives": [
+          {
+            "choice": "UptimeRobot / Better Stack uptime checks",
+            "why_not": "Ranks lower (lower quality rating (6 vs 8)); score 0.67 vs 0.80."
+          }
+        ],
+        "tradeoffs": [
+          "Adds about $0-$26 per month."
+        ]
+      }
+    ]
+  },
+  "estimated_monthly_cost_usd": {
+    "min": 78,
+    "max": 190,
+    "assumptions": [
+      "Load estimate: peak about 30 requests/second and about 3.4M requests/month from 1.5K users in 12 months.",
+      "Usage-priced items are shown as a band (0.75x to 1.3x of the estimate) because load figures are order-of-magnitude.",
+      "Public list prices of each product, in USD, without taxes, committed-use discounts or developer time.",
+      "The 99.9% availability target doubles or adds redundancy for hosting and database where needed.",
+      "Hosting (Azure Container Apps): about $23-$55/month",
+      "Database (Microsoft SQL Server / Azure SQL): about $54-$110/month",
+      "Observability (Azure Monitor / Application Insights): about $0-$26/month"
+    ]
+  },
+  "warnings": [
+    {
+      "code": "AGING_EXISTING_SYSTEM",
+      "severity": "info",
+      "message": "SQL Server 2017 / 2019: Still supported but past mainstream support (2019: mainstream ended 2025-02-28, security fixes until 2030-01-08; 2017: security fixes until 2027-10-12). Plan the upgrade or a move to a managed SQL service as part of this project.",
+      "fields": [
+        "infrastructure.existing_systems"
+      ]
+    },
+    {
+      "code": "ISO27001_NOTES",
+      "severity": "info",
+      "message": "ISO 27001 audits your own controls (access reviews, change management, logging, incident response); vendors with their own ISO 27001 report shorten the audit, and gaps in the chosen stack are listed separately.",
+      "fields": [
+        "compliance"
+      ]
+    },
+    {
+      "code": "EXISTING_SYSTEM_REUSED",
+      "severity": "info",
+      "message": "Microsoft Entra ID / Microsoft 365 is reused through Azure Container Apps, C# + ASP.NET Core and Microsoft Entra ID (workforce SSO). Existing Entra ID tenant: reuse it for sign-in instead of a second identity system.",
+      "fields": [
+        "infrastructure.existing_systems"
+      ]
+    },
+    {
+      "code": "EXISTING_SYSTEM_REUSED",
+      "severity": "info",
+      "message": "SQL Server is reused through C# + ASP.NET Core and Microsoft SQL Server / Azure SQL. Existing SQL Server data: keep it as the system of record or connect to it (hybrid connectivity or data sync).",
+      "fields": [
+        "infrastructure.existing_systems"
+      ]
+    },
+    {
+      "code": "EXISTING_SYSTEM_REUSED",
+      "severity": "info",
+      "message": "Microsoft Azure is reused through Azure Container Apps. Existing Azure footprint.",
+      "fields": [
+        "infrastructure.existing_systems"
+      ]
+    }
+  ],
+  "assumptions": [
+    "No extra inputs supplied; neutral defaults are used (learning appetite medium, lock-in tolerance medium, budget strictness firm, no hiring plan, no mobile preference).",
+    "No cache layer: about 30 requests/second and 1,500 users in 12 months are served directly by the database or BaaS.",
+    "No queue: background work is light enough for the backend or the provider's own webhooks and functions."
+  ],
+  "validation_errors": [],
+  "decision_trace": {
+    "pipeline": [
+      "validate input",
+      "derive profile",
+      "filter each layer by hard constraints",
+      "enumerate compatible stacks",
+      "score quality, fit and penalties",
+      "rank deterministically",
+      "select supporting services",
+      "estimate cost",
+      "explain"
+    ],
+    "weights": {
+      "cost": 0.1765,
+      "maintainability": 0.2131,
+      "performance": 0.0916,
+      "scalability": 0.052,
+      "security": 0.196,
+      "time_to_market": 0.2708
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "layers": {
+      "frontend": {
+        "candidates": 24,
+        "eliminated": [
+          {
+            "id": "godot",
+            "name": "Godot Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "kotlin_android",
+            "name": "Kotlin + Jetpack Compose (Android native)",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "maui",
+            "name": ".NET MAUI",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "none_fe",
+            "name": "None (API only)",
+            "reasons": [
+              "the project has client platforms to build"
+            ]
+          },
+          {
+            "id": "swift_ios",
+            "name": "Swift + SwiftUI (iOS native)",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "unity",
+            "name": "Unity",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "unreal",
+            "name": "Unreal Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 17,
+        "shortlist": [
+          "blazor",
+          "angular",
+          "vue_vite",
+          "react_vite",
+          "electron",
+          "tauri",
+          "nuxt",
+          "nextjs"
+        ],
+        "chosen": [
+          "blazor"
+        ]
+      },
+      "backend": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "colyseus",
+            "name": "Colyseus (Node.js game server)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "firebase",
+            "name": "Firebase (BaaS)",
+            "reasons": [
+              "cloud_preference is azure and this runs on gcp"
+            ]
+          },
+          {
+            "id": "nakama",
+            "name": "Nakama (Go game backend)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "none_be",
+            "name": "No backend (static)",
+            "reasons": [
+              "the project needs server-side logic (accounts, payments, uploads, realtime or non-content features)"
+            ]
+          },
+          {
+            "id": "supabase",
+            "name": "Supabase (BaaS)",
+            "reasons": [
+              "cloud_preference is azure and this runs on aws"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 11,
+        "shortlist": [
+          "aspnet_core",
+          "django",
+          "laravel",
+          "nextjs_api",
+          "nestjs",
+          "express",
+          "fastapi",
+          "rails"
+        ],
+        "chosen": [
+          "aspnet_core"
+        ]
+      },
+      "database": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "bigquery",
+            "name": "Google BigQuery",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          },
+          {
+            "id": "clickhouse",
+            "name": "ClickHouse",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          },
+          {
+            "id": "neon",
+            "name": "Neon (serverless Postgres)",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "none_db",
+            "name": "None (no database)",
+            "reasons": [
+              "the project needs persistent data"
+            ]
+          },
+          {
+            "id": "timescaledb",
+            "name": "TimescaleDB (PostgreSQL time-series)",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 8,
+        "shortlist": [
+          "sql_server",
+          "postgresql",
+          "mysql",
+          "mongodb",
+          "cockroachdb",
+          "sqlite",
+          "cosmos_db",
+          "oracle_db"
+        ],
+        "chosen": [
+          "sql_server"
+        ]
+      },
+      "hosting": {
+        "candidates": 27,
+        "eliminated": [
+          {
+            "id": "aws_amplify",
+            "name": "AWS Amplify Hosting",
+            "reasons": [
+              "cloud_preference is azure and this runs on aws"
+            ]
+          },
+          {
+            "id": "aws_ec2",
+            "name": "AWS EC2 (self-managed VMs)",
+            "reasons": [
+              "cloud_preference is azure and this runs on aws"
+            ]
+          },
+          {
+            "id": "aws_ecs_fargate",
+            "name": "AWS ECS on Fargate",
+            "reasons": [
+              "cloud_preference is azure and this runs on aws"
+            ]
+          },
+          {
+            "id": "aws_eks",
+            "name": "AWS EKS (Kubernetes)",
+            "reasons": [
+              "cloud_preference is azure and this runs on aws"
+            ]
+          },
+          {
+            "id": "aws_elastic_beanstalk",
+            "name": "AWS Elastic Beanstalk",
+            "reasons": [
+              "cloud_preference is azure and this runs on aws"
+            ]
+          },
+          {
+            "id": "aws_lambda",
+            "name": "AWS Lambda + API Gateway",
+            "reasons": [
+              "cloud_preference is azure and this runs on aws"
+            ]
+          },
+          {
+            "id": "cloudflare_pages",
+            "name": "Cloudflare Pages",
+            "reasons": [
+              "cloud_preference is azure and this runs on cloudflare"
+            ]
+          },
+          {
+            "id": "cloudflare_workers",
+            "name": "Cloudflare Workers",
+            "reasons": [
+              "cloud_preference is azure and this runs on cloudflare",
+              "no india region available"
+            ]
+          },
+          {
+            "id": "digitalocean_droplet",
+            "name": "DigitalOcean App Platform / Droplets",
+            "reasons": [
+              "cloud_preference is azure and this runs on digitalocean"
+            ]
+          },
+          {
+            "id": "firebase_hosting",
+            "name": "Firebase Hosting",
+            "reasons": [
+              "cloud_preference is azure and this runs on gcp"
+            ]
+          },
+          {
+            "id": "fly_io",
+            "name": "Fly.io",
+            "reasons": [
+              "cloud_preference is azure and this runs on fly"
+            ]
+          },
+          {
+            "id": "gce_vm",
+            "name": "Google Compute Engine",
+            "reasons": [
+              "cloud_preference is azure and this runs on gcp"
+            ]
+          },
+          {
+            "id": "github_pages",
+            "name": "GitHub Pages",
+            "reasons": [
+              "expected traffic (about 103 GB/month) exceeds the 100 GB/month soft limit",
+              "cloud_preference is azure and this runs on github"
+            ]
+          },
+          {
+            "id": "gke_cloud_run",
+            "name": "Google Cloud Run",
+            "reasons": [
+              "cloud_preference is azure and this runs on gcp"
+            ]
+          },
+          {
+            "id": "hetzner_vps",
+            "name": "Hetzner Cloud VPS",
+            "reasons": [
+              "cloud_preference is azure and this runs on hetzner",
+              "no india region available"
+            ]
+          },
+          {
+            "id": "netlify",
+            "name": "Netlify",
+            "reasons": [
+              "cloud_preference is azure and this runs on netlify",
+              "no india region available"
+            ]
+          },
+          {
+            "id": "none_host",
+            "name": "None (provided by the backend platform)",
+            "reasons": [
+              "a web client or API needs somewhere to be served from"
+            ]
+          },
+          {
+            "id": "onprem_k8s",
+            "name": "Self-managed Kubernetes (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting",
+              "cloud_preference is azure and this runs on onprem"
+            ]
+          },
+          {
+            "id": "onprem_linux_vm",
+            "name": "Self-managed Linux servers (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting",
+              "cloud_preference is azure and this runs on onprem"
+            ]
+          },
+          {
+            "id": "railway",
+            "name": "Railway",
+            "reasons": [
+              "cloud_preference is azure and this runs on railway",
+              "no india region available"
+            ]
+          },
+          {
+            "id": "render",
+            "name": "Render",
+            "reasons": [
+              "cloud_preference is azure and this runs on render",
+              "no india region available"
+            ]
+          },
+          {
+            "id": "vercel",
+            "name": "Vercel",
+            "reasons": [
+              "cloud_preference is azure and this runs on vercel"
+            ]
+          },
+          {
+            "id": "windows_iis",
+            "name": "Windows Server + IIS (self-hosted)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting",
+              "cloud_preference is azure and this runs on onprem"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 4,
+        "shortlist": [
+          "azure_app_service",
+          "azure_container_apps",
+          "azure_vm",
+          "azure_static_web_apps"
+        ],
+        "chosen": [
+          "azure_container_apps"
+        ]
+      }
+    },
+    "stack_search": {
+      "considered": 5236,
+      "pruned_by_reason": {
+        "backend bundled with a specific frontend": 132,
+        "database cannot be reached from the host": 270,
+        "database does not run on the chosen cloud": 950,
+        "database tied to another backend": 139,
+        "frontend needs a specific backend": 1111,
+        "runtime not supported by the host": 2992
+      },
+      "scored": 2634,
+      "removed_by_hard_budget": 0,
+      "frontend_pairs": false,
+      "budget_reference_usd": 300
+    },
+    "top_stacks": [
+      {
+        "rank": 1,
+        "stack": [
+          "Blazor (ASP.NET Core)",
+          "C# + ASP.NET Core",
+          "Microsoft SQL Server / Azure SQL",
+          "Azure Container Apps"
+        ],
+        "score": 94.211,
+        "quality": 0.771,
+        "fit": 0.938,
+        "penalties": {
+          "existing_reuse": -11.2,
+          "lock_in": 1.35,
+          "maturity": 0.25
+        },
+        "fit_terms": {
+          "archetype": 1.0,
+          "budget": 0.863,
+          "capability": 0.938,
+          "compat": 0.933,
+          "ops": 0.877,
+          "skill": 1.0
+        }
+      },
+      {
+        "rank": 2,
+        "stack": [
+          "Blazor (ASP.NET Core)",
+          "C# + ASP.NET Core",
+          "Microsoft SQL Server / Azure SQL",
+          "Azure App Service"
+        ],
+        "score": 94.476,
+        "quality": 0.7889,
+        "fit": 0.9164,
+        "penalties": {
+          "existing_reuse": -11.2,
+          "lock_in": 1.35
+        },
+        "fit_terms": {
+          "archetype": 1.0,
+          "budget": 0.706,
+          "capability": 0.938,
+          "compat": 1.0,
+          "ops": 0.877,
+          "skill": 1.0
+        }
+      },
+      {
+        "rank": 3,
+        "stack": [
+          "Angular",
+          "C# + ASP.NET Core",
+          "Microsoft SQL Server / Azure SQL",
+          "Azure App Service"
+        ],
+        "score": 93.416,
+        "quality": 0.7813,
+        "fit": 0.8996,
+        "penalties": {
+          "existing_reuse": -11.2,
+          "lock_in": 1.238
+        },
+        "fit_terms": {
+          "archetype": 1.0,
+          "budget": 0.706,
+          "capability": 0.962,
+          "compat": 0.933,
+          "ops": 0.877,
+          "skill": 0.946
+        }
+      },
+      {
+        "rank": 4,
+        "stack": [
+          "Vue 3 + Vite (SPA)",
+          "C# + ASP.NET Core",
+          "Microsoft SQL Server / Azure SQL",
+          "Azure App Service"
+        ],
+        "score": 93.335,
+        "quality": 0.783,
+        "fit": 0.8932,
+        "penalties": {
+          "existing_reuse": -11.2,
+          "lock_in": 1.125
+        },
+        "fit_terms": {
+          "archetype": 1.0,
+          "budget": 0.706,
+          "capability": 0.962,
+          "compat": 0.8,
+          "ops": 0.877,
+          "skill": 0.971
+        }
+      },
+      {
+        "rank": 5,
+        "stack": [
+          "Vue 3 + Vite (SPA)",
+          "C# + ASP.NET Core",
+          "Microsoft SQL Server / Azure SQL",
+          "Azure Container Apps"
+        ],
+        "score": 93.329,
+        "quality": 0.7651,
+        "fit": 0.9206,
+        "penalties": {
+          "existing_reuse": -11.2,
+          "lock_in": 1.125,
+          "maturity": 0.25
+        },
+        "fit_terms": {
+          "archetype": 1.0,
+          "budget": 0.863,
+          "capability": 0.962,
+          "compat": 0.8,
+          "ops": 0.877,
+          "skill": 0.967
+        }
+      }
+    ],
+    "supporting": {
+      "auth": {
+        "chosen": "entra_id",
+        "covered_natively": false,
+        "score": 0.898,
+        "alternatives": [],
+        "eliminated": [
+          {
+            "id": "auth0",
+            "name": "Auth0",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "clerk",
+            "name": "Clerk",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "cognito",
+            "name": "Amazon Cognito",
+            "reasons": [
+              "cloud_preference is azure and this is a aws service"
+            ]
+          },
+          {
+            "id": "entra_external_id",
+            "name": "Microsoft Entra External ID",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "firebase_auth",
+            "name": "Firebase Authentication",
+            "reasons": [
+              "cloud_preference is azure and this is a gcp service",
+              "no india region available"
+            ]
+          },
+          {
+            "id": "framework_auth",
+            "name": "Framework built-in auth (sessions/JWT)",
+            "reasons": [
+              "self-hosted identity needs a team that runs infrastructure"
+            ]
+          },
+          {
+            "id": "identity_platform",
+            "name": "Google Cloud Identity Platform",
+            "reasons": [
+              "cloud_preference is azure and this is a gcp service"
+            ]
+          },
+          {
+            "id": "keycloak",
+            "name": "Keycloak",
+            "reasons": [
+              "self-hosted identity needs a team that runs infrastructure"
+            ]
+          },
+          {
+            "id": "supabase_auth",
+            "name": "Supabase Auth",
+            "reasons": [
+              "is part of Supabase (BaaS) only"
+            ]
+          }
+        ]
+      },
+      "storage": {
+        "chosen": "azure_blob",
+        "covered_natively": false,
+        "score": 0.8971,
+        "alternatives": [
+          "minio"
+        ],
+        "eliminated": [
+          {
+            "id": "backblaze_b2",
+            "name": "Backblaze B2",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "cloudflare_r2",
+            "name": "Cloudflare R2",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "firebase_storage",
+            "name": "Cloud Storage for Firebase",
+            "reasons": [
+              "cloud_preference is azure and this is a gcp service",
+              "is part of Firebase (BaaS) only"
+            ]
+          },
+          {
+            "id": "gcs",
+            "name": "Google Cloud Storage",
+            "reasons": [
+              "cloud_preference is azure and this is a gcp service"
+            ]
+          },
+          {
+            "id": "s3",
+            "name": "Amazon S3",
+            "reasons": [
+              "cloud_preference is azure and this is a aws service"
+            ]
+          },
+          {
+            "id": "supabase_storage",
+            "name": "Supabase Storage",
+            "reasons": [
+              "is part of Supabase (BaaS) only"
+            ]
+          }
+        ]
+      },
+      "ci_cd": {
+        "chosen": "github_actions",
+        "covered_natively": false,
+        "score": 0.84,
+        "alternatives": [
+          "azure_devops",
+          "gitlab_ci"
+        ],
+        "eliminated": []
+      },
+      "observability": {
+        "chosen": "azure_monitor",
+        "covered_natively": false,
+        "score": 0.7976,
+        "alternatives": [
+          "uptime_monitor"
+        ],
+        "eliminated": [
+          {
+            "id": "cloudwatch",
+            "name": "Amazon CloudWatch",
+            "reasons": [
+              "cloud_preference is azure and this is a aws service"
+            ]
+          },
+          {
+            "id": "datadog",
+            "name": "Datadog",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "glitchtip",
+            "name": "GlitchTip (self-hosted)",
+            "reasons": [
+              "self-hosted monitoring needs a team that runs infrastructure"
+            ]
+          },
+          {
+            "id": "grafana_cloud",
+            "name": "Grafana Cloud",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "prometheus_grafana",
+            "name": "Prometheus + Grafana (self-hosted)",
+            "reasons": [
+              "self-hosted monitoring needs a team that runs infrastructure"
+            ]
+          },
+          {
+            "id": "sentry",
+            "name": "Sentry",
+            "reasons": [
+              "no india region available"
+            ]
+          }
+        ]
+      }
+    },
+    "relaxed_constraints": [
+      "No cache layer: about 30 requests/second and 1,500 users in 12 months are served directly by the database or BaaS.",
+      "No queue: background work is light enough for the backend or the provider's own webhooks and functions."
+    ],
+    "score_formula": "score = 100 * (0.55 * Q + 0.45 * F) - penalties"
+  },
+  "profile": {
+    "project_type": "internal_tool",
+    "client_platforms": [
+      "web"
+    ],
+    "api_only": false,
+    "users_launch": 1200,
+    "users_12m": 1500,
+    "peak_concurrent": 300,
+    "peak_estimated": false,
+    "peak_eff": 300,
+    "peak_rps": 30.0,
+    "avg_rps": 7.5,
+    "monthly_requests": 3420526.2753,
+    "egress_gb": 102.6158,
+    "data_gb": 20,
+    "traffic_pattern": "steady",
+    "workload": "read_heavy",
+    "scale_need": 3.7674,
+    "scale_tier": 2,
+    "team_size": 2,
+    "experience": "intermediate",
+    "exp_factor": 0.5,
+    "has_devops": false,
+    "ops_capacity": 0.2375,
+    "skills": [
+      "csharp",
+      "sql",
+      "javascript"
+    ],
+    "appetite": 0.5,
+    "beginner_sens": 0.15,
+    "lock_in_tolerance": "medium",
+    "hiring_plan": "none",
+    "mobile_preference": "no_preference",
+    "licenses": [],
+    "effort_pw": 6.5,
+    "capacity_pw": 7.8,
+    "effort_ratio": 0.8333,
+    "time_pressure": 0.2708,
+    "mvp_weeks": 6,
+    "budget": 300.0,
+    "budget_tier": 3,
+    "budget_tightness": 0.3804,
+    "budget_strictness": "firm",
+    "availability": "99.9",
+    "avail_level": 3.0,
+    "avail_required": 5.8,
+    "p95": 800,
+    "latency_need": 0.0745,
+    "residency": "india",
+    "compliance": [
+      "iso27001"
+    ],
+    "regulated_count": 1,
+    "deployment": "managed_cloud",
+    "cloud_pref": "azure",
+    "existing_systems": [
+      "Microsoft Entra ID (Azure AD)",
+      "On-prem SQL Server 2019",
+      "Microsoft 365"
+    ],
+    "license_texts": [],
+    "cloud_credits_usd": null,
+    "realtime": false,
+    "offline": false,
+    "search": false,
+    "files": true,
+    "payments": false,
+    "auth": "enterprise_sso",
+    "multi_tenant": false,
+    "ml": "none",
+    "seo": false,
+    "needs_server_logic": true,
+    "needs_persistence": true,
+    "static_candidate": false,
+    "geography": "country",
+    "data_sensitivity": "personal",
+    "hints": {
+      "low_end_devices": false,
+      "poor_connectivity": false,
+      "upi": false,
+      "location": false,
+      "tabular_ml": false
+    },
+    "india_ctx": true,
+    "weights": {
+      "cost": 0.1765,
+      "maintainability": 0.2131,
+      "performance": 0.0916,
+      "scalability": 0.052,
+      "security": 0.196,
+      "time_to_market": 0.2708
+    },
+    "weight_multipliers": {
+      "cost": 1.3804,
+      "time_to_market": 1.2708,
+      "scalability": 1.2209,
+      "performance": 1.0745,
+      "maintainability": 1.0,
+      "security": 1.15
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "allowed_complexity": 5.6716,
+    "notes": []
+  },
+  "score": {
+    "total": 94.211,
+    "quality": 0.771,
+    "fit": 0.938,
+    "penalty": -9.6,
+    "penalties": {
+      "availability": 0.0,
+      "cold_start": -0.0,
+      "data_model": 0.0,
+      "durability": 0.0,
+      "existing_reuse": -11.2,
+      "game_client": 0.0,
+      "game_server": 0.0,
+      "hiring": 0.0,
+      "lock_in": 1.35,
+      "maturity": 0.25,
+      "over_engineering": 0.0,
+      "seo": 0.0,
+      "soft_certs": 0.0,
+      "two_codebases": 0.0,
+      "under_provision": 0.0
+    },
+    "fit_terms": {
+      "archetype": 1.0,
+      "budget": 0.8632,
+      "capability": 0.9385,
+      "compat": 0.9333,
+      "ops": 0.877,
+      "skill": 1.0
+    },
+    "criteria": {
+      "cost": 7.4,
+      "maintainability": 8.0,
+      "performance": 7.85,
+      "scalability": 5.767,
+      "security": 8.55,
+      "time_to_market": 7.4
+    }
+  },
+  "ranking": [
+    {
+      "rank": 1,
+      "stack": {
+        "frontend": "Blazor (ASP.NET Core)",
+        "backend": "C# + ASP.NET Core",
+        "database": "Microsoft SQL Server / Azure SQL",
+        "hosting": "Azure Container Apps"
+      },
+      "score": 94.211,
+      "quality": 0.771,
+      "fit": 0.938,
+      "penalty": -9.6,
+      "cost_usd": [
+        77,
+        169
+      ]
+    },
+    {
+      "rank": 2,
+      "stack": {
+        "frontend": "Blazor (ASP.NET Core)",
+        "backend": "C# + ASP.NET Core",
+        "database": "Microsoft SQL Server / Azure SQL",
+        "hosting": "Azure App Service"
+      },
+      "score": 94.476,
+      "quality": 0.7889,
+      "fit": 0.9164,
+      "penalty": -9.85,
+      "cost_usd": [
+        179,
+        356
+      ]
+    },
+    {
+      "rank": 3,
+      "stack": {
+        "frontend": "Angular",
+        "backend": "C# + ASP.NET Core",
+        "database": "Microsoft SQL Server / Azure SQL",
+        "hosting": "Azure App Service"
+      },
+      "score": 93.416,
+      "quality": 0.7813,
+      "fit": 0.8996,
+      "penalty": -9.962,
+      "cost_usd": [
+        179,
+        356
+      ]
+    },
+    {
+      "rank": 4,
+      "stack": {
+        "frontend": "Vue 3 + Vite (SPA)",
+        "backend": "C# + ASP.NET Core",
+        "database": "Microsoft SQL Server / Azure SQL",
+        "hosting": "Azure App Service"
+      },
+      "score": 93.335,
+      "quality": 0.783,
+      "fit": 0.8932,
+      "penalty": -10.075,
+      "cost_usd": [
+        179,
+        356
+      ]
+    },
+    {
+      "rank": 5,
+      "stack": {
+        "frontend": "Vue 3 + Vite (SPA)",
+        "backend": "C# + ASP.NET Core",
+        "database": "Microsoft SQL Server / Azure SQL",
+        "hosting": "Azure Container Apps"
+      },
+      "score": 93.329,
+      "quality": 0.7651,
+      "fit": 0.9206,
+      "penalty": -9.825,
+      "cost_usd": [
+        77,
+        169
+      ]
+    },
+    {
+      "rank": 6,
+      "stack": {
+        "frontend": "Angular",
+        "backend": "C# + ASP.NET Core",
+        "database": "Microsoft SQL Server / Azure SQL",
+        "hosting": "Azure Container Apps"
+      },
+      "score": 93.109,
+      "quality": 0.7634,
+      "fit": 0.9202,
+      "penalty": -9.712,
+      "cost_usd": [
+        77,
+        169
+      ]
+    },
+    {
+      "rank": 7,
+      "stack": {
+        "frontend": "React + Vite (SPA)",
+        "backend": "C# + ASP.NET Core",
+        "database": "Microsoft SQL Server / Azure SQL",
+        "hosting": "Azure App Service"
+      },
+      "score": 93.067,
+      "quality": 0.7784,
+      "fit": 0.8929,
+      "penalty": -10.075,
+      "cost_usd": [
+        179,
+        356
+      ]
+    },
+    {
+      "rank": 8,
+      "stack": {
+        "frontend": "React + Vite (SPA)",
+        "backend": "C# + ASP.NET Core",
+        "database": "Microsoft SQL Server / Azure SQL",
+        "hosting": "Azure Container Apps"
+      },
+      "score": 93.061,
+      "quality": 0.7605,
+      "fit": 0.9202,
+      "penalty": -9.825,
+      "cost_usd": [
+        77,
+        169
+      ]
+    },
+    {
+      "rank": 9,
+      "stack": {
+        "frontend": "Electron",
+        "backend": "C# + ASP.NET Core",
+        "database": "Microsoft SQL Server / Azure SQL",
+        "hosting": "Azure App Service"
+      },
+      "score": 92.546,
+      "quality": 0.7811,
+      "fit": 0.878,
+      "penalty": -10.075,
+      "cost_usd": [
+        179,
+        356
+      ]
+    },
+    {
+      "rank": 10,
+      "stack": {
+        "frontend": "Electron",
+        "backend": "C# + ASP.NET Core",
+        "database": "Microsoft SQL Server / Azure SQL",
+        "hosting": "Azure Container Apps"
+      },
+      "score": 92.54,
+      "quality": 0.7632,
+      "fit": 0.9053,
+      "penalty": -9.825,
+      "cost_usd": [
+        77,
+        169
+      ]
+    }
+  ],
+  "robustness": {
+    "verdict": "mostly stable",
+    "margin_points": -0.265,
+    "runner_up": {
+      "frontend": "Blazor (ASP.NET Core)",
+      "backend": "C# + ASP.NET Core",
+      "database": "Microsoft SQL Server / Azure SQL",
+      "hosting": "Azure App Service"
+    },
+    "checks_run": 14,
+    "checks_held": 12,
+    "summary": "The same stack wins in 12 of 14 checks. It switches to Azure App Service (hosting) when time to market counted twice as much, budget doubled ($600). The runner-up scores 0.27 points higher but costs more, and stacks within 0.75 points count as a tie that the cheaper one wins.",
+    "checks": [
+      {
+        "change": "cost counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "cost counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "time to market counted twice as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Blazor (ASP.NET Core)",
+          "backend": "C# + ASP.NET Core",
+          "database": "Microsoft SQL Server / Azure SQL",
+          "hosting": "Azure App Service"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "Azure Container Apps",
+            "to": "Azure App Service"
+          }
+        ]
+      },
+      {
+        "change": "time to market counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "scalability counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "scalability counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "performance counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "performance counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "maintainability counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "maintainability counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "security counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "security counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "budget halved ($150)",
+        "same_stack": true
+      },
+      {
+        "change": "budget doubled ($600)",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Blazor (ASP.NET Core)",
+          "backend": "C# + ASP.NET Core",
+          "database": "Microsoft SQL Server / Azure SQL",
+          "hosting": "Azure App Service"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "Azure Container Apps",
+            "to": "Azure App Service"
+          }
+        ]
+      }
+    ]
+  },
+  "trade_off_options": [
+    {
+      "direction": "cheaper",
+      "title": "Spend less",
+      "available": true,
+      "stack": {
+        "frontend": "Blazor (ASP.NET Core)",
+        "backend": "C# + ASP.NET Core",
+        "database": "Azure Cosmos DB",
+        "hosting": "Azure Container Apps"
+      },
+      "swaps": [
+        {
+          "layer": "database",
+          "from": "Microsoft SQL Server / Azure SQL",
+          "to": "Azure Cosmos DB"
+        }
+      ],
+      "score": 88.239,
+      "points_behind": 5.972,
+      "cost_usd": [
+        55,
+        138
+      ],
+      "gains": "about 20% cheaper on the core layers ($55-$140 against $77-$170 per month)",
+      "gives_up": [
+        "reuse of existing systems (-3.5 pts)",
+        "vendor lock-in (-2.2 pts)",
+        "time to market (-0.4 pts)"
+      ],
+      "summary": "Database Microsoft SQL Server / Azure SQL -> Azure Cosmos DB: about 20% cheaper on the core layers ($55-$140 against $77-$170 per month). Gives up 6.0 points, mainly on reuse of existing systems (-3.5 pts), vendor lock-in (-2.2 pts), time to market (-0.4 pts)."
+    },
+    {
+      "direction": "more_headroom",
+      "title": "More headroom to scale",
+      "available": false,
+      "note": "Nothing within 12 points of the winner does clearly better here, so the chosen stack is already a strong pick on this."
+    },
+    {
+      "direction": "faster_build",
+      "title": "Ship sooner",
+      "available": true,
+      "stack": {
+        "frontend": "Electron",
+        "backend": "C# + ASP.NET Core",
+        "database": "Microsoft SQL Server / Azure SQL",
+        "hosting": "Azure App Service"
+      },
+      "swaps": [
+        {
+          "layer": "frontend",
+          "from": "Blazor (ASP.NET Core)",
+          "to": "Electron"
+        },
+        {
+          "layer": "hosting",
+          "from": "Azure Container Apps",
+          "to": "Azure App Service"
+        }
+      ],
+      "score": 92.546,
+      "points_behind": 1.664,
+      "cost_usd": [
+        179,
+        356
+      ],
+      "gains": "time to market 8.2 instead of 7.4",
+      "gives_up": [
+        "budget fit (-1.3 pts)",
+        "compatibility with the rest of the stack (-0.6 pts)",
+        "cost (-0.6 pts)"
+      ],
+      "summary": "Frontend Blazor (ASP.NET Core) -> Electron; hosting Azure Container Apps -> Azure App Service: time to market 8.2 instead of 7.4. Gives up 1.7 points, mainly on budget fit (-1.3 pts), compatibility with the rest of the stack (-0.6 pts), cost (-0.6 pts)."
+    },
+    {
+      "direction": "less_lock_in",
+      "title": "Less vendor lock-in",
+      "available": true,
+      "stack": {
+        "frontend": "Vue 3 + Vite (SPA)",
+        "backend": "C# + ASP.NET Core",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Azure Virtual Machines"
+      },
+      "swaps": [
+        {
+          "layer": "frontend",
+          "from": "Blazor (ASP.NET Core)",
+          "to": "Vue 3 + Vite (SPA)"
+        },
+        {
+          "layer": "database",
+          "from": "Microsoft SQL Server / Azure SQL",
+          "to": "PostgreSQL (managed or self-hosted)"
+        },
+        {
+          "layer": "hosting",
+          "from": "Azure Container Apps",
+          "to": "Azure Virtual Machines"
+        }
+      ],
+      "score": 86.467,
+      "points_behind": 7.744,
+      "cost_usd": [
+        190,
+        363
+      ],
+      "gains": "lock-in 1.8 instead of 3.5 (0-10 scale)",
+      "gives_up": [
+        "reuse of existing systems (-5.0 pts)",
+        "budget fit (-1.4 pts)",
+        "operations load (-1.2 pts)"
+      ],
+      "summary": "Frontend Blazor (ASP.NET Core) -> Vue 3 + Vite (SPA); database Microsoft SQL Server / Azure SQL -> PostgreSQL (managed or self-hosted); hosting Azure Container Apps -> Azure Virtual Machines: lock-in 1.8 instead of 3.5 (0-10 scale). Gives up 7.7 points, mainly on reuse of existing systems (-5.0 pts), budget fit (-1.4 pts), operations load (-1.2 pts)."
+    }
+  ]
+}

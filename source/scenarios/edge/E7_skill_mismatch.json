@@ -1,0 +1,64 @@
+{
+  "scenario_id": "E7",
+  "project": {
+    "name": "TradeDesk",
+    "type": "fintech",
+    "description": "Order management for a small brokerage. The team writes COBOL and some SQL only.",
+    "platforms": [
+      "web"
+    ]
+  },
+  "scale": {
+    "traffic_pattern": "steady",
+    "workload": "balanced",
+    "users_at_launch": 200,
+    "users_12_months": 2000,
+    "peak_concurrent_users": 100,
+    "data_volume_gb_12_months": 20
+  },
+  "team": {
+    "has_devops": false,
+    "size": 3,
+    "experience": "senior",
+    "languages": [
+      "cobol",
+      "sql"
+    ]
+  },
+  "budget": {
+    "monthly_infra_usd": 300
+  },
+  "timeline": {
+    "mvp_weeks": 12
+  },
+  "infrastructure": {
+    "cloud_preference": "any",
+    "deployment_model": "managed_cloud",
+    "data_residency": "none",
+    "existing_systems": []
+  },
+  "requirements": {
+    "realtime": false,
+    "offline_support": false,
+    "full_text_search": false,
+    "file_media_storage": false,
+    "payments": true,
+    "auth": "enterprise_sso",
+    "multi_tenant": false,
+    "ml_features": "none",
+    "seo_critical": false,
+    "availability": "99.9",
+    "p95_latency_ms": null
+  },
+  "compliance": [
+    "pci_dss"
+  ],
+  "priorities": {
+    "cost": 3,
+    "time_to_market": 3,
+    "scalability": 3,
+    "performance": 3,
+    "maintainability": 3,
+    "security": 3
+  }
+}
