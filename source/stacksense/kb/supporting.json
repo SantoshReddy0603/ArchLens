@@ -5538,5 +5538,151 @@
     "cons": [
       "Model versioning, scaling and monitoring are built and run in-house"
     ]
+  },
+  {
+    "id": "postgis",
+    "name": "PostGIS (PostgreSQL extension)",
+    "layer": "geo",
+    "provider": "self",
+    "quality": 9,
+    "ops_burden": 0,
+    "lock_in": 1,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Spatial types, GiST indexes and distance/within queries inside the existing PostgreSQL database; no extra service",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "db_native": [
+        "postgresql",
+        "neon",
+        "supabase_postgres",
+        "timescaledb"
+      ]
+    },
+    "sources": [
+      {
+        "title": "PostGIS documentation",
+        "url": "https://postgis.net/documentation/"
+      },
+      {
+        "title": "Supabase PostGIS extension",
+        "url": "https://supabase.com/docs/guides/database/extensions/postgis"
+      },
+      {
+        "title": "Amazon RDS PostgreSQL extensions",
+        "url": "https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-extensions.html"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "cons": [
+      "Spatial indexes add write cost on write-heavy tables; store points as geography in SRID 4326 from day one to avoid a migration"
+    ]
+  },
+  {
+    "id": "microsoft_graph_mail",
+    "name": "Microsoft Graph (Outlook mail and Teams messages)",
+    "layer": "email",
+    "provider": "azure",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 4,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Sends approval mail and Teams messages from the organisation's own Microsoft 365 tenant, so no separate email provider or domain setup is needed",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {
+      "workforce": true,
+      "integrates": [
+        "entra",
+        "microsoft 365",
+        "azure ad",
+        "office 365",
+        "m365",
+        "outlook",
+        "microsoft teams"
+      ]
+    },
+    "sources": [
+      {
+        "title": "Microsoft Graph sendMail",
+        "url": "https://learn.microsoft.com/graph/api/user-sendmail"
+      },
+      {
+        "title": "Send Teams chat messages with Microsoft Graph",
+        "url": "https://learn.microsoft.com/graph/api/chatmessage-post"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "cons": [
+      "Needs an app registration with admin-consented mail permissions; scope it to one sending mailbox with an application access policy"
+    ]
+  },
+  {
+    "id": "azure_communication_email",
+    "name": "Azure Communication Services Email",
+    "layer": "email",
+    "provider": "azure",
+    "quality": 7,
+    "ops_burden": 0,
+    "lock_in": 2,
+    "cost": {
+      "fixed": [
+        0,
+        5
+      ]
+    },
+    "why": "About $0.25 per 1,000 emails from an Azure resource with a chosen data location; domain verification and sender reputation are yours",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "sources": [
+      {
+        "title": "Azure Communication Services Email overview",
+        "url": "https://learn.microsoft.com/azure/communication-services/concepts/email/email-overview"
+      },
+      {
+        "title": "Azure Communication Services pricing",
+        "url": "https://azure.microsoft.com/pricing/details/communication-services/"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "cons": [
+      "Starts with low sending quotas that need a support request to raise; custom domain and DNS setup are on you"
+    ]
   }
 ]

@@ -1,0 +1,49 @@
+{
+ "_note": "Concrete managed product for a generic engine on a given hosting provider. 'any' applies when the engine is bought from its vendor rather than the host's cloud. Selection is unchanged by this file; it only names what the chosen stack runs on.",
+ "last_verified": "2026-11",
+ "database": {
+  "postgresql": {
+   "aws": {"name": "Amazon RDS for PostgreSQL", "url": "https://aws.amazon.com/rds/postgresql/"},
+   "gcp": {"name": "Cloud SQL for PostgreSQL", "url": "https://cloud.google.com/sql/docs/postgres"},
+   "azure": {"name": "Azure Database for PostgreSQL (flexible server)", "url": "https://learn.microsoft.com/azure/postgresql/flexible-server/overview"},
+   "digitalocean": {"name": "DigitalOcean Managed PostgreSQL", "url": "https://docs.digitalocean.com/products/databases/postgresql/"},
+   "render": {"name": "Render Postgres", "url": "https://render.com/docs/postgresql"},
+   "railway": {"name": "Railway PostgreSQL", "url": "https://docs.railway.com/guides/postgresql"},
+   "fly": {"name": "Fly.io Managed Postgres", "url": "https://fly.io/docs/mpg/"}
+  },
+  "mysql": {
+   "aws": {"name": "Amazon RDS for MySQL", "url": "https://aws.amazon.com/rds/mysql/"},
+   "gcp": {"name": "Cloud SQL for MySQL", "url": "https://cloud.google.com/sql/docs/mysql"},
+   "azure": {"name": "Azure Database for MySQL (flexible server)", "url": "https://learn.microsoft.com/azure/mysql/flexible-server/overview"},
+   "digitalocean": {"name": "DigitalOcean Managed MySQL", "url": "https://docs.digitalocean.com/products/databases/mysql/"}
+  },
+  "sql_server": {
+   "azure": {"name": "Azure SQL Database", "url": "https://learn.microsoft.com/azure/azure-sql/database/sql-database-paas-overview"},
+   "aws": {"name": "Amazon RDS for SQL Server", "url": "https://aws.amazon.com/rds/sqlserver/"}
+  },
+  "oracle_db": {
+   "aws": {"name": "Amazon RDS for Oracle", "url": "https://aws.amazon.com/rds/oracle/"}
+  },
+  "mongodb": {
+   "any": {"name": "MongoDB Atlas", "url": "https://www.mongodb.com/docs/atlas/"}
+  },
+  "cockroachdb": {
+   "any": {"name": "CockroachDB Cloud", "url": "https://www.cockroachlabs.com/docs/cockroachcloud/"}
+  },
+  "clickhouse": {
+   "any": {"name": "ClickHouse Cloud", "url": "https://clickhouse.com/docs/cloud/overview"}
+  },
+  "timescaledb": {
+   "any": {"name": "Tiger Cloud (managed TimescaleDB)", "url": "https://www.tigerdata.com/docs/"}
+  }
+ },
+ "supporting": {
+  "redis_managed": {
+   "aws": {"name": "Amazon ElastiCache for Valkey", "url": "https://aws.amazon.com/elasticache/valkey/"},
+   "gcp": {"name": "Memorystore for Valkey", "url": "https://cloud.google.com/memorystore/docs/valkey"},
+   "azure": {"name": "Azure Managed Redis", "url": "https://learn.microsoft.com/azure/redis/overview"},
+   "digitalocean": {"name": "DigitalOcean Managed Caching (Valkey)", "url": "https://docs.digitalocean.com/products/databases/valkey/"},
+   "render": {"name": "Render Key Value", "url": "https://render.com/docs/key-value"}
+  }
+ }
+}
