@@ -77,32 +77,32 @@
 
   // ---- form definition -----------------------------------------------------
   var GROUPS = [
-    { id: "project", title: "Project", desc: "What you are building and where it runs.", fields: [
+    { id: "project", title: "Project", fields: [
       { p: "project.name", l: "Name", t: "text" },
-      { p: "project.type", l: "Project type", t: "enum", req: 1, help: "Sets the shape of the stack, for example static pages for a content site." },
-      { p: "project.platforms", l: "Platforms", t: "multi", req: 1, wide: 1, help: "Where users reach it. Native mobile platforms change the frontend options." },
-      { p: "project.description", l: "Description", t: "textarea", wide: 1, help: "Seeds the suggestions on the start page. In the scenario it is only a minor hint: mentions of low-end phones or poor connectivity raise the weight of client footprint and sync. Nothing else in it is read." }] },
-    { id: "scale", title: "Scale", desc: "How many people, how often, how much data.", fields: [
+      { p: "project.type", l: "Project type", t: "enum", req: 1 },
+      { p: "project.platforms", l: "Platforms", t: "multi", req: 1, wide: 1 },
+      { p: "project.description", l: "Description", t: "textarea", wide: 1 }] },
+    { id: "scale", title: "Scale", fields: [
       { p: "scale.users_at_launch", l: "Users at launch", t: "int", req: 1 },
       { p: "scale.users_12_months", l: "Users after 12 months", t: "int", req: 1 },
-      { p: "scale.peak_concurrent_users", l: "Peak concurrent users", t: "int", help: "Sizes the backend and database. Leave empty if unknown." },
+      { p: "scale.peak_concurrent_users", l: "Peak concurrent users", t: "int", help: "Leave empty if unknown." },
       { p: "scale.data_volume_gb_12_months", l: "Data after 12 months (GB)", t: "num" },
       { p: "scale.traffic_pattern", l: "Traffic pattern", t: "enum" },
       { p: "scale.workload", l: "Workload", t: "enum" }] },
-    { id: "team", title: "Team", desc: "Who will build and run it.", fields: [
+    { id: "team", title: "Team", fields: [
       { p: "team.size", l: "Engineers", t: "int", req: 1 },
       { p: "team.experience", l: "Experience", t: "enum", req: 1 },
-      { p: "team.languages", l: "Languages the team knows", t: "tags", wide: 1, req: 1, list: "languages", help: "Lower-case names such as python or typescript. Press Enter to add. May be empty." },
-      { p: "team.has_devops", l: "Someone can operate infrastructure", t: "bool", wide: 1, help: "Without this, managed platforms score higher than self-run servers." }] },
-    { id: "budget", title: "Budget and timeline", desc: "Money and time limits.", fields: [
+      { p: "team.languages", l: "Languages the team knows", t: "tags", wide: 1, req: 1, list: "languages", help: "Press Enter or comma to add a language." },
+      { p: "team.has_devops", l: "Someone can operate infrastructure", t: "bool", wide: 1 }] },
+    { id: "budget", title: "Budget and timeline", fields: [
       { p: "budget.monthly_infra_usd", l: "Monthly infrastructure budget (USD)", t: "num", req: 1, help: "Include third-party services. Zero means free tiers only." },
       { p: "timeline.mvp_weeks", l: "Weeks to first release", t: "int", req: 1 }] },
-    { id: "infra", title: "Infrastructure", desc: "Hard limits on where and how it can be hosted.", fields: [
+    { id: "infra", title: "Infrastructure", fields: [
       { p: "infrastructure.cloud_preference", l: "Cloud preference", t: "enum" },
       { p: "infrastructure.deployment_model", l: "Deployment model", t: "enum" },
-      { p: "infrastructure.data_residency", l: "Data residency", t: "enum", help: "Data must be stored in this region." },
+      { p: "infrastructure.data_residency", l: "Data residency", t: "enum" },
       { p: "infrastructure.existing_systems", l: "Existing systems to reuse", t: "tags", wide: 1, help: "For example SQL Server or Active Directory." }] },
-    { id: "req", title: "Requirements", desc: "Capabilities the product must have.", fields: [
+    { id: "req", title: "Requirements", fields: [
       { p: "requirements.realtime", l: "Live updates, chat or collaboration", t: "bool" },
       { p: "requirements.offline_support", l: "Works without connectivity", t: "bool" },
       { p: "requirements.full_text_search", l: "Full-text search", t: "bool" },
@@ -114,24 +114,24 @@
       { p: "requirements.ml_features", l: "Machine learning", t: "enum" },
       { p: "requirements.availability", l: "Availability target (%)", t: "enum" },
       { p: "requirements.p95_latency_ms", l: "p95 latency target (ms)", t: "int" }] },
-    { id: "comp", title: "Compliance", desc: "Rules the system must satisfy.", fields: [
+    { id: "comp", title: "Compliance", fields: [
       { p: "compliance", l: "Standards and regulations", t: "multi", wide: 1 }] },
-    { id: "prio", title: "Priorities", desc: "What matters most. 1 is minor, 5 is critical. Untouched sliders use the default of 3.", fields: [
+    { id: "prio", title: "Priorities", desc: "1 = minor, 5 = critical. Default: 3.", fields: [
       { p: "priorities.cost", l: "Cost", t: "range" }, { p: "priorities.time_to_market", l: "Time to market", t: "range" },
       { p: "priorities.scalability", l: "Scalability", t: "range" }, { p: "priorities.performance", l: "Performance", t: "range" },
       { p: "priorities.maintainability", l: "Maintainability", t: "range" }, { p: "priorities.security", l: "Security", t: "range" }] }
   ];
-  var EXTRA = { id: "extra", title: "Extra inputs", desc: "Optional. Each one changes a specific part of the scoring.", fields: [
-    { p: "extra.learning_appetite", l: "Learning appetite", t: "enum", help: "High lets the engine pick tools the team does not know yet. Low keeps to known languages." },
-    { p: "extra.lock_in_tolerance", l: "Vendor lock-in tolerance", t: "enum", help: "Low penalises proprietary managed services." },
-    { p: "extra.user_geography", l: "User geography", t: "enum", help: "Decides whether CDN reach and multi-region hosting are worth their cost." },
-    { p: "extra.data_sensitivity", l: "Data sensitivity", t: "enum", help: "Raises the weight on security and compliant hosting." },
-    { p: "extra.budget_strictness", l: "Budget strictness", t: "enum", help: "Hard turns the budget into a filter instead of a score." },
-    { p: "extra.hiring_plan", l: "Hiring plan", t: "enum", help: "Aggressive hiring favours common, easy-to-hire stacks." },
-    { p: "extra.mobile_preference", l: "Mobile preference", t: "enum", help: "Chooses between native, cross-platform and PWA frontends." },
-    { p: "extra.existing_licenses", l: "Existing licences and credits", t: "multi", wide: 1, help: "Credits and licences you already hold tilt hosting and auth choices." },
-    { p: "extra.expected_rps", l: "Expected requests per second", t: "num", help: "Sizes the backend directly when you know it." },
-    { p: "extra.cloud_credits_usd", l: "Cloud credits (USD, total)", t: "num", help: "With AWS, GCP or Azure credits listed above, shows how long they last and counts them when two stacks are nearly tied." }] };
+  var EXTRA = { id: "extra", title: "Extra inputs", fields: [
+    { p: "extra.learning_appetite", l: "Learning appetite", t: "enum", help: "High allows unfamiliar tools; low favours known languages." },
+    { p: "extra.lock_in_tolerance", l: "Vendor lock-in tolerance", t: "enum" },
+    { p: "extra.user_geography", l: "User geography", t: "enum" },
+    { p: "extra.data_sensitivity", l: "Data sensitivity", t: "enum" },
+    { p: "extra.budget_strictness", l: "Budget strictness", t: "enum", help: "Hard excludes stacks above the budget." },
+    { p: "extra.hiring_plan", l: "Hiring plan", t: "enum" },
+    { p: "extra.mobile_preference", l: "Mobile preference", t: "enum" },
+    { p: "extra.existing_licenses", l: "Existing licences and credits", t: "multi", wide: 1 },
+    { p: "extra.expected_rps", l: "Expected requests per second", t: "num" },
+    { p: "extra.cloud_credits_usd", l: "Cloud credits (USD, total)", t: "num", help: "Select the credit provider above. Enter the total credit, not a monthly amount." }] };
   var REQUIRED = {};
   GROUPS.concat([EXTRA]).forEach(function (g) { g.fields.forEach(function (f) { if (f.req) REQUIRED[f.p] = 1; }); });
   var LIST_HINTS = { languages: ["python", "javascript", "typescript", "java", "csharp", "php", "go", "kotlin", "swift", "ruby", "rust", "dart", "sql", "cpp"] };
@@ -245,7 +245,7 @@
   function fillMarks(box, f) {
     box.textContent = "";
     var errs = errorsFor(f.p);
-    errs.forEach(function (e) { box.appendChild(h("p", { class: "err", id: "err-" + f.p.replace(/\./g, "-"), text: e.message })); });
+    errs.forEach(function (e) { box.appendChild(h("p", { class: "err", id: "err-" + f.p.replace(/\./g, "-"), text: errorMessage(e) })); });
     var inp = box.parentNode.querySelector("input:not([type=checkbox]):not([type=range]),select");
     if (inp) { if (errs.length) inp.setAttribute("aria-invalid", "true"); else inp.removeAttribute("aria-invalid"); }
     var ev = evidenceBlock(f.p);
@@ -263,6 +263,38 @@
     var found = null;
     GROUPS.concat([EXTRA]).forEach(function (g) { g.fields.forEach(function (f) { if (f.p === path) found = f; }); });
     return found;
+  }
+  function errorMessage(e) {
+    var f = findField(String(e.field).replace(/\[\d+\]/g, ""));
+    if (/^required field is missing/.test(e.message)) return "Required field is missing.";
+    if (f && (f.t === "enum" || f.t === "multi") && /allowed values:|one of:|must be one of/.test(e.message)) {
+      return f.t === "multi" ? "Select from the available options." : "Choose an available option.";
+    }
+    return e.message;
+  }
+  function checkLabel(path) {
+    var field = findField(String(path).replace(/\[\d+\]/g, ""));
+    if (!field) return nice(path);
+    var section = GROUPS.concat([EXTRA]).find(function (g) { return g.fields.indexOf(field) >= 0; });
+    return section.title + " · " + field.l;
+  }
+  function checkTarget(path) {
+    path = String(path).replace(/\[\d+\]/g, "");
+    var field = findField(path);
+    if (field) return main.querySelector('[data-field="' + field.p + '"]');
+    var group = GROUPS.concat([EXTRA]).find(function (g) {
+      return g.fields.some(function (f) { return f.p.indexOf(path + ".") === 0; });
+    });
+    return group ? document.getElementById("g-" + group.id) : null;
+  }
+  function focusCheck(path) {
+    var target = checkTarget(path);
+    if (!target) return;
+    var details = target.closest("details"); if (details) details.open = true;
+    target.scrollIntoView({ behavior: "auto", block: "center" });
+    var input = target.querySelector("input,select,textarea");
+    if (input) input.focus({ preventScroll: true });
+    else { target.setAttribute("tabindex", "-1"); target.focus({ preventScroll: true }); }
   }
   function errorsFor(path) {
     var v = state.validation;
@@ -335,11 +367,19 @@
     var evalBtn = document.getElementById("evaluate");
     if (evalBtn) evalBtn.disabled = state.busy;
     if (errs.length) {
-      box.appendChild(h("p", { class: "note", text: errs.length + (errs.length === 1 ? " field needs" : " fields need") + " attention before you can evaluate." }));
-      errs.forEach(function (e) {
-        box.appendChild(h("div", { class: "sev critical" }, h("b", { text: "error" }), e.message, h("div", { class: "f", text: e.field })));
+      var fieldErrors = errs.filter(function (e) {
+        return !/^section '[^']+' is missing;/.test(e.message) || !errs.some(function (other) { return other.field.indexOf(e.field + ".") === 0; });
       });
-    } else if (!v.error) box.appendChild(h("p", { class: "note", text: "All required fields are valid." }));
+      box.appendChild(h("p", { class: "note", text: fieldErrors.length + (fieldErrors.length === 1 ? " item needs" : " items need") + " attention." }));
+      box.appendChild(h("ul", { class: "check-list" }, fieldErrors.map(function (e) {
+        var message = errorMessage(e);
+        return h("li", null,
+          h(checkTarget(e.field) ? "a" : "div", checkTarget(e.field) ? { href: "#/review", onclick: function (event) { event.preventDefault(); focusCheck(e.field); } } : null,
+            h("span", { class: "check-field", text: checkLabel(e.field) }), h("span", { class: "check-message", text: message })),
+          message !== e.message && !/^required field is missing/.test(e.message) ?
+            h("details", null, h("summary", { text: "Details" }), e.message) : null);
+      })));
+    } else if (!v.error) box.appendChild(h("p", { class: "note", text: "Ready to evaluate." }));
     var ws = v.warnings || [];
     if (ws.length) box.appendChild(h("h3", { text: "Conflicts", style: "margin-top:18px" }));
     ws.forEach(function (w) { box.appendChild(sevBlock(w)); });
@@ -352,7 +392,7 @@
   function currentRoute() { return (location.hash.replace(/^#\/?/, "") || "start").split("?")[0]; }
 
   function renderStart() {
-    var fileIn = h("input", { type: "file", accept: ".pdf,.docx,.txt,.md,.json", class: "sr", id: "file-up", tabindex: "-1" });
+    var fileIn = h("input", { type: "file", accept: ".pdf,.docx,.txt", class: "sr", id: "file-up", tabindex: "-1" });
     var jsonIn = h("input", { type: "file", accept: ".json,application/json", class: "sr", id: "file-json", tabindex: "-1" });
     var describe = h("div", { class: "panel describe", id: "describe", hidden: true },
       h("label", { for: "desc-text", class: "lab", text: "Describe the project in plain words" }),
@@ -363,28 +403,34 @@
           if (!t) { toast("Write a few sentences first."); return; }
           runExtract({ text: t });
         } }, "Find requirements"),
-        h("span", { class: "note", text: "Matched by rules on this machine. You review every value before anything is evaluated." })));
+        h("span", { class: "note", text: "Review the extracted values before evaluating." })));
     function method(n, title, desc, fn) {
-      return h("button", { type: "button", class: "method", onclick: fn }, h("span", { class: "num", text: n }), h("span", { class: "t", text: title }), h("span", { class: "d", text: desc }));
+      return h("button", { type: "button", class: "method", onclick: fn }, h("span", { class: "num", text: n }), h("span", { class: "t", text: title }), desc ? h("span", { class: "d", text: desc }) : null);
     }
     var methods = h("div", { class: "methods" },
-      method("i.", "Upload a brief", "A PDF, Word or text document. Requirements are read from the text.", function () { fileIn.click(); }),
-      method("ii.", "Describe it", "Paste or type a few sentences about the project.", function () { describe.hidden = !describe.hidden; if (!describe.hidden) document.getElementById("desc-text").focus(); }),
-      method("iii.", "Enter manually", "Go straight to the form and fill every field yourself.", function () { newScenario(); location.hash = "#/review"; }),
-      method("iv.", "Import JSON", "Load a scenario file in the standard input schema.", function () { jsonIn.click(); }));
-    fileIn.addEventListener("change", function () { if (fileIn.files[0]) uploadFile(fileIn.files[0]); });
-    jsonIn.addEventListener("change", function () {
-      var f = jsonIn.files[0]; if (!f) return;
+      method("i.", "Upload a brief", "PDF, Word (.docx) or text (.txt)", function () { describe.hidden = true; fileIn.click(); }),
+      method("ii.", "Describe it", "", function () { describe.hidden = !describe.hidden; if (!describe.hidden) document.getElementById("desc-text").focus(); }),
+      method("iii.", "Enter manually", "", function () { newScenario(); location.hash = "#/review"; }),
+      method("iv.", "Import JSON", "", function () { describe.hidden = true; jsonIn.click(); }));
+    fileIn.addEventListener("change", function () { if (fileIn.files[0]) uploadFile(fileIn.files[0]); fileIn.value = ""; });
+    function importJson(f) {
+      describe.hidden = true;
+      if (!/\.json$/i.test(f.name)) { toast("Choose a JSON (.json) file."); return; }
       f.text().then(function (txt) {
         var obj;
         try { obj = JSON.parse(txt); } catch (e) { toast("That file is not valid JSON."); return; }
         if (!obj || typeof obj !== "object" || Array.isArray(obj)) { toast("The JSON must be an object."); return; }
         useScenario(obj, []); location.hash = "#/review";
-      });
-    });
-    ["dragover", "dragenter"].forEach(function (ev) { methods.addEventListener(ev, function (e) { e.preventDefault(); methods.firstChild.classList.add("drag"); }); });
-    ["dragleave", "drop"].forEach(function (ev) { methods.addEventListener(ev, function () { methods.firstChild.classList.remove("drag"); }); });
-    methods.addEventListener("drop", function (e) { e.preventDefault(); if (e.dataTransfer.files[0]) uploadFile(e.dataTransfer.files[0]); });
+      }).catch(function () { toast("That file could not be read."); });
+    }
+    jsonIn.addEventListener("change", function () { if (jsonIn.files[0]) importJson(jsonIn.files[0]); jsonIn.value = ""; });
+    function uploadDrop(button, read) {
+      ["dragover", "dragenter"].forEach(function (ev) { button.addEventListener(ev, function (e) { e.preventDefault(); button.classList.add("drag"); }); });
+      ["dragleave", "drop"].forEach(function (ev) { button.addEventListener(ev, function () { button.classList.remove("drag"); }); });
+      button.addEventListener("drop", function (e) { e.preventDefault(); describe.hidden = true; if (e.dataTransfer.files[0]) read(e.dataTransfer.files[0]); });
+    }
+    uploadDrop(methods.children[0], uploadFile);
+    uploadDrop(methods.children[3], importJson);
 
     var samples = h("section", { class: "samples", "aria-labelledby": "samples-h" },
       h("p", { class: "eyebrow", id: "samples-h", text: "Or start from a sample" }),
@@ -396,8 +442,7 @@
     main.textContent = "";
     main.appendChild(h("div", { class: "hero" },
       h("p", { class: "eyebrow", text: "Technology stack recommendations" }),
-      h("h1", { id: "page-h" }, "Begin with a ", h("em", { text: "project." })),
-      h("p", { class: "lede", text: "Tell us about the team, the scale and the limits. ArchLens weighs real options against your constraints and shows its working, so you can argue with it." })));
+      h("h1", { id: "page-h" }, "Begin with a ", h("em", { text: "project." }))));
     main.appendChild(methods); main.appendChild(describe); main.appendChild(samples); main.appendChild(fileIn); main.appendChild(jsonIn);
   }
 
@@ -408,6 +453,7 @@
   }
 
   function uploadFile(file) {
+    if (!/\.(pdf|docx|txt)$/i.test(file.name)) { toast("Choose a PDF, Word (.docx) or text (.txt) file."); return; }
     var fd = new FormData(); fd.append("file", file);
     if (!state.llm) fd.append("llm", "false");
     busy("Reading " + file.name + "...");
@@ -438,32 +484,25 @@
     var sections = GROUPS.map(function (g, i) {
       return h("section", { class: "group", "aria-labelledby": "g-" + g.id },
         h("header", null, h("span", { class: "gnum", text: String(i + 1).padStart(2, "0") }), h("h2", { id: "g-" + g.id, text: g.title })),
-        h("p", { class: "gdesc", text: g.desc }),
+        g.desc ? h("p", { class: "gdesc", text: g.desc }) : null,
         h("div", { class: "fields" }, g.fields.map(control)));
     });
     var extra = h("details", { class: "more", open: Object.keys(state.scenario.extra || {}).length ? true : null },
-      h("summary", null, EXTRA.title, h("span", { class: "note", text: "optional" })),
-      h("p", { class: "gdesc", text: EXTRA.desc }), h("div", { class: "fields" }, EXTRA.fields.map(control)));
+      h("summary", { id: "g-extra" }, EXTRA.title, h("span", { class: "note", text: "optional" })),
+      h("div", { class: "fields" }, EXTRA.fields.map(control)));
     var checks = h("aside", { class: "checks", "aria-label": "Checks" },
       h("div", { class: "panel" }, h("h3", { text: "Checks" }), h("div", { id: "checks-body", style: "margin-top:12px" })),
       h("div", { class: "row" },
         h("button", { class: "btn-primary", id: "evaluate", type: "button", onclick: evaluate }, "Evaluate"),
-        h("button", { type: "button", onclick: function () { if (confirm("Clear the form?")) { newScenario(); renderReview(); } } }, "Clear")),
-      h("p", { class: "llm-note", id: "llm-note" }));
+        h("button", { type: "button", onclick: function () { if (confirm("Clear the form?")) { newScenario(); renderReview(); } } }, "Clear")));
     main.textContent = "";
     main.appendChild(h("p", { class: "eyebrow", text: "Step two" }));
     main.appendChild(h("h1", { id: "page-h" }, "Review the ", h("em", { text: "details." })));
-    main.appendChild(h("p", { class: "lede", text: state.extractNote || "Fill what you know. Required fields are marked; the rest fall back to documented defaults." }));
+    if (state.extractNote) main.appendChild(h("p", { class: "note", text: state.extractNote }));
     main.appendChild(h("div", { class: "review" }, h("div", null, sections, extra), checks));
-    paintChecks(); paintLlmNote();
+    paintChecks();
     if (keepScroll) window.scrollTo(0, y);
     runValidate();
-  }
-
-  function paintLlmNote() {
-    var n = document.getElementById("llm-note"); if (!n) return;
-    n.textContent = state.llm ? "AI wording is on: the result may include a model-written paragraph. The stack is the same either way." :
-      "AI wording is off: nothing leaves this machine.";
   }
 
   function evaluate() {
@@ -491,6 +530,54 @@
   var STATUS = { ok: "All constraints met", ok_with_warnings: "Recommended, with warnings", infeasible: "Not feasible as stated", invalid_input: "Input needs fixing" };
   var CORE = ["frontend", "backend", "database", "hosting"];
 
+  var NOTICE_TITLES = {
+    TIMELINE_VS_PLATFORMS: "Build effort exceeds the timeline",
+    BUDGET_TOO_LOW_FOR_SCALE: "Budget is tight for this scale",
+    BUDGET_EXCEEDED: "Estimated cost exceeds the budget",
+    BUDGET_AT_RISK: "Budget may not cover expected usage",
+    BUDGET_PEAK_HEADROOM: "Allow budget for peak usage",
+    SMS_COST: "SMS costs take a large share of the budget",
+    SMS_DLT_REQUIRED: "Register SMS messaging before launch",
+    PCI_SCOPE: "Keep card data with a certified payment provider",
+    PCI_TOKENISATION: "Use hosted or tokenised checkout",
+    DPDP_NOTES: "Personal data obligations",
+    GDPR_NOTES: "Personal data and transfer obligations",
+    OVERENGINEERING_AVOIDED: "A heavier setup adds complexity",
+    FREE_TIER_LIMITS: "Check free plan limits",
+    HIPAA_BAA_NEEDED: "Health data requires vendor agreements"
+  };
+  function showWarnings() {
+    var box = document.getElementById("result-warnings");
+    if (!box) return;
+    box.open = true;
+    box.scrollIntoView({ block: "start", behavior: "auto" });
+    box.querySelector("summary").focus({ preventScroll: true });
+  }
+  function renderWarnings(warnings) {
+    var groups = [
+      { severity: "critical", title: "Critical" },
+      { severity: "warning", title: "Warnings" },
+      { severity: "info", title: "Information" },
+      { severity: "other", title: "Other notices" }
+    ];
+    return h("details", { class: "sec warnings", id: "result-warnings", open: warnings.some(function (w) { return w.severity === "critical"; }) ? true : null },
+      h("summary", null, h("h2", { text: "Warnings & notes" }), h("span", { class: "notice-count", text: String(warnings.length) })),
+      warnings.length ? groups.map(function (group) {
+        var items = warnings.filter(function (w) {
+          return group.severity === "other" ? ["critical", "warning", "info"].indexOf(w.severity) < 0 : w.severity === group.severity;
+        });
+        if (!items.length) return null;
+        return h("section", { class: "notice-group " + group.severity },
+          h("h3", { text: group.title + " (" + items.length + ")" }),
+          items.map(function (w) {
+            return h("details", { class: "notice", open: group.severity === "critical" ? true : null },
+              h("summary", { text: NOTICE_TITLES[w.code] || (w.code ? nice(w.code.toLowerCase()) : w.message || "Notice") }),
+              h("div", { class: "notice-body" }, h("p", { text: w.message || "" }),
+                w.fields && w.fields.length ? h("p", { class: "note", text: "Related inputs: " + w.fields.map(checkLabel).join(", ") }) : null));
+          }));
+      }) : h("p", { class: "note", text: "No warnings or notes." }));
+  }
+
   function renderResult() {
     var r = state.result;
     if (!r) { location.hash = "#/start"; return; }
@@ -498,22 +585,20 @@
     main.appendChild(h("p", { class: "eyebrow", text: "Step three" }));
     main.appendChild(h("h1", { id: "page-h" }, "The ", h("em", { text: "recommendation." })));
     main.appendChild(h("div", { class: "banner " + r.status, role: "status" }, h("span", { class: "st", text: STATUS[r.status] || r.status }),
-      h("span", { text: (r.warnings || []).length ? (r.warnings || []).length + " note" + ((r.warnings || []).length === 1 ? "" : "s") + " below." : "No warnings raised." })));
+      (r.warnings || []).length ? h("button", { type: "button", class: "notice-jump", onclick: showWarnings, text: "View warnings & notes (" + r.warnings.length + ")" }) : null));
     var stack = r.stack;
     if (!stack) {
       var blockers = (r.warnings || []).filter(function (w) { return w.severity === "critical"; });
-      var rest = (r.warnings || []).filter(function (w) { return w.severity !== "critical"; });
       main.appendChild(h("section", { class: "sec" }, h("h2", { text: "What is blocking this" }),
         (r.validation_errors || []).map(function (e) { return h("div", { class: "sev critical" }, h("b", { text: "invalid" }), e.message, h("div", { class: "f", text: e.field })); }),
-        blockers.map(sevBlock),
         (r.repairs || []).length ? h("div", null, h("h4", { class: "sh", style: "margin-top:16px", text: "Single changes that make a stack possible" }),
           tbl(["Change", "Resulting stack", "Core layers per month"], r.repairs.map(function (x) {
             var st = x.stack || {};
             return [x.change.charAt(0).toUpperCase() + x.change.slice(1), [st.frontend, st.backend, st.database, st.hosting].filter(function (v) { return v && v !== "None"; }).join(", "),
               usd(x.cost_usd[0]) + " to " + usd(x.cost_usd[1])];
           }))) : null,
-        rest.filter(function (w) { return w.code !== "FEASIBLE_IF_CHANGED" || !(r.repairs || []).length; }).map(sevBlock),
         !blockers.length && !(r.validation_errors || []).length ? h("p", { class: "empty", text: "No stack could be produced for this input." }) : null));
+      main.appendChild(renderWarnings(r.warnings || []));
       main.appendChild(h("div", { class: "actions" },
         h("a", { class: "btn btn-primary", href: "#/review", text: "Request revisions: back to the form" }),
         h("button", { type: "button", onclick: downloadJson }, "Download JSON")));
@@ -591,17 +676,28 @@
     }
 
     var ws = r.warnings || [];
-    main.appendChild(h("section", { class: "sec" }, h("h2", { text: "Warnings" }),
-      ws.length ? ws.map(sevBlock) : h("p", { class: "empty", text: "No warnings." })));
+    main.appendChild(renderWarnings(ws));
     if ((r.assumptions || []).length) main.appendChild(h("section", { class: "sec" }, h("h2", { text: "Assumptions" }),
       h("ul", { class: "muted" }, r.assumptions.map(function (a) { return h("li", { text: a }); }))));
-    if (r.decision_trace || r.ranking || r.profile || r.score) main.appendChild(inspect(r));
+
 
     main.appendChild(h("div", { class: "actions" },
       h("button", { class: "btn-primary", type: "button", onclick: downloadJson }, "Download JSON"),
       h("button", { type: "button", onclick: downloadPdf }, "Download PDF"),
-      h("a", { class: "btn", href: "#/review", text: "Adjust inputs" }),
-      h("span", { class: "note", style: "align-self:center", text: state.llm ? "Same stack with AI wording on or off." : "AI wording off: deterministic text only." })));
+      h("a", { class: "btn", href: "#/review", text: "Adjust inputs" })));
+  }
+
+  function renderCalculations() {
+    var r = state.result;
+    main.textContent = "";
+    main.appendChild(h("a", { class: "btn btn-quiet", href: r ? "#/result" : "#/start", text: r ? "← Back to result" : "← Start a project" }));
+    main.appendChild(h("h1", { id: "page-h", text: "The calculations.", style: "margin-top:24px" }));
+    if (!r) {
+      main.appendChild(h("p", { class: "empty", text: "Evaluate a project to see its calculations." }));
+      return;
+    }
+    main.appendChild(inspect(r));
+    main.appendChild(h("div", { class: "actions" }, h("a", { class: "btn", href: "#/result", text: "Back to result" })));
   }
 
   function indexLine(k, c) {
@@ -713,7 +809,7 @@
         gap = h("p", { style: "margin:0 0 12px", text: "The winner leads the runner-up by " + d.toFixed(2) + " points" + (d < 2 ? ", a near tie." : ".") + cd });
       }
       parts.push(sub("Ranking of the top stacks", h("div", null, gap, tbl(["#", "Frontend", "Backend", "Database", "Hosting", "Score", "Core layers per month", "Penalties"], rows),
-        h("p", { class: "note", style: "margin:10px 0 0", text: "Cost here covers the four core layers only. Supporting services are added in the monthly cost band above." })), true));
+        h("p", { class: "note", style: "margin:10px 0 0", text: "Cost covers the four core layers only. The result page includes supporting services in the monthly cost band." })), true));
     }
     if (t.layers) {
       CORE.forEach(function (k) {
@@ -735,8 +831,7 @@
     }
     if (Array.isArray(t.relaxed_constraints) && t.relaxed_constraints.length) parts.push(sub("Relaxed constraints", h("ul", null, t.relaxed_constraints.map(function (x) { return h("li", { text: cellText(x) }); })), true));
     if (Array.isArray(t.pipeline)) parts.push(sub("Pipeline", h("ol", { style: "margin:0;padding-left:20px" }, t.pipeline.map(function (x) { return h("li", { text: String(x) }); }))));
-    return h("section", { class: "sec trace" }, h("h2", { text: "Inspect the calculations" }),
-      h("p", { class: "muted", style: "margin:-8px 0 18px;max-width:70ch", text: "The numbers behind each choice: weights, per-criterion contributions, what was eliminated and why." }), parts);
+    return h("section", { class: "sec trace", "aria-label": "Calculation details" }, parts);
   }
 
   function saveBlob(blob, name) {
@@ -755,9 +850,9 @@
   // ---- shell -----------------------------------------------------------------
   function route() {
     var r = currentRoute();
-    if (["start", "review", "result"].indexOf(r) < 0) r = "start";
+    if (["start", "review", "result", "calculations"].indexOf(r) < 0) r = "start";
     document.querySelectorAll(".nav a").forEach(function (a) { if (a.dataset.route === r) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
-    if (r === "start") renderStart(); else if (r === "review") renderReview(); else renderResult();
+    if (r === "start") renderStart(); else if (r === "review") renderReview(); else if (r === "calculations") renderCalculations(); else renderResult();
     var t = document.getElementById("page-h");
     document.title = (t ? t.textContent + " - " : "") + "ArchLens";
     window.scrollTo(0, 0);
@@ -773,7 +868,7 @@
     document.getElementById("llm-state").textContent = usable && state.llm ? "on" : "off";
   }
   document.getElementById("llm-toggle").addEventListener("click", function () {
-    state.llm = !state.llm; paintLlmToggle(); paintLlmNote();
+    state.llm = !state.llm; paintLlmToggle();
   });
 
   window.addEventListener("hashchange", route);

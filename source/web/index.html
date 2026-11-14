@@ -7,7 +7,7 @@
 <meta name="description" content="Describe a project and get an explained, rule-based technology stack recommendation.">
 <meta name="color-scheme" content="dark">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/css/styles.css">
+<link rel="stylesheet" href="/css/styles.css?v=3">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -25,10 +25,11 @@
     <a href="#/start" data-route="start">Start</a>
     <a href="#/review" data-route="review">Review</a>
     <a href="#/result" data-route="result">Result</a>
+    <a href="#/calculations" data-route="calculations">Calculations</a>
   </nav>
   <button id="llm-toggle" class="llm" type="button" role="switch" aria-checked="false">
     <span class="llm-track" aria-hidden="true"><span class="llm-knob"></span></span>
-    <span class="llm-text">AI wording <b id="llm-state">off</b></span>
+    <span class="llm-text">AI <b id="llm-state">off</b></span>
   </button>
 </header>
 <main id="main" tabindex="-1"></main>
@@ -37,6 +38,6 @@
   <span>The stack is chosen by rules and scoring. AI never decides it.</span>
 </footer>
 <div id="live" class="sr" role="status" aria-live="polite"></div>
-<script src="/js/app.js"></script>
+<script src="/js/app.js?v=3"></script>
 </body>
 </html>
