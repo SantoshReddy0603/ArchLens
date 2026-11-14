@@ -1269,7 +1269,8 @@
           "digitalocean": true,
           "any": false,
           "render": true,
-          "railway": true
+          "railway": true,
+          "fly": true
         },
         "self_host": true
       },
@@ -1370,6 +1371,10 @@
       {
         "title": "AWS RDS pricing",
         "url": "https://aws.amazon.com/rds/postgresql/pricing/"
+      },
+      {
+        "title": "Fly.io Managed Postgres (HA, backups, pooling)",
+        "url": "https://fly.io/docs/mpg/"
       }
     ],
     "last_verified": "2026-11",

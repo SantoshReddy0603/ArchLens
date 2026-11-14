@@ -55,7 +55,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Priced per message and connection; costs climb quickly with high fan-out"
+    ]
   },
   {
     "id": "adyen",
@@ -100,7 +103,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Enterprise onboarding and minimum volumes; heavier integration than Stripe"
+    ]
   },
   {
     "id": "algolia",
@@ -145,7 +151,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Priced per search request and record; expensive at high query volume"
+    ]
   },
   {
     "id": "anthropic_api",
@@ -188,7 +197,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Per-token pricing and an external data processor; add caching and spend limits"
+    ]
   },
   {
     "id": "auth0",
@@ -245,7 +257,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Monthly active user pricing rises steeply past the free tier, especially for B2B features"
+    ]
   },
   {
     "id": "aws_bedrock",
@@ -288,7 +303,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Per-token pricing; model availability varies by AWS region"
+    ]
   },
   {
     "id": "aws_ses",
@@ -329,7 +347,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Starts in a sandbox; production access, bounce handling and domain setup are on you"
+    ]
   },
   {
     "id": "aws_sns_sms",
@@ -374,7 +395,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Per-message pricing varies by country; sender registration is needed in many markets"
+    ]
   },
   {
     "id": "aws_waf",
@@ -415,7 +439,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Rules need tuning to avoid blocking real users; billed per rule and per request"
+    ]
   },
   {
     "id": "azure_blob",
@@ -462,7 +489,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Egress and transaction charges add up for media-heavy apps"
+    ]
   },
   {
     "id": "azure_devops",
@@ -503,7 +533,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Less community tooling than GitHub Actions; parallel jobs are limited on the free tier"
+    ]
   },
   {
     "id": "azure_dns",
@@ -544,7 +577,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "No registrar; domains are bought elsewhere"
+    ]
   },
   {
     "id": "azure_front_door",
@@ -589,7 +625,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Base fee per profile makes it costly for small apps"
+    ]
   },
   {
     "id": "azure_ml",
@@ -640,7 +679,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Many moving parts (workspaces, compute, registries) for a small team to learn"
+    ]
   },
   {
     "id": "azure_monitor",
@@ -683,7 +725,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Log ingestion is billed per GB; set sampling and retention early"
+    ]
   },
   {
     "id": "azure_openai",
@@ -726,7 +771,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Quota is per region and model; capacity requests can take time"
+    ]
   },
   {
     "id": "azure_service_bus",
@@ -771,7 +819,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Azure-only; the Premium tier needed for isolation is costly"
+    ]
   },
   {
     "id": "azure_signalr",
@@ -829,7 +880,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Billed per unit of concurrent connections; Azure-only"
+    ]
   },
   {
     "id": "azure_waf",
@@ -870,7 +924,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Needs Front Door or Application Gateway, which adds base cost"
+    ]
   },
   {
     "id": "backblaze_b2",
@@ -915,7 +972,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Fewer regions and fewer integrations than the big clouds"
+    ]
   },
   {
     "id": "brevo",
@@ -955,7 +1015,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Shared sending IPs on lower tiers can hurt deliverability"
+    ]
   },
   {
     "id": "bullmq",
@@ -994,7 +1057,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Needs a Redis instance that persists data; Node.js only"
+    ]
   },
   {
     "id": "bunny_cdn",
@@ -1035,7 +1101,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Smaller security and edge-compute feature set than the big CDNs"
+    ]
   },
   {
     "id": "cashfree",
@@ -1079,7 +1148,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "India-focused; limited international card coverage"
+    ]
   },
   {
     "id": "celery",
@@ -1114,7 +1186,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Needs a broker (Redis or RabbitMQ) and worker processes to run and monitor"
+    ]
   },
   {
     "id": "centrifugo",
@@ -1164,7 +1239,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Another server to deploy, scale and secure"
+    ]
   },
   {
     "id": "clerk",
@@ -1223,7 +1301,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Monthly active user pricing; user data lives with a third-party vendor"
+    ]
   },
   {
     "id": "cloudflare_cdn",
@@ -1265,7 +1346,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Advanced caching rules and features sit on paid plans"
+    ]
   },
   {
     "id": "cloudflare_dns",
@@ -1304,7 +1388,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Works best with Cloudflare proxying, which ties traffic routing to one vendor"
+    ]
   },
   {
     "id": "cloudflare_r2",
@@ -1350,7 +1437,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Fewer storage classes and lifecycle options than S3"
+    ]
   },
   {
     "id": "cloudflare_waf",
@@ -1390,7 +1480,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Managed rulesets beyond the basics need a paid plan"
+    ]
   },
   {
     "id": "cloudfront",
@@ -1432,7 +1525,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Pricing varies by region; cache invalidations past the free quota are billed"
+    ]
   },
   {
     "id": "cloudwatch",
@@ -1475,7 +1571,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Logs and custom metrics are billed per GB and per metric; costs creep without retention limits"
+    ]
   },
   {
     "id": "cognito",
@@ -1526,7 +1625,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Customising hosted flows is limited and migrating users out is hard"
+    ]
   },
   {
     "id": "couchdb_pouchdb",
@@ -1585,7 +1687,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Document model with conflict revisions; smaller community today"
+    ]
   },
   {
     "id": "datadog",
@@ -1635,7 +1740,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Per-host and per-GB pricing grows quickly"
+    ]
   },
   {
     "id": "entra_external_id",
@@ -1691,7 +1799,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Custom branding and flows take Azure-specific configuration"
+    ]
   },
   {
     "id": "entra_id",
@@ -1751,7 +1862,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Ties sign-in to the Microsoft tenant; external users need guest setup"
+    ]
   },
   {
     "id": "expo_push",
@@ -1786,7 +1900,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Only for Expo apps; a thin relay over APNs and FCM"
+    ]
   },
   {
     "id": "fcm",
@@ -1818,6 +1935,58 @@
       {
         "title": "FCM docs",
         "url": "https://firebase.google.com/docs/cloud-messaging"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "cons": [
+      "Delivery is best effort with no guaranteed timing; analytics are basic"
+    ]
+  },
+  {
+    "id": "aws_sns_push",
+    "name": "Amazon SNS mobile push",
+    "layer": "notifications",
+    "provider": "aws",
+    "quality": 7,
+    "ops_burden": 1,
+    "lock_in": 4,
+    "cost": {
+      "fixed": [
+        0,
+        1
+      ]
+    },
+    "why": "AWS-native push fan-out to APNs and FCM device tokens, inside the AWS compliance boundary",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "attrs": {},
+    "cons": [
+      "Delivers through APNs and FCM, so device tokens and app credentials for both still have to be managed",
+      "Plain delivery; segmentation, templates and analytics are built yourself"
+    ],
+    "sources": [
+      {
+        "title": "Amazon SNS mobile push notifications",
+        "url": "https://docs.aws.amazon.com/sns/latest/dg/sns-mobile-application-as-subscriber.html"
+      },
+      {
+        "title": "Amazon SNS pricing",
+        "url": "https://aws.amazon.com/sns/pricing/"
+      },
+      {
+        "title": "AWS services in scope by compliance program",
+        "url": "https://aws.amazon.com/compliance/services-in-scope/"
       }
     ],
     "last_verified": "2026-11",
@@ -1878,7 +2047,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "No SLA on the free tier; enterprise features need Identity Platform"
+    ]
   },
   {
     "id": "firebase_phone_auth",
@@ -1922,7 +2094,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "SMS verification is billed per message past a small free quota"
+    ]
   },
   {
     "id": "firebase_storage",
@@ -1967,7 +2142,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Security rules are a separate language to learn and test"
+    ]
   },
   {
     "id": "firestore_offline",
@@ -2011,7 +2189,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Conflicts resolve as last write wins; complex queries are limited offline"
+    ]
   },
   {
     "id": "flutter_drift_sync",
@@ -2053,7 +2234,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "The sync endpoint and conflict handling are yours to build"
+    ]
   },
   {
     "id": "formspree",
@@ -2090,7 +2274,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Monthly submission caps on the free plan"
+    ]
   },
   {
     "id": "framework_auth",
@@ -2106,7 +2293,7 @@
         0
       ]
     },
-    "why": "No external service; Django/Laravel/ASP.NET Identity ship with it",
+    "why": "No external service; uses the backend framework's own session or token auth (Django auth, Laravel, ASP.NET Core Identity, Spring Security and similar)",
     "regions": [
       "*"
     ],
@@ -2128,7 +2315,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Password storage, resets, MFA and account lockout are your responsibility"
+    ]
   },
   {
     "id": "ga4",
@@ -2170,7 +2360,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Sampling and data retention limits; needs a cookie consent setup in the EU"
+    ]
   },
   {
     "id": "gcp_pubsub",
@@ -2181,11 +2374,11 @@
     "ops_burden": 0,
     "lock_in": 4,
     "cost": {
-      "per_gb_egress": [
+      "per_m_requests": [
         0.04,
         0.04
       ],
-      "free_egress_gb": 10
+      "free_requests_m": 10
     },
     "why": "Managed messaging with global scale",
     "regions": [
@@ -2212,7 +2405,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "At-least-once delivery, so consumers must handle duplicates"
+    ]
   },
   {
     "id": "gcs",
@@ -2258,7 +2454,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Egress to the internet is billed per GB"
+    ]
   },
   {
     "id": "gemini_api",
@@ -2301,7 +2500,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Per-token pricing; data use terms differ between AI Studio and Vertex AI"
+    ]
   },
   {
     "id": "github_actions",
@@ -2345,7 +2547,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Minute limits on private repositories; long builds need paid or self-hosted runners"
+    ]
   },
   {
     "id": "gitlab_ci",
@@ -2383,7 +2588,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Compute minute limits on the free tier"
+    ]
   },
   {
     "id": "google_cloud_dns",
@@ -2424,7 +2632,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Not a registrar, so domains are bought elsewhere; billed per zone"
+    ]
   },
   {
     "id": "grafana_cloud",
@@ -2467,7 +2678,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Free tier limits on metrics series and log volume"
+    ]
   },
   {
     "id": "jenkins",
@@ -2500,7 +2714,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "A server to patch, back up and maintain plugins on"
+    ]
   },
   {
     "id": "kafka",
@@ -2546,7 +2763,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Heavy to run; partitions, retention and consumer groups need expertise"
+    ]
   },
   {
     "id": "keycloak",
@@ -2593,7 +2813,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "A Java server to run, upgrade and back up yourself"
+    ]
   },
   {
     "id": "liveblocks",
@@ -2635,7 +2858,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Priced per connection and room; vendor-specific data model"
+    ]
   },
   {
     "id": "meilisearch",
@@ -2670,7 +2896,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "A separate index to keep in sync with the database"
+    ]
   },
   {
     "id": "minio",
@@ -2701,7 +2930,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Running durable storage yourself means planning disks, erasure coding and backups"
+    ]
   },
   {
     "id": "msg91",
@@ -2744,7 +2976,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "India-focused; DLT template registration is required"
+    ]
   },
   {
     "id": "nats",
@@ -2787,7 +3022,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Smaller ecosystem than Kafka; JetStream persistence needs care"
+    ]
   },
   {
     "id": "netlify_forms",
@@ -2822,7 +3060,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Only works on Netlify hosting; submission caps on the free plan"
+    ]
   },
   {
     "id": "onesignal",
@@ -2860,7 +3101,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Free tier puts limits on data export and audience features"
+    ]
   },
   {
     "id": "openai_api",
@@ -2905,7 +3149,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Per-token pricing and an external data processor; add caching and spend limits"
+    ]
   },
   {
     "id": "opensearch",
@@ -2955,7 +3202,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "A heavy cluster to size, tune and keep in sync with the database"
+    ]
   },
   {
     "id": "paypal",
@@ -3000,7 +3250,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Higher fees and a less flexible checkout than card processors"
+    ]
   },
   {
     "id": "pgvector",
@@ -3038,7 +3291,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Approximate indexes need tuning; very large vector sets can strain the main database"
+    ]
   },
   {
     "id": "pinecone",
@@ -3080,7 +3336,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Another vendor holding a copy of your data; billed per read and write unit"
+    ]
   },
   {
     "id": "plausible",
@@ -3117,7 +3376,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Aggregate statistics only, no per-user funnels"
+    ]
   },
   {
     "id": "postgres_fts",
@@ -3156,7 +3418,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Weaker typo tolerance and relevance tuning than a dedicated search engine; heavy queries share the database"
+    ]
   },
   {
     "id": "posthog",
@@ -3196,7 +3461,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Event volume pricing past the free tier; self-hosting is heavy"
+    ]
   },
   {
     "id": "postmark",
@@ -3235,7 +3503,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Transactional email only; marketing email needs a separate stream"
+    ]
   },
   {
     "id": "powersync",
@@ -3281,7 +3552,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Another service between the app and Postgres; sync rules to learn"
+    ]
   },
   {
     "id": "prometheus_grafana",
@@ -3314,7 +3588,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "You run storage, retention and alerting yourself"
+    ]
   },
   {
     "id": "pusher",
@@ -3366,7 +3643,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Connection and message caps per plan"
+    ]
   },
   {
     "id": "qdrant",
@@ -3403,7 +3683,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Another data store to run or pay for and keep in sync"
+    ]
   },
   {
     "id": "rabbitmq",
@@ -3446,7 +3729,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "A broker to run, monitor and upgrade"
+    ]
   },
   {
     "id": "razorpay",
@@ -3490,7 +3776,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Mainly for Indian businesses; international payments need separate approval"
+    ]
   },
   {
     "id": "redis_managed",
@@ -3545,7 +3834,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Memory-priced; a minimum instance costs money even when idle"
+    ]
   },
   {
     "id": "resend",
@@ -3585,7 +3877,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Newer service with a smaller feature set than older email providers"
+    ]
   },
   {
     "id": "room_workmanager",
@@ -3631,7 +3926,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Android only; sync and conflict logic are built by hand"
+    ]
   },
   {
     "id": "route53",
@@ -3672,7 +3970,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Billed per hosted zone and per query; AWS-specific routing features"
+    ]
   },
   {
     "id": "s3",
@@ -3719,7 +4020,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Egress and request charges add up for public media"
+    ]
   },
   {
     "id": "sagemaker",
@@ -3770,7 +4074,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Many concepts to learn; idle endpoints still bill"
+    ]
   },
   {
     "id": "sendgrid",
@@ -3812,7 +4119,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Shared IPs on lower tiers; deliverability needs domain authentication"
+    ]
   },
   {
     "id": "sentry",
@@ -3854,7 +4164,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Event quota per plan; sample high-volume errors"
+    ]
   },
   {
     "id": "sqs",
@@ -3896,7 +4209,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "AWS-only; FIFO queues have throughput limits"
+    ]
   },
   {
     "id": "stripe",
@@ -3950,7 +4266,8 @@
     "last_verified": "2026-11",
     "deprecation": "active",
     "cons": [
-      "Limited availability and UPI support for new Indian businesses"
+      "Limited availability and UPI support for new Indian businesses",
+      "Per-transaction fees; payouts and some methods vary by country"
     ]
   },
   {
@@ -4009,7 +4326,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Ties user accounts to the Supabase project; enterprise SSO needs a paid plan"
+    ]
   },
   {
     "id": "supabase_storage",
@@ -4057,7 +4377,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Tied to the Supabase project; egress counts toward plan limits"
+    ]
   },
   {
     "id": "twilio_verify",
@@ -4103,7 +4426,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Per-verification pricing that varies by country"
+    ]
   },
   {
     "id": "typesense",
@@ -4134,7 +4460,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "A separate index to keep in sync; the whole index sits in RAM"
+    ]
   },
   {
     "id": "upstash_redis",
@@ -4180,7 +4509,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Per-request pricing gets costly at sustained high throughput"
+    ]
   },
   {
     "id": "uptime_monitor",
@@ -4217,7 +4549,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Checks reachability only, not application errors"
+    ]
   },
   {
     "id": "valkey_selfhost",
@@ -4265,7 +4600,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Persistence, failover and memory limits are yours to manage"
+    ]
   },
   {
     "id": "vertex_ai",
@@ -4316,7 +4654,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Many concepts to learn; training compute is billed per hour"
+    ]
   },
   {
     "id": "vllm_selfhost",
@@ -4358,7 +4699,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Needs GPUs, model updates and capacity planning in-house"
+    ]
   },
   {
     "id": "watermelondb_sync",
@@ -4404,7 +4748,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "React Native only; you build the backend sync endpoints"
+    ]
   },
   {
     "id": "web3forms",
@@ -4441,7 +4788,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Limited spam filtering and workflow options on the free plan"
+    ]
   },
   {
     "last_verified": "2026-11",
@@ -4492,6 +4842,9 @@
         "title": "Identity Platform pricing",
         "url": "https://cloud.google.com/identity-platform/pricing"
       }
+    ],
+    "cons": [
+      "Priced per monthly active user past the free tier; GCP-specific setup"
     ]
   },
   {
@@ -4529,6 +4882,9 @@
         "title": "GlitchTip source",
         "url": "https://gitlab.com/glitchtip"
       }
+    ],
+    "cons": [
+      "Self-hosted; you run the database and upgrades"
     ]
   },
   {
@@ -4570,6 +4926,9 @@
         "title": "Firestore pricing",
         "url": "https://firebase.google.com/docs/firestore/pricing"
       }
+    ],
+    "cons": [
+      "Billed per document read; broad listeners get expensive"
     ]
   },
   {
@@ -4611,6 +4970,9 @@
         "title": "Supabase pricing",
         "url": "https://supabase.com/pricing"
       }
+    ],
+    "cons": [
+      "Concurrent connection and message limits per plan"
     ]
   },
   {
@@ -4649,6 +5011,9 @@
         "title": "Server-sent events",
         "url": "https://html.spec.whatwg.org/multipage/server-sent-events.html"
       }
+    ],
+    "cons": [
+      "Sticky connections complicate scaling; fan-out across instances needs a pub/sub layer"
     ]
   },
   {
@@ -4701,6 +5066,9 @@
         "title": "Hocuspocus docs",
         "url": "https://tiptap.dev/docs/hocuspocus/introduction"
       }
+    ],
+    "cons": [
+      "A dedicated collaboration server to run and persist documents from"
     ]
   },
   {
@@ -4753,6 +5121,9 @@
         "title": "SageMaker pricing",
         "url": "https://aws.amazon.com/sagemaker/pricing/"
       }
+    ],
+    "cons": [
+      "Endpoints bill per instance hour even when idle"
     ]
   },
   {
@@ -4805,6 +5176,9 @@
         "title": "Vertex AI pricing",
         "url": "https://cloud.google.com/vertex-ai/pricing"
       }
+    ],
+    "cons": [
+      "Endpoints bill per node hour even when idle"
     ]
   },
   {
@@ -4853,6 +5227,9 @@
         "title": "EMQX pricing",
         "url": "https://www.emqx.com/en/pricing"
       }
+    ],
+    "cons": [
+      "A broker cluster to run and secure with device certificates"
     ]
   },
   {
@@ -4899,6 +5276,9 @@
         "title": "AWS IoT Core pricing",
         "url": "https://aws.amazon.com/iot-core/pricing/"
       }
+    ],
+    "cons": [
+      "Priced per message and connection minute; AWS-specific device model"
     ]
   },
   {
@@ -4940,6 +5320,9 @@
         "title": "IoT Hub pricing",
         "url": "https://azure.microsoft.com/pricing/details/iot-hub/"
       }
+    ],
+    "cons": [
+      "Unit-based tiers with daily message caps"
     ]
   },
   {
@@ -4992,7 +5375,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Bills per instance hour even when idle"
+    ]
   },
   {
     "id": "vertex_endpoint",
@@ -5044,7 +5430,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Bills per node hour even when idle; no scale to zero"
+    ]
   },
   {
     "id": "azure_ml_endpoint",
@@ -5096,7 +5485,10 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Bills per instance hour even when idle"
+    ]
   },
   {
     "id": "model_server_selfhost",
@@ -5142,6 +5534,9 @@
       }
     ],
     "last_verified": "2026-11",
-    "deprecation": "active"
+    "deprecation": "active",
+    "cons": [
+      "Model versioning, scaling and monitoring are built and run in-house"
+    ]
   }
 ]
