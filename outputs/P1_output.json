@@ -4,6 +4,21 @@
   "status": "ok",
   "summary": "Static-first site: Astro on Cloudflare Pages. It needs no server or database and is estimated at $0 per month.",
   "architecture_style": "static",
+  "architecture": {
+    "style": "static",
+    "name": "static site",
+    "justification": "No backend is needed, so pages are built ahead of time and served from a CDN.",
+    "driven_by": [
+      "project.type",
+      "requirements.auth"
+    ],
+    "alternatives": [
+      {
+        "choice": "Server-rendered app",
+        "why_not": "Adds a server to run and pay for, but there are no accounts, payments or per-user data that need one."
+      }
+    ]
+  },
   "stack": {
     "frontend": {
       "choice": "Astro",
@@ -106,7 +121,9 @@
             "why_not": "Ranks lower (costs more (about $13 vs $0 per month at the high end)); score 0.63 vs 0.77."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Limited spam filtering and workflow options on the free plan"
+        ]
       },
       {
         "layer": "analytics",
@@ -125,7 +142,9 @@
             "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $15 vs $0 per month at the high end)); score 0.63 vs 0.85."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Event volume pricing past the free tier; self-hosting is heavy"
+        ]
       },
       {
         "layer": "dns",
@@ -144,7 +163,9 @@
             "why_not": "Ranks lower (lower quality rating (8 vs 9), more lock-in); score 0.64 vs 0.85."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Works best with Cloudflare proxying, which ties traffic routing to one vendor"
+        ]
       }
     ]
   },
@@ -690,7 +711,9 @@
       "hiring": 0.0,
       "lock_in": 0.0,
       "maturity": 0.0,
+      "mobile_preference": 0.0,
       "over_engineering": 0.0,
+      "self_run_db": 0.0,
       "seo": 0.0,
       "soft_certs": 0.0,
       "two_codebases": 0.0,

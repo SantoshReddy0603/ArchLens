@@ -4,6 +4,25 @@
   "status": "ok",
   "summary": "Single deployable monolith: Blazor (ASP.NET Core), C# + ASP.NET Core, Microsoft SQL Server / Azure SQL database on Azure Container Apps. It keeps data in Indian regions, matches the team's languages and is estimated at $78-$190 per month.",
   "architecture_style": "monolith",
+  "architecture": {
+    "style": "monolith",
+    "name": "monolith",
+    "justification": "One deployable is the fastest to build and simplest to run for a team of 2 and 1 feature area (file storage).",
+    "driven_by": [
+      "team.size",
+      "timeline.mvp_weeks"
+    ],
+    "alternatives": [
+      {
+        "choice": "Microservices",
+        "why_not": "Adds service boundaries, network calls and per-service deployment that this team does not need at this scale (team 2)."
+      },
+      {
+        "choice": "Serverless",
+        "why_not": "Per-request functions suit light, spiky work; this backend runs as a long-lived service on Azure Container Apps, which suits websockets, background jobs and steady traffic better."
+      }
+    ]
+  },
   "stack": {
     "frontend": {
       "choice": "Blazor (ASP.NET Core)",
@@ -110,7 +129,9 @@
             "why_not": "No other auth service satisfies the hard constraints."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Ties sign-in to the Microsoft tenant; external users need guest setup"
+        ]
       },
       {
         "layer": "storage",
@@ -127,6 +148,7 @@
           }
         ],
         "tradeoffs": [
+          "Egress and transaction charges add up for media-heavy apps",
           "Adds about $0 per month."
         ]
       },
@@ -147,7 +169,9 @@
             "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $25 vs $0 per month at the high end), more to operate); score 0.73 vs 0.84."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Minute limits on private repositories; long builds need paid or self-hosted runners"
+        ]
       },
       {
         "layer": "observability",
@@ -160,10 +184,11 @@
         "alternatives": [
           {
             "choice": "UptimeRobot / Better Stack uptime checks",
-            "why_not": "Ranks lower (lower quality rating (6 vs 8)); score 0.67 vs 0.80."
+            "why_not": "Ranks lower (lower quality rating (6 vs 8)); score 0.59 vs 0.80."
           }
         ],
         "tradeoffs": [
+          "Log ingestion is billed per GB; set sampling and retention early",
           "Adds about $0-$26 per month."
         ]
       }
@@ -196,6 +221,15 @@
       "severity": "info",
       "message": "ISO 27001 audits your own controls (access reviews, change management, logging, incident response); vendors with their own ISO 27001 report shorten the audit, and gaps in the chosen stack are listed separately.",
       "fields": [
+        "compliance"
+      ]
+    },
+    {
+      "code": "CERT_IN_LOGS",
+      "severity": "info",
+      "message": "CERT-In directions (April 2022) apply to services used in India: enable logs on all systems, keep them for 180 days within India, sync clocks to an NTP source and report cyber incidents within 6 hours. Size log retention and storage for this.",
+      "fields": [
+        "infrastructure.data_residency",
         "compliance"
       ]
     },
@@ -1080,7 +1114,9 @@
       "hiring": 0.0,
       "lock_in": 1.35,
       "maturity": 0.25,
+      "mobile_preference": 0.0,
       "over_engineering": 0.0,
+      "self_run_db": 0.0,
       "seo": 0.0,
       "soft_certs": 0.0,
       "two_codebases": 0.0,
@@ -1396,13 +1432,13 @@
         55,
         138
       ],
-      "gains": "about 20% cheaper on the core layers ($55-$140 against $77-$170 per month)",
+      "gains": "about 20% cheaper on the core layers plus required supporting services ($55-$140 against $77-$170 per month)",
       "gives_up": [
         "reuse of existing systems (-3.5 pts)",
         "vendor lock-in (-2.2 pts)",
         "time to market (-0.4 pts)"
       ],
-      "summary": "Database Microsoft SQL Server / Azure SQL -> Azure Cosmos DB: about 20% cheaper on the core layers ($55-$140 against $77-$170 per month). Gives up 6.0 points, mainly on reuse of existing systems (-3.5 pts), vendor lock-in (-2.2 pts), time to market (-0.4 pts)."
+      "summary": "Database Microsoft SQL Server / Azure SQL -> Azure Cosmos DB: about 20% cheaper on the core layers plus required supporting services ($55-$140 against $77-$170 per month). Gives up 6.0 points, mainly on reuse of existing systems (-3.5 pts), vendor lock-in (-2.2 pts), time to market (-0.4 pts)."
     },
     {
       "direction": "more_headroom",

@@ -4,6 +4,26 @@
   "status": "ok_with_warnings",
   "summary": "Serverless-first design: React Native (Expo), Supabase (BaaS), Supabase Postgres database. It matches the team's languages and is estimated at $34-$86 per month.",
   "architecture_style": "serverless",
+  "architecture": {
+    "style": "serverless",
+    "name": "serverless",
+    "justification": "Supabase runs the database, auth and APIs as a managed service, so there are no servers to size or patch and idle time costs little.",
+    "driven_by": [
+      "team.has_devops",
+      "budget.monthly_infra_usd",
+      "scale.traffic_pattern"
+    ],
+    "alternatives": [
+      {
+        "choice": "Microservices",
+        "why_not": "Adds service boundaries, network calls and per-service deployment that this team does not need at this scale (team 2)."
+      },
+      {
+        "choice": "Monolith on a container host",
+        "why_not": "Steadier cost at sustained high load, but needs a host to size, patch and monitor."
+      }
+    ]
+  },
   "stack": {
     "frontend": {
       "choice": "React Native (Expo)",
@@ -24,7 +44,8 @@
         }
       ],
       "tradeoffs": [
-        "Heavier on 2 GB devices than Kotlin or Flutter"
+        "Heavier on 2 GB devices than Kotlin or Flutter",
+        "Native modules outside the Expo SDK need a custom development build"
       ]
     },
     "backend": {
@@ -73,8 +94,8 @@
       ]
     },
     "hosting": {
-      "choice": "None",
-      "justification": "The backend platform runs everything server-side and the app is mobile-only, so there is nothing to host separately.",
+      "choice": "None (runs on Supabase)",
+      "justification": "The app is mobile-only and everything server-side runs on Supabase's managed platform in Mumbai (ap-south-1), so there is nothing to host separately; its plan and region are the hosting decision.",
       "driven_by": [
         "project.platforms",
         "team.has_devops"
@@ -85,11 +106,13 @@
           "why_not": "Google Cloud Run scores 2.3 points lower overall, mainly on team skill fit (1.9 points) and compatibility with the rest of the stack (1.2 points)."
         },
         {
-          "choice": "Fly.io",
-          "why_not": "Fly.io scores 3.6 points lower overall, mainly on operations load (2.1 points) and team skill fit (2.0 points)."
+          "choice": "DigitalOcean App Platform / Droplets",
+          "why_not": "DigitalOcean App Platform / Droplets scores 3.7 points lower overall, mainly on team skill fit (1.9 points) and time to market (1.4 points)."
         }
       ],
-      "tradeoffs": []
+      "tradeoffs": [
+        "Uptime, regions and resource limits follow Supabase's plan; moving off it later means re-hosting the backend."
+      ]
     },
     "supporting": [
       {
@@ -101,11 +124,17 @@
         ],
         "alternatives": [
           {
-            "choice": "No other eligible option",
-            "why_not": "No other auth service satisfies the hard constraints."
+            "choice": "Google Cloud Identity Platform",
+            "why_not": "A separate auth service (about $0 per month) when Supabase Auth already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.68 vs 0.78."
+          },
+          {
+            "choice": "Amazon Cognito",
+            "why_not": "A separate auth service (about $0 per month) when Supabase Auth already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.58 vs 0.78."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Ties user accounts to the Supabase project; enterprise SSO needs a paid plan"
+        ]
       },
       {
         "layer": "sms",
@@ -121,6 +150,7 @@
           }
         ],
         "tradeoffs": [
+          "India-focused; DLT template registration is required",
           "Adds about $4-$8 per month."
         ]
       },
@@ -134,11 +164,16 @@
         ],
         "alternatives": [
           {
-            "choice": "No other eligible option",
-            "why_not": "No other storage service satisfies the hard constraints."
+            "choice": "Amazon S3",
+            "why_not": "A separate storage service (about $2-$3 per month) when Supabase Storage already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.82 vs 0.77."
+          },
+          {
+            "choice": "MinIO (self-hosted)",
+            "why_not": "A separate storage service (about $1-$2 per month, one more system to run) when Supabase Storage already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.71 vs 0.77."
           }
         ],
         "tradeoffs": [
+          "Tied to the Supabase project; egress counts toward plan limits",
           "Adds about $2 per month."
         ]
       },
@@ -156,7 +191,9 @@
             "why_not": "Ranks lower (costs more (about $42 vs $0 per month at the high end), more lock-in); score 0.65 vs 0.75."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "React Native only; you build the backend sync endpoints"
+        ]
       },
       {
         "layer": "ci_cd",
@@ -175,7 +212,9 @@
             "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $26 vs $0 per month at the high end), more to operate); score 0.67 vs 0.84."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Minute limits on private repositories; long builds need paid or self-hosted runners"
+        ]
       },
       {
         "layer": "observability",
@@ -196,6 +235,7 @@
           }
         ],
         "tradeoffs": [
+          "Checks reachability only, not application errors",
           "Adds about $0-$6 per month."
         ]
       }
@@ -230,6 +270,15 @@
       "fields": [
         "compliance",
         "infrastructure.data_residency"
+      ]
+    },
+    {
+      "code": "CERT_IN_LOGS",
+      "severity": "info",
+      "message": "CERT-In directions (April 2022) apply to services used in India: enable logs on all systems, keep them for 180 days within India, sync clocks to an NTP source and report cyber incidents within 6 hours. Size log retention and storage for this.",
+      "fields": [
+        "infrastructure.data_residency",
+        "compliance"
       ]
     },
     {
@@ -270,13 +319,11 @@
       ]
     },
     {
-      "code": "OVERENGINEERING_AVOIDED",
+      "code": "REGIONAL_NETWORK_BLOCK",
       "severity": "info",
-      "message": "A heavier setup (Python + Django with PostgreSQL (managed or self-hosted) on Fly.io) was considered and is 3.6 points behind; 2.1 of those points come from the extra complexity and operations work it puts on a team of 2 without a DevOps engineer.",
+      "message": "Some Indian ISPs blocked Supabase's shared *.supabase.co domain in late February 2026 until it was restored on 3 March 2026. Serve the API from your own custom domain so a block on the shared domain does not take the app offline (supabase.com/blog/navigating-regional-network-blocks).",
       "fields": [
-        "team.size",
-        "team.has_devops",
-        "team.experience"
+        "infrastructure.data_residency"
       ]
     }
   ],
@@ -628,9 +675,9 @@
         "shortlist": [
           "none_host",
           "gke_cloud_run",
-          "fly_io",
           "digitalocean_droplet",
           "azure_container_apps",
+          "fly_io",
           "aws_lambda",
           "azure_app_service",
           "aws_elastic_beanstalk"
@@ -783,7 +830,10 @@
         "chosen": "supabase_auth",
         "covered_natively": true,
         "score": 0.7832,
-        "alternatives": [],
+        "alternatives": [
+          "identity_platform",
+          "cognito"
+        ],
         "eliminated": [
           {
             "id": "auth0",
@@ -865,7 +915,10 @@
         "chosen": "supabase_storage",
         "covered_natively": true,
         "score": 0.7727,
-        "alternatives": [],
+        "alternatives": [
+          "s3",
+          "minio"
+        ],
         "eliminated": [
           {
             "id": "backblaze_b2",
@@ -1118,7 +1171,9 @@
       "hiring": 0.12,
       "lock_in": 0.562,
       "maturity": 0.5,
+      "mobile_preference": 0.0,
       "over_engineering": 0.0,
+      "self_run_db": 0.0,
       "seo": 0.0,
       "soft_certs": 0.0,
       "two_codebases": 0.0,
@@ -1441,13 +1496,13 @@
         6,
         23
       ],
-      "gains": "about 74% cheaper on the core layers ($6-$23 against $32-$83 per month)",
+      "gains": "about 74% cheaper on the core layers plus required supporting services ($6-$23 against $32-$83 per month)",
       "gives_up": [
         "vendor lock-in (-3.6 pts)",
         "team skill fit (-1.1 pts)",
         "time to market (-0.5 pts)"
       ],
-      "summary": "Frontend React Native (Expo) -> Kotlin + Jetpack Compose (Android native); backend Supabase (BaaS) -> Firebase (BaaS); database Supabase Postgres -> Cloud Firestore: about 74% cheaper on the core layers ($6-$23 against $32-$83 per month). Gives up 1.8 points, mainly on vendor lock-in (-3.6 pts), team skill fit (-1.1 pts), time to market (-0.5 pts)."
+      "summary": "Frontend React Native (Expo) -> Kotlin + Jetpack Compose (Android native); backend Supabase (BaaS) -> Firebase (BaaS); database Supabase Postgres -> Cloud Firestore: about 74% cheaper on the core layers plus required supporting services ($6-$23 against $32-$83 per month). Gives up 1.8 points, mainly on vendor lock-in (-3.6 pts), team skill fit (-1.1 pts), time to market (-0.5 pts)."
     },
     {
       "direction": "more_headroom",

@@ -34,7 +34,7 @@
     {
       "code": "FEASIBLE_IF_CHANGED",
       "severity": "info",
-      "message": "If you allow any cloud provider instead of aws, a stack becomes possible: React Native (Expo) with Node.js + NestJS and PostgreSQL (managed or self-hosted) on Self-managed Linux servers (on-premise) (core layers about $0-$8 per month).",
+      "message": "If you allow any cloud provider instead of aws, a stack becomes possible: React Native (Expo) with Node.js + NestJS and PostgreSQL (managed or self-hosted) on Self-managed Linux servers (on-premise) (core layers plus required supporting services about $0-$8 per month).",
       "fields": [
         "infrastructure.cloud_preference"
       ]
@@ -42,7 +42,7 @@
     {
       "code": "FEASIBLE_IF_CHANGED",
       "severity": "info",
-      "message": "If you use managed cloud services instead of air-gapped, a stack becomes possible: React Native (Expo) with Supabase (BaaS) and Supabase Postgres on AWS Amplify Hosting (core layers about $28-$100 per month).",
+      "message": "If you use managed cloud services instead of air-gapped, a stack becomes possible: React Native (Expo) with Supabase (BaaS) and Supabase Postgres on AWS Amplify Hosting (core layers plus required supporting services about $28-$100 per month).",
       "fields": [
         "infrastructure.deployment_model"
       ]

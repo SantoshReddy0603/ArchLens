@@ -4,6 +4,26 @@
   "status": "ok_with_warnings",
   "summary": "Serverless-first design: React + Vite (SPA), Supabase (BaaS), Supabase Postgres database on Cloudflare Pages. It matches the team's languages and is estimated at $28-$94 per month.",
   "architecture_style": "serverless",
+  "architecture": {
+    "style": "serverless",
+    "name": "serverless",
+    "justification": "Supabase runs the database, auth and APIs as a managed service, so there are no servers to size or patch and idle time costs little.",
+    "driven_by": [
+      "team.has_devops",
+      "budget.monthly_infra_usd",
+      "scale.traffic_pattern"
+    ],
+    "alternatives": [
+      {
+        "choice": "Microservices",
+        "why_not": "Adds service boundaries, network calls and per-service deployment that this team does not need at this scale (team 3)."
+      },
+      {
+        "choice": "Monolith on a container host",
+        "why_not": "Steadier cost at sustained high load, but needs a host to size, patch and monitor."
+      }
+    ]
+  },
   "stack": {
     "frontend": {
       "choice": "React + Vite (SPA)",
@@ -107,11 +127,17 @@
         ],
         "alternatives": [
           {
-            "choice": "No other eligible option",
-            "why_not": "No other auth service satisfies the hard constraints."
+            "choice": "Auth0",
+            "why_not": "A separate auth service (about $0-$30 per month) when Supabase Auth already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.73 vs 0.88."
+          },
+          {
+            "choice": "Clerk",
+            "why_not": "A separate auth service (about $0-$21 per month) when Supabase Auth already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.70 vs 0.88."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Ties user accounts to the Supabase project; enterprise SSO needs a paid plan"
+        ]
       },
       {
         "layer": "email",
@@ -132,6 +158,7 @@
           }
         ],
         "tradeoffs": [
+          "Starts in a sandbox; production access, bounce handling and domain setup are on you",
           "Adds about $0-$4 per month."
         ]
       },
@@ -152,7 +179,9 @@
             "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $26 vs $0 per month at the high end), more to operate); score 0.72 vs 0.84."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Minute limits on private repositories; long builds need paid or self-hosted runners"
+        ]
       },
       {
         "layer": "observability",
@@ -173,6 +202,7 @@
           }
         ],
         "tradeoffs": [
+          "Event quota per plan; sample high-volume errors",
           "Adds about $0-$22 per month."
         ]
       }
@@ -235,7 +265,7 @@
     {
       "code": "OVERENGINEERING_AVOIDED",
       "severity": "info",
-      "message": "A heavier setup (Python + Django with PostgreSQL (managed or self-hosted) on Fly.io) was considered and is 2.0 points behind; 1.9 of those points come from the extra complexity and operations work it puts on a team of 3 without a DevOps engineer.",
+      "message": "A heavier setup (Python + Django with PostgreSQL (managed or self-hosted) on Azure Virtual Machines) was considered and is 3.1 points behind; 1.9 of those points come from the extra complexity and operations work it puts on a team of 3 without a DevOps engineer.",
       "fields": [
         "team.size",
         "team.has_devops",
@@ -622,7 +652,10 @@
         "chosen": "supabase_auth",
         "covered_natively": true,
         "score": 0.88,
-        "alternatives": [],
+        "alternatives": [
+          "auth0",
+          "clerk"
+        ],
         "eliminated": [
           {
             "id": "entra_id",
@@ -823,7 +856,9 @@
       "hiring": 0.12,
       "lock_in": 0.45,
       "maturity": 0.5,
+      "mobile_preference": 0.0,
       "over_engineering": 0.0,
+      "self_run_db": 0.0,
       "seo": 0.0,
       "soft_certs": 0.0,
       "two_codebases": 0.0,
@@ -1266,13 +1301,13 @@
         19,
         61
       ],
-      "gains": "about 23% cheaper on the core layers ($19-$61 against $28-$78 per month)",
+      "gains": "about 23% cheaper on the core layers plus required supporting services ($19-$61 against $28-$78 per month)",
       "gives_up": [
         "coverage of the required features (-1.2 pts)",
         "vendor lock-in (-1.0 pts)",
         "performance (-0.9 pts)"
       ],
-      "summary": "Frontend React + Vite (SPA) -> Next.js; backend Supabase (BaaS) -> Next.js route handlers (serverless); database Supabase Postgres -> Neon (serverless Postgres); hosting Cloudflare Pages -> Azure Static Web Apps: about 23% cheaper on the core layers ($19-$61 against $28-$78 per month). Gives up 4.5 points, mainly on coverage of the required features (-1.2 pts), vendor lock-in (-1.0 pts), performance (-0.9 pts)."
+      "summary": "Frontend React + Vite (SPA) -> Next.js; backend Supabase (BaaS) -> Next.js route handlers (serverless); database Supabase Postgres -> Neon (serverless Postgres); hosting Cloudflare Pages -> Azure Static Web Apps: about 23% cheaper on the core layers plus required supporting services ($19-$61 against $28-$78 per month). Gives up 4.5 points, mainly on coverage of the required features (-1.2 pts), vendor lock-in (-1.0 pts), performance (-0.9 pts)."
     },
     {
       "direction": "more_headroom",

@@ -46,7 +46,7 @@ Data flow: input is validated and normalized, a derived profile (scale, effort, 
 | `stacksense/conflicts.py` | Contradiction and risk warnings |
 | `stacksense/explain.py` | Per-component justification, alternatives, trade-offs |
 | `stacksense/robust.py` | Sensitivity checks on the pick, directional trade-off options, and single-change repairs for infeasible input |
-| `stacksense/kb/*.json`, `kb.py` | Knowledge base: 24 frontends, 16 backends, 16 databases, 27 hosts, 116 supporting services, 20 integrations, 21 deprecations, each with scores, notes and source links |
+| `stacksense/kb/*.json`, `kb.py` | Knowledge base: 24 frontends, 16 backends, 16 databases, 27 hosts, 117 supporting services, 20 integrations, 21 deprecations, each with scores, notes and source links |
 | `stacksense/extract.py` | Free text or file to field suggestions with evidence and confidence |
 | `stacksense/llm.py` | Optional Gemini calls (suggestions, rewording) behind one network function |
 | `stacksense/report.py` | PDF export |
@@ -158,7 +158,7 @@ score = 100 * (0.55 * Q + 0.45 * F) - penalties
 - Q (quality): per-criterion scores (cost, time to market, scalability, performance, maintainability, security; each 0-10 from the KB with a stated reason) averaged over layers with weights backend 0.30, hosting 0.30, database 0.25, frontend 0.15 (static sites shift weight to frontend and hosting). Criterion weights come from the project's priorities and are adjusted by context (time pressure, budget tightness, compliance, scale).
 - F (fit), weights: skill 0.28, capability coverage 0.22, budget 0.18, ops load 0.14, compatibility 0.10, project-type archetype 0.08.
 - Budget fit is 1 well under budget, 0.7 at the budget, then falls steeply. When no compatible stack fits the budget, it is measured against the cheapest compatible stack plus 25%, so a $0 budget still prefers cheaper stacks instead of treating them all as equally unaffordable.
-- Penalties (points): over-engineering, under-provisioning, lock-in, hiring difficulty, immaturity, availability gap, missing soft certifications, poor SEO, a second codebase, cold start, data-model mismatch (document store for relational records, general store for large telemetry or analytics, time-series store for a general app), and an embedded single-node database for business records. Reuse of existing systems is a small bonus.
+- Penalties (points): over-engineering, self-running a business database on a cloud VM at a 99.9%+ target, a stated mobile preference that is not met, under-provisioning, lock-in, hiring difficulty, immaturity, availability gap, missing soft certifications, poor SEO, a second codebase, cold start, data-model mismatch (document store for relational records, general store for large telemetry or analytics, time-series store for a general app), and an embedded single-node database for business records. Reuse of existing systems is a small bonus.
 - Availability is computed for the whole serving path: the host SLA (single-instance or redundant), lowered for self-managed hosts by the team's missing operations capacity, and capped by the SLA of a BaaS backend or managed database.
 - Hard constraints remove candidates before scoring (data residency, platform support, runtime and host compatibility, on-premise rules, hard budget, game-client rules). Every elimination is recorded with its reason.
 - Near ties: among stacks within 0.75 points of the best score, the cheapest (within 6%) wins, then lower complexity, lower operations load and ids. Stated cloud credits count in that cost comparison.
@@ -166,6 +166,12 @@ score = 100 * (0.55 * Q + 0.45 * F) - penalties
 - When a heavier setup trails mainly because of its complexity and operations load for this team, an `OVERENGINEERING_AVOIDED` note names it and the points involved.
 - Placement: when data residency is set (or GDPR applies with no residency), the database and host explanations name a concrete region for the chosen provider, for example Mumbai (ap-south-1) or Frankfurt (fra).
 - The project description is scanned with fixed patterns for low-end devices, weak networks, location data and UPI. These shift criterion weights and raise specific warnings (`LOW_END_DEVICES`, `WEAK_NETWORK`, `LOCATION_DATA`). Tight latency with live updates raises `REALTIME_LATENCY`, and offline edits on shared records raise `OFFLINE_CONFLICTS`.
+
+- Hard budget: a stack is kept only if its core layers plus the cheapest required supporting services fit. After supporting services are chosen, the complete plan is checked again; if it is over, cheaper services are swapped in (each swap is shown as an alternative with the money saved) or the next stack is tried, and if nothing fits the result is `infeasible` with `BUDGET_INFEASIBLE` and the single changes that would fix it.
+- When a layer is covered by the core stack (for example PostgreSQL full-text search or Supabase Auth), dedicated services such as Typesense or Auth0 are still listed as alternatives, with their cost and when they become worth it.
+- `architecture` explains the architecture style: why it fits (team size, feature areas, host, scale), the inputs that drove it, and why the neighbouring styles (monolith, modular monolith, serverless, microservices) were not chosen.
+- India-specific notes: `CERT_IN_LOGS` (180-day log retention in India under the CERT-In directions) when residency is India or DPDP/RBI apply, and `REGIONAL_NETWORK_BLOCK` when a Supabase stack serves Indian users (shared-domain ISP block in February-March 2026; use a custom domain).
+- A required certification that the chosen services do not cover is a critical `CERT_GAP`; data residency set to `other` gives `RESIDENCY_UNVERIFIED`, since no provider region can be confirmed.
 
 The result carries `ranking` (top 10 stacks), `score` (total, Q, F, penalties, fit terms, criteria) and `decision_trace` (weights, layer weights, eliminated candidates per layer, search counts, formula). The UI and the PDF both show them.
 
@@ -192,11 +198,11 @@ All sit under `extra` and are optional.
 |---|---|---|
 | `learning_appetite` | low, medium, high | Tolerance for unfamiliar tech in skill fit |
 | `lock_in_tolerance` | low, medium, high | Size of the lock-in penalty |
-| `user_geography` | single_city, country, multi_region, global | Region and latency needs, CDN weight |
-| `data_sensitivity` | public, internal, personal, financial, health | Security weight and compliance warnings |
+| `user_geography` | single_city, country, multi_region, global | CDN need and latency warnings; an explicit multi_region or global raises the performance weight |
+| `data_sensitivity` | public, internal, personal, financial, health | Security weight (lower for public, higher for financial or health) and `SENSITIVE_DATA_UNREGULATED` when health or financial data has no matching compliance listed |
 | `budget_strictness` | flexible, firm, hard | How strongly the budget shapes fit; `hard` removes over-budget stacks |
 | `hiring_plan` | none, slow, aggressive | Talent-pool penalty and maintainability weight |
-| `mobile_preference` | no_preference, native, cross_platform, pwa | Preferred frontend approach for mobile |
+| `mobile_preference` | no_preference, native, cross_platform, pwa | `pwa` serves Android and iOS users from one installable web app; `native` enumerates separate Kotlin and Swift clients and penalises cross-platform ones (and the reverse for `cross_platform`). When the preference loses on timeline or skills, `PREFERENCE_OUTWEIGHED` says by how much |
 | `existing_licenses` | list of names | Reuse bonus for stacks that build on them (for example `windows_server` moves an on-premise stack to IIS and ASP.NET Core) and a `LICENCE_REUSED` note |
 | `expected_rps` | number | Replaces the peak load estimated from users |
 | `cloud_credits_usd` | number (total USD) | With `aws_credits`, `gcp_credits` or `azure_credits` listed, the credits are spread over the first year when near-tied stacks are compared on cost, and the result reports which line items they cover, how many months they last and the first-year average bill (`estimated_monthly_cost_usd.credits`, `CLOUD_CREDITS`) |

@@ -4,6 +4,25 @@
   "status": "ok_with_warnings",
   "summary": "Single deployable monolith: Angular, Java + Spring Boot, PostgreSQL (managed or self-hosted) database on Self-managed Linux servers (on-premise). It keeps data in Indian regions, matches the team's languages and is estimated at $0-$47 per month.",
   "architecture_style": "monolith",
+  "architecture": {
+    "style": "monolith",
+    "name": "monolith",
+    "justification": "One deployable is the fastest to build and simplest to run for a team of 5 and 0 feature areas (none).",
+    "driven_by": [
+      "team.size",
+      "timeline.mvp_weeks"
+    ],
+    "alternatives": [
+      {
+        "choice": "Microservices",
+        "why_not": "Adds service boundaries, network calls and per-service deployment that this team does not need at this scale (team 5)."
+      },
+      {
+        "choice": "Serverless",
+        "why_not": "Per-request functions suit light, spiky work; this backend runs as a long-lived service on Self-managed Linux servers (on-premise), which suits websockets, background jobs and steady traffic better."
+      }
+    ]
+  },
   "stack": {
     "frontend": {
       "choice": "Angular",
@@ -102,17 +121,19 @@
       {
         "layer": "auth",
         "choice": "Framework built-in auth (sessions/JWT)",
-        "justification": "Framework built-in auth (sessions/JWT): users sign in (email password); no external service; Django/Laravel/ASP.NET Identity ship with it; already part of the chosen core stack.",
+        "justification": "Framework built-in auth (sessions/JWT): users sign in (email password); no external service; uses the backend framework's own session or token auth (Django auth, Laravel, ASP.NET Core Identity, Spring Security and similar); already part of the chosen core stack.",
         "driven_by": [
           "requirements.auth"
         ],
         "alternatives": [
           {
-            "choice": "No other eligible option",
-            "why_not": "No other auth service satisfies the hard constraints."
+            "choice": "Keycloak",
+            "why_not": "A separate auth service (about $9-$19 per month, one more system to run) when Framework built-in auth (sessions/JWT) already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.69 vs 0.84."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Password storage, resets, MFA and account lockout are your responsibility"
+        ]
       },
       {
         "layer": "ci_cd",
@@ -132,6 +153,7 @@
           }
         ],
         "tradeoffs": [
+          "Compute minute limits on the free tier",
           "Adds about $0-$25 per month."
         ]
       },
@@ -154,6 +176,7 @@
           }
         ],
         "tradeoffs": [
+          "Event quota per plan; sample high-volume errors",
           "Adds about $0-$22 per month."
         ]
       }
@@ -186,6 +209,15 @@
       "severity": "warning",
       "message": "HIPAA needs a signed business associate agreement with the host, database and every vendor that touches health data.",
       "fields": [
+        "compliance"
+      ]
+    },
+    {
+      "code": "CERT_IN_LOGS",
+      "severity": "info",
+      "message": "CERT-In directions (April 2022) apply to services used in India: enable logs on all systems, keep them for 180 days within India, sync clocks to an NTP source and report cyber incidents within 6 hours. Size log retention and storage for this.",
+      "fields": [
+        "infrastructure.data_residency",
         "compliance"
       ]
     },
@@ -781,7 +813,9 @@
         "chosen": "framework_auth",
         "covered_natively": true,
         "score": 0.838,
-        "alternatives": [],
+        "alternatives": [
+          "keycloak"
+        ],
         "eliminated": [
           {
             "id": "auth0",
@@ -1058,7 +1092,9 @@
       "hiring": 0.0,
       "lock_in": 0.0,
       "maturity": 0.0,
+      "mobile_preference": 0.0,
       "over_engineering": 0.0,
+      "self_run_db": 0.0,
       "seo": 0.0,
       "soft_certs": 0.0,
       "two_codebases": 0.0,

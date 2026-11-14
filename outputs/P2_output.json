@@ -2,8 +2,28 @@
   "scenario_id": "P2",
   "engine_version": "1.0.0",
   "status": "ok_with_warnings",
-  "summary": "Serverless-first design: React Native (Expo) + Next.js, Supabase (BaaS), Supabase Postgres database on Cloudflare Pages. It matches the team's languages and is estimated at $130-$340 per month.",
+  "summary": "Serverless-first design: React Native (Expo) + Next.js, Supabase (BaaS), Supabase Postgres database on Cloudflare Pages. It matches the team's languages and is estimated at $130-$320 per month.",
   "architecture_style": "serverless",
+  "architecture": {
+    "style": "serverless",
+    "name": "serverless",
+    "justification": "Supabase runs the database, auth and APIs as a managed service, so there are no servers to size or patch and idle time costs little.",
+    "driven_by": [
+      "team.has_devops",
+      "budget.monthly_infra_usd",
+      "scale.traffic_pattern"
+    ],
+    "alternatives": [
+      {
+        "choice": "Microservices",
+        "why_not": "Adds service boundaries, network calls and per-service deployment that this team does not need at this scale (team 3)."
+      },
+      {
+        "choice": "Monolith on a container host",
+        "why_not": "Steadier cost at sustained high load, but needs a host to size, patch and monitor."
+      }
+    ]
+  },
   "stack": {
     "frontend": {
       "choice": "React Native (Expo) + Next.js",
@@ -25,6 +45,7 @@
         }
       ],
       "tradeoffs": [
+        "Native modules outside the Expo SDK need a custom development build",
         "Framework churn",
         "Serverless costs grow with traffic",
         "Two client codebases to build and maintain."
@@ -111,11 +132,17 @@
         ],
         "alternatives": [
           {
-            "choice": "No other eligible option",
-            "why_not": "No other auth service satisfies the hard constraints."
+            "choice": "Google Cloud Identity Platform",
+            "why_not": "A separate auth service (about $0 per month) when Supabase Auth already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.68 vs 0.78."
+          },
+          {
+            "choice": "Amazon Cognito",
+            "why_not": "A separate auth service (about $130-$230 per month) when Supabase Auth already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.45 vs 0.78."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Ties user accounts to the Supabase project; enterprise SSO needs a paid plan"
+        ]
       },
       {
         "layer": "sms",
@@ -131,6 +158,7 @@
           }
         ],
         "tradeoffs": [
+          "India-focused; DLT template registration is required",
           "Adds about $55-$120 per month."
         ]
       },
@@ -153,7 +181,9 @@
             "why_not": "A close second with a smaller fit to this stack; score 0.82 vs 0.93."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Mainly for Indian businesses; international payments need separate approval"
+        ]
       },
       {
         "layer": "storage",
@@ -165,34 +195,39 @@
         ],
         "alternatives": [
           {
-            "choice": "No other eligible option",
-            "why_not": "No other storage service satisfies the hard constraints."
+            "choice": "Amazon S3",
+            "why_not": "A separate storage service (about $12-$15 per month) when Supabase Storage already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.80 vs 0.80."
+          },
+          {
+            "choice": "MinIO (self-hosted)",
+            "why_not": "A separate storage service (about $0 per month, one more system to run) when Supabase Storage already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.74 vs 0.80."
           }
         ],
         "tradeoffs": [
+          "Tied to the Supabase project; egress counts toward plan limits",
           "Adds about $0 per month."
         ]
       },
       {
         "layer": "search",
-        "choice": "Typesense",
-        "justification": "Typesense: full-text search is required; in-memory fast search, open source, cloud or self-host.",
+        "choice": "PostgreSQL full-text search",
+        "justification": "PostgreSQL full-text search: full-text search is required; built into the database: no extra service up to moderate catalogue sizes; already part of the chosen core stack.",
         "driven_by": [
           "requirements.full_text_search",
           "scale.users_12_months"
         ],
         "alternatives": [
           {
-            "choice": "Meilisearch",
-            "why_not": "A close second with a smaller fit to this stack; score 0.73 vs 0.73."
+            "choice": "Typesense",
+            "why_not": "A separate search service (about $0-$21 per month) when PostgreSQL full-text search already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.73 vs 0.84."
           },
           {
-            "choice": "Algolia",
-            "why_not": "Ranks lower (costs more (about $44 vs $21 per month at the high end), more lock-in); score 0.70 vs 0.73."
+            "choice": "Meilisearch",
+            "why_not": "A separate search service (about $0-$26 per month) when PostgreSQL full-text search already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.73 vs 0.84."
           }
         ],
         "tradeoffs": [
-          "Adds about $0-$21 per month."
+          "Weaker typo tolerance and relevance tuning than a dedicated search engine; heavy queries share the database"
         ]
       },
       {
@@ -213,7 +248,9 @@
             "why_not": "Ranks lower (costs more (about $120 vs $0 per month at the high end)); score 0.64 vs 0.88."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Concurrent connection and message limits per plan"
+        ]
       },
       {
         "layer": "notifications",
@@ -232,7 +269,9 @@
             "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $16 vs $0 per month at the high end)); score 0.75 vs 0.83."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Delivery is best effort with no guaranteed timing; analytics are basic"
+        ]
       },
       {
         "layer": "ci_cd",
@@ -251,7 +290,9 @@
             "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $26 vs $0 per month at the high end), more to operate); score 0.72 vs 0.84."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Minute limits on private repositories; long builds need paid or self-hosted runners"
+        ]
       },
       {
         "layer": "observability",
@@ -272,6 +313,7 @@
           }
         ],
         "tradeoffs": [
+          "Checks reachability only, not application errors",
           "Adds about $0-$6 per month."
         ]
       }
@@ -279,7 +321,7 @@
   },
   "estimated_monthly_cost_usd": {
     "min": 130,
-    "max": 340,
+    "max": 320,
     "assumptions": [
       "Load estimate: peak about 80 requests/second and about 20M requests/month from 30K users in 12 months.",
       "Usage-priced items are shown as a band (0.75x to 1.3x of the estimate) because load figures are order-of-magnitude.",
@@ -288,7 +330,6 @@
       "Database (Supabase Postgres): about $79-$190/month",
       "SMS (MSG91): about $55-$120/month",
       "Storage (Supabase Storage): about $0/month",
-      "Search (Typesense): about $0-$21/month",
       "Observability (UptimeRobot / Better Stack uptime checks): about $0-$6/month"
     ]
   },
@@ -329,9 +370,18 @@
       ]
     },
     {
+      "code": "CERT_IN_LOGS",
+      "severity": "info",
+      "message": "CERT-In directions (April 2022) apply to services used in India: enable logs on all systems, keep them for 180 days within India, sync clocks to an NTP source and report cyber incidents within 6 hours. Size log retention and storage for this.",
+      "fields": [
+        "infrastructure.data_residency",
+        "compliance"
+      ]
+    },
+    {
       "code": "BUDGET_AT_RISK",
       "severity": "warning",
-      "message": "Expected cost ($130-$340) has its midpoint above the $150 budget; the low end fits. The largest items are database (Supabase Postgres, $79-$190) and SMS (MSG91, $55-$120), so start there: trim optional services, cap usage, or accept a tighter margin.",
+      "message": "Expected cost ($130-$320) has its midpoint above the $150 budget; the low end fits. The largest items are database (Supabase Postgres, $79-$190) and SMS (MSG91, $55-$120), so start there: trim optional services, cap usage, or accept a tighter margin.",
       "fields": [
         "budget.monthly_infra_usd",
         "scale.peak_concurrent_users"
@@ -355,13 +405,11 @@
       ]
     },
     {
-      "code": "OVERENGINEERING_AVOIDED",
+      "code": "REGIONAL_NETWORK_BLOCK",
       "severity": "info",
-      "message": "A heavier setup (Python + Django with PostgreSQL (managed or self-hosted) on Fly.io) was considered and is 2.9 points behind; 1.6 of those points come from the extra complexity and operations work it puts on a team of 3 without a DevOps engineer.",
+      "message": "Some Indian ISPs blocked Supabase's shared *.supabase.co domain in late February 2026 until it was restored on 3 March 2026. Serve the API from your own custom domain so a block on the shared domain does not take the app offline (supabase.com/blog/navigating-regional-network-blocks).",
       "fields": [
-        "team.size",
-        "team.has_devops",
-        "team.experience"
+        "infrastructure.data_residency"
       ]
     }
   ],
@@ -406,13 +454,7 @@
             "id": "angular",
             "name": "Angular",
             "reasons": [
-              "does not serve android well enough on its own"
-            ]
-          },
-          {
-            "id": "angular",
-            "name": "Angular",
-            "reasons": [
+              "does not serve android well enough on its own",
               "not strong enough on any required platform to be part of a pair"
             ]
           },
@@ -420,13 +462,7 @@
             "id": "astro",
             "name": "Astro",
             "reasons": [
-              "does not serve android well enough on its own"
-            ]
-          },
-          {
-            "id": "astro",
-            "name": "Astro",
-            "reasons": [
+              "does not serve android well enough on its own",
               "not strong enough on any required platform to be part of a pair"
             ]
           },
@@ -434,13 +470,7 @@
             "id": "blazor",
             "name": "Blazor (ASP.NET Core)",
             "reasons": [
-              "does not serve android well enough on its own"
-            ]
-          },
-          {
-            "id": "blazor",
-            "name": "Blazor (ASP.NET Core)",
-            "reasons": [
+              "does not serve android well enough on its own",
               "not strong enough on any required platform to be part of a pair"
             ]
           },
@@ -455,13 +485,7 @@
             "id": "electron",
             "name": "Electron",
             "reasons": [
-              "does not serve android well enough on its own"
-            ]
-          },
-          {
-            "id": "electron",
-            "name": "Electron",
-            "reasons": [
+              "does not serve android well enough on its own",
               "not strong enough on any required platform to be part of a pair"
             ]
           },
@@ -469,13 +493,7 @@
             "id": "eleventy",
             "name": "Eleventy (11ty)",
             "reasons": [
-              "does not serve android well enough on its own"
-            ]
-          },
-          {
-            "id": "eleventy",
-            "name": "Eleventy (11ty)",
-            "reasons": [
+              "does not serve android well enough on its own",
               "not strong enough on any required platform to be part of a pair"
             ]
           },
@@ -490,13 +508,7 @@
             "id": "hugo",
             "name": "Hugo",
             "reasons": [
-              "does not serve android well enough on its own"
-            ]
-          },
-          {
-            "id": "hugo",
-            "name": "Hugo",
-            "reasons": [
+              "does not serve android well enough on its own",
               "not strong enough on any required platform to be part of a pair"
             ]
           },
@@ -539,13 +551,7 @@
             "id": "nuxt",
             "name": "Nuxt",
             "reasons": [
-              "does not serve android well enough on its own"
-            ]
-          },
-          {
-            "id": "nuxt",
-            "name": "Nuxt",
-            "reasons": [
+              "does not serve android well enough on its own",
               "not strong enough on any required platform to be part of a pair"
             ]
           },
@@ -560,13 +566,7 @@
             "id": "react_vite",
             "name": "React + Vite (SPA)",
             "reasons": [
-              "does not serve android well enough on its own"
-            ]
-          },
-          {
-            "id": "react_vite",
-            "name": "React + Vite (SPA)",
-            "reasons": [
+              "does not serve android well enough on its own",
               "not strong enough on any required platform to be part of a pair"
             ]
           },
@@ -574,13 +574,7 @@
             "id": "sveltekit",
             "name": "SvelteKit",
             "reasons": [
-              "does not serve android well enough on its own"
-            ]
-          },
-          {
-            "id": "sveltekit",
-            "name": "SvelteKit",
-            "reasons": [
+              "does not serve android well enough on its own",
               "not strong enough on any required platform to be part of a pair"
             ]
           },
@@ -588,13 +582,7 @@
             "id": "swift_ios",
             "name": "Swift + SwiftUI (iOS native)",
             "reasons": [
-              "does not serve web/android well enough on its own"
-            ]
-          },
-          {
-            "id": "swift_ios",
-            "name": "Swift + SwiftUI (iOS native)",
-            "reasons": [
+              "does not serve web/android well enough on its own",
               "not strong enough on any required platform to be part of a pair"
             ]
           },
@@ -602,13 +590,7 @@
             "id": "tauri",
             "name": "Tauri",
             "reasons": [
-              "does not serve android well enough on its own"
-            ]
-          },
-          {
-            "id": "tauri",
-            "name": "Tauri",
-            "reasons": [
+              "does not serve android well enough on its own",
               "not strong enough on any required platform to be part of a pair"
             ]
           },
@@ -630,13 +612,7 @@
             "id": "vue_vite",
             "name": "Vue 3 + Vite (SPA)",
             "reasons": [
-              "does not serve android well enough on its own"
-            ]
-          },
-          {
-            "id": "vue_vite",
-            "name": "Vue 3 + Vite (SPA)",
-            "reasons": [
+              "does not serve android well enough on its own",
               "not strong enough on any required platform to be part of a pair"
             ]
           }
@@ -831,10 +807,10 @@
           "firebase_hosting",
           "azure_static_web_apps",
           "gke_cloud_run",
-          "fly_io",
           "aws_amplify",
           "vercel",
-          "azure_container_apps"
+          "azure_container_apps",
+          "digitalocean_droplet"
         ],
         "chosen": [
           "cloudflare_pages"
@@ -993,7 +969,10 @@
         "chosen": "supabase_auth",
         "covered_natively": true,
         "score": 0.7832,
-        "alternatives": [],
+        "alternatives": [
+          "identity_platform",
+          "cognito"
+        ],
         "eliminated": [
           {
             "id": "auth0",
@@ -1100,7 +1079,10 @@
         "chosen": "supabase_storage",
         "covered_natively": true,
         "score": 0.8028,
-        "alternatives": [],
+        "alternatives": [
+          "s3",
+          "minio"
+        ],
         "eliminated": [
           {
             "id": "backblaze_b2",
@@ -1126,22 +1108,14 @@
         ]
       },
       "search": {
-        "chosen": "typesense",
-        "covered_natively": false,
-        "score": 0.7326,
+        "chosen": "postgres_fts",
+        "covered_natively": true,
+        "score": 0.84,
         "alternatives": [
-          "meilisearch",
-          "algolia"
+          "typesense",
+          "meilisearch"
         ],
-        "eliminated": [
-          {
-            "id": "postgres_fts",
-            "name": "PostgreSQL full-text search",
-            "reasons": [
-              "needs a long-running process, which Cloudflare Pages does not provide"
-            ]
-          }
-        ]
+        "eliminated": []
       },
       "realtime": {
         "chosen": "supabase_realtime",
@@ -1387,7 +1361,9 @@
       "hiring": 0.12,
       "lock_in": 1.17,
       "maturity": 0.5,
+      "mobile_preference": 0.0,
       "over_engineering": 0.0,
+      "self_run_db": 0.0,
       "seo": 0.0,
       "soft_certs": 0.0,
       "two_codebases": 7.192,
@@ -1682,13 +1658,13 @@
         17,
         50
       ],
-      "gains": "about 85% cheaper on the core layers ($17-$50 against $130-$320 per month)",
+      "gains": "about 85% cheaper on the core layers plus required supporting services ($17-$50 against $130-$320 per month)",
       "gives_up": [
         "data-model fit (-8.0 pts)",
         "vendor lock-in (-2.8 pts)",
         "compatibility with the rest of the stack (-0.5 pts)"
       ],
-      "summary": "Backend Supabase (BaaS) -> Firebase (BaaS); database Supabase Postgres -> Cloud Firestore: about 85% cheaper on the core layers ($17-$50 against $130-$320 per month). Gives up 9.4 points, mainly on data-model fit (-8.0 pts), vendor lock-in (-2.8 pts), compatibility with the rest of the stack (-0.5 pts)."
+      "summary": "Backend Supabase (BaaS) -> Firebase (BaaS); database Supabase Postgres -> Cloud Firestore: about 85% cheaper on the core layers plus required supporting services ($17-$50 against $130-$320 per month). Gives up 9.4 points, mainly on data-model fit (-8.0 pts), vendor lock-in (-2.8 pts), compatibility with the rest of the stack (-0.5 pts)."
     },
     {
       "direction": "more_headroom",

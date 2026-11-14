@@ -42,7 +42,7 @@
     {
       "code": "FEASIBLE_IF_CHANGED",
       "severity": "info",
-      "message": "If you treat the budget as firm rather than hard, a stack becomes possible: React Native (Expo) with Supabase (BaaS) and Supabase Postgres on None (core layers about $560-$1,200 per month).",
+      "message": "If you treat the budget as firm rather than hard, a stack becomes possible: React Native (Expo) with Supabase (BaaS) and Supabase Postgres on None (core layers plus required supporting services about $560-$1,200 per month).",
       "fields": [
         "extra.budget_strictness"
       ]

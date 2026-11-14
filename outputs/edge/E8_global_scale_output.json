@@ -4,6 +4,26 @@
   "status": "ok_with_warnings",
   "summary": "Microservices: React Native (Expo), Go (net/http + chi), Amazon DynamoDB database on AWS EKS (Kubernetes). It matches the team's languages and exceeds the stated budget (about $103,200-$144,300 per month).",
   "architecture_style": "microservices",
+  "architecture": {
+    "style": "microservices",
+    "name": "microservices",
+    "justification": "A team of 25 and 3 feature areas (realtime, search, file storage), high scale and a Kubernetes host make fine-grained, independently deployed services worth their operating cost.",
+    "driven_by": [
+      "team.size",
+      "scale.peak_concurrent_users",
+      "team.has_devops"
+    ],
+    "alternatives": [
+      {
+        "choice": "Modular monolith",
+        "why_not": "Simpler to run, but one deployable would make the high-load parts scale and release together with everything else."
+      },
+      {
+        "choice": "Serverless",
+        "why_not": "Per-request functions suit light, spiky work; this backend runs as a long-lived service on AWS EKS (Kubernetes), which suits websockets, background jobs and steady traffic better."
+      }
+    ]
+  },
   "stack": {
     "frontend": {
       "choice": "React Native (Expo)",
@@ -20,7 +40,9 @@
           "why_not": "Flutter scores 0.9 points lower overall, mainly on team skill fit (1.1 points)."
         }
       ],
-      "tradeoffs": []
+      "tradeoffs": [
+        "Native modules outside the Expo SDK need a custom development build"
+      ]
     },
     "backend": {
       "choice": "Go (net/http + chi)",
@@ -38,7 +60,7 @@
         },
         {
           "choice": "Java + Spring Boot",
-          "why_not": "Java + Spring Boot scores 5.4 points lower overall, mainly on headroom for the expected load (5.0 points) and performance (1.0 points)."
+          "why_not": "Java + Spring Boot scores 5.5 points lower overall, mainly on headroom for the expected load (5.0 points) and performance (1.1 points)."
         }
       ],
       "tradeoffs": [
@@ -60,7 +82,7 @@
         },
         {
           "choice": "Cloud Firestore",
-          "why_not": "Cloud Firestore scores 4.8 points lower overall, mainly on headroom for the expected load (5.0 points) and performance (1.4 points)."
+          "why_not": "Cloud Firestore scores 4.9 points lower overall, mainly on headroom for the expected load (5.0 points) and performance (1.4 points)."
         }
       ],
       "tradeoffs": [
@@ -84,7 +106,7 @@
         },
         {
           "choice": "Google Compute Engine",
-          "why_not": "Google Compute Engine scores 7.9 points lower overall, mainly on headroom for the expected load (10.0 points) and scalability (1.6 points)."
+          "why_not": "Google Compute Engine scores 7.9 points lower overall, mainly on headroom for the expected load (10.0 points) and scalability (1.5 points)."
         }
       ],
       "tradeoffs": [
@@ -112,6 +134,7 @@
           }
         ],
         "tradeoffs": [
+          "A Java server to run, upgrade and back up yourself",
           "Adds about $60-$230 per month."
         ]
       },
@@ -134,6 +157,7 @@
           }
         ],
         "tradeoffs": [
+          "Egress and request charges add up for public media",
           "Adds about $17,400-$22,300 per month."
         ]
       },
@@ -156,6 +180,7 @@
           }
         ],
         "tradeoffs": [
+          "A separate index to keep in sync; the whole index sits in RAM",
           "Adds about $0-$21 per month."
         ]
       },
@@ -169,11 +194,17 @@
         ],
         "alternatives": [
           {
-            "choice": "No other eligible option",
-            "why_not": "No other realtime service satisfies the hard constraints."
+            "choice": "Centrifugo",
+            "why_not": "A separate realtime service (about $730-$1,800 per month) when WebSockets/SSE in the backend framework already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.81 vs 0.75."
+          },
+          {
+            "choice": "Pusher Channels",
+            "why_not": "A separate realtime service (about $2,100-$5,100 per month) when WebSockets/SSE in the backend framework already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.73 vs 0.75."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Sticky connections complicate scaling; fan-out across instances needs a pub/sub layer"
+        ]
       },
       {
         "layer": "cache",
@@ -195,6 +226,7 @@
           }
         ],
         "tradeoffs": [
+          "Memory-priced; a minimum instance costs money even when idle",
           "Adds about $1,000-$2,400 per month."
         ]
       },
@@ -213,11 +245,12 @@
             "why_not": "Ranks lower (lower quality rating (8 vs 9), more to operate); score 0.75 vs 0.86."
           },
           {
-            "choice": "RabbitMQ",
-            "why_not": "Ranks lower (lower quality rating (8 vs 9), more to operate); score 0.72 vs 0.86."
+            "choice": "Google Pub/Sub",
+            "why_not": "A close second with a smaller fit to this stack; score 0.73 vs 0.86."
           }
         ],
         "tradeoffs": [
+          "AWS-only; FIFO queues have throughput limits",
           "Adds about $2,400-$3,100 per month."
         ]
       },
@@ -240,6 +273,7 @@
           }
         ],
         "tradeoffs": [
+          "Advanced caching rules and features sit on paid plans",
           "Adds about $0-$17 per month."
         ]
       },
@@ -262,6 +296,7 @@
           }
         ],
         "tradeoffs": [
+          "Starts in a sandbox; production access, bounce handling and domain setup are on you",
           "Adds about $0-$4 per month."
         ]
       },
@@ -274,15 +309,17 @@
         ],
         "alternatives": [
           {
-            "choice": "OneSignal",
-            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $16 vs $0 per month at the high end)); score 0.79 vs 0.83."
+            "choice": "Amazon SNS mobile push",
+            "why_not": "Ranks lower (lower quality rating (7 vs 9), more to operate); score 0.81 vs 0.83."
           },
           {
-            "choice": "Expo Push Notifications",
-            "why_not": "Ranks lower (lower quality rating (8 vs 9)); score 0.75 vs 0.83."
+            "choice": "OneSignal",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $16 vs $0 per month at the high end)); score 0.79 vs 0.83."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Delivery is best effort with no guaranteed timing; analytics are basic"
+        ]
       },
       {
         "layer": "ci_cd",
@@ -302,6 +339,7 @@
           }
         ],
         "tradeoffs": [
+          "Minute limits on private repositories; long builds need paid or self-hosted runners",
           "Adds about $0-$75 per month."
         ]
       },
@@ -324,6 +362,7 @@
           }
         ],
         "tradeoffs": [
+          "Per-host and per-GB pricing grows quickly",
           "Adds about $28-$80 per month."
         ]
       }
@@ -397,12 +436,12 @@
       "explain"
     ],
     "weights": {
-      "cost": 0.1042,
-      "maintainability": 0.1042,
-      "performance": 0.3072,
-      "scalability": 0.2605,
-      "security": 0.1198,
-      "time_to_market": 0.1042
+      "cost": 0.1015,
+      "maintainability": 0.1015,
+      "performance": 0.3248,
+      "scalability": 0.2538,
+      "security": 0.1168,
+      "time_to_market": 0.1015
     },
     "layer_weights": {
       "backend": 0.3,
@@ -612,7 +651,7 @@
           "nestjs",
           "firebase",
           "express",
-          "django"
+          "fastapi"
         ],
         "chosen": [
           "go_chi"
@@ -658,8 +697,8 @@
           "cockroachdb",
           "postgresql",
           "oracle_db",
-          "mysql",
-          "mongodb"
+          "mongodb",
+          "mysql"
         ],
         "chosen": [
           "dynamodb"
@@ -743,8 +782,8 @@
           "Amazon DynamoDB",
           "AWS EKS (Kubernetes)"
         ],
-        "score": 81.532,
-        "quality": 0.8342,
+        "score": 81.624,
+        "quality": 0.8359,
         "fit": 0.8781,
         "penalties": {
           "availability": 0.6,
@@ -767,8 +806,8 @@
           "Azure Cosmos DB",
           "AWS EKS (Kubernetes)"
         ],
-        "score": 81.19,
-        "quality": 0.8316,
+        "score": 81.285,
+        "quality": 0.8333,
         "fit": 0.8736,
         "penalties": {
           "availability": 0.6,
@@ -791,8 +830,8 @@
           "Amazon DynamoDB",
           "AWS EKS (Kubernetes)"
         ],
-        "score": 80.594,
-        "quality": 0.8373,
+        "score": 80.702,
+        "quality": 0.8392,
         "fit": 0.8535,
         "penalties": {
           "availability": 0.6,
@@ -815,8 +854,8 @@
           "Azure Cosmos DB",
           "AWS EKS (Kubernetes)"
         ],
-        "score": 80.252,
-        "quality": 0.8347,
+        "score": 80.364,
+        "quality": 0.8367,
         "fit": 0.8491,
         "penalties": {
           "availability": 0.6,
@@ -839,8 +878,8 @@
           "Amazon DynamoDB",
           "AWS EKS (Kubernetes)"
         ],
-        "score": 78.948,
-        "quality": 0.8219,
+        "score": 79.015,
+        "quality": 0.8231,
         "fit": 0.8519,
         "penalties": {
           "availability": 0.6,
@@ -931,7 +970,10 @@
         "chosen": "framework_websocket",
         "covered_natively": true,
         "score": 0.746,
-        "alternatives": [],
+        "alternatives": [
+          "centrifugo",
+          "pusher"
+        ],
         "eliminated": [
           {
             "id": "firestore_listeners",
@@ -965,7 +1007,7 @@
         "score": 0.8605,
         "alternatives": [
           "nats",
-          "rabbitmq"
+          "gcp_pubsub"
         ],
         "eliminated": [
           {
@@ -1009,8 +1051,8 @@
         "covered_natively": false,
         "score": 0.83,
         "alternatives": [
-          "onesignal",
-          "expo_push"
+          "aws_sns_push",
+          "onesignal"
         ],
         "eliminated": []
       },
@@ -1126,18 +1168,18 @@
     },
     "india_ctx": false,
     "weights": {
-      "cost": 0.1042,
-      "maintainability": 0.1042,
-      "performance": 0.3072,
-      "scalability": 0.2605,
-      "security": 0.1198,
-      "time_to_market": 0.1042
+      "cost": 0.1015,
+      "maintainability": 0.1015,
+      "performance": 0.3248,
+      "scalability": 0.2538,
+      "security": 0.1168,
+      "time_to_market": 0.1015
     },
     "weight_multipliers": {
       "cost": 1.0,
       "time_to_market": 1.0,
       "scalability": 1.5,
-      "performance": 1.7692,
+      "performance": 1.9192,
       "maintainability": 1.0,
       "security": 1.15
     },
@@ -1152,8 +1194,8 @@
     "budget_reference": 123405.6173
   },
   "score": {
-    "total": 81.532,
-    "quality": 0.8342,
+    "total": 81.624,
+    "quality": 0.8359,
     "fit": 0.8781,
     "penalty": 3.863,
     "penalties": {
@@ -1167,7 +1209,9 @@
       "hiring": 0.0,
       "lock_in": 3.263,
       "maturity": 0.0,
+      "mobile_preference": 0.0,
       "over_engineering": 0.0,
+      "self_run_db": 0.0,
       "seo": 0.0,
       "soft_certs": 0.0,
       "two_codebases": 0.0,
@@ -1199,8 +1243,8 @@
         "database": "Amazon DynamoDB",
         "hosting": "AWS EKS (Kubernetes)"
       },
-      "score": 81.532,
-      "quality": 0.8342,
+      "score": 81.624,
+      "quality": 0.8359,
       "fit": 0.8781,
       "penalty": 3.863,
       "cost_usd": [
@@ -1216,8 +1260,8 @@
         "database": "Azure Cosmos DB",
         "hosting": "AWS EKS (Kubernetes)"
       },
-      "score": 81.19,
-      "quality": 0.8316,
+      "score": 81.285,
+      "quality": 0.8333,
       "fit": 0.8736,
       "penalty": 3.863,
       "cost_usd": [
@@ -1233,8 +1277,8 @@
         "database": "Amazon DynamoDB",
         "hosting": "AWS EKS (Kubernetes)"
       },
-      "score": 80.594,
-      "quality": 0.8373,
+      "score": 80.702,
+      "quality": 0.8392,
       "fit": 0.8535,
       "penalty": 3.863,
       "cost_usd": [
@@ -1250,8 +1294,8 @@
         "database": "Azure Cosmos DB",
         "hosting": "AWS EKS (Kubernetes)"
       },
-      "score": 80.252,
-      "quality": 0.8347,
+      "score": 80.364,
+      "quality": 0.8367,
       "fit": 0.8491,
       "penalty": 3.863,
       "cost_usd": [
@@ -1267,8 +1311,8 @@
         "database": "Amazon DynamoDB",
         "hosting": "AWS EKS (Kubernetes)"
       },
-      "score": 78.948,
-      "quality": 0.8219,
+      "score": 79.015,
+      "quality": 0.8231,
       "fit": 0.8519,
       "penalty": 4.593,
       "cost_usd": [
@@ -1284,8 +1328,8 @@
         "database": "Azure Cosmos DB",
         "hosting": "AWS EKS (Kubernetes)"
       },
-      "score": 78.606,
-      "quality": 0.8193,
+      "score": 78.676,
+      "quality": 0.8206,
       "fit": 0.8475,
       "penalty": 4.593,
       "cost_usd": [
@@ -1301,8 +1345,8 @@
         "database": "Amazon DynamoDB",
         "hosting": "AWS EKS (Kubernetes)"
       },
-      "score": 78.01,
-      "quality": 0.8249,
+      "score": 78.094,
+      "quality": 0.8264,
       "fit": 0.8274,
       "penalty": 4.593,
       "cost_usd": [
@@ -1318,8 +1362,8 @@
         "database": "Amazon DynamoDB",
         "hosting": "AWS ECS on Fargate"
       },
-      "score": 77.742,
-      "quality": 0.8328,
+      "score": 77.794,
+      "quality": 0.8338,
       "fit": 0.8983,
       "penalty": 8.488,
       "cost_usd": [
@@ -1335,8 +1379,8 @@
         "database": "Azure Cosmos DB",
         "hosting": "AWS EKS (Kubernetes)"
       },
-      "score": 77.668,
-      "quality": 0.8223,
+      "score": 77.755,
+      "quality": 0.8239,
       "fit": 0.823,
       "penalty": 4.593,
       "cost_usd": [
@@ -1352,8 +1396,8 @@
         "database": "Azure Cosmos DB",
         "hosting": "AWS ECS on Fargate"
       },
-      "score": 77.4,
-      "quality": 0.8302,
+      "score": 77.455,
+      "quality": 0.8312,
       "fit": 0.8939,
       "penalty": 8.488,
       "cost_usd": [
@@ -1364,7 +1408,7 @@
   ],
   "robustness": {
     "verdict": "stable",
-    "margin_points": 0.342,
+    "margin_points": 0.339,
     "runner_up": {
       "frontend": "React Native (Expo)",
       "backend": "Go (net/http + chi)",
@@ -1461,19 +1505,19 @@
           "to": "Cloudflare Workers"
         }
       ],
-      "score": 72.779,
-      "points_behind": 8.753,
+      "score": 72.754,
+      "points_behind": 8.869,
       "cost_usd": [
         3616,
         10418
       ],
-      "gains": "about 92% cheaper on the core layers ($3,600-$10,400 against $83,500-$118,400 per month)",
+      "gains": "about 92% cheaper on the core layers plus required supporting services ($3,600-$10,400 against $83,500-$118,400 per month)",
       "gives_up": [
         "headroom for the expected load (-10.0 pts)",
-        "performance (-1.9 pts)",
+        "performance (-2.0 pts)",
         "vendor lock-in (-1.2 pts)"
       ],
-      "summary": "Backend Go (net/http + chi) -> Firebase (BaaS); database Amazon DynamoDB -> Cloud Firestore; hosting AWS EKS (Kubernetes) -> Cloudflare Workers: about 92% cheaper on the core layers ($3,600-$10,400 against $83,500-$118,400 per month). Gives up 8.8 points, mainly on headroom for the expected load (-10.0 pts), performance (-1.9 pts), vendor lock-in (-1.2 pts)."
+      "summary": "Backend Go (net/http + chi) -> Firebase (BaaS); database Amazon DynamoDB -> Cloud Firestore; hosting AWS EKS (Kubernetes) -> Cloudflare Workers: about 92% cheaper on the core layers plus required supporting services ($3,600-$10,400 against $83,500-$118,400 per month). Gives up 8.9 points, mainly on headroom for the expected load (-10.0 pts), performance (-2.0 pts), vendor lock-in (-1.2 pts)."
     },
     {
       "direction": "more_headroom",
@@ -1503,8 +1547,8 @@
           "to": "AWS ECS on Fargate"
         }
       ],
-      "score": 77.4,
-      "points_behind": 4.132,
+      "score": 77.455,
+      "points_behind": 4.168,
       "cost_usd": [
         79053,
         116878
@@ -1515,7 +1559,7 @@
         "performance (-0.5 pts)",
         "scalability (-0.4 pts)"
       ],
-      "summary": "Database Amazon DynamoDB -> Azure Cosmos DB; hosting AWS EKS (Kubernetes) -> AWS ECS on Fargate: time to market 6.7 instead of 5.8. Gives up 4.1 points, mainly on headroom for the expected load (-5.0 pts), performance (-0.5 pts), scalability (-0.4 pts)."
+      "summary": "Database Amazon DynamoDB -> Azure Cosmos DB; hosting AWS EKS (Kubernetes) -> AWS ECS on Fargate: time to market 6.7 instead of 5.8. Gives up 4.2 points, mainly on headroom for the expected load (-5.0 pts), performance (-0.5 pts), scalability (-0.4 pts)."
     },
     {
       "direction": "less_lock_in",
@@ -1539,8 +1583,8 @@
           "to": "AWS ECS on Fargate"
         }
       ],
-      "score": 76.413,
-      "points_behind": 5.119,
+      "score": 76.429,
+      "points_behind": 5.194,
       "cost_usd": [
         81525,
         121230
@@ -1551,7 +1595,7 @@
         "compliance attestations (-1.5 pts)",
         "performance (-1.4 pts)"
       ],
-      "summary": "Database Amazon DynamoDB -> CockroachDB; hosting AWS EKS (Kubernetes) -> AWS ECS on Fargate: lock-in 3.2 instead of 5.6 (0-10 scale). Gives up 5.1 points, mainly on headroom for the expected load (-5.0 pts), compliance attestations (-1.5 pts), performance (-1.4 pts)."
+      "summary": "Database Amazon DynamoDB -> CockroachDB; hosting AWS EKS (Kubernetes) -> AWS ECS on Fargate: lock-in 3.2 instead of 5.6 (0-10 scale). Gives up 5.2 points, mainly on headroom for the expected load (-5.0 pts), compliance attestations (-1.5 pts), performance (-1.4 pts)."
     }
   ]
 }

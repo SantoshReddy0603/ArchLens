@@ -4,6 +4,25 @@
   "status": "ok_with_warnings",
   "summary": "Single deployable monolith: Django templates + htmx, Python + Django, PostgreSQL (managed or self-hosted) database on Google Cloud Run. It is estimated at $100-$190 per month.",
   "architecture_style": "monolith",
+  "architecture": {
+    "style": "monolith",
+    "name": "monolith",
+    "justification": "One deployable is the fastest to build and simplest to run for a team of 3 and 1 feature area (payments).",
+    "driven_by": [
+      "team.size",
+      "timeline.mvp_weeks"
+    ],
+    "alternatives": [
+      {
+        "choice": "Microservices",
+        "why_not": "Adds service boundaries, network calls and per-service deployment that this team does not need at this scale (team 3)."
+      },
+      {
+        "choice": "Serverless",
+        "why_not": "Per-request functions suit light, spiky work; this backend runs as a long-lived service on Google Cloud Run, which suits websockets, background jobs and steady traffic better."
+      }
+    ]
+  },
   "stack": {
     "frontend": {
       "choice": "Django templates + htmx",
@@ -111,7 +130,9 @@
             "why_not": "Ranks lower (more to operate); score 0.71 vs 0.80."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Priced per monthly active user past the free tier; GCP-specific setup"
+        ]
       },
       {
         "layer": "payments",
@@ -132,7 +153,9 @@
             "why_not": "Ranks lower (lower quality rating (9 vs 10)); score 0.82 vs 0.86."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Per-transaction fees; payouts and some methods vary by country"
+        ]
       },
       {
         "layer": "waf",
@@ -153,6 +176,7 @@
           }
         ],
         "tradeoffs": [
+          "Managed rulesets beyond the basics need a paid plan",
           "Adds about $20 per month."
         ]
       },
@@ -175,6 +199,7 @@
           }
         ],
         "tradeoffs": [
+          "Starts in a sandbox; production access, bounce handling and domain setup are on you",
           "Adds about $0-$4 per month."
         ]
       },
@@ -195,7 +220,9 @@
             "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $26 vs $0 per month at the high end), more to operate); score 0.72 vs 0.84."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Minute limits on private repositories; long builds need paid or self-hosted runners"
+        ]
       },
       {
         "layer": "observability",
@@ -216,6 +243,7 @@
           }
         ],
         "tradeoffs": [
+          "Event quota per plan; sample high-volume errors",
           "Adds about $0-$22 per month."
         ]
       }
@@ -947,7 +975,9 @@
       "hiring": 0.0,
       "lock_in": 0.0,
       "maturity": 0.0,
+      "mobile_preference": 0.0,
       "over_engineering": 0.0,
+      "self_run_db": 0.0,
       "seo": 0.0,
       "soft_certs": 0.0,
       "two_codebases": 0.0,
@@ -1327,13 +1357,13 @@
         56,
         128
       ],
-      "gains": "about 30% cheaper on the core layers ($56-$130 against $91-$180 per month)",
+      "gains": "about 30% cheaper on the core layers plus required supporting services ($56-$130 against $91-$180 per month)",
       "gives_up": [
         "compatibility with the rest of the stack (-0.5 pts)",
         "time to market (-0.4 pts)",
         "maintainability (-0.4 pts)"
       ],
-      "summary": "Database PostgreSQL (managed or self-hosted) -> CockroachDB: about 30% cheaper on the core layers ($56-$130 against $91-$180 per month). Gives up 2.5 points, mainly on compatibility with the rest of the stack (-0.5 pts), time to market (-0.4 pts), maintainability (-0.4 pts)."
+      "summary": "Database PostgreSQL (managed or self-hosted) -> CockroachDB: about 30% cheaper on the core layers plus required supporting services ($56-$130 against $91-$180 per month). Gives up 2.5 points, mainly on compatibility with the rest of the stack (-0.5 pts), time to market (-0.4 pts), maintainability (-0.4 pts)."
     },
     {
       "direction": "more_headroom",

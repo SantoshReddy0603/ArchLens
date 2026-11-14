@@ -2,8 +2,34 @@
   "scenario_id": "P3",
   "engine_version": "1.0.0",
   "status": "ok_with_warnings",
-  "summary": "Modular monolith: React + Vite (SPA), Go (net/http + chi), PostgreSQL (managed or self-hosted) database on Fly.io. It matches the team's languages and is estimated at $540-$1,200 per month.",
+  "summary": "Modular monolith: React + Vite (SPA), Go (net/http + chi), PostgreSQL (managed or self-hosted) database on Google Cloud Run. It matches the team's languages and is estimated at $1,400-$2,400 per month.",
   "architecture_style": "modular_monolith",
+  "architecture": {
+    "style": "modular_monolith",
+    "name": "modular monolith",
+    "justification": "One deployable with clear internal modules per feature area suits a team of 5 and 4 feature areas (payments, realtime, file storage, multi-tenancy): simple to run now, with seams to split later if load demands it.",
+    "driven_by": [
+      "team.size",
+      "requirements.payments",
+      "requirements.realtime",
+      "requirements.file_media_storage",
+      "requirements.multi_tenant"
+    ],
+    "alternatives": [
+      {
+        "choice": "Microservices",
+        "why_not": "Adds service boundaries, network calls and per-service deployment that this team does not need at this scale (team 5)."
+      },
+      {
+        "choice": "Plain monolith",
+        "why_not": "With 4 feature areas, code without module boundaries tends to tangle as the team grows."
+      },
+      {
+        "choice": "Serverless",
+        "why_not": "Per-request functions suit light, spiky work; this backend runs as a long-lived service on Google Cloud Run, which suits websockets, background jobs and steady traffic better."
+      }
+    ]
+  },
   "stack": {
     "frontend": {
       "choice": "React + Vite (SPA)",
@@ -40,11 +66,11 @@
       "alternatives": [
         {
           "choice": "Node.js + NestJS",
-          "why_not": "Node.js + NestJS scores 2.3 points lower overall, mainly on performance (1.5 points) and scalability (0.8 points)."
+          "why_not": "Node.js + NestJS scores 2.0 points lower overall, mainly on performance (1.5 points) and scalability (0.8 points)."
         },
         {
-          "choice": "Elixir + Phoenix",
-          "why_not": "Elixir + Phoenix scores 2.5 points lower overall, mainly on team skill fit (1.2 points) and performance (0.5 points)."
+          "choice": "C# + ASP.NET Core",
+          "why_not": "C# + ASP.NET Core scores 2.7 points lower overall, mainly on team skill fit (1.2 points) and compatibility with the rest of the stack (0.6 points)."
         }
       ],
       "tradeoffs": [
@@ -53,11 +79,10 @@
     },
     "database": {
       "choice": "PostgreSQL (managed or self-hosted)",
-      "justification": "PostgreSQL (managed or self-hosted) gives ACID transactions for money-handling data; can be placed in Frankfurt (fra), an EU region, which keeps GDPR transfers simple; runs beside the application on Fly.io, with no separate database bill; excellent query planner, rich indexing.",
+      "justification": "PostgreSQL (managed or self-hosted) gives ACID transactions for money-handling data; can be placed in Belgium (europe-west1), an EU region, which keeps GDPR transfers simple; excellent query planner, rich indexing.",
       "driven_by": [
         "requirements.payments",
         "compliance",
-        "budget.monthly_infra_usd",
         "priorities.performance"
       ],
       "alternatives": [
@@ -67,56 +92,59 @@
         },
         {
           "choice": "Microsoft SQL Server / Azure SQL",
-          "why_not": "Microsoft SQL Server / Azure SQL scores 3.5 points lower overall, mainly on budget fit (1.3 points) and vendor lock-in (1.0 points). Estimated infrastructure about $1,000-$1,900/month versus about $480-$1,100/month."
+          "why_not": "Microsoft SQL Server / Azure SQL scores 2.8 points lower overall, mainly on vendor lock-in (1.0 points) and compatibility with the rest of the stack (0.9 points)."
         }
       ],
       "tradeoffs": [
-        "Write scaling beyond one primary needs design",
-        "You run, patch and back up this database yourself on Fly.io."
+        "Write scaling beyond one primary needs design"
       ]
     },
     "hosting": {
-      "choice": "Fly.io",
-      "justification": "Fly.io can be placed in Frankfurt (fra), an EU region, which keeps GDPR transfers simple; offers a 99.95% SLA, in line with the 99.9% target; anycast, close to users; is a proven choice for realtime collab projects.",
+      "choice": "Google Cloud Run",
+      "justification": "Google Cloud Run can be placed in Belgium (europe-west1), an EU region, which keeps GDPR transfers simple; offers a 99.95% SLA, in line with the 99.9% target; autoscale to many instances; is a proven choice for realtime collab projects.",
       "driven_by": [
         "compliance",
         "requirements.availability",
-        "priorities.performance",
+        "priorities.scalability",
         "project.type"
       ],
       "alternatives": [
         {
-          "choice": "Google Cloud Run",
-          "why_not": "Google Cloud Run scores 0.7 points lower overall, mainly on budget fit (2.3 points) and performance (0.5 points). Estimated infrastructure about $1,200-$2,100/month versus about $480-$1,100/month."
+          "choice": "Fly.io",
+          "why_not": "Fly.io scores 0.9 points lower overall, mainly on maintainability (0.4 points) and scalability (0.4 points)."
         },
         {
           "choice": "Azure Container Apps",
-          "why_not": "Azure Container Apps scores 2.1 points lower overall, mainly on budget fit (2.0 points) and performance (0.5 points). Estimated infrastructure about $1,100-$2,000/month versus about $480-$1,100/month."
+          "why_not": "Azure Container Apps is a close second: only 1.4 points behind, with no single weakness."
         }
       ],
       "tradeoffs": [
-        "Reliability history less steady than hyperscalers"
+        "GCP only",
+        "Upper cost estimate ($1,200-$2,100/month) exceeds the $1,500 budget at peak."
       ]
     },
     "supporting": [
       {
         "layer": "auth",
-        "choice": "Framework built-in auth (sessions/JWT)",
-        "justification": "Framework built-in auth (sessions/JWT): users sign in (social); no external service; Django/Laravel/ASP.NET Identity ship with it; free at this scale.",
+        "choice": "Google Cloud Identity Platform",
+        "justification": "Google Cloud Identity Platform: users sign in (social); Firebase Authentication with an SLA, multi-tenancy and HIPAA coverage.",
         "driven_by": [
           "requirements.auth"
         ],
         "alternatives": [
           {
-            "choice": "Keycloak",
-            "why_not": "Ranks lower (costs more (about $72 vs $0 per month at the high end), more to operate); score 0.71 vs 0.72."
+            "choice": "Firebase Authentication",
+            "why_not": "A close second with a smaller fit to this stack; score 0.84 vs 0.85."
           },
           {
-            "choice": "Auth0",
-            "why_not": "Ranks lower (costs more (about $670 vs $0 per month at the high end), more lock-in); score 0.67 vs 0.72."
+            "choice": "Framework built-in auth (sessions/JWT)",
+            "why_not": "Ranks lower (lower quality rating (6 vs 8), more to operate); score 0.72 vs 0.85."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Priced per monthly active user past the free tier; GCP-specific setup",
+          "Adds about $0-$6 per month."
+        ]
       },
       {
         "layer": "payments",
@@ -130,35 +158,38 @@
         "alternatives": [
           {
             "choice": "Razorpay",
-            "why_not": "Ranks lower (lower quality rating (9 vs 10)); score 0.79 vs 0.86."
+            "why_not": "Ranks lower (lower quality rating (9 vs 10)); score 0.71 vs 0.86."
           },
           {
             "choice": "Adyen",
-            "why_not": "Ranks lower (lower quality rating (9 vs 10)); score 0.78 vs 0.86."
+            "why_not": "Ranks lower (lower quality rating (9 vs 10)); score 0.70 vs 0.86."
           }
         ],
-        "tradeoffs": []
+        "tradeoffs": [
+          "Per-transaction fees; payouts and some methods vary by country"
+        ]
       },
       {
         "layer": "storage",
-        "choice": "Cloudflare R2",
-        "justification": "Cloudflare R2: users upload files; s3-compatible with zero egress fees.",
+        "choice": "Google Cloud Storage",
+        "justification": "Google Cloud Storage: users upload files; durable object store with strong GCP integration.",
         "driven_by": [
           "requirements.file_media_storage",
           "scale.data_volume_gb_12_months"
         ],
         "alternatives": [
           {
-            "choice": "MinIO (self-hosted)",
-            "why_not": "Ranks lower (more to operate); score 0.77 vs 0.80."
+            "choice": "Cloudflare R2",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9)); score 0.76 vs 0.80."
           },
           {
-            "choice": "Backblaze B2",
-            "why_not": "Ranks lower (lower quality rating (7 vs 8), costs more (about $15 vs $3 per month at the high end)); score 0.71 vs 0.80."
+            "choice": "MinIO (self-hosted)",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), more to operate); score 0.74 vs 0.80."
           }
         ],
         "tradeoffs": [
-          "Adds about $3 per month."
+          "Egress to the internet is billed per GB",
+          "Adds about $140-$170 per month."
         ]
       },
       {
@@ -180,13 +211,14 @@
           }
         ],
         "tradeoffs": [
+          "A dedicated collaboration server to run and persist documents from",
           "Adds about $29-$70 per month."
         ]
       },
       {
         "layer": "cache",
-        "choice": "Upstash Redis",
-        "justification": "Upstash Redis: peak load of about 500 requests/second is better served from a cache than from the database; Serverless Redis billed per request, suits functions.",
+        "choice": "Managed Redis/Valkey (ElastiCache, Memorystore, Azure Cache)",
+        "justification": "Managed Redis/Valkey (ElastiCache, Memorystore, Azure Cache): peak load of about 500 requests/second is better served from a cache than from the database; native cloud cache with replicas and failover.",
         "driven_by": [
           "scale.peak_concurrent_users",
           "requirements.p95_latency_ms",
@@ -194,22 +226,23 @@
         ],
         "alternatives": [
           {
-            "choice": "Managed Redis/Valkey (ElastiCache, Memorystore, Azure Cache)",
-            "why_not": "Ranks lower (costs more (about $110 vs $37 per month at the high end), more to operate); score 0.76 vs 0.76."
+            "choice": "Upstash Redis",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9)); score 0.72 vs 0.76."
           },
           {
             "choice": "Self-hosted Redis/Valkey",
-            "why_not": "Ranks lower (more to operate); score 0.72 vs 0.76."
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), more to operate); score 0.69 vs 0.76."
           }
         ],
         "tradeoffs": [
-          "Adds about $26-$37 per month."
+          "Memory-priced; a minimum instance costs money even when idle",
+          "Adds about $48-$110 per month."
         ]
       },
       {
         "layer": "queue",
-        "choice": "NATS JetStream",
-        "justification": "NATS JetStream: payment callbacks and receipts at about 500 requests/second should be processed asynchronously; lightweight single-binary messaging, good fit for Go.",
+        "choice": "Google Pub/Sub",
+        "justification": "Google Pub/Sub: payment callbacks and receipts at about 500 requests/second should be processed asynchronously; managed messaging with global scale.",
         "driven_by": [
           "scale.peak_concurrent_users",
           "requirements.payments",
@@ -217,16 +250,17 @@
         ],
         "alternatives": [
           {
-            "choice": "RabbitMQ",
-            "why_not": "Ranks lower (costs more (about $130 vs $37 per month at the high end), more to operate); score 0.70 vs 0.76."
+            "choice": "NATS JetStream",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $37 vs $6 per month at the high end), more to operate); score 0.73 vs 0.89."
           },
           {
             "choice": "Amazon SQS",
-            "why_not": "Ranks lower (costs more (about $62 vs $37 per month at the high end), more lock-in); score 0.66 vs 0.76."
+            "why_not": "Ranks lower (costs more (about $62 vs $6 per month at the high end)); score 0.67 vs 0.89."
           }
         ],
         "tradeoffs": [
-          "Adds about $13-$37 per month."
+          "At-least-once delivery, so consumers must handle duplicates",
+          "Adds about $5-$6 per month."
         ]
       },
       {
@@ -244,10 +278,11 @@
           },
           {
             "choice": "Amazon CloudFront",
-            "why_not": "Ranks lower (costs more (about $300 vs $17 per month at the high end), more to operate); score 0.69 vs 0.83."
+            "why_not": "Ranks lower (costs more (about $300 vs $17 per month at the high end), more to operate); score 0.60 vs 0.83."
           }
         ],
         "tradeoffs": [
+          "Advanced caching rules and features sit on paid plans",
           "Adds about $0-$17 per month."
         ]
       },
@@ -270,6 +305,7 @@
           }
         ],
         "tradeoffs": [
+          "Transactional email only; marketing email needs a separate stream",
           "Adds about $15 per month."
         ]
       },
@@ -291,6 +327,7 @@
           }
         ],
         "tradeoffs": [
+          "Minute limits on private repositories; long builds need paid or self-hosted runners",
           "Adds about $0-$7 per month."
         ]
       },
@@ -313,24 +350,27 @@
           }
         ],
         "tradeoffs": [
+          "Event quota per plan; sample high-volume errors",
           "Adds about $0-$22 per month."
         ]
       }
     ]
   },
   "estimated_monthly_cost_usd": {
-    "min": 540,
-    "max": 1230,
+    "min": 1430,
+    "max": 2450,
     "assumptions": [
       "Load estimate: peak about 500 requests/second and about 140M requests/month from 50K users in 12 months.",
       "Usage-priced items are shown as a band (0.75x to 1.3x of the estimate) because load figures are order-of-magnitude.",
       "Public list prices of each product, in USD, without taxes, committed-use discounts or developer time.",
       "The 99.9% availability target doubles or adds redundancy for hosting and database where needed.",
-      "Hosting (Fly.io): about $450-$1,000/month",
-      "Storage (Cloudflare R2): about $3/month",
+      "Hosting (Google Cloud Run): about $670-$1,000/month",
+      "Database (PostgreSQL (managed or self-hosted)): about $540-$1,000/month",
+      "Auth (Google Cloud Identity Platform): about $0-$6/month",
+      "Storage (Google Cloud Storage): about $140-$170/month",
       "Realtime (Yjs with Hocuspocus): about $29-$70/month",
-      "Cache (Upstash Redis): about $26-$37/month",
-      "Queue (NATS JetStream): about $13-$37/month",
+      "Cache (Managed Redis/Valkey (ElastiCache, Memorystore, Azure Cache)): about $48-$110/month",
+      "Queue (Google Pub/Sub): about $5-$6/month",
       "CDN (Cloudflare CDN): about $0-$17/month",
       "Email (Postmark): about $15/month",
       "CI/CD (GitHub Actions): about $0-$7/month",
@@ -362,6 +402,15 @@
       "fields": [
         "requirements.p95_latency_ms",
         "requirements.realtime",
+        "scale.peak_concurrent_users"
+      ]
+    },
+    {
+      "code": "BUDGET_AT_RISK",
+      "severity": "warning",
+      "message": "Expected cost ($1,400-$2,400) has its midpoint above the $1,500 budget; the low end fits. The largest items are hosting (Google Cloud Run, $670-$1,000) and database (PostgreSQL (managed or self-hosted), $540-$1,000), so start there: trim optional services, cap usage, or accept a tighter margin.",
+      "fields": [
+        "budget.monthly_infra_usd",
         "scale.peak_concurrent_users"
       ]
     }
@@ -494,8 +543,8 @@
         "shortlist": [
           "go_chi",
           "nestjs",
-          "phoenix",
           "aspnet_core",
+          "phoenix",
           "spring_boot",
           "supabase",
           "firebase",
@@ -593,8 +642,8 @@
         ],
         "eligible_after_stack_checks": 22,
         "shortlist": [
-          "fly_io",
           "gke_cloud_run",
+          "fly_io",
           "azure_container_apps",
           "aws_ecs_fargate",
           "cloudflare_pages",
@@ -603,7 +652,7 @@
           "gce_vm"
         ],
         "chosen": [
-          "fly_io"
+          "gke_cloud_run"
         ]
       }
     },
@@ -629,98 +678,6 @@
           "React + Vite (SPA)",
           "Go (net/http + chi)",
           "PostgreSQL (managed or self-hosted)",
-          "Fly.io"
-        ],
-        "score": 85.128,
-        "quality": 0.8111,
-        "fit": 0.9059,
-        "penalties": {
-          "maturity": 0.25
-        },
-        "fit_terms": {
-          "archetype": 0.9,
-          "budget": 0.825,
-          "capability": 0.937,
-          "compat": 0.733,
-          "ops": 0.899,
-          "skill": 1.0
-        }
-      },
-      {
-        "rank": 2,
-        "stack": [
-          "Angular",
-          "Go (net/http + chi)",
-          "PostgreSQL (managed or self-hosted)",
-          "Fly.io"
-        ],
-        "score": 84.821,
-        "quality": 0.8232,
-        "fit": 0.8843,
-        "penalties": {
-          "maturity": 0.25
-        },
-        "fit_terms": {
-          "archetype": 0.8,
-          "budget": 0.825,
-          "capability": 0.875,
-          "compat": 0.733,
-          "ops": 0.899,
-          "skill": 1.0
-        }
-      },
-      {
-        "rank": 3,
-        "stack": [
-          "Nuxt",
-          "Go (net/http + chi)",
-          "PostgreSQL (managed or self-hosted)",
-          "Fly.io"
-        ],
-        "score": 84.691,
-        "quality": 0.8209,
-        "fit": 0.8843,
-        "penalties": {
-          "maturity": 0.25
-        },
-        "fit_terms": {
-          "archetype": 0.8,
-          "budget": 0.825,
-          "capability": 0.875,
-          "compat": 0.733,
-          "ops": 0.899,
-          "skill": 1.0
-        }
-      },
-      {
-        "rank": 4,
-        "stack": [
-          "Vue 3 + Vite (SPA)",
-          "Go (net/http + chi)",
-          "PostgreSQL (managed or self-hosted)",
-          "Fly.io"
-        ],
-        "score": 84.511,
-        "quality": 0.8176,
-        "fit": 0.8843,
-        "penalties": {
-          "maturity": 0.25
-        },
-        "fit_terms": {
-          "archetype": 0.8,
-          "budget": 0.825,
-          "capability": 0.875,
-          "compat": 0.733,
-          "ops": 0.899,
-          "skill": 1.0
-        }
-      },
-      {
-        "rank": 5,
-        "stack": [
-          "React + Vite (SPA)",
-          "Go (net/http + chi)",
-          "PostgreSQL (managed or self-hosted)",
           "Google Cloud Run"
         ],
         "score": 84.456,
@@ -735,16 +692,103 @@
           "ops": 0.934,
           "skill": 1.0
         }
+      },
+      {
+        "rank": 2,
+        "stack": [
+          "Angular",
+          "Go (net/http + chi)",
+          "PostgreSQL (managed or self-hosted)",
+          "Google Cloud Run"
+        ],
+        "score": 84.149,
+        "quality": 0.8395,
+        "fit": 0.844,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.8,
+          "budget": 0.537,
+          "capability": 0.875,
+          "compat": 0.8,
+          "ops": 0.934,
+          "skill": 1.0
+        }
+      },
+      {
+        "rank": 3,
+        "stack": [
+          "Nuxt",
+          "Go (net/http + chi)",
+          "PostgreSQL (managed or self-hosted)",
+          "Google Cloud Run"
+        ],
+        "score": 84.019,
+        "quality": 0.8371,
+        "fit": 0.844,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.8,
+          "budget": 0.537,
+          "capability": 0.875,
+          "compat": 0.8,
+          "ops": 0.934,
+          "skill": 1.0
+        }
+      },
+      {
+        "rank": 4,
+        "stack": [
+          "Vue 3 + Vite (SPA)",
+          "Go (net/http + chi)",
+          "PostgreSQL (managed or self-hosted)",
+          "Google Cloud Run"
+        ],
+        "score": 83.839,
+        "quality": 0.8338,
+        "fit": 0.844,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.8,
+          "budget": 0.537,
+          "capability": 0.875,
+          "compat": 0.8,
+          "ops": 0.934,
+          "skill": 1.0
+        }
+      },
+      {
+        "rank": 5,
+        "stack": [
+          "SvelteKit",
+          "Go (net/http + chi)",
+          "PostgreSQL (managed or self-hosted)",
+          "Google Cloud Run"
+        ],
+        "score": 83.774,
+        "quality": 0.8415,
+        "fit": 0.844,
+        "penalties": {
+          "hiring": 0.24,
+          "maturity": 0.25
+        },
+        "fit_terms": {
+          "archetype": 0.8,
+          "budget": 0.537,
+          "capability": 0.875,
+          "compat": 0.8,
+          "ops": 0.934,
+          "skill": 1.0
+        }
       }
     ],
     "supporting": {
       "auth": {
-        "chosen": "framework_auth",
+        "chosen": "identity_platform",
         "covered_natively": false,
-        "score": 0.718,
+        "score": 0.8459,
         "alternatives": [
-          "keycloak",
-          "auth0"
+          "firebase_auth",
+          "framework_auth"
         ],
         "eliminated": [
           {
@@ -774,12 +818,12 @@
         "eliminated": []
       },
       "storage": {
-        "chosen": "cloudflare_r2",
+        "chosen": "gcs",
         "covered_natively": false,
-        "score": 0.7956,
+        "score": 0.7987,
         "alternatives": [
-          "minio",
-          "backblaze_b2"
+          "cloudflare_r2",
+          "minio"
         ],
         "eliminated": [
           {
@@ -824,21 +868,21 @@
         ]
       },
       "cache": {
-        "chosen": "upstash_redis",
+        "chosen": "redis_managed",
         "covered_natively": false,
-        "score": 0.7625,
+        "score": 0.7557,
         "alternatives": [
-          "redis_managed",
+          "upstash_redis",
           "valkey_selfhost"
         ],
         "eliminated": []
       },
       "queue": {
-        "chosen": "nats",
+        "chosen": "gcp_pubsub",
         "covered_natively": false,
-        "score": 0.7551,
+        "score": 0.8926,
         "alternatives": [
-          "rabbitmq",
+          "nats",
           "sqs"
         ],
         "eliminated": [
@@ -1009,10 +1053,10 @@
     "notes": []
   },
   "score": {
-    "total": 85.128,
-    "quality": 0.8111,
-    "fit": 0.9059,
-    "penalty": 0.25,
+    "total": 84.456,
+    "quality": 0.8274,
+    "fit": 0.8656,
+    "penalty": 0.0,
     "penalties": {
       "availability": 0.0,
       "cold_start": -0.0,
@@ -1023,8 +1067,10 @@
       "game_server": 0.0,
       "hiring": 0.0,
       "lock_in": 0.0,
-      "maturity": 0.25,
+      "maturity": 0.0,
+      "mobile_preference": 0.0,
       "over_engineering": 0.0,
+      "self_run_db": 0.0,
       "seo": 0.0,
       "soft_certs": 0.0,
       "two_codebases": 0.0,
@@ -1032,92 +1078,24 @@
     },
     "fit_terms": {
       "archetype": 0.9,
-      "budget": 0.8248,
+      "budget": 0.537,
       "capability": 0.9371,
-      "compat": 0.7333,
-      "ops": 0.8995,
+      "compat": 0.8,
+      "ops": 0.934,
       "skill": 1.0
     },
     "criteria": {
-      "cost": 8.75,
-      "maintainability": 7.5,
-      "performance": 8.3,
-      "scalability": 8.563,
-      "security": 7.65,
-      "time_to_market": 7.35
+      "cost": 9.05,
+      "maintainability": 8.1,
+      "performance": 8.0,
+      "scalability": 8.863,
+      "security": 7.95,
+      "time_to_market": 7.65
     }
   },
   "ranking": [
     {
       "rank": 1,
-      "stack": {
-        "frontend": "React + Vite (SPA)",
-        "backend": "Go (net/http + chi)",
-        "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "Fly.io"
-      },
-      "score": 85.128,
-      "quality": 0.8111,
-      "fit": 0.9059,
-      "penalty": 0.25,
-      "cost_usd": [
-        480,
-        1089
-      ]
-    },
-    {
-      "rank": 2,
-      "stack": {
-        "frontend": "Angular",
-        "backend": "Go (net/http + chi)",
-        "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "Fly.io"
-      },
-      "score": 84.821,
-      "quality": 0.8232,
-      "fit": 0.8843,
-      "penalty": 0.25,
-      "cost_usd": [
-        480,
-        1089
-      ]
-    },
-    {
-      "rank": 3,
-      "stack": {
-        "frontend": "Nuxt",
-        "backend": "Go (net/http + chi)",
-        "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "Fly.io"
-      },
-      "score": 84.691,
-      "quality": 0.8209,
-      "fit": 0.8843,
-      "penalty": 0.25,
-      "cost_usd": [
-        480,
-        1089
-      ]
-    },
-    {
-      "rank": 4,
-      "stack": {
-        "frontend": "Vue 3 + Vite (SPA)",
-        "backend": "Go (net/http + chi)",
-        "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "Fly.io"
-      },
-      "score": 84.511,
-      "quality": 0.8176,
-      "fit": 0.8843,
-      "penalty": 0.25,
-      "cost_usd": [
-        480,
-        1089
-      ]
-    },
-    {
-      "rank": 5,
       "stack": {
         "frontend": "React + Vite (SPA)",
         "backend": "Go (net/http + chi)",
@@ -1134,24 +1112,7 @@
       ]
     },
     {
-      "rank": 6,
-      "stack": {
-        "frontend": "SvelteKit",
-        "backend": "Go (net/http + chi)",
-        "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "Fly.io"
-      },
-      "score": 84.445,
-      "quality": 0.8253,
-      "fit": 0.8843,
-      "penalty": 0.74,
-      "cost_usd": [
-        480,
-        1089
-      ]
-    },
-    {
-      "rank": 7,
+      "rank": 2,
       "stack": {
         "frontend": "Angular",
         "backend": "Go (net/http + chi)",
@@ -1168,7 +1129,7 @@
       ]
     },
     {
-      "rank": 8,
+      "rank": 3,
       "stack": {
         "frontend": "Nuxt",
         "backend": "Go (net/http + chi)",
@@ -1185,52 +1146,137 @@
       ]
     },
     {
-      "rank": 9,
+      "rank": 4,
       "stack": {
-        "frontend": "Astro",
+        "frontend": "Vue 3 + Vite (SPA)",
+        "backend": "Go (net/http + chi)",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 83.839,
+      "quality": 0.8338,
+      "fit": 0.844,
+      "penalty": 0.0,
+      "cost_usd": [
+        1232,
+        2090
+      ]
+    },
+    {
+      "rank": 5,
+      "stack": {
+        "frontend": "SvelteKit",
+        "backend": "Go (net/http + chi)",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 83.774,
+      "quality": 0.8415,
+      "fit": 0.844,
+      "penalty": 0.49,
+      "cost_usd": [
+        1232,
+        2090
+      ]
+    },
+    {
+      "rank": 6,
+      "stack": {
+        "frontend": "React + Vite (SPA)",
         "backend": "Go (net/http + chi)",
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Fly.io"
       },
-      "score": 83.958,
-      "quality": 0.8436,
-      "fit": 0.8403,
+      "score": 83.538,
+      "quality": 0.8111,
+      "fit": 0.8706,
       "penalty": 0.25,
       "cost_usd": [
-        480,
-        1089
+        1017,
+        2087
+      ]
+    },
+    {
+      "rank": 7,
+      "stack": {
+        "frontend": "Astro",
+        "backend": "Go (net/http + chi)",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 83.287,
+      "quality": 0.8598,
+      "fit": 0.8,
+      "penalty": 0.0,
+      "cost_usd": [
+        1232,
+        2090
+      ]
+    },
+    {
+      "rank": 8,
+      "stack": {
+        "frontend": "React + Vite (SPA)",
+        "backend": "Go (net/http + chi)",
+        "database": "MySQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 83.256,
+      "quality": 0.8147,
+      "fit": 0.8544,
+      "penalty": 0.0,
+      "cost_usd": [
+        1232,
+        2090
+      ]
+    },
+    {
+      "rank": 9,
+      "stack": {
+        "frontend": "Angular",
+        "backend": "Go (net/http + chi)",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Fly.io"
+      },
+      "score": 83.231,
+      "quality": 0.8232,
+      "fit": 0.849,
+      "penalty": 0.25,
+      "cost_usd": [
+        1017,
+        2087
       ]
     },
     {
       "rank": 10,
       "stack": {
-        "frontend": "React + Vite (SPA)",
+        "frontend": "Next.js",
         "backend": "Go (net/http + chi)",
-        "database": "MySQL (managed or self-hosted)",
-        "hosting": "Fly.io"
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
       },
-      "score": 83.927,
-      "quality": 0.7985,
-      "fit": 0.8947,
-      "penalty": 0.25,
+      "score": 83.202,
+      "quality": 0.8386,
+      "fit": 0.844,
+      "penalty": 0.9,
       "cost_usd": [
-        480,
-        1089
+        1232,
+        2090
       ]
     }
   ],
   "robustness": {
-    "verdict": "mostly stable",
+    "verdict": "stable",
     "margin_points": 0.307,
     "runner_up": {
       "frontend": "Angular",
       "backend": "Go (net/http + chi)",
       "database": "PostgreSQL (managed or self-hosted)",
-      "hosting": "Fly.io"
+      "hosting": "Google Cloud Run"
     },
     "checks_run": 14,
-    "checks_held": 13,
-    "summary": "The same stack wins in 13 of 14 checks. It switches to Google Cloud Run (hosting) when budget doubled ($3,000).",
+    "checks_held": 14,
+    "summary": "The same stack wins in all 14 checks: each priority counted twice or half as much, and the budget halved or doubled.",
     "checks": [
       {
         "change": "cost counted twice as much",
@@ -1286,20 +1332,7 @@
       },
       {
         "change": "budget doubled ($3,000)",
-        "same_stack": false,
-        "new_stack": {
-          "frontend": "React + Vite (SPA)",
-          "backend": "Go (net/http + chi)",
-          "database": "PostgreSQL (managed or self-hosted)",
-          "hosting": "Google Cloud Run"
-        },
-        "swaps": [
-          {
-            "layer": "hosting",
-            "from": "Fly.io",
-            "to": "Google Cloud Run"
-          }
-        ]
+        "same_stack": true
       }
     ]
   },
@@ -1327,35 +1360,40 @@
         },
         {
           "layer": "hosting",
-          "from": "Fly.io",
+          "from": "Google Cloud Run",
           "to": "Cloudflare Pages"
         }
       ],
       "score": 81.195,
-      "points_behind": 3.933,
+      "points_behind": 3.261,
       "cost_usd": [
         258,
         594
       ],
-      "gains": "about 46% cheaper on the core layers ($260-$590 against $480-$1,100 per month)",
+      "gains": "about 73% cheaper on the core layers plus required supporting services ($260-$590 against $1,200-$2,100 per month)",
       "gives_up": [
         "headroom for the expected load (-4.4 pts)",
-        "scalability (-0.8 pts)",
-        "performance (-0.5 pts)"
+        "scalability (-1.2 pts)",
+        "maintainability (-0.8 pts)"
       ],
-      "summary": "Backend Go (net/http + chi) -> Supabase (BaaS); database PostgreSQL (managed or self-hosted) -> Supabase Postgres; hosting Fly.io -> Cloudflare Pages: about 46% cheaper on the core layers ($260-$590 against $480-$1,100 per month). Gives up 3.9 points, mainly on headroom for the expected load (-4.4 pts), scalability (-0.8 pts), performance (-0.5 pts)."
+      "summary": "Backend Go (net/http + chi) -> Supabase (BaaS); database PostgreSQL (managed or self-hosted) -> Supabase Postgres; hosting Google Cloud Run -> Cloudflare Pages: about 73% cheaper on the core layers plus required supporting services ($260-$590 against $1,200-$2,100 per month). Gives up 3.3 points, mainly on headroom for the expected load (-4.4 pts), scalability (-1.2 pts), maintainability (-0.8 pts)."
     },
     {
       "direction": "more_headroom",
       "title": "More headroom to scale",
       "available": true,
       "stack": {
-        "frontend": "React + Vite (SPA)",
+        "frontend": "Angular",
         "backend": "Go (net/http + chi)",
         "database": "Azure Cosmos DB",
-        "hosting": "Google Cloud Run"
+        "hosting": "AWS EKS (Kubernetes)"
       },
       "swaps": [
+        {
+          "layer": "frontend",
+          "from": "React + Vite (SPA)",
+          "to": "Angular"
+        },
         {
           "layer": "database",
           "from": "PostgreSQL (managed or self-hosted)",
@@ -1363,64 +1401,64 @@
         },
         {
           "layer": "hosting",
-          "from": "Fly.io",
-          "to": "Google Cloud Run"
+          "from": "Google Cloud Run",
+          "to": "AWS EKS (Kubernetes)"
         }
       ],
-      "score": 79.867,
-      "points_behind": 5.261,
+      "score": 75.158,
+      "points_behind": 9.298,
       "cost_usd": [
-        925,
-        1625
+        1509,
+        2799
       ],
-      "gains": "scalability 9.3 instead of 8.6",
+      "gains": "scalability 9.7 instead of 8.9",
       "gives_up": [
-        "vendor lock-in (-3.1 pts)",
+        "vendor lock-in (-3.3 pts)",
         "data-model fit (-2.5 pts)",
-        "budget fit (-0.8 pts)"
+        "budget fit (-1.5 pts)"
       ],
-      "summary": "Database PostgreSQL (managed or self-hosted) -> Azure Cosmos DB; hosting Fly.io -> Google Cloud Run: scalability 9.3 instead of 8.6. Gives up 5.3 points, mainly on vendor lock-in (-3.1 pts), data-model fit (-2.5 pts), budget fit (-0.8 pts)."
+      "summary": "Frontend React + Vite (SPA) -> Angular; database PostgreSQL (managed or self-hosted) -> Azure Cosmos DB; hosting Google Cloud Run -> AWS EKS (Kubernetes): scalability 9.7 instead of 8.9. Gives up 9.3 points, mainly on vendor lock-in (-3.3 pts), data-model fit (-2.5 pts), budget fit (-1.5 pts)."
     },
     {
       "direction": "faster_build",
       "title": "Ship sooner",
       "available": true,
       "stack": {
-        "frontend": "Astro",
-        "backend": "Node.js + NestJS",
-        "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "Google Cloud Run"
+        "frontend": "React + Vite (SPA)",
+        "backend": "Supabase (BaaS)",
+        "database": "Supabase Postgres",
+        "hosting": "Cloudflare Pages"
       },
       "swaps": [
         {
-          "layer": "frontend",
-          "from": "React + Vite (SPA)",
-          "to": "Astro"
-        },
-        {
           "layer": "backend",
           "from": "Go (net/http + chi)",
-          "to": "Node.js + NestJS"
+          "to": "Supabase (BaaS)"
+        },
+        {
+          "layer": "database",
+          "from": "PostgreSQL (managed or self-hosted)",
+          "to": "Supabase Postgres"
         },
         {
           "layer": "hosting",
-          "from": "Fly.io",
-          "to": "Google Cloud Run"
+          "from": "Google Cloud Run",
+          "to": "Cloudflare Pages"
         }
       ],
-      "score": 81.307,
-      "points_behind": 3.821,
+      "score": 81.195,
+      "points_behind": 3.261,
       "cost_usd": [
-        1232,
-        2090
+        258,
+        594
       ],
-      "gains": "time to market 8.1 instead of 7.3",
+      "gains": "time to market 9.2 instead of 7.7",
       "gives_up": [
-        "budget fit (-2.3 pts)",
-        "coverage of the required features (-2.2 pts)",
-        "performance (-1.0 pts)"
+        "headroom for the expected load (-4.4 pts)",
+        "scalability (-1.2 pts)",
+        "maintainability (-0.8 pts)"
       ],
-      "summary": "Frontend React + Vite (SPA) -> Astro; backend Go (net/http + chi) -> Node.js + NestJS; hosting Fly.io -> Google Cloud Run: time to market 8.1 instead of 7.3. Gives up 3.8 points, mainly on budget fit (-2.3 pts), coverage of the required features (-2.2 pts), performance (-1.0 pts)."
+      "summary": "Backend Go (net/http + chi) -> Supabase (BaaS); database PostgreSQL (managed or self-hosted) -> Supabase Postgres; hosting Google Cloud Run -> Cloudflare Pages: time to market 9.2 instead of 7.7. Gives up 3.3 points, mainly on headroom for the expected load (-4.4 pts), scalability (-1.2 pts), maintainability (-0.8 pts)."
     }
   ]
 }
