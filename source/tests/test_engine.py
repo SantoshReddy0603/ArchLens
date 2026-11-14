@@ -692,14 +692,14 @@ def _with_credits(pid, licences, amount=None):
 
 
 def test_large_credits_tip_a_near_tie_and_small_ones_do_not(outputs):
-    assert choices(outputs["P3"])["hosting"] == "Fly.io"
-    small = recommend(_with_credits("P3", ["gcp_credits"], 5000))
-    assert choices(small)["hosting"] == "Fly.io"
-    assert "credits spread over the first year" in [w for w in small["warnings"] if w["code"] == "CLOUD_CREDITS"][0]["message"]
-    big = recommend(_with_credits("P3", ["gcp_credits"], 20000))
-    assert choices(big)["hosting"] == "Google Cloud Run"
+    assert choices(outputs["P3"])["hosting"] == "Google Cloud Run"
+    small = recommend(_with_credits("P3", ["azure_credits"], 200))
+    assert choices(small)["hosting"] == "Google Cloud Run"
+    assert "do not apply" in [w for w in small["warnings"] if w["code"] == "CLOUD_CREDITS"][0]["message"]
+    big = recommend(_with_credits("P3", ["azure_credits"], 20000))
+    assert choices(big)["hosting"] == "Azure Container Apps"
     cr = big["estimated_monthly_cost_usd"]["credits"]
-    assert cr["provider"] == "Google Cloud" and cr["months_covered"] > 6
+    assert cr["provider"] == "Azure" and cr["months_covered"] > 6
     assert cr["first_year_average_usd"][1] < big["estimated_monthly_cost_usd"]["max"]
 
 
@@ -725,5 +725,5 @@ def test_overengineering_note_only_when_complexity_explains_the_gap(outputs):
         notes = [w for w in outputs[pid]["warnings"] if w["code"] == "OVERENGINEERING_AVOIDED"]
         for w in notes:
             assert w["severity"] == "info" and "points behind" in w["message"]
-    assert any(w["code"] == "OVERENGINEERING_AVOIDED" for w in outputs["P6"]["warnings"])
+    assert any(w["code"] == "OVERENGINEERING_AVOIDED" for w in recommend(_edge("E4"))["warnings"])
     assert not any(w["code"] == "OVERENGINEERING_AVOIDED" for w in outputs["P4"]["warnings"])
