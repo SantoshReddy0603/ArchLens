@@ -8,7 +8,7 @@ from .constraints import CLOUDS, HARD_CERTS, region_ok
 from .derive import reuse_source
 
 LAYER_LABEL = {"ci_cd": "CI/CD", "sms": "SMS", "cdn": "CDN", "waf": "WAF", "dns": "DNS", "ml": "ML", "ingest": "Device ingestion",
-               "sync": "Offline sync", "forms": "Forms", "auth": "Auth"}
+               "sync": "Offline sync", "forms": "Forms", "auth": "Auth", "geo": "Geospatial"}
 
 
 def label(layer):
@@ -16,15 +16,17 @@ def label(layer):
 
 
 NO_RESIDENCY_LAYERS = ("cdn", "dns", "ci_cd", "waf")
+GEO_DBS = ("postgresql", "neon", "supabase_postgres", "timescaledb")
 NATIVE_CDN_PROVIDERS = ("cloudflare", "netlify", "vercel", "github")
 NATIVE_CDN_HOSTS = ("aws_amplify", "azure_static_web_apps", "firebase_hosting")
-LAYER_ORDER = ["auth", "sms", "payments", "storage", "search", "realtime", "sync", "cache", "queue", "ingest", "ml", "cdn",
+LAYER_ORDER = ["auth", "sms", "payments", "storage", "search", "geo", "realtime", "sync", "cache", "queue", "ingest", "ml", "cdn",
                "waf", "forms", "email", "notifications", "analytics", "dns", "ci_cd", "observability"]
 DRIVERS = {
     "auth": ["requirements.auth"], "sms": ["requirements.auth"],
     "payments": ["requirements.payments", "infrastructure.data_residency", "compliance"],
     "storage": ["requirements.file_media_storage", "scale.data_volume_gb_12_months"],
     "search": ["requirements.full_text_search", "scale.users_12_months"],
+    "geo": ["project.description"],
     "realtime": ["requirements.realtime", "scale.peak_concurrent_users"],
     "sync": ["requirements.offline_support", "project.platforms"],
     "cache": ["scale.peak_concurrent_users", "requirements.p95_latency_ms", "scale.workload"],
@@ -37,7 +39,8 @@ DRIVERS = {
 }
 WHY_NEEDED = {
     "auth": "users sign in (%s)", "sms": "phone one-time passwords need SMS delivery", "payments": "the product takes payments",
-    "storage": "users upload files", "search": "full-text search is required", "realtime": "live updates are required",
+    "storage": "users upload files", "search": "full-text search is required",
+    "geo": "the description mentions GPS or location data, which needs spatial types and indexes", "realtime": "live updates are required",
     "sync": "the app must work offline and reconcile later", "cache": "load and latency targets call for a cache",
     "queue": "background work (payments, media, ML or burst absorption) should leave the request path",
     "ingest": "devices send telemetry that needs a purpose-built MQTT ingestion layer", "ml": "ML features are required (%s)", "cdn": "assets are delivered to a wide audience", "waf": "regulated payment/health traffic needs a web application firewall",
@@ -85,9 +88,10 @@ def reasons(e, p, be=None, host=None):
             r.append("no %s attestation" % "/".join(m.upper() for m in miss))
     if host is not None and e["provider"] == "self" and not e["attrs"].get("db_native") and layer in ("realtime", "queue", "cache", "search", "ingest") and not _persistent(host):
         r.append("needs a long-running process, which %s does not provide" % host["name"])
-    if e["attrs"].get("workforce") and p["auth"] != "enterprise_sso" and not any(
+    if e["attrs"].get("workforce") and (p["auth"] != "enterprise_sso" or layer == "email") and not any(
             pat in s_.lower() for pat in e["attrs"].get("integrates", []) for s_ in p["existing_systems"]):
-        r.append("workforce single sign-on is for employees, not consumer sign-in")
+        r.append("sends through the organisation's Microsoft 365 tenant, which is not among existing_systems" if layer == "email"
+                 else "workforce single sign-on is for employees, not consumer sign-in")
     if layer in ("observability", "auth") and e["provider"] == "self" and dep not in ("on_premise", "air_gapped") and not p["has_devops"]:
         r.append("self-hosted %s needs a team that runs infrastructure" % ("monitoring" if layer == "observability" else "identity"))
     langs = e["attrs"].get("langs")
@@ -191,6 +195,10 @@ def needed(p, be, db, host, mode):
         out["email"] = {"native": False, "why": "multi-tenant workspaces send invite emails"}
     elif p["payments"] and p["auth"] not in ("phone_otp", "none"):
         out["email"] = {"native": False, "why": "payments need emailed receipts and confirmations"}
+    elif p["hints"].get("approvals") and p["auth"] != "none":
+        out["email"] = {"native": False, "why": "the approval steps in the description notify requesters and approvers", "drivers": ["project.description", "requirements.auth"]}
+    if p["hints"].get("location") and db["id"] in GEO_DBS:
+        out["geo"] = {"native": True}
     if ("android" in plat or "ios" in plat) and p["project_type"] in ("social", "marketplace", "fintech", "ecommerce", "healthtech", "realtime_collab", "web_app", "saas_b2b", "gaming"):
         out["notifications"] = {"native": be["id"] == "firebase"}
     if host["attrs"]["environment"] in ("vm", "onprem") and p["deployment"] != "air_gapped" or p["static_candidate"]:
@@ -367,7 +375,7 @@ def select(p, be, db, host, mode, fe_parts):
             best = scored[0][2]
             score_of = {s[1]: -s[0] for s in scored}
             item = {"layer": layer if sub is None else layer, "id": best["id"], "entry": best, "sub": sub,
-                    "native": need[layer]["native"], "why": need[layer].get("why"), "score": score_of[best["id"]],
+                    "native": need[layer]["native"], "why": need[layer].get("why"), "drivers": need[layer].get("drivers"), "score": score_of[best["id"]],
                     "alternatives": [], "pool": [e for _, _, e in scored], "eliminated": [{"id": e["id"], "name": e["name"], "reasons": rs} for e, rs in elim]}
             for _, i, e in scored[1:3]:
                 item["alternatives"].append({"id": i, "name": e["name"], "score": score_of[i]})

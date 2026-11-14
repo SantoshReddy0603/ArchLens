@@ -64,7 +64,14 @@ def load():
         d["_re"] = re.compile(d["pattern"], re.I)
     for i in integrations:
         i["_re"] = re.compile(i["pattern"], re.I)
-    kb = {"core": core, "supporting": supporting, "by_id": by_id, "deprecated": deprecated, "integrations": integrations}
+    offerings = _read("offerings")
+    for group in ("database", "supporting"):
+        for eid, per in offerings[group].items():
+            for prov, o in per.items():
+                if not o.get("name") or not o.get("url", "").startswith("http"):
+                    raise KBError("offerings: %s/%s needs a name and a source url" % (eid, prov))
+    kb = {"core": core, "supporting": supporting, "by_id": by_id, "deprecated": deprecated, "integrations": integrations,
+          "offerings": offerings}
     _cache["kb"] = kb
     return kb
 
@@ -81,10 +88,43 @@ def get(comp_id):
     return load()["by_id"].get(comp_id)
 
 
+def engine_name(comp):
+    """Product name without the deployment qualifier, e.g. 'PostgreSQL' for 'PostgreSQL (managed or self-hosted)'."""
+    return comp["name"].split(" (")[0].split(" / ")[0]
+
+
+def offering(comp, host, mode=None):
+    """The concrete managed product a generic engine runs as on this host, or None when the KB name is already
+    the product. Returns {name, url, provider, self_hosted}."""
+    if comp is None or host is None or comp["id"].startswith("none") or host["id"] == "none_host":
+        return None
+    table = load()["offerings"]["database" if comp["layer"] == "database" else "supporting"].get(comp["id"])
+    prov = host["attrs"].get("provider")
+    if comp["layer"] == "database" and mode == "self_hosted":
+        if comp["id"] == "sqlite":
+            return None
+        return {"name": "%s, self-hosted on %s" % (engine_name(comp), host["name"].split(" (")[0].split(" / ")[0]), "url": None,
+                "provider": prov, "self_hosted": True}
+    if not table:
+        return None
+    o = table.get(prov) if mode != "managed_external" else None
+    if o is None and comp["layer"] == "database" and mode == "managed_external":
+        o = table.get("any")
+    if o is None and comp["layer"] != "database":
+        o = table.get(prov)
+    if o is None:
+        return None
+    return {"name": o["name"], "url": o["url"], "provider": prov if prov in table else None, "self_hosted": False}
+
+
 def sources_all():
     """Every distinct source URL with its title, sorted by URL."""
     out = {}
     for e in load()["by_id"].values():
         for s in e["sources"]:
             out[s["url"]] = s["title"]
+    for group in ("database", "supporting"):
+        for per in load()["offerings"][group].values():
+            for o in per.values():
+                out.setdefault(o["url"], o["name"])
     return sorted(out.items())

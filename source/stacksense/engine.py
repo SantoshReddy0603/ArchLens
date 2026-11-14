@@ -130,16 +130,23 @@ def _top_costs(p, best, items, n=2):
 def cost_band(p, best, items):
     """Final monthly band from the chosen core and supporting services, with the assumptions behind it."""
     lo = hi = 0.0
-    lines = []
+    lines, breakdown = [], []
+    off = kb.offering(best["db"], best["host"], best["mode"])
     for layer, name, a, b in best["detail"]["cost_items"]:
         lo, hi = lo + a, hi + b
+        if layer == "database" and off and name == best["db"]["name"]:
+            name = off["name"]
+        breakdown.append({"layer": layer, "item": name, "min": _money(a), "max": max(_money(b), _money(a))})
         if b >= 1:
             lines.append(costmod.line(supporting.label(layer) + " (" + name + ")", a, b))
     for it in items:
         a, b = costmod.evaluate(it["entry"]["cost"], p)
         lo, hi = lo + a, hi + b
+        o = kb.offering(it["entry"], best["host"])
+        name = o["name"] if o else it["entry"]["name"]
+        breakdown.append({"layer": it["layer"], "item": name, "min": _money(a), "max": max(_money(b), _money(a))})
         if b >= 1:
-            lines.append(costmod.line(supporting.label(it["layer"]) + " (" + it["entry"]["name"] + ")", a, b))
+            lines.append(costmod.line(supporting.label(it["layer"]) + " (" + name + ")", a, b))
     assume = ["Load estimate: peak about %s requests/second and about %s requests/month from %s users in 12 months."
               % (_approx(p["peak_rps"]), _approx(p["monthly_requests"]), _approx(p["users_12m"]))
               + (" Peak concurrency was estimated from the user count." if p["peak_estimated"] else ""),
@@ -149,7 +156,7 @@ def cost_band(p, best, items):
         assume.append("The %s%% availability target doubles or adds redundancy for hosting and database where needed." % p["availability"])
     if not lines:
         assume.append("Everything fits inside free tiers at this scale.")
-    return {"min": _money(lo), "max": max(_money(hi), _money(lo)), "assumptions": assume + lines}
+    return {"min": _money(lo), "max": max(_money(hi), _money(lo)), "assumptions": assume + lines, "breakdown": breakdown}
 
 
 def _dedupe(ws):
@@ -446,7 +453,7 @@ def recommend(scenario):
     style = architecture_style(p, best)
     stack = {layer: explain.component(layer, best, ranked, info, p) for layer in explain.TRIAL_LAYERS}
     stack["supporting"] = [explain.supporting_component(it, p, it.get("why") or (supporting.WHY_NEEDED[it["layer"]] % _fmt_arg(it["layer"], p) if "%s" in supporting.WHY_NEEDED[it["layer"]]
-                                                       else supporting.WHY_NEEDED[it["layer"]]), supporting.DRIVERS.get(it["layer"], [])) for it in items]
+                                                       else supporting.WHY_NEEDED[it["layer"]]), it.get("drivers") or supporting.DRIVERS.get(it["layer"], []), best["host"]) for it in items]
     sup_trace = {"%s%s" % (it["layer"], "" if it["sub"] is None else ":" + it["sub"]): {
         "chosen": it["id"], "covered_natively": it["native"], "score": round(it["score"], 4),
         "alternatives": [a["id"] for a in it["alternatives"]], "eliminated": it["eliminated"]} for it in items}

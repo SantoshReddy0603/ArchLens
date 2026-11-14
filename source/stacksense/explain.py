@@ -124,6 +124,8 @@ def why_not(best, alt, p, layer, name):
     a, b = contributions(best["detail"], p), contributions(alt["detail"], p)
     gaps = sorted(((a[k] - b[k], k) for k in a if a[k] - b[k] > 0.4), key=lambda t: (-t[0], t[1]))
     diff = best["detail"]["score"] - alt["detail"]["score"]
+    if diff < 0:
+        return "%s scores %.2f points higher, which is inside the near-tie range, and loses the tie-break: lower cost first, then complexity and operations load." % (name, -diff)
     if not gaps:
         return "%s is a close second: only %.1f points behind, with no single weakness." % (name, diff)
     if diff < 0.1:
@@ -356,11 +358,51 @@ def component(layer, best, ranked, info, p):
     tr = tradeoffs(layer, parts, best, p, d)
     if name.startswith("None (runs on"):
         tr = tr + ["Uptime, regions and resource limits follow %s's plan; moving off it later means re-hosting the backend." % plat]
-    return {"choice": name, "justification": text, "driven_by": fields,
-            "alternatives": alternatives(best, ranked, info, p, layer), "tradeoffs": tr}
+    extra = {}
+    real = [c for c in parts if not is_none(c)]
+    if real and (layer in ("database", "hosting") or (layer == "backend" and real[0]["attrs"].get("runtime") == "baas")):
+        reg = region_name(real[0], None if layer == "hosting" else best["host"], p)
+        if reg:
+            extra["region"] = reg
+    if layer == "database" and real:
+        off = kb.offering(real[0], best["host"], best["mode"])
+        if off:
+            extra["engine"] = kb.engine_name(real[0])
+            extra["offering"] = off["name"]
+            reg = extra.get("region") if not off["self_hosted"] else None
+            name = off["name"] + (" in %s" % reg if reg else "")
+            if text.startswith(real[0]["name"]):
+                text = extra["engine"] + text[len(real[0]["name"]):]
+            if off["self_hosted"]:
+                text += " It runs as %s; the team owns backups, patching and failover." % off["name"]
+            else:
+                text += " It runs as %s, the managed service %s, so backups, patching and failover are the provider's job." % (
+                    off["name"], "on the same cloud as the application" if off["provider"] else "from the database vendor")
+    srcs = []
+    for c in real:
+        for src in c.get("sources", []):
+            if src["url"] not in [x["url"] for x in srcs]:
+                srcs.append({"title": src["title"], "url": src["url"]})
+    if layer == "database" and extra.get("offering") and off.get("url"):
+        srcs.insert(0, {"title": off["name"], "url": off["url"]})
+    out = {"choice": name, "justification": text, "driven_by": fields,
+           "alternatives": alternatives(best, ranked, info, p, layer), "tradeoffs": tr}
+    out.update(extra)
+    key = _layer_key(best, layer)
+    rival = next((r for r in ranked if _layer_key(r, layer) != key), None)
+    if rival is None:
+        out["confidence"], out["margin_points"] = "high", None
+    else:
+        m = round(d["score"] - rival["detail"]["score"], 2) + 0.0
+        out["confidence"] = "high" if m >= 3 else "medium" if m >= 1 else "low"
+        out["margin_points"] = m
+    if real:
+        out["kb_id"] = "+".join(c["id"] for c in real)
+        out["sources"] = srcs[:3]
+    return out
 
 
-def supporting_component(item, p, why_needed, drivers):
+def supporting_component(item, p, why_needed, drivers, host=None):
     e = item["entry"]
     lo, hi = costmod.evaluate(e["cost"], p)
     reasons_ = [why_needed, e["why"].rstrip(".")]
@@ -414,7 +456,14 @@ def supporting_component(item, p, why_needed, drivers):
     tr.extend([t for t in e.get("cons", []) if con_ok(t, p)][:1])
     if hi > 0:
         tr.append("Adds about %s per month." % _dollars(lo, hi).split("about ")[-1].split("/month")[0])
-    return {"layer": item["layer"], "choice": e["name"], "justification": text, "driven_by": drivers, "alternatives": alts, "tradeoffs": tr}
+    out = {"layer": item["layer"], "choice": e["name"], "justification": text, "driven_by": drivers, "alternatives": alts, "tradeoffs": tr,
+           "kb_id": e["id"], "sources": [{"title": x["title"], "url": x["url"]} for x in e.get("sources", [])][:3]}
+    off = kb.offering(e, host) if host is not None else None
+    if off:
+        out["choice"] = off["name"]
+        out["justification"] = off["name"] + text[len(e["name"]):]
+        out["sources"] = [{"title": off["name"], "url": off["url"]}] + out["sources"][:2]
+    return out
 
 
 def top_ranking(ranked, p, n=10):

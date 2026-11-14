@@ -63,6 +63,8 @@ HINT_PATTERNS = {
     "upi": r"\bupi\b",
     "location": r"\bgps\b|geo[- ]?tag|geolocat|live location|location (tracking|history)|track(s|ing)? (the )?(rider|driver|vehicle|agent)s?",
     "tabular_ml": r"credit[- ]scor|scoring model|risk model|fraud|churn|underwrit|forecast|propensity",
+    "approvals": r"\bapprov|leave requests?|sign[- ]?offs?|escalat|reimburse|expense claims?",
+    "ledger": r"double[- ]entry|\b(?:general|financial|accounting|transaction|payments?|wallet|loan)s? ledgers?\b",
 }
 
 

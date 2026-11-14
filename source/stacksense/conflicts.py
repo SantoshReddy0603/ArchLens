@@ -130,6 +130,10 @@ def detect(n):
         out.append(_w("OFFLINE_CONFLICTS", "info",
                       "Offline edits made on several devices will collide when they sync; decide the rule per record type (server wins, last write wins per field, or keep both for review) before building the sync layer.",
                       ["requirements.offline_support", "scale.workload"]))
+    if hints.get("ledger") and p["payments"]:
+        out.append(_w("LEDGER_INTEGRITY", "info",
+                      "The description calls for a ledger: keep it append-only (corrections are reversing entries, never updates), write each transfer's debit and credit rows in one database transaction with a check that they balance, and store money as integer minor units (paise or cents), not floats.",
+                      ["project.description", "requirements.payments"]))
     if hints["location"]:
         law = "/".join(x.upper() for x in sorted(comp & {"dpdp", "gdpr", "hipaa"})) or "privacy law"
         out.append(_w("LOCATION_DATA", "info",
