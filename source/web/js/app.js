@@ -592,7 +592,7 @@
       main.appendChild(h("section", { class: "sec" }, h("h2", { text: "What is blocking this" }),
         (r.validation_errors || []).map(function (e) { return h("div", { class: "sev critical" }, h("b", { text: "invalid" }), e.message, h("div", { class: "f", text: e.field })); }),
         (r.repairs || []).length ? h("div", null, h("h4", { class: "sh", style: "margin-top:16px", text: "Single changes that make a stack possible" }),
-          tbl(["Change", "Resulting stack", "Core layers per month"], r.repairs.map(function (x) {
+          tbl(["Change", "Resulting stack", "Core + required services per month"], r.repairs.map(function (x) {
             var st = x.stack || {};
             return [x.change.charAt(0).toUpperCase() + x.change.slice(1), [st.frontend, st.backend, st.database, st.hosting].filter(function (v) { return v && v !== "None"; }).join(", "),
               usd(x.cost_usd[0]) + " to " + usd(x.cost_usd[1])];
@@ -624,7 +624,9 @@
     main.appendChild(index);
 
     main.appendChild(h("section", { class: "sec" }, h("h2", { text: "Why each layer" }),
-      h("div", { class: "cards" }, CORE.map(function (k, i) { return card(k, stack[k], i === 0); }))));
+      h("div", { class: "cards" }, CORE.map(function (k, i) { return card(k, stack[k], i === 0); }),
+        r.architecture ? card("architecture", { choice: nice(r.architecture.style), justification: r.architecture.justification,
+          driven_by: r.architecture.driven_by, alternatives: r.architecture.alternatives, tradeoffs: [] }, false) : null)));
     if ((stack.supporting || []).length) main.appendChild(h("section", { class: "sec" }, h("h2", { text: "Supporting services" }),
       h("div", { class: "cards" }, stack.supporting.map(function (s) { return card(s.layer, s, false); }))));
 
@@ -664,7 +666,7 @@
     var opts = r.trade_off_options || [];
     if (opts.length) {
       main.appendChild(h("section", { class: "sec" }, h("h2", { text: "If you want something different" }),
-        h("p", { class: "note", style: "max-width:80ch", text: "The best-scoring stack that delivers each change, and the points it gives up. Costs cover the four core layers." }),
+        h("p", { class: "note", style: "max-width:80ch", text: "The best-scoring stack that delivers each change, and the points it gives up. Costs cover the four core layers plus the cheapest required supporting services." }),
         h("div", { class: "opts" }, opts.map(function (o) {
           if (!o.available) return h("div", { class: "opt off" }, h("h4", { text: o.title }), h("p", { class: "muted", text: o.note }));
           return h("div", { class: "opt" }, h("h4", { text: o.title }),
@@ -804,12 +806,12 @@
         var a = r.ranking[0], b = r.ranking[1], d = a.score - b.score, cd = "";
         if (a.cost_usd && b.cost_usd) {
           var lo = b.cost_usd[0] - a.cost_usd[0], hi = b.cost_usd[1] - a.cost_usd[1];
-          cd = lo === 0 && hi === 0 ? " Their core-layer cost is the same." : " The runner-up costs " + (lo >= 0 ? "+" : "-") + usd(Math.abs(lo)) + " to " + (hi >= 0 ? "+" : "-") + usd(Math.abs(hi)) + " per month against the winner (core layers).";
+          cd = lo === 0 && hi === 0 ? " Their comparable cost is the same." : " The runner-up costs " + (lo >= 0 ? "+" : "-") + usd(Math.abs(lo)) + " to " + (hi >= 0 ? "+" : "-") + usd(Math.abs(hi)) + " per month against the winner (core layers plus required supporting services).";
         }
         gap = h("p", { style: "margin:0 0 12px", text: "The winner leads the runner-up by " + d.toFixed(2) + " points" + (d < 2 ? ", a near tie." : ".") + cd });
       }
-      parts.push(sub("Ranking of the top stacks", h("div", null, gap, tbl(["#", "Frontend", "Backend", "Database", "Hosting", "Score", "Core layers per month", "Penalties"], rows),
-        h("p", { class: "note", style: "margin:10px 0 0", text: "Cost covers the four core layers only. The result page includes supporting services in the monthly cost band." })), true));
+      parts.push(sub("Ranking of the top stacks", h("div", null, gap, tbl(["#", "Frontend", "Backend", "Database", "Hosting", "Score", "Core + required services per month", "Penalties"], rows),
+        h("p", { class: "note", style: "margin:10px 0 0", text: "Cost covers the four core layers plus the cheapest required supporting services. The monthly cost band on the result page prices the services actually chosen." })), true));
     }
     if (t.layers) {
       CORE.forEach(function (k) {

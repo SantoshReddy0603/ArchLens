@@ -103,8 +103,8 @@ def _calculations(r, st, width):
             out.append(Paragraph("The winner leads the runner-up by %.2f points." % (ranking[0]["score"] - ranking[1]["score"]), st["body"]))
         out += [
                 _table(rows, [8 * mm, 36 * mm, 28 * mm, 28 * mm, 28 * mm, 14 * mm, width - 142 * mm], st),
-                Paragraph("Cost in this table covers the four core layers only; supporting services are added in the "
-                          "monthly cost estimate above.", st["small"])]
+                Paragraph("Cost in this table covers the four core layers plus the cheapest required supporting services; the "
+                          "monthly cost estimate above prices the services actually chosen.", st["small"])]
     trace = r.get("decision_trace")
     trace = trace if isinstance(trace, dict) else {}
     score = r.get("score")
@@ -191,6 +191,9 @@ def build_pdf(result):
         story.append(Paragraph("Reasoning", st["h1"]))
         for k in _CORE:
             story += _component(k, stack.get(k), st)
+        arch = r.get("architecture")
+        if isinstance(arch, dict):
+            story += _component("architecture", dict(arch, choice=str(arch.get("style", "")).replace("_", " ")), st)
         if stack.get("supporting"):
             story.append(Paragraph("Supporting services", st["h1"]))
             for s in stack["supporting"]:
