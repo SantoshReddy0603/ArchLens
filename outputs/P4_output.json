@@ -47,6 +47,19 @@
       ],
       "tradeoffs": [
         "Native modules outside the Expo SDK need a custom development build"
+      ],
+      "confidence": "medium",
+      "margin_points": 1.07,
+      "kb_id": "expo_rn",
+      "sources": [
+        {
+          "title": "Expo docs",
+          "url": "https://docs.expo.dev/"
+        },
+        {
+          "title": "React Native docs",
+          "url": "https://reactnative.dev/docs/getting-started"
+        }
       ]
     },
     "backend": {
@@ -71,11 +84,24 @@
       "tradeoffs": [
         "Heavier and slower to build",
         "More memory"
+      ],
+      "confidence": "low",
+      "margin_points": 0.81,
+      "kb_id": "spring_boot",
+      "sources": [
+        {
+          "title": "Spring Boot docs",
+          "url": "https://docs.spring.io/spring-boot/"
+        },
+        {
+          "title": "Spring Boot support policy",
+          "url": "https://spring.io/projects/spring-boot#support"
+        }
       ]
     },
     "database": {
-      "choice": "PostgreSQL (managed or self-hosted)",
-      "justification": "PostgreSQL (managed or self-hosted) gives ACID transactions for money-handling data; can be placed in Mumbai (ap-south-1) to keep data in India; carries PCI DSS attestation; has headroom for the expected load.",
+      "choice": "Amazon RDS for PostgreSQL in Mumbai (ap-south-1)",
+      "justification": "PostgreSQL gives ACID transactions for money-handling data; can be placed in Mumbai (ap-south-1) to keep data in India; carries PCI DSS attestation; has headroom for the expected load. It runs as Amazon RDS for PostgreSQL, the managed service on the same cloud as the application, so backups, patching and failover are the provider's job.",
       "driven_by": [
         "requirements.payments",
         "infrastructure.data_residency",
@@ -94,6 +120,26 @@
       ],
       "tradeoffs": [
         "Write scaling beyond one primary needs design"
+      ],
+      "region": "Mumbai (ap-south-1)",
+      "engine": "PostgreSQL",
+      "offering": "Amazon RDS for PostgreSQL",
+      "confidence": "medium",
+      "margin_points": 1.2,
+      "kb_id": "postgresql",
+      "sources": [
+        {
+          "title": "Amazon RDS for PostgreSQL",
+          "url": "https://aws.amazon.com/rds/postgresql/"
+        },
+        {
+          "title": "PostgreSQL docs",
+          "url": "https://www.postgresql.org/docs/"
+        },
+        {
+          "title": "Stack Overflow Developer Survey 2024 databases",
+          "url": "https://survey.stackoverflow.co/2024/technology#1-databases"
+        }
       ]
     },
     "hosting": {
@@ -117,6 +163,20 @@
       ],
       "tradeoffs": [
         "More setup than PaaS"
+      ],
+      "region": "Mumbai (ap-south-1)",
+      "confidence": "low",
+      "margin_points": 0.08,
+      "kb_id": "aws_ecs_fargate",
+      "sources": [
+        {
+          "title": "Fargate pricing",
+          "url": "https://aws.amazon.com/fargate/pricing/"
+        },
+        {
+          "title": "ECS SLA",
+          "url": "https://aws.amazon.com/ecs/sla/"
+        }
       ]
     },
     "supporting": [
@@ -140,6 +200,13 @@
         "tradeoffs": [
           "A Java server to run, upgrade and back up yourself",
           "Adds about $33-$88 per month."
+        ],
+        "kb_id": "keycloak",
+        "sources": [
+          {
+            "title": "Keycloak docs",
+            "url": "https://www.keycloak.org/documentation"
+          }
         ]
       },
       {
@@ -158,6 +225,17 @@
         "tradeoffs": [
           "India-focused; DLT template registration is required",
           "Adds about $550-$1,200 per month."
+        ],
+        "kb_id": "msg91",
+        "sources": [
+          {
+            "title": "MSG91 pricing",
+            "url": "https://msg91.com/in/pricing/sms"
+          },
+          {
+            "title": "MSG91 docs",
+            "url": "https://docs.msg91.com/"
+          }
         ]
       },
       {
@@ -181,6 +259,17 @@
         ],
         "tradeoffs": [
           "Mainly for Indian businesses; international payments need separate approval"
+        ],
+        "kb_id": "razorpay",
+        "sources": [
+          {
+            "title": "Razorpay pricing",
+            "url": "https://razorpay.com/pricing/"
+          },
+          {
+            "title": "Razorpay docs",
+            "url": "https://razorpay.com/docs/"
+          }
         ]
       },
       {
@@ -200,12 +289,23 @@
         "tradeoffs": [
           "Egress and request charges add up for public media",
           "Adds about $79-$100 per month."
+        ],
+        "kb_id": "s3",
+        "sources": [
+          {
+            "title": "S3 pricing",
+            "url": "https://aws.amazon.com/s3/pricing/"
+          },
+          {
+            "title": "S3 docs",
+            "url": "https://docs.aws.amazon.com/s3/"
+          }
         ]
       },
       {
         "layer": "cache",
-        "choice": "Managed Redis/Valkey (ElastiCache, Memorystore, Azure Cache)",
-        "justification": "Managed Redis/Valkey (ElastiCache, Memorystore, Azure Cache): peak load of about 1,000 requests/second is better served from a cache than from the database; native cloud cache with replicas and failover.",
+        "choice": "Amazon ElastiCache for Valkey",
+        "justification": "Amazon ElastiCache for Valkey: peak load of about 1,000 requests/second is better served from a cache than from the database; native cloud cache with replicas and failover.",
         "driven_by": [
           "scale.peak_concurrent_users",
           "requirements.p95_latency_ms",
@@ -220,6 +320,21 @@
         "tradeoffs": [
           "Memory-priced; a minimum instance costs money even when idle",
           "Adds about $81-$190 per month."
+        ],
+        "kb_id": "redis_managed",
+        "sources": [
+          {
+            "title": "Amazon ElastiCache for Valkey",
+            "url": "https://aws.amazon.com/elasticache/valkey/"
+          },
+          {
+            "title": "ElastiCache pricing",
+            "url": "https://aws.amazon.com/elasticache/pricing/"
+          },
+          {
+            "title": "Memorystore docs",
+            "url": "https://cloud.google.com/memorystore/docs"
+          }
         ]
       },
       {
@@ -244,6 +359,17 @@
         "tradeoffs": [
           "AWS-only; FIFO queues have throughput limits",
           "Adds about $37-$48 per month."
+        ],
+        "kb_id": "sqs",
+        "sources": [
+          {
+            "title": "SQS pricing",
+            "url": "https://aws.amazon.com/sqs/pricing/"
+          },
+          {
+            "title": "SQS docs",
+            "url": "https://docs.aws.amazon.com/sqs/"
+          }
         ]
       },
       {
@@ -262,6 +388,17 @@
         "tradeoffs": [
           "Bills per instance hour even when idle",
           "Adds about $150-$440 per month."
+        ],
+        "kb_id": "sagemaker_endpoint",
+        "sources": [
+          {
+            "title": "SageMaker pricing",
+            "url": "https://aws.amazon.com/sagemaker/pricing/"
+          },
+          {
+            "title": "SageMaker real-time inference",
+            "url": "https://docs.aws.amazon.com/sagemaker/latest/dg/realtime-endpoints.html"
+          }
         ]
       },
       {
@@ -285,6 +422,17 @@
         "tradeoffs": [
           "Pricing varies by region; cache invalidations past the free quota are billed",
           "Adds about $170-$210 per month."
+        ],
+        "kb_id": "cloudfront",
+        "sources": [
+          {
+            "title": "CloudFront pricing",
+            "url": "https://aws.amazon.com/cloudfront/pricing/"
+          },
+          {
+            "title": "CloudFront docs",
+            "url": "https://docs.aws.amazon.com/cloudfront/"
+          }
         ]
       },
       {
@@ -304,6 +452,17 @@
         "tradeoffs": [
           "Rules need tuning to avoid blocking real users; billed per rule and per request",
           "Adds about $9-$19 per month."
+        ],
+        "kb_id": "aws_waf",
+        "sources": [
+          {
+            "title": "AWS WAF pricing",
+            "url": "https://aws.amazon.com/waf/pricing/"
+          },
+          {
+            "title": "AWS WAF docs",
+            "url": "https://docs.aws.amazon.com/waf/"
+          }
         ]
       },
       {
@@ -326,6 +485,21 @@
         "tradeoffs": [
           "Delivers through APNs and FCM, so device tokens and app credentials for both still have to be managed",
           "Adds about $0-$0 per month."
+        ],
+        "kb_id": "aws_sns_push",
+        "sources": [
+          {
+            "title": "Amazon SNS mobile push notifications",
+            "url": "https://docs.aws.amazon.com/sns/latest/dg/sns-mobile-application-as-subscriber.html"
+          },
+          {
+            "title": "Amazon SNS pricing",
+            "url": "https://aws.amazon.com/sns/pricing/"
+          },
+          {
+            "title": "AWS services in scope by compliance program",
+            "url": "https://aws.amazon.com/compliance/services-in-scope/"
+          }
         ]
       },
       {
@@ -348,6 +522,21 @@
         "tradeoffs": [
           "Minute limits on private repositories; long builds need paid or self-hosted runners",
           "Adds about $0-$17 per month."
+        ],
+        "kb_id": "github_actions",
+        "sources": [
+          {
+            "title": "Actions billing",
+            "url": "https://docs.github.com/billing/managing-billing-for-your-products/managing-billing-for-github-actions/about-billing-for-github-actions"
+          },
+          {
+            "title": "GitHub Actions docs",
+            "url": "https://docs.github.com/actions"
+          },
+          {
+            "title": "GitHub Data Protection Agreement",
+            "url": "https://docs.github.com/en/site-policy/privacy-policies/github-data-protection-agreement"
+          }
         ]
       },
       {
@@ -371,6 +560,17 @@
         "tradeoffs": [
           "Logs and custom metrics are billed per GB and per metric; costs creep without retention limits",
           "Adds about $0-$26 per month."
+        ],
+        "kb_id": "cloudwatch",
+        "sources": [
+          {
+            "title": "CloudWatch pricing",
+            "url": "https://aws.amazon.com/cloudwatch/pricing/"
+          },
+          {
+            "title": "CloudWatch docs",
+            "url": "https://docs.aws.amazon.com/cloudwatch/"
+          }
         ]
       }
     ]
@@ -384,17 +584,115 @@
       "Public list prices of each product, in USD, without taxes, committed-use discounts or developer time.",
       "The 99.95% availability target doubles or adds redundancy for hosting and database where needed.",
       "Hosting (AWS ECS on Fargate): about $1,600-$2,800/month",
-      "Database (PostgreSQL (managed or self-hosted)): about $930-$1,700/month",
+      "Database (Amazon RDS for PostgreSQL): about $930-$1,700/month",
       "Auth (Keycloak): about $33-$88/month",
       "SMS (MSG91): about $550-$1,200/month",
       "Storage (Amazon S3): about $79-$100/month",
-      "Cache (Managed Redis/Valkey (ElastiCache, Memorystore, Azure Cache)): about $81-$190/month",
+      "Cache (Amazon ElastiCache for Valkey): about $81-$190/month",
       "Queue (Amazon SQS): about $37-$48/month",
       "ML (Amazon SageMaker real-time endpoint (small instance)): about $150-$440/month",
       "CDN (Amazon CloudFront): about $170-$210/month",
       "WAF (AWS WAF): about $9-$19/month",
       "CI/CD (GitHub Actions): about $0-$17/month",
       "Observability (Amazon CloudWatch): about $0-$26/month"
+    ],
+    "breakdown": [
+      {
+        "layer": "hosting",
+        "item": "AWS ECS on Fargate",
+        "min": 1570,
+        "max": 2800
+      },
+      {
+        "layer": "database",
+        "item": "Amazon RDS for PostgreSQL",
+        "min": 930,
+        "max": 1740
+      },
+      {
+        "layer": "backend",
+        "item": "Java + Spring Boot",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "frontend",
+        "item": "React Native (Expo)",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "auth",
+        "item": "Keycloak",
+        "min": 33,
+        "max": 88
+      },
+      {
+        "layer": "sms",
+        "item": "MSG91",
+        "min": 550,
+        "max": 1200
+      },
+      {
+        "layer": "payments",
+        "item": "Razorpay",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "storage",
+        "item": "Amazon S3",
+        "min": 79,
+        "max": 100
+      },
+      {
+        "layer": "cache",
+        "item": "Amazon ElastiCache for Valkey",
+        "min": 81,
+        "max": 190
+      },
+      {
+        "layer": "queue",
+        "item": "Amazon SQS",
+        "min": 37,
+        "max": 48
+      },
+      {
+        "layer": "ml",
+        "item": "Amazon SageMaker real-time endpoint (small instance)",
+        "min": 150,
+        "max": 440
+      },
+      {
+        "layer": "cdn",
+        "item": "Amazon CloudFront",
+        "min": 170,
+        "max": 210
+      },
+      {
+        "layer": "waf",
+        "item": "AWS WAF",
+        "min": 9,
+        "max": 19
+      },
+      {
+        "layer": "notifications",
+        "item": "Amazon SNS mobile push",
+        "min": 0,
+        "max": 1
+      },
+      {
+        "layer": "ci_cd",
+        "item": "GitHub Actions",
+        "min": 0,
+        "max": 17
+      },
+      {
+        "layer": "observability",
+        "item": "Amazon CloudWatch",
+        "min": 0,
+        "max": 26
+      }
     ]
   },
   "warnings": [
@@ -448,6 +746,15 @@
       "fields": [
         "infrastructure.data_residency",
         "compliance"
+      ]
+    },
+    {
+      "code": "LEDGER_INTEGRITY",
+      "severity": "info",
+      "message": "The description calls for a ledger: keep it append-only (corrections are reversing entries, never updates), write each transfer's debit and credit rows in one database transaction with a check that they balance, and store money as integer minor units (paise or cents), not floats.",
+      "fields": [
+        "project.description",
+        "requirements.payments"
       ]
     },
     {
@@ -1557,7 +1864,9 @@
       "poor_connectivity": false,
       "upi": true,
       "location": false,
-      "tabular_ml": true
+      "tabular_ml": true,
+      "approvals": false,
+      "ledger": true
     },
     "india_ctx": true,
     "weights": {

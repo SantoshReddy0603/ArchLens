@@ -44,6 +44,19 @@
         "Rich interactivity is harder",
         "No offline",
         "New to the team (python); plan for learning time."
+      ],
+      "confidence": "low",
+      "margin_points": 0.16,
+      "kb_id": "django_htmx",
+      "sources": [
+        {
+          "title": "htmx docs",
+          "url": "https://htmx.org/docs/"
+        },
+        {
+          "title": "Django docs",
+          "url": "https://docs.djangoproject.com/"
+        }
       ]
     },
     "backend": {
@@ -66,11 +79,24 @@
       "tradeoffs": [
         "Sync-first, so realtime needs Channels",
         "New to the team (python); plan for learning time."
+      ],
+      "confidence": "low",
+      "margin_points": 0.16,
+      "kb_id": "django",
+      "sources": [
+        {
+          "title": "Django docs",
+          "url": "https://docs.djangoproject.com/"
+        },
+        {
+          "title": "Django security",
+          "url": "https://docs.djangoproject.com/en/stable/topics/security/"
+        }
       ]
     },
     "database": {
-      "choice": "PostgreSQL (managed or self-hosted)",
-      "justification": "PostgreSQL (managed or self-hosted) gives ACID transactions for money-handling data; carries PCI DSS attestation; row-level security, mature auditing, encryption; is a proven choice for fintech projects.",
+      "choice": "Cloud SQL for PostgreSQL",
+      "justification": "PostgreSQL gives ACID transactions for money-handling data; carries PCI DSS attestation; row-level security, mature auditing, encryption; is a proven choice for fintech projects. It runs as Cloud SQL for PostgreSQL, the managed service on the same cloud as the application, so backups, patching and failover are the provider's job.",
       "driven_by": [
         "requirements.payments",
         "compliance",
@@ -89,6 +115,25 @@
       ],
       "tradeoffs": [
         "Write scaling beyond one primary needs design"
+      ],
+      "engine": "PostgreSQL",
+      "offering": "Cloud SQL for PostgreSQL",
+      "confidence": "medium",
+      "margin_points": 1.57,
+      "kb_id": "postgresql",
+      "sources": [
+        {
+          "title": "Cloud SQL for PostgreSQL",
+          "url": "https://cloud.google.com/sql/docs/postgres"
+        },
+        {
+          "title": "PostgreSQL docs",
+          "url": "https://www.postgresql.org/docs/"
+        },
+        {
+          "title": "Stack Overflow Developer Survey 2024 databases",
+          "url": "https://survey.stackoverflow.co/2024/technology#1-databases"
+        }
       ]
     },
     "hosting": {
@@ -110,6 +155,19 @@
       ],
       "tradeoffs": [
         "GCP only"
+      ],
+      "confidence": "medium",
+      "margin_points": 1.14,
+      "kb_id": "gke_cloud_run",
+      "sources": [
+        {
+          "title": "Cloud Run pricing",
+          "url": "https://cloud.google.com/run/pricing"
+        },
+        {
+          "title": "Cloud Run SLA",
+          "url": "https://cloud.google.com/run/sla"
+        }
       ]
     },
     "supporting": [
@@ -132,6 +190,17 @@
         ],
         "tradeoffs": [
           "Priced per monthly active user past the free tier; GCP-specific setup"
+        ],
+        "kb_id": "identity_platform",
+        "sources": [
+          {
+            "title": "Identity Platform",
+            "url": "https://cloud.google.com/identity-platform/docs"
+          },
+          {
+            "title": "Identity Platform pricing",
+            "url": "https://cloud.google.com/identity-platform/pricing"
+          }
         ]
       },
       {
@@ -155,6 +224,21 @@
         ],
         "tradeoffs": [
           "Per-transaction fees; payouts and some methods vary by country"
+        ],
+        "kb_id": "stripe",
+        "sources": [
+          {
+            "title": "Stripe pricing",
+            "url": "https://stripe.com/pricing"
+          },
+          {
+            "title": "Stripe India",
+            "url": "https://stripe.com/in"
+          },
+          {
+            "title": "Stripe Data Processing Agreement",
+            "url": "https://stripe.com/legal/dpa"
+          }
         ]
       },
       {
@@ -178,6 +262,17 @@
         "tradeoffs": [
           "Managed rulesets beyond the basics need a paid plan",
           "Adds about $20 per month."
+        ],
+        "kb_id": "cloudflare_waf",
+        "sources": [
+          {
+            "title": "Cloudflare WAF",
+            "url": "https://developers.cloudflare.com/waf/"
+          },
+          {
+            "title": "Cloudflare Customer DPA",
+            "url": "https://www.cloudflare.com/cloudflare-customer-dpa/"
+          }
         ]
       },
       {
@@ -201,6 +296,17 @@
         "tradeoffs": [
           "Starts in a sandbox; production access, bounce handling and domain setup are on you",
           "Adds about $0-$4 per month."
+        ],
+        "kb_id": "aws_ses",
+        "sources": [
+          {
+            "title": "SES pricing",
+            "url": "https://aws.amazon.com/ses/pricing/"
+          },
+          {
+            "title": "SES docs",
+            "url": "https://docs.aws.amazon.com/ses/"
+          }
         ]
       },
       {
@@ -222,6 +328,21 @@
         ],
         "tradeoffs": [
           "Minute limits on private repositories; long builds need paid or self-hosted runners"
+        ],
+        "kb_id": "github_actions",
+        "sources": [
+          {
+            "title": "Actions billing",
+            "url": "https://docs.github.com/billing/managing-billing-for-your-products/managing-billing-for-github-actions/about-billing-for-github-actions"
+          },
+          {
+            "title": "GitHub Actions docs",
+            "url": "https://docs.github.com/actions"
+          },
+          {
+            "title": "GitHub Data Protection Agreement",
+            "url": "https://docs.github.com/en/site-policy/privacy-policies/github-data-protection-agreement"
+          }
         ]
       },
       {
@@ -245,6 +366,17 @@
         "tradeoffs": [
           "Event quota per plan; sample high-volume errors",
           "Adds about $0-$22 per month."
+        ],
+        "kb_id": "sentry",
+        "sources": [
+          {
+            "title": "Sentry pricing",
+            "url": "https://sentry.io/pricing/"
+          },
+          {
+            "title": "Sentry docs",
+            "url": "https://docs.sentry.io/"
+          }
         ]
       }
     ]
@@ -258,10 +390,72 @@
       "Public list prices of each product, in USD, without taxes, committed-use discounts or developer time.",
       "The 99.9% availability target doubles or adds redundancy for hosting and database where needed.",
       "Hosting (Google Cloud Run): about $14-$29/month",
-      "Database (PostgreSQL (managed or self-hosted)): about $67-$120/month",
+      "Database (Cloud SQL for PostgreSQL): about $67-$120/month",
       "WAF (Cloudflare WAF): about $20/month",
       "Email (Amazon SES): about $0-$4/month",
       "Observability (Sentry): about $0-$22/month"
+    ],
+    "breakdown": [
+      {
+        "layer": "hosting",
+        "item": "Google Cloud Run",
+        "min": 14,
+        "max": 29
+      },
+      {
+        "layer": "database",
+        "item": "Cloud SQL for PostgreSQL",
+        "min": 67,
+        "max": 120
+      },
+      {
+        "layer": "backend",
+        "item": "Python + Django",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "frontend",
+        "item": "Django templates + htmx",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "auth",
+        "item": "Google Cloud Identity Platform",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "payments",
+        "item": "Stripe",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "waf",
+        "item": "Cloudflare WAF",
+        "min": 20,
+        "max": 20
+      },
+      {
+        "layer": "email",
+        "item": "Amazon SES",
+        "min": 0,
+        "max": 4
+      },
+      {
+        "layer": "ci_cd",
+        "item": "GitHub Actions",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "observability",
+        "item": "Sentry",
+        "min": 0,
+        "max": 22
+      }
     ]
   },
   "warnings": [
@@ -809,7 +1003,15 @@
           "postmark",
           "resend"
         ],
-        "eliminated": []
+        "eliminated": [
+          {
+            "id": "microsoft_graph_mail",
+            "name": "Microsoft Graph (Outlook mail and Teams messages)",
+            "reasons": [
+              "sends through the organisation's Microsoft 365 tenant, which is not among existing_systems"
+            ]
+          }
+        ]
       },
       "ci_cd": {
         "chosen": "github_actions",
@@ -931,7 +1133,9 @@
       "poor_connectivity": false,
       "upi": false,
       "location": false,
-      "tabular_ml": false
+      "tabular_ml": false,
+      "approvals": false,
+      "ledger": false
     },
     "india_ctx": false,
     "weights": {

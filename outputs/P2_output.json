@@ -49,6 +49,23 @@
         "Framework churn",
         "Serverless costs grow with traffic",
         "Two client codebases to build and maintain."
+      ],
+      "confidence": "low",
+      "margin_points": 0.66,
+      "kb_id": "expo_rn+nextjs",
+      "sources": [
+        {
+          "title": "Expo docs",
+          "url": "https://docs.expo.dev/"
+        },
+        {
+          "title": "React Native docs",
+          "url": "https://reactnative.dev/docs/getting-started"
+        },
+        {
+          "title": "Next.js docs",
+          "url": "https://nextjs.org/docs"
+        }
       ]
     },
     "backend": {
@@ -74,6 +91,24 @@
       "tradeoffs": [
         "Complex logic is awkward",
         "Vendor-specific RLS patterns"
+      ],
+      "region": "Mumbai (ap-south-1)",
+      "confidence": "medium",
+      "margin_points": 2.68,
+      "kb_id": "supabase",
+      "sources": [
+        {
+          "title": "Supabase docs",
+          "url": "https://supabase.com/docs"
+        },
+        {
+          "title": "Supabase security",
+          "url": "https://supabase.com/security"
+        },
+        {
+          "title": "Supabase SLA (Team and Enterprise plans)",
+          "url": "https://supabase.com/docs/guides/platform/sla"
+        }
       ]
     },
     "database": {
@@ -97,6 +132,24 @@
       ],
       "tradeoffs": [
         "Paid plan needed for production SLAs"
+      ],
+      "region": "Mumbai (ap-south-1)",
+      "confidence": "medium",
+      "margin_points": 2.79,
+      "kb_id": "supabase_postgres",
+      "sources": [
+        {
+          "title": "Supabase pricing",
+          "url": "https://supabase.com/pricing"
+        },
+        {
+          "title": "Supabase regions",
+          "url": "https://supabase.com/docs/guides/platform/regions"
+        },
+        {
+          "title": "Supabase SLA (Team and Enterprise plans)",
+          "url": "https://supabase.com/docs/guides/platform/sla"
+        }
       ]
     },
     "hosting": {
@@ -120,6 +173,23 @@
         "Static-first",
         "No published uptime SLA below the Enterprise plan",
         "Upper cost estimate ($130-$320/month) exceeds the $150 budget at peak."
+      ],
+      "confidence": "medium",
+      "margin_points": 2.06,
+      "kb_id": "cloudflare_pages",
+      "sources": [
+        {
+          "title": "Cloudflare Pages",
+          "url": "https://developers.cloudflare.com/pages/"
+        },
+        {
+          "title": "Cloudflare Pages limits",
+          "url": "https://developers.cloudflare.com/pages/platform/limits/"
+        },
+        {
+          "title": "Cloudflare Pages pricing (free plan: unlimited static requests and bandwidth)",
+          "url": "https://www.cloudflare.com/plans/developer-platform/"
+        }
       ]
     },
     "supporting": [
@@ -142,6 +212,17 @@
         ],
         "tradeoffs": [
           "Ties user accounts to the Supabase project; enterprise SSO needs a paid plan"
+        ],
+        "kb_id": "supabase_auth",
+        "sources": [
+          {
+            "title": "Supabase pricing",
+            "url": "https://supabase.com/pricing"
+          },
+          {
+            "title": "Supabase Auth docs",
+            "url": "https://supabase.com/docs/guides/auth"
+          }
         ]
       },
       {
@@ -160,6 +241,17 @@
         "tradeoffs": [
           "India-focused; DLT template registration is required",
           "Adds about $55-$120 per month."
+        ],
+        "kb_id": "msg91",
+        "sources": [
+          {
+            "title": "MSG91 pricing",
+            "url": "https://msg91.com/in/pricing/sms"
+          },
+          {
+            "title": "MSG91 docs",
+            "url": "https://docs.msg91.com/"
+          }
         ]
       },
       {
@@ -183,6 +275,17 @@
         ],
         "tradeoffs": [
           "Mainly for Indian businesses; international payments need separate approval"
+        ],
+        "kb_id": "razorpay",
+        "sources": [
+          {
+            "title": "Razorpay pricing",
+            "url": "https://razorpay.com/pricing/"
+          },
+          {
+            "title": "Razorpay docs",
+            "url": "https://razorpay.com/docs/"
+          }
         ]
       },
       {
@@ -206,6 +309,17 @@
         "tradeoffs": [
           "Tied to the Supabase project; egress counts toward plan limits",
           "Adds about $0 per month."
+        ],
+        "kb_id": "supabase_storage",
+        "sources": [
+          {
+            "title": "Supabase pricing",
+            "url": "https://supabase.com/pricing"
+          },
+          {
+            "title": "Supabase Storage docs",
+            "url": "https://supabase.com/docs/guides/storage"
+          }
         ]
       },
       {
@@ -228,6 +342,13 @@
         ],
         "tradeoffs": [
           "Weaker typo tolerance and relevance tuning than a dedicated search engine; heavy queries share the database"
+        ],
+        "kb_id": "postgres_fts",
+        "sources": [
+          {
+            "title": "Postgres full-text search",
+            "url": "https://www.postgresql.org/docs/current/textsearch.html"
+          }
         ]
       },
       {
@@ -250,6 +371,17 @@
         ],
         "tradeoffs": [
           "Concurrent connection and message limits per plan"
+        ],
+        "kb_id": "supabase_realtime",
+        "sources": [
+          {
+            "title": "Supabase Realtime",
+            "url": "https://supabase.com/docs/guides/realtime"
+          },
+          {
+            "title": "Supabase pricing",
+            "url": "https://supabase.com/pricing"
+          }
         ]
       },
       {
@@ -271,6 +403,13 @@
         ],
         "tradeoffs": [
           "Delivery is best effort with no guaranteed timing; analytics are basic"
+        ],
+        "kb_id": "fcm",
+        "sources": [
+          {
+            "title": "FCM docs",
+            "url": "https://firebase.google.com/docs/cloud-messaging"
+          }
         ]
       },
       {
@@ -292,6 +431,21 @@
         ],
         "tradeoffs": [
           "Minute limits on private repositories; long builds need paid or self-hosted runners"
+        ],
+        "kb_id": "github_actions",
+        "sources": [
+          {
+            "title": "Actions billing",
+            "url": "https://docs.github.com/billing/managing-billing-for-your-products/managing-billing-for-github-actions/about-billing-for-github-actions"
+          },
+          {
+            "title": "GitHub Actions docs",
+            "url": "https://docs.github.com/actions"
+          },
+          {
+            "title": "GitHub Data Protection Agreement",
+            "url": "https://docs.github.com/en/site-policy/privacy-policies/github-data-protection-agreement"
+          }
         ]
       },
       {
@@ -315,6 +469,17 @@
         "tradeoffs": [
           "Checks reachability only, not application errors",
           "Adds about $0-$6 per month."
+        ],
+        "kb_id": "uptime_monitor",
+        "sources": [
+          {
+            "title": "UptimeRobot pricing",
+            "url": "https://uptimerobot.com/pricing/"
+          },
+          {
+            "title": "UptimeRobot API",
+            "url": "https://uptimerobot.com/api/"
+          }
         ]
       }
     ]
@@ -331,6 +496,92 @@
       "SMS (MSG91): about $55-$120/month",
       "Storage (Supabase Storage): about $0/month",
       "Observability (UptimeRobot / Better Stack uptime checks): about $0-$6/month"
+    ],
+    "breakdown": [
+      {
+        "layer": "hosting",
+        "item": "Cloudflare Pages",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "database",
+        "item": "Supabase Postgres",
+        "min": 79,
+        "max": 190
+      },
+      {
+        "layer": "backend",
+        "item": "Supabase (BaaS)",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "frontend",
+        "item": "React Native (Expo)",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "frontend",
+        "item": "Next.js",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "auth",
+        "item": "Supabase Auth",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "sms",
+        "item": "MSG91",
+        "min": 55,
+        "max": 120
+      },
+      {
+        "layer": "payments",
+        "item": "Razorpay",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "storage",
+        "item": "Supabase Storage",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "layer": "search",
+        "item": "PostgreSQL full-text search",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "realtime",
+        "item": "Supabase Realtime",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "notifications",
+        "item": "Firebase Cloud Messaging",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "ci_cd",
+        "item": "GitHub Actions",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "observability",
+        "item": "UptimeRobot / Better Stack uptime checks",
+        "min": 0,
+        "max": 6
+      }
     ]
   },
   "warnings": [
@@ -1316,7 +1567,9 @@
       "poor_connectivity": false,
       "upi": false,
       "location": false,
-      "tabular_ml": false
+      "tabular_ml": false,
+      "approvals": false,
+      "ledger": false
     },
     "india_ctx": true,
     "weights": {

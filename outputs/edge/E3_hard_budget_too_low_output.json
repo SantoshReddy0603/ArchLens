@@ -394,7 +394,9 @@
       "poor_connectivity": false,
       "upi": false,
       "location": false,
-      "tabular_ml": false
+      "tabular_ml": false,
+      "approvals": false,
+      "ledger": false
     },
     "india_ctx": false,
     "weights": {

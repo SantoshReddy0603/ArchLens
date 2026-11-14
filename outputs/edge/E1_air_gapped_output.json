@@ -44,6 +44,15 @@
       "tradeoffs": [
         "Steep learning curve",
         "Verbose"
+      ],
+      "confidence": "low",
+      "margin_points": 0.19,
+      "kb_id": "angular",
+      "sources": [
+        {
+          "title": "Angular docs",
+          "url": "https://angular.dev/"
+        }
       ]
     },
     "backend": {
@@ -67,11 +76,24 @@
       "tradeoffs": [
         "Heavier and slower to build",
         "More memory"
+      ],
+      "confidence": "low",
+      "margin_points": 0.19,
+      "kb_id": "spring_boot",
+      "sources": [
+        {
+          "title": "Spring Boot docs",
+          "url": "https://docs.spring.io/spring-boot/"
+        },
+        {
+          "title": "Spring Boot support policy",
+          "url": "https://spring.io/projects/spring-boot#support"
+        }
       ]
     },
     "database": {
-      "choice": "PostgreSQL (managed or self-hosted)",
-      "justification": "PostgreSQL (managed or self-hosted) is available in Indian cloud regions; carries HIPAA attestation; runs on your own host, as the deployment model requires; row-level security, mature auditing, encryption.",
+      "choice": "PostgreSQL, self-hosted on Self-managed Linux servers",
+      "justification": "PostgreSQL is available in Indian cloud regions; carries HIPAA attestation; runs on your own host, as the deployment model requires; row-level security, mature auditing, encryption. It runs as PostgreSQL, self-hosted on Self-managed Linux servers; the team owns backups, patching and failover.",
       "driven_by": [
         "infrastructure.data_residency",
         "compliance",
@@ -91,6 +113,25 @@
       "tradeoffs": [
         "Write scaling beyond one primary needs design",
         "You run, patch and back up this database yourself on Self-managed Linux servers (on-premise)."
+      ],
+      "engine": "PostgreSQL",
+      "offering": "PostgreSQL, self-hosted on Self-managed Linux servers",
+      "confidence": "medium",
+      "margin_points": 1.78,
+      "kb_id": "postgresql",
+      "sources": [
+        {
+          "title": "PostgreSQL docs",
+          "url": "https://www.postgresql.org/docs/"
+        },
+        {
+          "title": "Stack Overflow Developer Survey 2024 databases",
+          "url": "https://survey.stackoverflow.co/2024/technology#1-databases"
+        },
+        {
+          "title": "AWS RDS pricing",
+          "url": "https://aws.amazon.com/rds/postgresql/pricing/"
+        }
       ]
     },
     "hosting": {
@@ -115,6 +156,15 @@
       "tradeoffs": [
         "Ops burden",
         "Needs real operations effort (patching, scaling, monitoring)."
+      ],
+      "confidence": "low",
+      "margin_points": 0.13,
+      "kb_id": "onprem_linux_vm",
+      "sources": [
+        {
+          "title": "Debian stable",
+          "url": "https://www.debian.org/releases/stable/"
+        }
       ]
     },
     "supporting": [
@@ -133,6 +183,13 @@
         ],
         "tradeoffs": [
           "Password storage, resets, MFA and account lockout are your responsibility"
+        ],
+        "kb_id": "framework_auth",
+        "sources": [
+          {
+            "title": "OWASP authentication cheat sheet",
+            "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html"
+          }
         ]
       },
       {
@@ -155,6 +212,17 @@
         "tradeoffs": [
           "Compute minute limits on the free tier",
           "Adds about $0-$25 per month."
+        ],
+        "kb_id": "gitlab_ci",
+        "sources": [
+          {
+            "title": "GitLab pricing",
+            "url": "https://about.gitlab.com/pricing/"
+          },
+          {
+            "title": "GitLab CI docs",
+            "url": "https://docs.gitlab.com/ee/ci/"
+          }
         ]
       },
       {
@@ -178,6 +246,17 @@
         "tradeoffs": [
           "Event quota per plan; sample high-volume errors",
           "Adds about $0-$22 per month."
+        ],
+        "kb_id": "sentry",
+        "sources": [
+          {
+            "title": "Sentry pricing",
+            "url": "https://sentry.io/pricing/"
+          },
+          {
+            "title": "Sentry docs",
+            "url": "https://docs.sentry.io/"
+          }
         ]
       }
     ]
@@ -192,6 +271,50 @@
       "The 99.9% availability target doubles or adds redundancy for hosting and database where needed.",
       "CI/CD (GitLab CI/CD): about $0-$25/month",
       "Observability (Sentry): about $0-$22/month"
+    ],
+    "breakdown": [
+      {
+        "layer": "hosting",
+        "item": "Self-managed Linux servers (on-premise)",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "database",
+        "item": "PostgreSQL, self-hosted on Self-managed Linux servers",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "backend",
+        "item": "Java + Spring Boot",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "frontend",
+        "item": "Angular",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "auth",
+        "item": "Framework built-in auth (sessions/JWT)",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "ci_cd",
+        "item": "GitLab CI/CD",
+        "min": 0,
+        "max": 25
+      },
+      {
+        "layer": "observability",
+        "item": "Sentry",
+        "min": 0,
+        "max": 22
+      }
     ]
   },
   "warnings": [
@@ -1048,7 +1171,9 @@
       "poor_connectivity": false,
       "upi": false,
       "location": false,
-      "tabular_ml": false
+      "tabular_ml": false,
+      "approvals": false,
+      "ledger": false
     },
     "india_ctx": true,
     "weights": {

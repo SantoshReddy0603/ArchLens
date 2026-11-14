@@ -42,6 +42,19 @@
       "tradeoffs": [
         "Interactive widgets need islands/hydration",
         "Not meant for app-like UIs"
+      ],
+      "confidence": "medium",
+      "margin_points": 1.35,
+      "kb_id": "astro",
+      "sources": [
+        {
+          "title": "Astro docs",
+          "url": "https://docs.astro.build/"
+        },
+        {
+          "title": "Astro 5 release notes",
+          "url": "https://astro.build/blog/astro-5/"
+        }
       ]
     },
     "backend": {
@@ -62,7 +75,9 @@
           "why_not": "Node.js + Express scores 12.5 points lower overall, mainly on budget fit (8.1 points) and cost (1.6 points). Estimated infrastructure about $21-$68/month versus about $0/month."
         }
       ],
-      "tradeoffs": []
+      "tradeoffs": [],
+      "confidence": "high",
+      "margin_points": 11.52
     },
     "database": {
       "choice": "None",
@@ -81,7 +96,9 @@
           "why_not": "SQLite (embedded) scores 13.6 points lower overall, mainly on budget fit (8.1 points) and cost (1.6 points). Estimated infrastructure about $21-$68/month versus about $0/month."
         }
       ],
-      "tradeoffs": []
+      "tradeoffs": [],
+      "confidence": "high",
+      "margin_points": 11.52
     },
     "hosting": {
       "choice": "Cloudflare Pages",
@@ -104,6 +121,23 @@
       "tradeoffs": [
         "Static-first",
         "No published uptime SLA below the Enterprise plan"
+      ],
+      "confidence": "high",
+      "margin_points": 8.95,
+      "kb_id": "cloudflare_pages",
+      "sources": [
+        {
+          "title": "Cloudflare Pages",
+          "url": "https://developers.cloudflare.com/pages/"
+        },
+        {
+          "title": "Cloudflare Pages limits",
+          "url": "https://developers.cloudflare.com/pages/platform/limits/"
+        },
+        {
+          "title": "Cloudflare Pages pricing (free plan: unlimited static requests and bandwidth)",
+          "url": "https://www.cloudflare.com/plans/developer-platform/"
+        }
       ]
     },
     "supporting": [
@@ -123,6 +157,17 @@
         ],
         "tradeoffs": [
           "Limited spam filtering and workflow options on the free plan"
+        ],
+        "kb_id": "web3forms",
+        "sources": [
+          {
+            "title": "Web3Forms",
+            "url": "https://web3forms.com/"
+          },
+          {
+            "title": "Web3Forms docs",
+            "url": "https://docs.web3forms.com/"
+          }
         ]
       },
       {
@@ -144,6 +189,17 @@
         ],
         "tradeoffs": [
           "Event volume pricing past the free tier; self-hosting is heavy"
+        ],
+        "kb_id": "posthog",
+        "sources": [
+          {
+            "title": "PostHog pricing",
+            "url": "https://posthog.com/pricing"
+          },
+          {
+            "title": "PostHog docs",
+            "url": "https://posthog.com/docs"
+          }
         ]
       },
       {
@@ -165,6 +221,17 @@
         ],
         "tradeoffs": [
           "Works best with Cloudflare proxying, which ties traffic routing to one vendor"
+        ],
+        "kb_id": "cloudflare_dns",
+        "sources": [
+          {
+            "title": "Cloudflare DNS",
+            "url": "https://developers.cloudflare.com/dns/"
+          },
+          {
+            "title": "Cloudflare Customer DPA",
+            "url": "https://www.cloudflare.com/cloudflare-customer-dpa/"
+          }
         ]
       }
     ]
@@ -177,6 +244,50 @@
       "Usage-priced items are shown as a band (0.75x to 1.3x of the estimate) because load figures are order-of-magnitude.",
       "Public list prices of each product, in USD, without taxes, committed-use discounts or developer time.",
       "Everything fits inside free tiers at this scale."
+    ],
+    "breakdown": [
+      {
+        "layer": "hosting",
+        "item": "Cloudflare Pages",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "database",
+        "item": "None (no database)",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "backend",
+        "item": "No backend (static)",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "frontend",
+        "item": "Astro",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "forms",
+        "item": "Web3Forms",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "analytics",
+        "item": "PostHog",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "dns",
+        "item": "Cloudflare DNS",
+        "min": 0,
+        "max": 0
+      }
     ]
   },
   "warnings": [
@@ -667,7 +778,9 @@
       "poor_connectivity": false,
       "upi": false,
       "location": false,
-      "tabular_ml": false
+      "tabular_ml": false,
+      "approvals": false,
+      "ledger": false
     },
     "india_ctx": false,
     "weights": {

@@ -52,6 +52,19 @@
       "tradeoffs": [
         "Poor SEO without prerendering",
         "Slow first load on weak devices"
+      ],
+      "confidence": "low",
+      "margin_points": 0.31,
+      "kb_id": "react_vite",
+      "sources": [
+        {
+          "title": "Vite guide",
+          "url": "https://vite.dev/guide/"
+        },
+        {
+          "title": "React docs",
+          "url": "https://react.dev/"
+        }
       ]
     },
     "backend": {
@@ -75,11 +88,24 @@
       ],
       "tradeoffs": [
         "No batteries, more code per feature"
+      ],
+      "confidence": "medium",
+      "margin_points": 1.98,
+      "kb_id": "go_chi",
+      "sources": [
+        {
+          "title": "Go docs",
+          "url": "https://go.dev/doc/"
+        },
+        {
+          "title": "Go release policy",
+          "url": "https://go.dev/doc/devel/release"
+        }
       ]
     },
     "database": {
-      "choice": "PostgreSQL (managed or self-hosted)",
-      "justification": "PostgreSQL (managed or self-hosted) gives ACID transactions for money-handling data; can be placed in Belgium (europe-west1), an EU region, which keeps GDPR transfers simple; excellent query planner, rich indexing.",
+      "choice": "Cloud SQL for PostgreSQL in Belgium (europe-west1)",
+      "justification": "PostgreSQL gives ACID transactions for money-handling data; can be placed in Belgium (europe-west1), an EU region, which keeps GDPR transfers simple; excellent query planner, rich indexing. It runs as Cloud SQL for PostgreSQL, the managed service on the same cloud as the application, so backups, patching and failover are the provider's job.",
       "driven_by": [
         "requirements.payments",
         "compliance",
@@ -97,6 +123,26 @@
       ],
       "tradeoffs": [
         "Write scaling beyond one primary needs design"
+      ],
+      "region": "Belgium (europe-west1)",
+      "engine": "PostgreSQL",
+      "offering": "Cloud SQL for PostgreSQL",
+      "confidence": "medium",
+      "margin_points": 1.2,
+      "kb_id": "postgresql",
+      "sources": [
+        {
+          "title": "Cloud SQL for PostgreSQL",
+          "url": "https://cloud.google.com/sql/docs/postgres"
+        },
+        {
+          "title": "PostgreSQL docs",
+          "url": "https://www.postgresql.org/docs/"
+        },
+        {
+          "title": "Stack Overflow Developer Survey 2024 databases",
+          "url": "https://survey.stackoverflow.co/2024/technology#1-databases"
+        }
       ]
     },
     "hosting": {
@@ -121,6 +167,20 @@
       "tradeoffs": [
         "GCP only",
         "Upper cost estimate ($1,200-$2,100/month) exceeds the $1,500 budget at peak."
+      ],
+      "region": "Belgium (europe-west1)",
+      "confidence": "low",
+      "margin_points": 0.92,
+      "kb_id": "gke_cloud_run",
+      "sources": [
+        {
+          "title": "Cloud Run pricing",
+          "url": "https://cloud.google.com/run/pricing"
+        },
+        {
+          "title": "Cloud Run SLA",
+          "url": "https://cloud.google.com/run/sla"
+        }
       ]
     },
     "supporting": [
@@ -144,6 +204,17 @@
         "tradeoffs": [
           "Priced per monthly active user past the free tier; GCP-specific setup",
           "Adds about $0-$6 per month."
+        ],
+        "kb_id": "identity_platform",
+        "sources": [
+          {
+            "title": "Identity Platform",
+            "url": "https://cloud.google.com/identity-platform/docs"
+          },
+          {
+            "title": "Identity Platform pricing",
+            "url": "https://cloud.google.com/identity-platform/pricing"
+          }
         ]
       },
       {
@@ -167,6 +238,21 @@
         ],
         "tradeoffs": [
           "Per-transaction fees; payouts and some methods vary by country"
+        ],
+        "kb_id": "stripe",
+        "sources": [
+          {
+            "title": "Stripe pricing",
+            "url": "https://stripe.com/pricing"
+          },
+          {
+            "title": "Stripe India",
+            "url": "https://stripe.com/in"
+          },
+          {
+            "title": "Stripe Data Processing Agreement",
+            "url": "https://stripe.com/legal/dpa"
+          }
         ]
       },
       {
@@ -190,6 +276,17 @@
         "tradeoffs": [
           "Egress to the internet is billed per GB",
           "Adds about $140-$170 per month."
+        ],
+        "kb_id": "gcs",
+        "sources": [
+          {
+            "title": "GCS pricing",
+            "url": "https://cloud.google.com/storage/pricing"
+          },
+          {
+            "title": "Cloud Storage docs",
+            "url": "https://cloud.google.com/storage/docs"
+          }
         ]
       },
       {
@@ -213,12 +310,23 @@
         "tradeoffs": [
           "A dedicated collaboration server to run and persist documents from",
           "Adds about $29-$70 per month."
+        ],
+        "kb_id": "yjs_hocuspocus",
+        "sources": [
+          {
+            "title": "Yjs docs",
+            "url": "https://docs.yjs.dev/"
+          },
+          {
+            "title": "Hocuspocus docs",
+            "url": "https://tiptap.dev/docs/hocuspocus/introduction"
+          }
         ]
       },
       {
         "layer": "cache",
-        "choice": "Managed Redis/Valkey (ElastiCache, Memorystore, Azure Cache)",
-        "justification": "Managed Redis/Valkey (ElastiCache, Memorystore, Azure Cache): peak load of about 500 requests/second is better served from a cache than from the database; native cloud cache with replicas and failover.",
+        "choice": "Memorystore for Valkey",
+        "justification": "Memorystore for Valkey: peak load of about 500 requests/second is better served from a cache than from the database; native cloud cache with replicas and failover.",
         "driven_by": [
           "scale.peak_concurrent_users",
           "requirements.p95_latency_ms",
@@ -237,6 +345,21 @@
         "tradeoffs": [
           "Memory-priced; a minimum instance costs money even when idle",
           "Adds about $48-$110 per month."
+        ],
+        "kb_id": "redis_managed",
+        "sources": [
+          {
+            "title": "Memorystore for Valkey",
+            "url": "https://cloud.google.com/memorystore/docs/valkey"
+          },
+          {
+            "title": "ElastiCache pricing",
+            "url": "https://aws.amazon.com/elasticache/pricing/"
+          },
+          {
+            "title": "Memorystore docs",
+            "url": "https://cloud.google.com/memorystore/docs"
+          }
         ]
       },
       {
@@ -261,6 +384,17 @@
         "tradeoffs": [
           "At-least-once delivery, so consumers must handle duplicates",
           "Adds about $5-$6 per month."
+        ],
+        "kb_id": "gcp_pubsub",
+        "sources": [
+          {
+            "title": "Pub/Sub pricing",
+            "url": "https://cloud.google.com/pubsub/pricing"
+          },
+          {
+            "title": "Pub/Sub docs",
+            "url": "https://cloud.google.com/pubsub/docs"
+          }
         ]
       },
       {
@@ -284,6 +418,17 @@
         "tradeoffs": [
           "Advanced caching rules and features sit on paid plans",
           "Adds about $0-$17 per month."
+        ],
+        "kb_id": "cloudflare_cdn",
+        "sources": [
+          {
+            "title": "Cloudflare plans",
+            "url": "https://www.cloudflare.com/plans/"
+          },
+          {
+            "title": "Cloudflare CDN docs",
+            "url": "https://developers.cloudflare.com/cache/"
+          }
         ]
       },
       {
@@ -307,6 +452,17 @@
         "tradeoffs": [
           "Transactional email only; marketing email needs a separate stream",
           "Adds about $15 per month."
+        ],
+        "kb_id": "postmark",
+        "sources": [
+          {
+            "title": "Postmark pricing",
+            "url": "https://postmarkapp.com/pricing"
+          },
+          {
+            "title": "Postmark docs",
+            "url": "https://postmarkapp.com/developer"
+          }
         ]
       },
       {
@@ -329,6 +485,21 @@
         "tradeoffs": [
           "Minute limits on private repositories; long builds need paid or self-hosted runners",
           "Adds about $0-$7 per month."
+        ],
+        "kb_id": "github_actions",
+        "sources": [
+          {
+            "title": "Actions billing",
+            "url": "https://docs.github.com/billing/managing-billing-for-your-products/managing-billing-for-github-actions/about-billing-for-github-actions"
+          },
+          {
+            "title": "GitHub Actions docs",
+            "url": "https://docs.github.com/actions"
+          },
+          {
+            "title": "GitHub Data Protection Agreement",
+            "url": "https://docs.github.com/en/site-policy/privacy-policies/github-data-protection-agreement"
+          }
         ]
       },
       {
@@ -352,6 +523,17 @@
         "tradeoffs": [
           "Event quota per plan; sample high-volume errors",
           "Adds about $0-$22 per month."
+        ],
+        "kb_id": "sentry",
+        "sources": [
+          {
+            "title": "Sentry pricing",
+            "url": "https://sentry.io/pricing/"
+          },
+          {
+            "title": "Sentry docs",
+            "url": "https://docs.sentry.io/"
+          }
         ]
       }
     ]
@@ -365,16 +547,102 @@
       "Public list prices of each product, in USD, without taxes, committed-use discounts or developer time.",
       "The 99.9% availability target doubles or adds redundancy for hosting and database where needed.",
       "Hosting (Google Cloud Run): about $670-$1,000/month",
-      "Database (PostgreSQL (managed or self-hosted)): about $540-$1,000/month",
+      "Database (Cloud SQL for PostgreSQL): about $540-$1,000/month",
       "Auth (Google Cloud Identity Platform): about $0-$6/month",
       "Storage (Google Cloud Storage): about $140-$170/month",
       "Realtime (Yjs with Hocuspocus): about $29-$70/month",
-      "Cache (Managed Redis/Valkey (ElastiCache, Memorystore, Azure Cache)): about $48-$110/month",
+      "Cache (Memorystore for Valkey): about $48-$110/month",
       "Queue (Google Pub/Sub): about $5-$6/month",
       "CDN (Cloudflare CDN): about $0-$17/month",
       "Email (Postmark): about $15/month",
       "CI/CD (GitHub Actions): about $0-$7/month",
       "Observability (Sentry): about $0-$22/month"
+    ],
+    "breakdown": [
+      {
+        "layer": "hosting",
+        "item": "Google Cloud Run",
+        "min": 670,
+        "max": 1020
+      },
+      {
+        "layer": "database",
+        "item": "Cloud SQL for PostgreSQL",
+        "min": 540,
+        "max": 1000
+      },
+      {
+        "layer": "backend",
+        "item": "Go (net/http + chi)",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "frontend",
+        "item": "React + Vite (SPA)",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "auth",
+        "item": "Google Cloud Identity Platform",
+        "min": 0,
+        "max": 6
+      },
+      {
+        "layer": "payments",
+        "item": "Stripe",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "storage",
+        "item": "Google Cloud Storage",
+        "min": 140,
+        "max": 170
+      },
+      {
+        "layer": "realtime",
+        "item": "Yjs with Hocuspocus",
+        "min": 29,
+        "max": 70
+      },
+      {
+        "layer": "cache",
+        "item": "Memorystore for Valkey",
+        "min": 48,
+        "max": 110
+      },
+      {
+        "layer": "queue",
+        "item": "Google Pub/Sub",
+        "min": 5,
+        "max": 6
+      },
+      {
+        "layer": "cdn",
+        "item": "Cloudflare CDN",
+        "min": 0,
+        "max": 17
+      },
+      {
+        "layer": "email",
+        "item": "Postmark",
+        "min": 15,
+        "max": 15
+      },
+      {
+        "layer": "ci_cd",
+        "item": "GitHub Actions",
+        "min": 0,
+        "max": 7
+      },
+      {
+        "layer": "observability",
+        "item": "Sentry",
+        "min": 0,
+        "max": 22
+      }
     ]
   },
   "warnings": [
@@ -920,7 +1188,15 @@
           "resend",
           "aws_ses"
         ],
-        "eliminated": []
+        "eliminated": [
+          {
+            "id": "microsoft_graph_mail",
+            "name": "Microsoft Graph (Outlook mail and Teams messages)",
+            "reasons": [
+              "sends through the organisation's Microsoft 365 tenant, which is not among existing_systems"
+            ]
+          }
+        ]
       },
       "ci_cd": {
         "chosen": "github_actions",
@@ -1024,7 +1300,9 @@
       "poor_connectivity": false,
       "upi": false,
       "location": false,
-      "tabular_ml": false
+      "tabular_ml": false,
+      "approvals": false,
+      "ledger": false
     },
     "india_ctx": false,
     "weights": {

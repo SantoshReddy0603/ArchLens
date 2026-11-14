@@ -42,6 +42,19 @@
       ],
       "tradeoffs": [
         "Native modules outside the Expo SDK need a custom development build"
+      ],
+      "confidence": "low",
+      "margin_points": 0.92,
+      "kb_id": "expo_rn",
+      "sources": [
+        {
+          "title": "Expo docs",
+          "url": "https://docs.expo.dev/"
+        },
+        {
+          "title": "React Native docs",
+          "url": "https://reactnative.dev/docs/getting-started"
+        }
       ]
     },
     "backend": {
@@ -65,6 +78,19 @@
       ],
       "tradeoffs": [
         "No batteries, more code per feature"
+      ],
+      "confidence": "medium",
+      "margin_points": 2.61,
+      "kb_id": "go_chi",
+      "sources": [
+        {
+          "title": "Go docs",
+          "url": "https://go.dev/doc/"
+        },
+        {
+          "title": "Go release policy",
+          "url": "https://go.dev/doc/devel/release"
+        }
       ]
     },
     "database": {
@@ -89,6 +115,20 @@
         "Ad-hoc queries are hard",
         "AWS lock-in",
         "High vendor lock-in: Amazon DynamoDB is hard to leave once the data model and SDKs are in use."
+      ],
+      "region": "Frankfurt (eu-central-1)",
+      "confidence": "low",
+      "margin_points": 0.34,
+      "kb_id": "dynamodb",
+      "sources": [
+        {
+          "title": "DynamoDB pricing",
+          "url": "https://aws.amazon.com/dynamodb/pricing/"
+        },
+        {
+          "title": "DynamoDB docs",
+          "url": "https://docs.aws.amazon.com/amazondynamodb/"
+        }
       ]
     },
     "hosting": {
@@ -113,6 +153,16 @@
         "Needs platform team",
         "Needs real operations effort (patching, scaling, monitoring).",
         "Upper cost estimate ($83,500-$118,400/month) exceeds the $80,000 budget at peak."
+      ],
+      "region": "Frankfurt (eu-central-1)",
+      "confidence": "high",
+      "margin_points": 3.83,
+      "kb_id": "aws_eks",
+      "sources": [
+        {
+          "title": "EKS pricing",
+          "url": "https://aws.amazon.com/eks/pricing/"
+        }
       ]
     },
     "supporting": [
@@ -136,6 +186,13 @@
         "tradeoffs": [
           "A Java server to run, upgrade and back up yourself",
           "Adds about $60-$230 per month."
+        ],
+        "kb_id": "keycloak",
+        "sources": [
+          {
+            "title": "Keycloak docs",
+            "url": "https://www.keycloak.org/documentation"
+          }
         ]
       },
       {
@@ -159,6 +216,17 @@
         "tradeoffs": [
           "Egress and request charges add up for public media",
           "Adds about $17,400-$22,300 per month."
+        ],
+        "kb_id": "s3",
+        "sources": [
+          {
+            "title": "S3 pricing",
+            "url": "https://aws.amazon.com/s3/pricing/"
+          },
+          {
+            "title": "S3 docs",
+            "url": "https://docs.aws.amazon.com/s3/"
+          }
         ]
       },
       {
@@ -182,6 +250,13 @@
         "tradeoffs": [
           "A separate index to keep in sync; the whole index sits in RAM",
           "Adds about $0-$21 per month."
+        ],
+        "kb_id": "typesense",
+        "sources": [
+          {
+            "title": "Typesense docs",
+            "url": "https://typesense.org/docs/"
+          }
         ]
       },
       {
@@ -204,12 +279,23 @@
         ],
         "tradeoffs": [
           "Sticky connections complicate scaling; fan-out across instances needs a pub/sub layer"
+        ],
+        "kb_id": "framework_websocket",
+        "sources": [
+          {
+            "title": "WebSocket protocol (RFC 6455)",
+            "url": "https://www.rfc-editor.org/rfc/rfc6455"
+          },
+          {
+            "title": "Server-sent events",
+            "url": "https://html.spec.whatwg.org/multipage/server-sent-events.html"
+          }
         ]
       },
       {
         "layer": "cache",
-        "choice": "Managed Redis/Valkey (ElastiCache, Memorystore, Azure Cache)",
-        "justification": "Managed Redis/Valkey (ElastiCache, Memorystore, Azure Cache): peak load of about 25,000 requests/second is better served from a cache than from the database; native cloud cache with replicas and failover.",
+        "choice": "Amazon ElastiCache for Valkey",
+        "justification": "Amazon ElastiCache for Valkey: peak load of about 25,000 requests/second is better served from a cache than from the database; native cloud cache with replicas and failover.",
         "driven_by": [
           "scale.peak_concurrent_users",
           "requirements.p95_latency_ms",
@@ -228,6 +314,21 @@
         "tradeoffs": [
           "Memory-priced; a minimum instance costs money even when idle",
           "Adds about $1,000-$2,400 per month."
+        ],
+        "kb_id": "redis_managed",
+        "sources": [
+          {
+            "title": "Amazon ElastiCache for Valkey",
+            "url": "https://aws.amazon.com/elasticache/valkey/"
+          },
+          {
+            "title": "ElastiCache pricing",
+            "url": "https://aws.amazon.com/elasticache/pricing/"
+          },
+          {
+            "title": "Memorystore docs",
+            "url": "https://cloud.google.com/memorystore/docs"
+          }
         ]
       },
       {
@@ -252,6 +353,17 @@
         "tradeoffs": [
           "AWS-only; FIFO queues have throughput limits",
           "Adds about $2,400-$3,100 per month."
+        ],
+        "kb_id": "sqs",
+        "sources": [
+          {
+            "title": "SQS pricing",
+            "url": "https://aws.amazon.com/sqs/pricing/"
+          },
+          {
+            "title": "SQS docs",
+            "url": "https://docs.aws.amazon.com/sqs/"
+          }
         ]
       },
       {
@@ -275,6 +387,17 @@
         "tradeoffs": [
           "Advanced caching rules and features sit on paid plans",
           "Adds about $0-$17 per month."
+        ],
+        "kb_id": "cloudflare_cdn",
+        "sources": [
+          {
+            "title": "Cloudflare plans",
+            "url": "https://www.cloudflare.com/plans/"
+          },
+          {
+            "title": "Cloudflare CDN docs",
+            "url": "https://developers.cloudflare.com/cache/"
+          }
         ]
       },
       {
@@ -298,6 +421,17 @@
         "tradeoffs": [
           "Starts in a sandbox; production access, bounce handling and domain setup are on you",
           "Adds about $0-$4 per month."
+        ],
+        "kb_id": "aws_ses",
+        "sources": [
+          {
+            "title": "SES pricing",
+            "url": "https://aws.amazon.com/ses/pricing/"
+          },
+          {
+            "title": "SES docs",
+            "url": "https://docs.aws.amazon.com/ses/"
+          }
         ]
       },
       {
@@ -319,6 +453,13 @@
         ],
         "tradeoffs": [
           "Delivery is best effort with no guaranteed timing; analytics are basic"
+        ],
+        "kb_id": "fcm",
+        "sources": [
+          {
+            "title": "FCM docs",
+            "url": "https://firebase.google.com/docs/cloud-messaging"
+          }
         ]
       },
       {
@@ -341,6 +482,21 @@
         "tradeoffs": [
           "Minute limits on private repositories; long builds need paid or self-hosted runners",
           "Adds about $0-$75 per month."
+        ],
+        "kb_id": "github_actions",
+        "sources": [
+          {
+            "title": "Actions billing",
+            "url": "https://docs.github.com/billing/managing-billing-for-your-products/managing-billing-for-github-actions/about-billing-for-github-actions"
+          },
+          {
+            "title": "GitHub Actions docs",
+            "url": "https://docs.github.com/actions"
+          },
+          {
+            "title": "GitHub Data Protection Agreement",
+            "url": "https://docs.github.com/en/site-policy/privacy-policies/github-data-protection-agreement"
+          }
         ]
       },
       {
@@ -364,6 +520,21 @@
         "tradeoffs": [
           "Per-host and per-GB pricing grows quickly",
           "Adds about $28-$80 per month."
+        ],
+        "kb_id": "datadog",
+        "sources": [
+          {
+            "title": "Datadog pricing",
+            "url": "https://www.datadoghq.com/pricing/"
+          },
+          {
+            "title": "Datadog docs",
+            "url": "https://docs.datadoghq.com/"
+          },
+          {
+            "title": "Datadog Data Processing Addendum",
+            "url": "https://www.datadoghq.com/legal/data-processing-addendum/"
+          }
         ]
       }
     ]
@@ -381,12 +552,104 @@
       "Auth (Keycloak): about $60-$230/month",
       "Storage (Amazon S3): about $17,400-$22,300/month",
       "Search (Typesense): about $0-$21/month",
-      "Cache (Managed Redis/Valkey (ElastiCache, Memorystore, Azure Cache)): about $1,000-$2,400/month",
+      "Cache (Amazon ElastiCache for Valkey): about $1,000-$2,400/month",
       "Queue (Amazon SQS): about $2,400-$3,100/month",
       "CDN (Cloudflare CDN): about $0-$17/month",
       "Email (Amazon SES): about $0-$4/month",
       "CI/CD (GitHub Actions): about $0-$75/month",
       "Observability (Datadog): about $28-$80/month"
+    ],
+    "breakdown": [
+      {
+        "layer": "hosting",
+        "item": "AWS EKS (Kubernetes)",
+        "min": 69200,
+        "max": 97570
+      },
+      {
+        "layer": "database",
+        "item": "Amazon DynamoDB",
+        "min": 13020,
+        "max": 18480
+      },
+      {
+        "layer": "backend",
+        "item": "Go (net/http + chi)",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "frontend",
+        "item": "React Native (Expo)",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "auth",
+        "item": "Keycloak",
+        "min": 60,
+        "max": 230
+      },
+      {
+        "layer": "storage",
+        "item": "Amazon S3",
+        "min": 17440,
+        "max": 22340
+      },
+      {
+        "layer": "search",
+        "item": "Typesense",
+        "min": 0,
+        "max": 21
+      },
+      {
+        "layer": "realtime",
+        "item": "WebSockets/SSE in the backend framework",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "cache",
+        "item": "Amazon ElastiCache for Valkey",
+        "min": 1000,
+        "max": 2380
+      },
+      {
+        "layer": "queue",
+        "item": "Amazon SQS",
+        "min": 2440,
+        "max": 3120
+      },
+      {
+        "layer": "cdn",
+        "item": "Cloudflare CDN",
+        "min": 0,
+        "max": 17
+      },
+      {
+        "layer": "email",
+        "item": "Amazon SES",
+        "min": 0,
+        "max": 4
+      },
+      {
+        "layer": "notifications",
+        "item": "Firebase Cloud Messaging",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "ci_cd",
+        "item": "GitHub Actions",
+        "min": 0,
+        "max": 75
+      },
+      {
+        "layer": "observability",
+        "item": "Datadog",
+        "min": 28,
+        "max": 80
+      }
     ]
   },
   "warnings": [
@@ -1044,7 +1307,15 @@
           "postmark",
           "resend"
         ],
-        "eliminated": []
+        "eliminated": [
+          {
+            "id": "microsoft_graph_mail",
+            "name": "Microsoft Graph (Outlook mail and Teams messages)",
+            "reasons": [
+              "sends through the organisation's Microsoft 365 tenant, which is not among existing_systems"
+            ]
+          }
+        ]
       },
       "notifications": {
         "chosen": "fcm",
@@ -1164,7 +1435,9 @@
       "poor_connectivity": false,
       "upi": false,
       "location": false,
-      "tabular_ml": false
+      "tabular_ml": false,
+      "approvals": false,
+      "ledger": false
     },
     "india_ctx": false,
     "weights": {
