@@ -4,6 +4,7 @@ from . import ENGINE_VERSION
 from . import conflicts, cost as costmod, derive, explain, kb, robust, stacks, supporting, validate
 from .constraints import is_none
 from .derive import skill_fit_component
+from .scoring import mobile_style
 
 STYLE_TEXT = {
     "static": "Static-first site", "monolith": "Single deployable monolith", "modular_monolith": "Modular monolith",
@@ -47,6 +48,58 @@ def architecture_style(p, best):
     if features >= 3 and p["team_size"] >= 3:
         return "modular_monolith"
     return "monolith"
+
+
+STYLE_NAME = {"static": "static site", "serverless": "serverless", "monolith": "monolith", "modular_monolith": "modular monolith",
+              "service_oriented": "a few coarse services", "microservices": "microservices", "hybrid": "hybrid (new app beside existing systems)"}
+
+
+def architecture_rationale(p, best, style):
+    """Why this architecture style, which inputs drove it, and why the neighbouring styles were not chosen."""
+    be, host = best["be"], best["host"]
+    flags = (("payments", p["payments"], "requirements.payments"), ("realtime", p["realtime"], "requirements.realtime"),
+             ("search", p["search"], "requirements.full_text_search"), ("file storage", p["files"], "requirements.file_media_storage"),
+             ("multi-tenancy", p["multi_tenant"], "requirements.multi_tenant"), ("ML", p["ml"] != "none", "requirements.ml_features"),
+             ("offline sync", p["offline"], "requirements.offline_support"))
+    feats = [x for x, on, _ in flags if on]
+    feat_fields = [f for _, on, f in flags if on]
+    team, scale = p["team_size"], p["scale_need"]
+    big = "a team of %d and %d feature area%s (%s)" % (team, len(feats), "" if len(feats) == 1 else "s", ", ".join(feats) or "none")
+    why = {
+        "static": ("No backend is needed, so pages are built ahead of time and served from a CDN.", ["project.type", "requirements.auth"]),
+        "serverless": (("%s runs the database, auth and APIs as a managed service" % be["name"].split(" (")[0] if be["attrs"]["runtime"] == "baas"
+                        else "%s runs on managed, scale-to-zero functions" % be["name"]) + ", so there are no servers to size or patch and idle time costs little.",
+                       ["team.has_devops", "budget.monthly_infra_usd", "scale.traffic_pattern"]),
+        "monolith": ("One deployable is the fastest to build and simplest to run for %s." % big,
+                     ["team.size", "timeline.mvp_weeks"]),
+        "modular_monolith": ("One deployable with clear internal modules per feature area suits %s: simple to run now, with seams to split later if load demands it." % big,
+                             ["team.size"] + feat_fields),
+        "service_oriented": ("%s on %s with high scale needs justifies a few coarse services that deploy and scale separately." % (big[0].upper() + big[1:], host["name"]),
+                             ["team.size", "scale.peak_concurrent_users"] + feat_fields),
+        "microservices": ("%s, high scale and a Kubernetes host make fine-grained, independently deployed services worth their operating cost." % (big[0].upper() + big[1:]),
+                          ["team.size", "scale.peak_concurrent_users", "team.has_devops"]),
+        "hybrid": ("The new application sits beside existing systems that stay in place, so it integrates with them rather than replacing them.",
+                   ["infrastructure.existing_systems"]),
+    }
+    text, fields = why[style]
+    alts = []
+    if style in ("monolith", "modular_monolith", "serverless", "hybrid"):
+        alts.append({"choice": "Microservices", "why_not": "Adds service boundaries, network calls and per-service deployment that %s does not need at this scale (team %d)." % ("this team" if team < 8 else "this plan", team)})
+    if style in ("service_oriented", "microservices"):
+        alts.append({"choice": "Modular monolith", "why_not": "Simpler to run, but one deployable would make the high-load parts scale and release together with everything else."})
+    if style == "monolith" and len(feats) >= 2:
+        alts.append({"choice": "Modular monolith", "why_not": ("With %d developer%s, formal module boundaries mostly add ceremony; adopt them as the team grows." % (team, "" if team == 1 else "s"))
+                     if team < 3 else "With %d feature areas the code base stays small enough that formal module boundaries mostly add ceremony; adopt them once a third feature area arrives." % len(feats)})
+    if style == "modular_monolith":
+        alts.append({"choice": "Plain monolith", "why_not": "With %d feature areas, code without module boundaries tends to tangle as the team grows." % len(feats)})
+    if style not in ("serverless", "static") and is_none(be) is False and be["attrs"]["runtime"] != "baas":
+        alts.append({"choice": "Serverless", "why_not": "Per-request functions suit light, spiky work; this backend runs as a long-lived service on %s, which suits websockets, background jobs and steady traffic better." % host["name"]
+                     if not host["attrs"]["static_only"] else "Not offered by the chosen host."})
+    if style == "static":
+        alts.append({"choice": "Server-rendered app", "why_not": "Adds a server to run and pay for, but there are no accounts, payments or per-user data that need one."})
+    if style == "serverless":
+        alts.append({"choice": "Monolith on a container host", "why_not": "Steadier cost at sustained high load, but needs a host to size, patch and monitor."})
+    return {"style": style, "name": STYLE_NAME[style], "justification": text, "driven_by": fields, "alternatives": alts[:3]}
 
 
 def _approx(x):
@@ -130,9 +183,7 @@ def _invalid(scenario, errors, assumptions, n):
 
 def _infeasible(sid, n, p, info, warnings, assumptions, errors):
     crit = []
-    if info["budget_eliminated"] and not info.get("closest"):
-        pass
-    for layer in kb.CORE_LAYERS:
+    for layer in ([] if info.get("closest_band") or info.get("closest") else kb.CORE_LAYERS):
         el = info["layers"][layer]["eliminated"]
         counts = {}
         for e in el:
@@ -140,16 +191,28 @@ def _infeasible(sid, n, p, info, warnings, assumptions, errors):
         if counts and len(el) >= info["layers"][layer]["candidates"] - 1:
             top = sorted(counts.items(), key=lambda t: (-t[1], t[0]))[:2]
             crit.append({"code": "NO_FEASIBLE_STACK", "severity": "critical",
-                         "message": "Every %s option is excluded: %s." % (layer, "; ".join(r for r, _ in top)),
+                         "message": "%s %s option is excluded: %s." % ("Every" if len(el) >= info["layers"][layer]["candidates"] else "All but one", layer, "; ".join(r for r, _ in top)),
                          "fields": ["infrastructure", "compliance"]})
     closest = info.get("closest")
-    if info["budget_eliminated"]:
+    if info.get("closest_band"):
+        cb = info["closest_band"]
+        paid = sorted(((costmod.evaluate(it["entry"]["cost"], p)[0], it["entry"]["name"]) for it in info["closest_items"]), key=lambda t: (-t[0], t[1]))
+        paid = [nm for lo, nm in paid if lo > 0][:3]
+        msg = ("Core stacks fit the hard budget of %s per month, but no complete plan does: the required supporting services%s bring the lowest total to about %s-%s per month."
+               % (costmod.fmt_money(p["budget"]), " (%s)" % _join(paid) if paid else "", costmod.fmt_money(cb["min"]), costmod.fmt_money(cb["max"])))
+        crit.append({"code": "BUDGET_INFEASIBLE", "severity": "critical", "message": msg,
+                     "fields": ["budget.monthly_infra_usd", "extra.budget_strictness"]})
+    elif info["budget_eliminated"]:
         msg = "Every compatible stack costs more than the hard budget of %s per month." % costmod.fmt_money(p["budget"])
         if closest:
             lo, hi = closest["detail"]["cost"]
             msg += " The cheapest option is %s on %s, about %s per month." % (
                 explain.choice_name(closest["fe"]) + " with " + closest["be"]["name"] + " and " + closest["db"]["name"], closest["host"]["name"],
                 costmod.fmt_money(lo) + "-" + costmod.fmt_money(hi))
+            rlo, rhi = closest["detail"].get("reserve", (0, 0))
+            if rlo > 0:
+                msg += " That includes about %s-%s for the cheapest required supporting services (%s)." % (
+                    costmod.fmt_money(rlo), costmod.fmt_money(rhi), _join([supporting.label(l) for l in _paid_reserve_layers(p, closest)]) or "supporting layers")
         crit.append({"code": "BUDGET_INFEASIBLE", "severity": "critical", "message": msg,
                      "fields": ["budget.monthly_infra_usd", "scale.users_12_months"]})
     if not crit:
@@ -157,11 +220,11 @@ def _infeasible(sid, n, p, info, warnings, assumptions, errors):
         crit.append({"code": "NO_FEASIBLE_STACK", "severity": "critical",
                      "message": "No combination of components satisfies every hard constraint together (%s)." % "; ".join(k for k, _ in top),
                      "fields": ["infrastructure", "compliance"]})
-    fixes = robust.repairs(n)
+    fixes = robust.repairs(n, plan=_complete_plan)
     for f in fixes:
         st = f["stack"]
         crit.append({"code": "FEASIBLE_IF_CHANGED", "severity": "info",
-                     "message": "If you %s, a stack becomes possible: %s with %s and %s on %s (core layers about %s-%s per month)." % (
+                     "message": "If you %s, a stack becomes possible: %s with %s and %s on %s (core layers plus required supporting services about %s-%s per month)." % (
                          f["change"], st["frontend"], st["backend"], st["database"], st["hosting"],
                          costmod.fmt_money(f["cost_usd"][0]), costmod.fmt_money(f["cost_usd"][1])),
                      "fields": [f["field"]]})
@@ -210,6 +273,62 @@ def _summary(p, style, best, band, relaxed_budget):
     return first + " It " + (", ".join(facts[:-1]) + (" and " if len(facts) > 1 else "") + facts[-1]) + "."
 
 
+def _paid_reserve_layers(p, r):
+    need = supporting.needed(p, r["be"], r["db"], r["host"], r["mode"])
+    res = supporting.reserve_costs(p)
+    return [l for l in supporting.LAYER_ORDER if l in need and not need[l]["native"] and res.get(l, (0, 0))[0] > 0]
+
+
+def _mobile_pref_note(p, best, ranked):
+    """Say so when the stated mobile preference lost to other factors, and by how much."""
+    pref = p.get("mobile_preference")
+    style = mobile_style(best["fe"])
+    if pref not in ("native", "cross_platform") or style is None or style == pref:
+        return []
+    alt = next((r for r in ranked if mobile_style(r["fe"]) == pref), None)
+    if alt is None:
+        why = "no %s client set was considered for these platforms" % pref.replace("_", "-")
+    else:
+        top = sorted(((k, alt["detail"]["penalties"].get(k, 0) - v) for k, v in best["detail"]["penalties"].items() if k != "mobile_preference"), key=lambda t: (-t[1], t[0]))
+        top = [explain.LABEL.get(k, k.replace("_", " ")) for k, d_ in top if d_ > 0.5][:2]
+        why = "the best %s stack (%s) scores %.1f vs %.1f%s" % (pref.replace("_", "-"), explain.choice_name(alt["fe"]), alt["detail"]["score"], best["detail"]["score"],
+                                                            ", mainly on %s" % " and ".join(top) if top else "")
+    return [{"code": "PREFERENCE_OUTWEIGHED", "severity": "info",
+             "message": "mobile_preference is %s, but %s was chosen: %s." % (pref.replace("_", "-"), explain.choice_name(best["fe"]), why),
+             "fields": ["extra.mobile_preference", "timeline.mvp_weeks", "team.languages"]}]
+
+
+HARD_BUDGET_TRIES = 40
+
+
+def _hard_budget_plan(p, ranked):
+    """A hard budget is checked against the complete plan, not only the core stack and its reserve.
+    Walk the ranking in order and return the first stack whose full plan (after swapping in cheaper
+    supporting services where possible) has a low end inside the budget, or None."""
+    for i, cand in enumerate(ranked[:HARD_BUDGET_TRIES]):
+        items, w, a = supporting.select(p, cand["be"], cand["db"], cand["host"], cand["mode"], cand["fe"])
+        band = cost_band(p, cand, items)
+        notes = []
+        if band["min"] > p["budget"]:
+            core_lo = sum(lo for _, _, lo, _ in cand["detail"]["cost_items"])
+            parts = {"backend": cand["be"], "hosting": cand["host"], "database": cand["db"], "frontend": cand["fe"]}
+            trial = [dict(it) for it in items]
+            notes = supporting.cheapen(p, parts, trial, core_lo, p["budget"], low_end=True)
+            items, band = trial, cost_band(p, cand, trial)
+        if band["min"] <= p["budget"]:
+            if i:
+                notes = ["Hard budget: the %d higher-ranked stack%s only fit%s the %s budget before supporting services were priced, so the first stack whose complete plan fits was chosen."
+                         % (i, "" if i == 1 else "s", "s" if i == 1 else "", costmod.fmt_money(p["budget"]))] + notes
+            return i, cand, items, w, a, band, notes
+    return None
+
+
+def _complete_plan(p, ranked):
+    """(stack, band) of the first stack whose complete plan fits a hard budget, or None."""
+    got = _hard_budget_plan(p, ranked)
+    return None if got is None else (got[1], got[5])
+
+
 def recommend(scenario):
     """Run the full pipeline on one scenario dict and return the output dict (Section 4 schema plus extras)."""
     n, errors, assumptions = validate.validate(scenario)
@@ -224,7 +343,7 @@ def recommend(scenario):
         if info["budget_eliminated"]:
             soft = dict(p, budget_strictness="firm")
             cl, _ = stacks.enumerate_stacks(soft)
-            info["closest"] = min(cl, key=lambda r: (r["detail"]["cost"][0], stacks.key(r))) if cl else None
+            info["closest"] = min(enumerate(cl), key=lambda t: (t[1]["detail"]["cost"][0], t[0]))[1] if cl else None
         return _infeasible(sid, n, p, info, warnings, assumptions, errors)
     best = ranked[0]
     if info.get("budget_floor"):
@@ -242,6 +361,18 @@ def recommend(scenario):
             tband = cost_band(p, best, trial)
             if (tband["min"] + tband["max"]) / 2.0 <= p["budget"] or (band["min"] > p["budget"] >= tband["min"]):
                 items, band, assumptions = trial, tband, list(assumptions) + swaps
+    if p["budget_strictness"] == "hard" and band["min"] > p["budget"]:
+        plan = _hard_budget_plan(p, ranked)
+        if plan is None:
+            info["closest"] = best
+            info["closest_band"] = band
+            info["closest_items"] = items
+            return _infeasible(sid, n, p, info, warnings, assumptions, errors)
+        skip, best, items, sup_warn, sup_assume, band, notes = plan
+        assumptions = list(assumptions) + notes
+        if skip:
+            ranked = ranked[skip:]
+            info["budget_eliminated"] += skip
     relaxed = list(sup_assume)
     relaxed_budget = band["min"] > p["budget"] and p["budget_strictness"] != "hard"
     extra = []
@@ -307,7 +438,7 @@ def recommend(scenario):
                       "message": "A $0 budget only works on free tiers; the recommended stack stays free at typical load but can reach about %s per month at peak, so check the free-tier limits of %s."
                                  % (costmod.fmt_money(band["max"]), _join(free) if free else "each provider"),
                       "fields": ["budget.monthly_infra_usd"]})
-    extra += _cert_gaps(p, best, items) + _reuse_notes(p, best, items) + _sms_cost(p, items, band)
+    extra += _cert_gaps(p, best, items) + _reuse_notes(p, best, items) + _sms_cost(p, items, band) + _mobile_pref_note(p, best, ranked) + _regional_block(p, best)
     credit, credit_w = _credits(p, best, items, band, ranked)
     if credit:
         band["credits"] = credit
@@ -324,7 +455,8 @@ def recommend(scenario):
     d = best["detail"]
     out = _base(sid)
     out.update({
-        "status": status, "summary": _summary(p, style, best, band, relaxed_budget), "architecture_style": style, "stack": stack,
+        "status": status, "summary": _summary(p, style, best, band, relaxed_budget), "architecture_style": style,
+        "architecture": architecture_rationale(p, best, style), "stack": stack,
         "estimated_monthly_cost_usd": band, "warnings": all_w, "assumptions": assumptions + relaxed, "validation_errors": [],
         "decision_trace": _round(explain.trace(p, ranked, info, best, sup_trace, relaxed)),
         "profile": _round(p),
@@ -379,8 +511,8 @@ def _cert_gaps(p, best, items):
                  and not ids & set(it["entry"]["attrs"].get("bundled_with", []) + it["entry"]["attrs"].get("native_with", []))]
         miss = list(dict.fromkeys(miss))
         if miss:
-            out.append({"code": "CERT_GAP", "severity": "warning",
-                        "message": "%s is required, but %s list%s no %s attestation in the knowledge base; ask the vendor%s for evidence (DPA, audit report) or replace %s."
+            out.append({"code": "CERT_GAP", "severity": "critical",
+                        "message": "%s is required but not verified for the whole plan: %s list%s no %s attestation in the knowledge base. Treat this requirement as unmet until the vendor%s provide evidence (DPA, audit report), or replace %s."
                                    % (SOFT_CERT_LABEL[cert], _join(miss), "s" if len(miss) == 1 else "", SOFT_CERT_LABEL[cert],
                                       "" if len(miss) == 1 else "s", "it" if len(miss) == 1 else "them"),
                         "fields": ["compliance"]})
@@ -469,7 +601,7 @@ def _credits(p, best, items, band, ranked):
                 tail = " The best %s-hosted option (%s) scores %.1f points lower." % (name, what, diff)
             elif amount:
                 cc = stacks.credit_cost(p) or stacks._cost_mid
-                tail = (" The best %s-hosted option (%s) is in a near tie, but even with the credits spread over the first year its core layers cost more (about %s against %s per month)."
+                tail = (" The best %s-hosted option (%s) is in a near tie, but even with the credits spread over the first year its core layers and required supporting services cost more (about %s against %s per month)."
                         % (name, what, costmod.fmt_money(cc(alt)), costmod.fmt_money(cc(best))))
             else:
                 tail = (" The best %s-hosted option (%s) is in a near tie and loses on price; give extra.cloud_credits_usd so the credits count in that comparison."
@@ -529,6 +661,16 @@ def _sms_cost(p, items, band):
                                 % (it["entry"]["name"], costmod.fmt_money(a), costmod.fmt_money(b)),
                      "fields": ["requirements.auth", "budget.monthly_infra_usd"]}]
     return []
+
+
+def _regional_block(p, best):
+    """Supabase's shared domain was blocked by some Indian ISPs in Feb-Mar 2026; a custom domain avoids that path."""
+    ids = {best["be"]["id"], best["db"]["id"]}
+    if p["residency"] != "india" or not any(i.startswith("supabase") for i in ids):
+        return []
+    return [{"code": "REGIONAL_NETWORK_BLOCK", "severity": "info",
+             "message": "Some Indian ISPs blocked Supabase's shared *.supabase.co domain in late February 2026 until it was restored on 3 March 2026. Serve the API from your own custom domain so a block on the shared domain does not take the app offline (supabase.com/blog/navigating-regional-network-blocks).",
+             "fields": ["infrastructure.data_residency"]}]
 
 
 def _fmt_arg(layer, p):

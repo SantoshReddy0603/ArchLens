@@ -164,7 +164,7 @@ def _dir_defs(p, best):
     if mid >= 10:
         defs.append(("cheaper", "Spend less", ("budget", "cost"),
                      lambda r: r["detail"]["cost_mid"] <= 0.8 * mid,
-                     lambda r: "about %d%% cheaper on the core layers (%s against %s per month)" % (
+                     lambda r: "about %d%% cheaper on the core layers plus required supporting services (%s against %s per month)" % (
                          round(100 * (1 - r["detail"]["cost_mid"] / mid)), _band(r), _band(best))))
     if d["ops_load"] >= 0.75:
         defs.append(("less_ops", "Less to operate", ("ops",),
@@ -244,20 +244,28 @@ def _relaxations(n):
     return out
 
 
-def repairs(n):
+def repairs(n, plan=None):
     """For an infeasible scenario, which single change makes a stack possible, and what it would be.
-    Each entry re-runs the full constrained search on the changed input, so it is as exact as the main run."""
+    Each entry re-runs the full constrained search on the changed input, so it is as exact as the main run.
+    `plan(p, ranked)` (optional) checks the complete plan under a hard budget and returns (stack, band) or None."""
     import copy
     from . import derive, stacks
     out = []
     for field, text, apply in _relaxations(n):
         m = copy.deepcopy(n)
         apply(m)
-        ranked, _ = stacks.enumerate_stacks(derive.build_profile(m))
+        pm = derive.build_profile(m)
+        ranked, _ = stacks.enumerate_stacks(pm)
         if not ranked:
             continue
-        best = ranked[0]
+        best, cost = ranked[0], ranked[0]["detail"]["cost"]
+        if plan is not None and pm["budget_strictness"] == "hard":
+            got = plan(pm, ranked)
+            if got is None:
+                continue
+            best, band = got
+            cost = (band["min"], band["max"])
         out.append({"field": field, "change": text, "stack": _names(best),
-                    "cost_usd": [round(best["detail"]["cost"][0]), round(best["detail"]["cost"][1])],
+                    "cost_usd": [round(cost[0]), round(cost[1])],
                     "score": round(best["detail"]["score"], 3)})
     return out
