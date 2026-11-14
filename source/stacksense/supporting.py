@@ -83,7 +83,7 @@ def reasons(e, p, be=None, host=None):
                 and (c == "pci_dss" and layer in ("payments", "storage", "cache", "queue", "search", "auth") or c == "hipaa" and layer not in NO_RESIDENCY_LAYERS + ("payments",))]
         if miss:
             r.append("no %s attestation" % "/".join(m.upper() for m in miss))
-    if host is not None and e["provider"] == "self" and layer in ("realtime", "queue", "cache", "search", "ingest") and not _persistent(host):
+    if host is not None and e["provider"] == "self" and not e["attrs"].get("db_native") and layer in ("realtime", "queue", "cache", "search", "ingest") and not _persistent(host):
         r.append("needs a long-running process, which %s does not provide" % host["name"])
     if e["attrs"].get("workforce") and p["auth"] != "enterprise_sso" and not any(
             pat in s_.lower() for pat in e["attrs"].get("integrates", []) for s_ in p["existing_systems"]):
@@ -212,14 +212,19 @@ def reserve_costs(p):
     """Cheapest feasible service cost per layer (used to account for supporting spend while ranking stacks)."""
     out = {}
     for layer in LAYER_ORDER:
-        best = None
-        for e in feasible(layer, p):
-            lo, hi = _cost_mid(e, p)
-            if layer == "ml" and e["attrs"].get("sub") not in ("llm", "inference") and p["ml"] != "training":
-                continue
-            if best is None or (lo + hi, e["id"]) < (best[0] + best[1], best[2]):
-                best = (lo, hi, e["id"])
-        out[layer] = (best[0], best[1]) if best else (0.0, 0.0)
+        subs = _ml_subs(p) if layer == "ml" else [None]
+        lo_t = hi_t = 0.0
+        for sub in subs:
+            best = None
+            for e in feasible(layer, p):
+                if sub is not None and e["attrs"].get("sub") != sub:
+                    continue
+                lo, hi = _cost_mid(e, p)
+                if best is None or (lo + hi, e["id"]) < (best[0] + best[1], best[2]):
+                    best = (lo, hi, e["id"])
+            if best:
+                lo_t, hi_t = lo_t + best[0], hi_t + best[1]
+        out[layer] = (lo_t, hi_t)
     return out
 
 
@@ -296,7 +301,7 @@ def _score(e, p, parts, layer):
     if layer == "search" and e["id"] == "postgres_fts":
         s += 0.04 if p["peak_concurrent"] < 5000 else -0.2
     if e.get("requires_saas"):
-        s -= 0.04 * sum(1 for c in SOFT_CERTS if c in p["compliance"] and c not in e["certs"])
+        s -= 0.12 * sum(1 for c in SOFT_CERTS if c in p["compliance"] and c not in e["certs"])
     return s
 
 
@@ -366,6 +371,10 @@ def select(p, be, db, host, mode, fe_parts):
                     "alternatives": [], "pool": [e for _, _, e in scored], "eliminated": [{"id": e["id"], "name": e["name"], "reasons": rs} for e, rs in elim]}
             for _, i, e in scored[1:3]:
                 item["alternatives"].append({"id": i, "name": e["name"], "score": score_of[i]})
+            if need[layer]["native"] and len(item["alternatives"]) < 2:
+                ext = sorted((-round(_score(e, p, parts, layer), 9), e["id"], e) for e, _ in all_ok if e["id"] not in score_of)
+                for neg, i, e in ext[:2 - len(item["alternatives"])]:
+                    item["alternatives"].append({"id": i, "name": e["name"], "score": -neg, "external": True})
             items.append(item)
             chosen.add(best["id"])
     return items, warnings, assumptions
@@ -376,12 +385,18 @@ def _mid(e, p):
     return (lo + hi) / 2.0
 
 
-def cheapen(p, parts, items, core_mid, limit):
+def _low(e, p):
+    return costmod.evaluate(e["cost"], p)[0]
+
+
+def cheapen(p, parts, items, core_mid, limit, low_end=False):
     """Swap usage-priced supporting services for cheaper compliant ones, one at a time, until the stack's
-    cost midpoint fits the limit or nothing cheaper is left. Returns notes describing each swap."""
+    cost midpoint (or, for a hard budget, its low end) fits the limit or nothing cheaper is left.
+    Returns notes describing each swap."""
     notes = []
+    _mid_ = _low if low_end else _mid
     for _ in range(12):
-        costs = [_mid(it["entry"], p) for it in items]
+        costs = [_mid_(it["entry"], p) for it in items]
         if core_mid + sum(costs) <= limit:
             break
         best = None
@@ -391,7 +406,7 @@ def cheapen(p, parts, items, core_mid, limit):
             cur = costs[i]
             cur_s = _score(it["entry"], p, parts, it["layer"])
             for e in it["pool"]:
-                gain = cur - _mid(e, p)
+                gain = cur - _mid_(e, p)
                 if gain < max(5.0, 0.1 * cur):
                     continue
                 loss = max(0.0, cur_s - _score(e, p, parts, it["layer"])) + 0.01
@@ -402,10 +417,14 @@ def cheapen(p, parts, items, core_mid, limit):
             break
         _, i, e, gain = best
         it = items[i]
-        old = it["entry"]["name"]
-        pool = [x for x in it["pool"] if x["id"] != e["id"]] + [it["entry"]]
+        prev = it["entry"]
+        old = prev["name"]
+        pool = list({x["id"]: x for x in it["pool"] + [prev]}.values())
         it["entry"], it["id"], it["pool"] = e, e["id"], pool
         it["score"] = _score(e, p, parts, it["layer"])
-        it["alternatives"] = [{"id": x["id"], "name": x["name"], "score": _score(x, p, parts, it["layer"])} for x in sorted(pool, key=lambda x: (-_score(x, p, parts, it["layer"]), x["id"]))[:2]]
-        notes.append("%s: %s replaced by %s to bring the stack toward the budget (about %s per month cheaper)." % (label(it["layer"]), old, e["name"], costmod.fmt_money(gain)))
+        it.setdefault("budget_swaps", []).append({"id": prev["id"], "name": old, "score": _score(prev, p, parts, it["layer"]), "saving": gain})
+        rest = [x for x in pool if x["id"] != e["id"]]
+        it["alternatives"] = [{"id": x["id"], "name": x["name"], "score": _score(x, p, parts, it["layer"])} for x in sorted(rest, key=lambda x: (-_score(x, p, parts, it["layer"]), x["id"]))[:2]]
+        notes.append("%s: %s replaced by %s to bring the stack toward the budget (about %s per month cheaper%s)." % (
+            label(it["layer"]), old, e["name"], costmod.fmt_money(gain), " at the low end" if low_end else ""))
     return notes

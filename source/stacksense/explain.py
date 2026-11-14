@@ -13,7 +13,7 @@ LABEL = {"skill": "team skill fit", "capability": "coverage of the required feat
          "over_engineering": "unneeded complexity", "under_provision": "headroom for the expected load", "lock_in": "vendor lock-in",
          "hiring": "hiring pool", "maturity": "maturity", "availability": "the availability target", "soft_certs": "compliance attestations",
          "seo": "SEO strength", "two_codebases": "needing two codebases", "cold_start": "cold-start latency",
-         "existing_reuse": "reuse of existing systems", "game_client": "a game engine client", "game_server": "a purpose-built game server", "data_model": "data-model fit", "durability": "backups and failover for business records"}
+         "existing_reuse": "reuse of existing systems", "game_client": "a game engine client", "game_server": "a purpose-built game server", "data_model": "data-model fit", "durability": "backups and failover for business records", "mobile_preference": "the stated mobile preference", "self_run_db": "self-running a business database at a 99.9%+ target"}
 for _k, _v in CRIT_LABEL.items():
     LABEL[_k] = _v
 REGION_TEXT = {"india": "Indian cloud regions", "eu": "EU regions", "us": "US regions"}
@@ -346,8 +346,18 @@ def component(layer, best, ranked, info, p):
     parts = _layer_part(best, layer)
     d = best["detail"]
     text, fields = justification(layer, parts, best, p, d)
-    return {"choice": choice_name(parts), "justification": text, "driven_by": fields,
-            "alternatives": alternatives(best, ranked, info, p, layer), "tradeoffs": tradeoffs(layer, parts, best, p, d)}
+    name = choice_name(parts)
+    if layer == "hosting" and is_none(parts[0]) and not is_none(best["be"]):
+        plat = best["be"]["name"].split(" (")[0]
+        reg = region_name(best["be"], None, p)
+        name = "None (runs on %s)" % plat
+        text = "The app is mobile-only and everything server-side runs on %s's managed platform%s, so there is nothing to host separately; its plan and region are the hosting decision." % (
+            plat, " in %s" % reg if reg else "")
+    tr = tradeoffs(layer, parts, best, p, d)
+    if name.startswith("None (runs on"):
+        tr = tr + ["Uptime, regions and resource limits follow %s's plan; moving off it later means re-hosting the backend." % plat]
+    return {"choice": name, "justification": text, "driven_by": fields,
+            "alternatives": alternatives(best, ranked, info, p, layer), "tradeoffs": tr}
 
 
 def supporting_component(item, p, why_needed, drivers):
@@ -362,10 +372,23 @@ def supporting_component(item, p, why_needed, drivers):
     elif hi < 1:
         reasons_.append("free at this scale")
     text = "%s: %s." % (e["name"], "; ".join(_lc(x) if i else x for i, x in enumerate(reasons_)))
+    swaps = {x["id"]: x for x in item.get("budget_swaps", [])}
+    if swaps:
+        first = item["budget_swaps"][0]
+        text += " Chosen over %s, which fits slightly better but costs about %s more per month." % (first["name"], costmod.fmt_money(first["saving"]))
     alts = []
     for a in item["alternatives"][:2]:
         o = kb.get(a["id"])
-        gap = item["score"] - a["score"]
+        if a.get("external"):
+            olo, ohi = costmod.evaluate(o["cost"], p)
+            alts.append({"choice": o["name"], "why_not": "A separate %s service (about %s per month%s) when %s already covers this inside the core stack; worth it once the built-in option hits its limits. Score %.2f vs %.2f."
+                         % (item["layer"], _dollars(olo, ohi).split("about ")[-1].split("/month")[0], ", one more system to run" if o["ops_burden"] >= 3 else "",
+                            e["name"], a["score"], item["score"])})
+            continue
+        if a["id"] in swaps:
+            alts.append({"choice": o["name"], "why_not": "Better fit (score %.2f vs %.2f), but about %s per month more expensive; replaced to bring the plan toward the %s budget."
+                         % (a["score"], item["score"], costmod.fmt_money(swaps[a["id"]]["saving"]), costmod.fmt_money(p["budget"]))})
+            continue
         why = []
         if o["quality"] < e["quality"]:
             why.append("lower quality rating (%s vs %s)" % (o["quality"], e["quality"]))
@@ -376,7 +399,11 @@ def supporting_component(item, p, why_needed, drivers):
             why.append("more to operate")
         if o["lock_in"] > e["lock_in"] + 1:
             why.append("more lock-in")
-        alts.append({"choice": o["name"], "why_not": ("Ranks lower (%s)" % ", ".join(why) if why else "A close second with a smaller fit to this stack") + "; score %.2f vs %.2f." % (a["score"], item["score"])})
+        if a["score"] > item["score"]:
+            head = "Scores higher in isolation but is %s" % ("more expensive at this budget" if olo > lo else "a weaker fit once the rest of the plan is fixed")
+        else:
+            head = "Ranks lower (%s)" % ", ".join(why) if why else "A close second with a smaller fit to this stack"
+        alts.append({"choice": o["name"], "why_not": head + "; score %.2f vs %.2f." % (a["score"], item["score"])})
     if not alts:
         alts.append({"choice": "No other eligible option", "why_not": "No other %s service satisfies the hard constraints." % item["layer"]})
     tr = []
@@ -404,7 +431,11 @@ def top_ranking(ranked, p, n=10):
 def trace(p, ranked, info, best, sup_trace, relaxed):
     layers = {}
     for layer in TRIAL_LAYERS:
-        el = sorted(info["layers"][layer]["eliminated"], key=lambda e: e["id"])
+        merged = {}
+        for e in info["layers"][layer]["eliminated"]:
+            m = merged.setdefault(e["id"], dict(e, reasons=[]))
+            m["reasons"] += [x for x in e["reasons"] if x not in m["reasons"]]
+        el = sorted(merged.values(), key=lambda e: e["id"])
         cand = info["layers"][layer]["candidates"]
         used = {}
         for r in ranked:

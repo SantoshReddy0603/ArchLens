@@ -41,8 +41,8 @@ def detect(n):
                       "%s deployment cannot run on %s; the cloud preference is ignored and an on-premise host is used." % (dep.replace("_", "-"), pref.upper()),
                       ["infrastructure.deployment_model", "infrastructure.cloud_preference"]))
     if infra["data_residency"] == "other":
-        out.append(_w("RESIDENCY_CLOUD_CONFLICT", "info",
-                      "Data residency 'other' does not name a region; region choices are left open and must be checked against your legal requirement.",
+        out.append(_w("RESIDENCY_UNVERIFIED", "warning",
+                      "Data residency 'other' does not name a region, so the engine cannot verify where records, backups, logs and sign-in data are stored; treat residency as unconfirmed, not met. Pin the hosting and database regions to the legal boundary and check that auth, email and monitoring services can stay inside it.",
                       ["infrastructure.data_residency"]))
     if dep == "air_gapped":
         needs = [x for x, on in (("payments", req["payments"]), ("SMS one-time passwords", req["auth"] == "phone_otp"),
@@ -102,6 +102,19 @@ def detect(n):
                       ["compliance", "infrastructure.data_residency"]))
     if "rbi_localisation" in comp:
         out.append(_w("RBI_LOCALISATION", "info", "RBI localisation: payment data must be stored only in India, so database, backups and logs are kept in Indian regions.", ["compliance", "infrastructure.data_residency"]))
+    if infra["data_residency"] == "india" or comp & {"dpdp", "rbi_localisation"}:
+        out.append(_w("CERT_IN_LOGS", "info",
+                      "CERT-In directions (April 2022) apply to services used in India: enable logs on all systems, keep them for 180 days within India, sync clocks to an NTP source and report cyber incidents within 6 hours. Size log retention and storage for this.",
+                      ["infrastructure.data_residency", "compliance"]))
+    sens = (n.get("extra") or {}).get("data_sensitivity")
+    if sens == "health" and not comp & {"hipaa", "dpdp", "gdpr"}:
+        out.append(_w("SENSITIVE_DATA_UNREGULATED", "warning",
+                      "The data is marked as health data but no health or privacy regime (HIPAA, DPDP, GDPR) is listed: check which applies to your patients, and plan for encryption at rest, access audit logs and a vendor agreement with each processor.",
+                      ["extra.data_sensitivity", "compliance"]))
+    elif sens == "financial" and not comp & {"pci_dss", "rbi_localisation"}:
+        out.append(_w("SENSITIVE_DATA_UNREGULATED", "info",
+                      "The data is marked as financial but no financial regime (PCI DSS, RBI localisation) is listed: keep card data with a tokenising processor so it stays outside PCI DSS scope, encrypt account data at rest and log access to it.",
+                      ["extra.data_sensitivity", "compliance"]))
     hints = p["hints"]
     if hints["low_end_devices"] and not p["api_only"]:
         out.append(_w("LOW_END_DEVICES", "warning",
