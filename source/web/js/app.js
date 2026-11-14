@@ -634,11 +634,16 @@
     if (cost) {
       var rate = (state.meta && state.meta.inr_per_usd) || 88;
       var costBig = h("span", { class: "big" });
+      var costRows = h("div", { style: "margin-top:16px" });
+      var shown = (cost.breakdown || []).filter(function (b) { return b.max > 0; });
       var seg = h("div", { class: "seg", role: "group", "aria-label": "Currency" });
       function paint() {
         var inr = state.currency === "INR", k = inr ? rate : 1, sym = inr ? "INR " : "$";
         var f = function (n) { return sym + Math.round(n * k).toLocaleString(inr ? "en-IN" : "en-US"); };
         costBig.textContent = f(cost.min) + " to " + f(cost.max);
+        costRows.textContent = "";
+        if (shown.length) costRows.appendChild(tbl(["Layer", "Item", "Per month"], shown.map(function (b) {
+          return [nice(b.layer), b.item, b.min === b.max ? f(b.min) : f(b.min) + " to " + f(b.max)]; })));
         Array.prototype.forEach.call(seg.children, function (b) { b.setAttribute("aria-pressed", String(b.dataset.c === state.currency)); });
       }
       ["USD", "INR"].forEach(function (c) { seg.appendChild(h("button", { type: "button", "data-c": c, text: c, onclick: function () { state.currency = c; paint(); } })); });
@@ -646,7 +651,8 @@
         h("div", { class: "cost" }, costBig, h("span", { class: "muted", text: "per month" }), seg),
         cost.credits ? h("p", { style: "margin-top:12px;max-width:80ch", text: cost.credits.provider + " credits cover about $" + cost.credits.covered_usd[0].toLocaleString("en-US") + " to $" + cost.credits.covered_usd[1].toLocaleString("en-US") + " of this per month" +
           (cost.credits.first_year_average_usd ? "; first-year average after credits: $" + cost.credits.first_year_average_usd[0].toLocaleString("en-US") + " to $" + cost.credits.first_year_average_usd[1].toLocaleString("en-US") + " per month." : ".") }) : null,
-        h("ul", { class: "muted", style: "margin-top:16px;max-width:80ch" }, (cost.assumptions || []).map(function (a) { return h("li", { text: a }); })),
+        shown.length ? costRows : null,
+        h("ul", { class: "muted", style: "margin-top:16px;max-width:80ch" }, (cost.assumptions || []).filter(function (a) { return !(cost.breakdown || []).length || !/^[A-Z][A-Za-z\/ ]* \(.*\): about /.test(a); }).map(function (a) { return h("li", { text: a }); })),
         h("p", { class: "note", text: "Order of magnitude, not a quote. INR uses a fixed rate of " + rate + " per USD." })));
       paint();
     }
@@ -712,12 +718,20 @@
     var body = h("div", { class: "body" },
       rest ? h("div", null, h("h4", { text: "More detail" }), h("p", { style: "margin:0", text: rest })) : null,
       c.driven_by && c.driven_by.length ? h("div", null, h("h4", { text: "Driven by" }), c.driven_by.map(function (d) { return h("span", { class: "pill", text: d }); })) : null,
+      c.confidence || c.region || c.engine ? h("p", { class: "muted", style: "margin:0" }, [
+        c.confidence ? "Confidence: " + c.confidence + (typeof c.margin_points !== "number" ? "" : c.margin_points >= 0 ? " (" + c.margin_points.toFixed(2) + " points ahead of the next option for this layer)" :
+          " (the next option scores " + (-c.margin_points).toFixed(2) + " points higher; this one wins the near-tie rule on cost, then complexity and operations load)") : null,
+        c.engine && c.offering ? "Engine: " + c.engine + ", run as " + c.offering : null,
+        c.region ? "Region: " + c.region : null].filter(Boolean).join(". ") + ".") : null,
       h("div", { class: "two" },
         h("div", null, h("h4", { text: "Alternatives and why not" }), (c.alternatives || []).length ?
           h("ul", null, c.alternatives.map(function (a) { return h("li", { class: "alt" }, h("b", { text: a.choice }), ": " + (a.why_not || "")); })) :
           h("p", { class: "muted", style: "margin:0", text: "No alternative applies." })),
         h("div", null, h("h4", { text: "Trade-offs" }), (c.tradeoffs || []).length ?
-          h("ul", null, c.tradeoffs.map(function (t) { return h("li", { text: t }); })) : h("p", { class: "muted", style: "margin:0", text: "None noted." }))));
+          h("ul", null, c.tradeoffs.map(function (t) { return h("li", { text: t }); })) : h("p", { class: "muted", style: "margin:0", text: "None noted." }))),
+      (c.sources || []).length ? h("div", null, h("h4", { text: "Sources" }), h("ul", null, c.sources.map(function (x) {
+        return h("li", null, h("a", { href: x.url, target: "_blank", rel: "noopener noreferrer", text: x.title }));
+      }))) : null);
     var d = h("details", { class: "card" },
       h("summary", null, h("span", { class: "layer", text: nice(layer) }), h("span", { class: "choice", text: c.choice || "None" }), h("span", { class: "why1", text: first })), body);
     return d;
