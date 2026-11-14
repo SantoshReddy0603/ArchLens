@@ -138,6 +138,12 @@ def build_profile(n):
     ops_capacity = _clamp(ops)
 
     client_platforms = [p for p in proj["platforms"] if p != "api_only"]
+    mobile = [p for p in client_platforms if p in ("android", "ios")]
+    if extra.get("mobile_preference") == "pwa" and mobile and ptype != "gaming":
+        client_platforms = sorted(set(client_platforms) - set(mobile) | {"web"})
+        notes.append("mobile_preference is pwa, so %s %s served by one installable web app instead of store apps%s."
+                     % (" and ".join(m.replace("ios", "iOS").replace("android", "Android") for m in mobile), "is" if len(mobile) == 1 else "are",
+                        "; push and background sync on iOS need iOS 16.4+ and a home-screen install" if "ios" in mobile else ""))
     api_only = not client_platforms
 
     needs_server = bool(req["auth"] != "none" or req["payments"] or req["multi_tenant"] or req["ml_features"] != "none"
@@ -191,9 +197,11 @@ def build_profile(n):
         "cost": 1.0 + budget_tightness,
         "time_to_market": 1.0 + time_pressure,
         "scalability": 0.75 + 0.75 * min(1.0, scale_need / 6.0),
-        "performance": 1.0 + latency_need + (0.3 if hints["low_end_devices"] else 0.0),
+        "performance": 1.0 + latency_need + (0.3 if hints["low_end_devices"] else 0.0)
+        + (0.15 if extra.get("user_geography") in ("multi_region", "global") else 0.0),
         "maintainability": 1.0 + (0.25 if extra.get("hiring_plan") == "aggressive" else 0.0),
-        "security": 1.0 + 0.15 * regulated + (0.2 if sensitivity in ("financial", "health") else 0.0),
+        "security": 1.0 + 0.15 * regulated + {"public": -0.1, "personal": 0.05, "financial": 0.2, "health": 0.2}.get(sensitivity, 0.0)
+        if extra.get("data_sensitivity") else 1.0 + 0.15 * regulated + (0.2 if sensitivity in ("financial", "health") else 0.0),
     }
     raw_w = {k: priorities[k] * mult[k] for k in priorities}
     total = sum(raw_w.values())

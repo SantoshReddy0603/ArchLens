@@ -315,6 +315,26 @@ def apply_budget_floor(results, p):
     return ref
 
 
+MOBILE_MISMATCH = {("native", "cross_platform"): 5.0, ("cross_platform", "native"): 5.0}
+
+
+def mobile_style(fe_parts):
+    """How the mobile platforms are served: one cross-platform codebase or per-platform native apps."""
+    mob = [f for f in fe_parts if {"android", "ios"} & set(f["platforms"])]
+    if not mob:
+        return None
+    return "cross_platform" if any(f["capabilities"].get("cross_platform") for f in mob) else "native"
+
+
+def mobile_preference_penalty(p, fe_parts):
+    """Bounded penalty when the mobile delivery style differs from extra.mobile_preference (pwa is handled
+    in the profile by serving the mobile platforms from the web frontend)."""
+    pref = p.get("mobile_preference")
+    if pref not in ("native", "cross_platform"):
+        return 0.0
+    return MOBILE_MISMATCH.get((pref, mobile_style(fe_parts)), 0.0)
+
+
 def score_stack(p, ctx, fe_parts, be, db, host, mode):
     """Score one complete stack. Returns a dict with score and a full breakdown."""
     q, per = quality(p, fe_parts, be, db, host)
@@ -374,8 +394,13 @@ def score_stack(p, ctx, fe_parts, be, db, host, mode):
     pen["data_model"] = data_model_penalty(p, db)
     # Money, health and tenant records need point-in-time recovery and failover, which an embedded single-node store lacks.
     pen["durability"] = 4.0 if db["attrs"].get("single_node") and p["project_type"] in RELATIONAL_TYPES else 0.0
+    # On a managed cloud, running your own database for payment or business records at 99.9%+ trades a
+    # small saving for backups, failover and patching the team must own; a managed offering does that.
+    pen["self_run_db"] = 4.0 if (mode == "self_hosted" and p["deployment"] == "managed_cloud" and host["attrs"]["environment"] != "onprem"
+                                 and (p["payments"] or p["project_type"] in RELATIONAL_TYPES) and float(p["availability"]) >= 99.9) else 0.0
     pen["game_server"] = 8.0 if p["project_type"] == "gaming" and not be["attrs"].get("game_server") else 0.0
     pen["two_codebases"] = (3.0 + 6.0 * p["time_pressure"]) if len(fe_parts) > 1 else 0.0
+    pen["mobile_preference"] = mobile_preference_penalty(p, fe_parts)
     bonus = 0.0
     for i in ctx.integr:
         for layer, comps in i["boosts"].items():

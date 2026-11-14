@@ -39,12 +39,14 @@ def frontend_options(p, kept, eliminated):
     covers = {c["id"]: platform_cover([c], plats) for c in real}
     singles = [c for c in real if all(q >= MIN_PLATFORM_QUALITY for q in covers[c["id"]].values())]
     seo_split = bool(p["seo"] and "web" in plats and len(plats) > 1 and not any(c["attrs"]["seo"] >= SEO_STRONG for c in singles))
+    native_split = p.get("mobile_preference") == "native" and set(plats) == {"android", "ios"}
     if singles:
-        for c in real:
-            if c not in singles:
-                weak = [pl for pl, q in covers[c["id"]].items() if q < MIN_PLATFORM_QUALITY]
-                eliminated.append({"id": c["id"], "name": c["name"], "reasons": ["does not serve %s well enough on its own" % "/".join(weak)]})
-        if not seo_split:
+        if not native_split:
+            for c in real:
+                if c not in singles:
+                    weak = [pl for pl, q in covers[c["id"]].items() if q < MIN_PLATFORM_QUALITY]
+                    eliminated.append({"id": c["id"], "name": c["name"], "reasons": ["does not serve %s well enough on its own" % "/".join(weak)]})
+        if not seo_split and not native_split:
             return [[c] for c in singles], [], False
     pool = {}
     for pl in plats:
