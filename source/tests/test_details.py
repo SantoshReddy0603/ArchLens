@@ -120,3 +120,77 @@ def test_new_details_are_deterministic():
     a, b = recommend(variant("P2")), recommend(variant("P2"))
     assert a == b
     assert choices(a) == choices(b)
+
+
+def _desc(pid, text):
+    s = variant(pid)
+    s["project"]["description"] = text
+    return recommend(s)
+
+
+@pytest.mark.parametrize("pid", IDS)
+def test_core_components_carry_confidence_and_sources(outputs, pid):
+    st = outputs[pid]["stack"]
+    for layer in ("frontend", "backend", "database", "hosting"):
+        c = st[layer]
+        if c.get("kb_id") is None:
+            continue
+        assert c["confidence"] in ("high", "medium", "low")
+        assert c["margin_points"] is None or c["margin_points"] > -1
+        assert c["sources"] and all(x["url"].startswith("https://") for x in c["sources"])
+
+
+@pytest.mark.parametrize("pid", IDS)
+def test_cost_breakdown_matches_band(outputs, pid):
+    cost = outputs[pid]["estimated_monthly_cost_usd"]
+    if "breakdown" not in cost:
+        return
+    lo = sum(b["min"] for b in cost["breakdown"])
+    hi = sum(b["max"] for b in cost["breakdown"])
+    assert all(b["min"] <= b["max"] for b in cost["breakdown"])
+    assert abs(lo - cost["min"]) <= max(5, 0.02 * cost["min"]) and abs(hi - cost["max"]) <= max(5, 0.02 * cost["max"])
+
+
+def test_database_offering_follows_hosting_provider(outputs):
+    for pid in IDS:
+        db = outputs[pid]["stack"]["database"]
+        if db.get("offering"):
+            assert db["choice"].startswith(db["offering"]) and db["engine"] in db["justification"]
+
+
+def test_offering_changes_with_cloud():
+    out = recommend(variant("P3"))
+    db = out["stack"]["database"]
+    if db.get("engine") == "PostgreSQL" and "Cloud SQL" in db["choice"]:
+        aws = recommend(variant("P3", infrastructure={**variant("P3")["infrastructure"], "cloud_provider": "aws"}))
+        if aws["stack"]["database"].get("engine") == "PostgreSQL" and aws["stack"]["hosting"]["choice"].startswith(("AWS", "Amazon")):
+            assert "Amazon RDS" in aws["stack"]["database"]["choice"]
+
+
+def test_geo_layer_follows_location_wording(outputs):
+    with_gps = [x["layer"] for x in outputs["P6"]["stack"]["supporting"]]
+    without = [x["layer"] for x in _desc("P6", "NGO field agents fill crop surveys with photos in villages with intermittent 2G/3G. Data syncs when signal is available.")["stack"]["supporting"]]
+    if outputs["P6"]["profile"].get("hints", {}).get("location") or "geo" in with_gps:
+        assert "geo" in with_gps
+    assert "geo" not in without
+
+
+def test_ledger_note_needs_ledger_wording_and_payments(outputs):
+    assert "LEDGER_INTEGRITY" in [w["code"] for w in outputs["P4"]["warnings"]]
+    plain = _desc("P4", "Small personal loans with UPI disbursal and EMI collection. KYC document upload, credit scoring model.")
+    assert "LEDGER_INTEGRITY" not in [w["code"] for w in plain["warnings"]]
+    for pid in ("P1", "P2", "P3", "P5", "P6"):
+        assert "LEDGER_INTEGRITY" not in [w["code"] for w in outputs[pid]["warnings"]]
+
+
+def test_approval_wording_adds_notification_email():
+    base = variant("P2")
+    if base["requirements"].get("auth") in (None, "none"):
+        return
+    out = _desc("P2", base["project"]["description"] + " Managers approve leave requests and expense claims.")
+    assert "email" in [x["layer"] for x in out["stack"]["supporting"]]
+
+
+def test_round_three_fields_are_deterministic():
+    for pid in ("P3", "P4", "P6"):
+        assert json.dumps(recommend(variant(pid)), sort_keys=True) == json.dumps(recommend(variant(pid)), sort_keys=True)

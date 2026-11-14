@@ -46,7 +46,7 @@ Data flow: input is validated and normalized, a derived profile (scale, effort, 
 | `stacksense/conflicts.py` | Contradiction and risk warnings |
 | `stacksense/explain.py` | Per-component justification, alternatives, trade-offs |
 | `stacksense/robust.py` | Sensitivity checks on the pick, directional trade-off options, and single-change repairs for infeasible input |
-| `stacksense/kb/*.json`, `kb.py` | Knowledge base: 24 frontends, 16 backends, 16 databases, 27 hosts, 117 supporting services, 20 integrations, 21 deprecations, each with scores, notes and source links |
+| `stacksense/kb/*.json`, `kb.py` | Knowledge base: 24 frontends, 16 backends, 16 databases, 27 hosts, 120 supporting services, 20 integrations, 21 deprecations, each with scores, notes and source links; `offerings.json` names the concrete managed product for an engine on each cloud |
 | `stacksense/extract.py` | Free text or file to field suggestions with evidence and confidence |
 | `stacksense/llm.py` | Optional Gemini calls (suggestions, rewording) behind one network function |
 | `stacksense/report.py` | PDF export |
@@ -167,11 +167,15 @@ score = 100 * (0.55 * Q + 0.45 * F) - penalties
 - Placement: when data residency is set (or GDPR applies with no residency), the database and host explanations name a concrete region for the chosen provider, for example Mumbai (ap-south-1) or Frankfurt (fra).
 - The project description is scanned with fixed patterns for low-end devices, weak networks, location data and UPI. These shift criterion weights and raise specific warnings (`LOW_END_DEVICES`, `WEAK_NETWORK`, `LOCATION_DATA`). Tight latency with live updates raises `REALTIME_LATENCY`, and offline edits on shared records raise `OFFLINE_CONFLICTS`.
 
+- Approval steps in the description (leave requests, sign-offs, expense claims) add a notification email service; a double-entry or financial ledger with payments raises `LEDGER_INTEGRITY` (append-only entries, balanced rows in one transaction, integer minor units); location data on a PostgreSQL-family database adds PostGIS as a geospatial layer.
+
 - Hard budget: a stack is kept only if its core layers plus the cheapest required supporting services fit. After supporting services are chosen, the complete plan is checked again; if it is over, cheaper services are swapped in (each swap is shown as an alternative with the money saved) or the next stack is tried, and if nothing fits the result is `infeasible` with `BUDGET_INFEASIBLE` and the single changes that would fix it.
 - When a layer is covered by the core stack (for example PostgreSQL full-text search or Supabase Auth), dedicated services such as Typesense or Auth0 are still listed as alternatives, with their cost and when they become worth it.
 - `architecture` explains the architecture style: why it fits (team size, feature areas, host, scale), the inputs that drove it, and why the neighbouring styles (monolith, modular monolith, serverless, microservices) were not chosen.
 - India-specific notes: `CERT_IN_LOGS` (180-day log retention in India under the CERT-In directions) when residency is India or DPDP/RBI apply, and `REGIONAL_NETWORK_BLOCK` when a Supabase stack serves Indian users (shared-domain ISP block in February-March 2026; use a custom domain).
 - A required certification that the chosen services do not cover is a critical `CERT_GAP`; data residency set to `other` gives `RESIDENCY_UNVERIFIED`, since no provider region can be confirmed.
+
+Each component also carries `kb_id`, up to three `sources` (official documentation links), and for the core layers a `confidence` (`high`, `medium` or `low`) with `margin_points`, the score lead over the best stack that uses a different option for that layer. The database names the concrete managed product on the chosen cloud (`engine` and `offering`, for example PostgreSQL run as Amazon RDS for PostgreSQL on AWS, or Cloud SQL on Google Cloud) and its region; this naming never changes which stack is picked. `estimated_monthly_cost_usd.breakdown` lists the cost of every core layer and supporting service, and its rows add up to the band, give or take rounding.
 
 The result carries `ranking` (top 10 stacks), `score` (total, Q, F, penalties, fit terms, criteria) and `decision_trace` (weights, layer weights, eliminated candidates per layer, search counts, formula). The UI and the PDF both show them.
 

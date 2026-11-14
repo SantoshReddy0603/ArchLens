@@ -107,7 +107,7 @@ def test_p5_microsoft_estate(outputs):
     o = outputs["P5"]
     c = choices(o)
     assert c["backend"] == "C# + ASP.NET Core"
-    assert "SQL Server" in c["database"]
+    assert "SQL Server" in (o["stack"]["database"].get("engine") or c["database"])
     assert any("Entra" in v for v in support_ids(o).values())
 
 
