@@ -39,14 +39,14 @@
       "alternatives": [
         {
           "choice": "Flutter",
-          "why_not": "Flutter scores 1.1 points lower overall, mainly on team skill fit (1.1 points)."
+          "why_not": "Flutter scores 2.3 points lower overall, mainly on team skill fit (2.3 points)."
         }
       ],
       "tradeoffs": [
         "Native modules outside the Expo SDK need a custom development build"
       ],
       "confidence": "medium",
-      "margin_points": 1.08,
+      "margin_points": 2.31,
       "kb_id": "expo_rn",
       "sources": [
         {
@@ -818,11 +818,11 @@
           "django",
           "nestjs",
           "fastapi",
+          "express",
+          "supabase",
           "go_chi",
           "spring_boot",
-          "aspnet_core",
-          "express",
-          "supabase"
+          "aspnet_core"
         ],
         "chosen": [
           "django"
@@ -1110,7 +1110,7 @@
           "PostgreSQL (managed or self-hosted)",
           "AWS ECS on Fargate"
         ],
-        "score": 83.404,
+        "score": 83.405,
         "quality": 0.7951,
         "fit": 0.9017,
         "penalties": {
@@ -1177,7 +1177,7 @@
           "PostgreSQL (managed or self-hosted)",
           "AWS EKS (Kubernetes)"
         ],
-        "score": 82.564,
+        "score": 82.566,
         "quality": 0.7793,
         "fit": 0.8823,
         "penalties": {},
@@ -1718,7 +1718,7 @@
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "AWS ECS on Fargate"
       },
-      "score": 83.404,
+      "score": 83.405,
       "quality": 0.7951,
       "fit": 0.9017,
       "penalty": 0.9,
@@ -1769,7 +1769,7 @@
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "AWS EKS (Kubernetes)"
       },
-      "score": 82.564,
+      "score": 82.566,
       "quality": 0.7793,
       "fit": 0.8823,
       "penalty": 0.0,
@@ -1781,29 +1781,12 @@
     {
       "rank": 6,
       "stack": {
-        "frontend": "Flutter",
-        "backend": "Python + Django",
-        "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "AWS Elastic Beanstalk"
-      },
-      "score": 82.452,
-      "quality": 0.7886,
-      "fit": 0.8759,
-      "penalty": 0.338,
-      "cost_usd": [
-        491,
-        897
-      ]
-    },
-    {
-      "rank": 7,
-      "stack": {
         "frontend": "React Native (Expo)",
         "backend": "Python + Django",
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "AWS Lambda + API Gateway"
       },
-      "score": 82.426,
+      "score": 82.427,
       "quality": 0.7973,
       "fit": 0.9022,
       "penalty": 2.025,
@@ -1813,24 +1796,7 @@
       ]
     },
     {
-      "rank": 8,
-      "stack": {
-        "frontend": "Flutter",
-        "backend": "Python + Django",
-        "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "AWS ECS on Fargate"
-      },
-      "score": 82.323,
-      "quality": 0.7955,
-      "fit": 0.8771,
-      "penalty": 0.9,
-      "cost_usd": [
-        499,
-        897
-      ]
-    },
-    {
-      "rank": 9,
+      "rank": 7,
       "stack": {
         "frontend": "React Native (Expo)",
         "backend": "Node.js + NestJS",
@@ -1847,14 +1813,14 @@
       ]
     },
     {
-      "rank": 10,
+      "rank": 8,
       "stack": {
         "frontend": "React Native (Expo)",
         "backend": "Python + FastAPI",
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "AWS ECS on Fargate"
       },
-      "score": 82.116,
+      "score": 82.117,
       "quality": 0.7751,
       "fit": 0.8975,
       "penalty": 0.9,
@@ -1862,11 +1828,45 @@
         499,
         897
       ]
+    },
+    {
+      "rank": 9,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Python + Django",
+        "database": "Supabase Postgres",
+        "hosting": "AWS Elastic Beanstalk"
+      },
+      "score": 82.021,
+      "quality": 0.7761,
+      "fit": 0.8897,
+      "penalty": 0.7,
+      "cost_usd": [
+        365,
+        722
+      ]
+    },
+    {
+      "rank": 10,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Node.js + NestJS",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "AWS EC2 (self-managed VMs)"
+      },
+      "score": 81.966,
+      "quality": 0.7565,
+      "fit": 0.8969,
+      "penalty": 0.0,
+      "cost_usd": [
+        471,
+        884
+      ]
     }
   ],
   "robustness": {
     "verdict": "sensitive",
-    "margin_points": 0.129,
+    "margin_points": 0.127,
     "runner_up": {
       "frontend": "React Native (Expo)",
       "backend": "Python + Django",
@@ -2018,8 +2018,8 @@
           "to": "AWS Lambda + API Gateway"
         }
       ],
-      "score": 82.426,
-      "points_behind": 1.107,
+      "score": 82.427,
+      "points_behind": 1.105,
       "cost_usd": [
         284,
         527

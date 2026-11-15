@@ -34,20 +34,20 @@
       ],
       "alternatives": [
         {
-          "choice": "Laravel Blade + Livewire",
-          "why_not": "Laravel Blade + Livewire scores 2.2 points lower overall, mainly on team skill fit (2.2 points)."
+          "choice": "Vue 3 + Vite (SPA)",
+          "why_not": "Vue 3 + Vite (SPA) scores 4.2 points lower overall, mainly on team skill fit (2.9 points) and compatibility with the rest of the stack (0.6 points)."
         },
         {
-          "choice": "Vue 3 + Vite (SPA)",
-          "why_not": "Vue 3 + Vite (SPA) scores 2.8 points lower overall, mainly on team skill fit (1.5 points) and compatibility with the rest of the stack (0.6 points)."
+          "choice": "React + Vite (SPA)",
+          "why_not": "React + Vite (SPA) scores 4.4 points lower overall, mainly on team skill fit (2.9 points) and compatibility with the rest of the stack (0.6 points)."
         }
       ],
       "tradeoffs": [
         "Rich interactivity is harder",
         "No offline"
       ],
-      "confidence": "medium",
-      "margin_points": 2.24,
+      "confidence": "high",
+      "margin_points": 4.16,
       "kb_id": "django_htmx",
       "sources": [
         {
@@ -71,18 +71,18 @@
       "alternatives": [
         {
           "choice": "PHP + Laravel",
-          "why_not": "PHP + Laravel scores 2.2 points lower overall, mainly on team skill fit (2.2 points)."
+          "why_not": "PHP + Laravel scores 5.1 points lower overall, mainly on team skill fit (5.1 points)."
         },
         {
           "choice": "Python + FastAPI",
-          "why_not": "Python + FastAPI scores 4.1 points lower overall, mainly on team skill fit (1.5 points) and security (0.6 points)."
+          "why_not": "Python + FastAPI scores 5.4 points lower overall, mainly on team skill fit (2.9 points) and security (0.6 points)."
         }
       ],
       "tradeoffs": [
         "Sync-first, so realtime needs Channels"
       ],
-      "confidence": "medium",
-      "margin_points": 2.24,
+      "confidence": "high",
+      "margin_points": 5.11,
       "kb_id": "django",
       "sources": [
         {
@@ -506,13 +506,13 @@
         "eligible_after_stack_checks": 17,
         "shortlist": [
           "django_htmx",
-          "laravel_livewire",
           "vue_vite",
           "react_vite",
           "angular",
+          "laravel_livewire",
           "electron",
           "tauri",
-          "blazor"
+          "nuxt"
         ],
         "chosen": [
           "django_htmx"
@@ -1140,23 +1140,6 @@
     {
       "rank": 7,
       "stack": {
-        "frontend": "Laravel Blade + Livewire",
-        "backend": "PHP + Laravel",
-        "database": "SQLite (embedded)",
-        "hosting": "DigitalOcean App Platform / Droplets"
-      },
-      "score": 84.435,
-      "quality": 0.8247,
-      "fit": 0.8683,
-      "penalty": 0.0,
-      "cost_usd": [
-        6,
-        21
-      ]
-    },
-    {
-      "rank": 8,
-      "stack": {
         "frontend": "Django templates + htmx",
         "backend": "Python + Django",
         "database": "PostgreSQL (managed or self-hosted)",
@@ -1172,7 +1155,7 @@
       ]
     },
     {
-      "rank": 9,
+      "rank": 8,
       "stack": {
         "frontend": "Django templates + htmx",
         "backend": "Python + Django",
@@ -1189,20 +1172,37 @@
       ]
     },
     {
-      "rank": 10,
+      "rank": 9,
       "stack": {
-        "frontend": "Vue 3 + Vite (SPA)",
+        "frontend": "Django templates + htmx",
         "backend": "Python + Django",
         "database": "SQLite (embedded)",
-        "hosting": "DigitalOcean App Platform / Droplets"
+        "hosting": "Azure App Service"
       },
-      "score": 83.889,
-      "quality": 0.8165,
-      "fit": 0.8662,
-      "penalty": 0.0,
+      "score": 83.825,
+      "quality": 0.8263,
+      "fit": 0.8553,
+      "penalty": 0.113,
       "cost_usd": [
-        6,
-        21
+        14,
+        37
+      ]
+    },
+    {
+      "rank": 10,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "Cloud Firestore",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 83.662,
+      "quality": 0.8174,
+      "fit": 0.9301,
+      "penalty": 3.15,
+      "cost_usd": [
+        0,
+        19
       ]
     }
   ],

@@ -169,7 +169,9 @@ def compat(fe_parts, be, db, host, mode):
 
 def skill(p, fe_parts, be, db, host):
     fe = _fe(fe_parts, lambda c: skill_fit_component(p, c))
-    parts = [(0.40, fe), (0.45, skill_fit_component(p, be)), (1.0, skill_fit_component(p, db)), (1.0, skill_fit_component(p, host))]
+    # The layers the team writes code in carry the language fit; database and hosting have no language and
+    # only add their learning curve, so they must not dilute a language mismatch in the code layers.
+    parts = [(0.40, fe), (0.45, skill_fit_component(p, be)), (0.25, skill_fit_component(p, db)), (0.25, skill_fit_component(p, host))]
     s = sum(w * v for w, v in parts) / sum(w for w, _ in parts)
     langs = [set(f.get("languages", [])) for f in fe_parts]
     if be.get("languages") and any(l & set(be["languages"]) for l in langs):

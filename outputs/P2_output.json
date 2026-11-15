@@ -37,11 +37,11 @@
       "alternatives": [
         {
           "choice": "Flutter + Next.js",
-          "why_not": "Flutter + Next.js scores 0.7 points lower overall, mainly on team skill fit (0.4 points)."
+          "why_not": "Flutter + Next.js scores 1.4 points lower overall, mainly on team skill fit (1.1 points)."
         },
         {
-          "choice": "Kotlin + Jetpack Compose (Android native) + Next.js",
-          "why_not": "Kotlin + Jetpack Compose (Android native) + Next.js scores 0.9 points lower overall, mainly on team skill fit (0.5 points)."
+          "choice": "React Native (Expo)",
+          "why_not": "React Native (Expo) scores 1.5 points lower overall, mainly on SEO strength (8.0 points) and coverage of the required features (1.2 points)."
         }
       ],
       "tradeoffs": [
@@ -50,8 +50,8 @@
         "Serverless costs grow with traffic",
         "Two client codebases to build and maintain."
       ],
-      "confidence": "low",
-      "margin_points": 0.66,
+      "confidence": "medium",
+      "margin_points": 1.36,
       "kb_id": "expo_rn+nextjs",
       "sources": [
         {
@@ -81,11 +81,11 @@
       "alternatives": [
         {
           "choice": "Python + Django",
-          "why_not": "Python + Django scores 2.7 points lower overall, mainly on budget fit (2.6 points) and compatibility with the rest of the stack (0.9 points). Estimated infrastructure about $260-$520/month versus about $130-$320/month."
+          "why_not": "Python + Django scores 2.6 points lower overall, mainly on budget fit (2.6 points) and compatibility with the rest of the stack (0.9 points). Estimated infrastructure about $260-$520/month versus about $130-$320/month."
         },
         {
           "choice": "Next.js route handlers (serverless)",
-          "why_not": "Next.js route handlers (serverless) scores 3.6 points lower overall, mainly on time to market (1.0 points) and budget fit (0.9 points)."
+          "why_not": "Next.js route handlers (serverless) scores 3.5 points lower overall, mainly on time to market (1.0 points) and budget fit (0.9 points)."
         }
       ],
       "tradeoffs": [
@@ -94,7 +94,7 @@
       ],
       "region": "Mumbai (ap-south-1)",
       "confidence": "medium",
-      "margin_points": 2.68,
+      "margin_points": 2.63,
       "kb_id": "supabase",
       "sources": [
         {
@@ -123,7 +123,7 @@
       "alternatives": [
         {
           "choice": "PostgreSQL (managed or self-hosted)",
-          "why_not": "PostgreSQL (managed or self-hosted) scores 2.8 points lower overall, mainly on budget fit (3.6 points) and performance (0.9 points). Estimated infrastructure about $350-$640/month versus about $130-$320/month."
+          "why_not": "PostgreSQL (managed or self-hosted) scores 2.7 points lower overall, mainly on budget fit (3.6 points) and performance (0.9 points). Estimated infrastructure about $350-$640/month versus about $130-$320/month."
         },
         {
           "choice": "MySQL (managed or self-hosted)",
@@ -135,7 +135,7 @@
       ],
       "region": "Mumbai (ap-south-1)",
       "confidence": "medium",
-      "margin_points": 2.79,
+      "margin_points": 2.75,
       "kb_id": "supabase_postgres",
       "sources": [
         {
@@ -166,7 +166,7 @@
         },
         {
           "choice": "Azure Static Web Apps",
-          "why_not": "Azure Static Web Apps scores 2.5 points lower overall, mainly on budget fit (0.9 points) and time to market (0.5 points). Estimated infrastructure about $130-$440/month versus about $130-$320/month."
+          "why_not": "Azure Static Web Apps scores 2.6 points lower overall, mainly on budget fit (0.9 points) and time to market (0.5 points). Estimated infrastructure about $130-$440/month versus about $130-$320/month."
         }
       ],
       "tradeoffs": [
@@ -923,9 +923,9 @@
           "nextjs_api",
           "nestjs",
           "fastapi",
+          "express",
           "laravel",
-          "rails",
-          "express"
+          "rails"
         ],
         "chosen": [
           "supabase"
@@ -1099,9 +1099,9 @@
           "Supabase Postgres",
           "Cloudflare Pages"
         ],
-        "score": 78.071,
+        "score": 78.025,
         "quality": 0.8315,
-        "fit": 0.9182,
+        "fit": 0.9172,
         "penalties": {
           "hiring": 0.12,
           "lock_in": 1.17,
@@ -1114,7 +1114,7 @@
           "capability": 0.921,
           "compat": 0.867,
           "ops": 1.0,
-          "skill": 1.0
+          "skill": 0.996
         }
       },
       {
@@ -1125,9 +1125,9 @@
           "Supabase Postgres",
           "Cloudflare Pages"
         ],
-        "score": 77.411,
+        "score": 76.66,
         "quality": 0.8303,
-        "fit": 0.905,
+        "fit": 0.8883,
         "penalties": {
           "hiring": 0.12,
           "lock_in": 1.17,
@@ -1140,46 +1140,20 @@
           "capability": 0.921,
           "compat": 0.833,
           "ops": 1.0,
-          "skill": 0.965
+          "skill": 0.905
         }
       },
       {
         "rank": 3,
-        "stack": [
-          "Kotlin + Jetpack Compose (Android native) + Next.js",
-          "Supabase (BaaS)",
-          "Supabase Postgres",
-          "Cloudflare Pages"
-        ],
-        "score": 77.147,
-        "quality": 0.8307,
-        "fit": 0.9007,
-        "penalties": {
-          "hiring": 0.12,
-          "lock_in": 1.26,
-          "maturity": 0.5,
-          "two_codebases": 7.192
-        },
-        "fit_terms": {
-          "archetype": 0.9,
-          "budget": 0.76,
-          "capability": 0.921,
-          "compat": 0.8,
-          "ops": 1.0,
-          "skill": 0.961
-        }
-      },
-      {
-        "rank": 4,
         "stack": [
           "React Native (Expo)",
           "Supabase (BaaS)",
           "Supabase Postgres",
           "Cloudflare Pages"
         ],
-        "score": 76.586,
+        "score": 76.57,
         "quality": 0.8305,
-        "fit": 0.8909,
+        "fit": 0.8906,
         "penalties": {
           "hiring": 0.12,
           "lock_in": 0.562,
@@ -1192,33 +1166,59 @@
           "capability": 0.798,
           "compat": 0.867,
           "ops": 1.0,
-          "skill": 1.0
+          "skill": 0.999
+        }
+      },
+      {
+        "rank": 4,
+        "stack": [
+          "Kotlin + Jetpack Compose (Android native) + Next.js",
+          "Supabase (BaaS)",
+          "Supabase Postgres",
+          "Cloudflare Pages"
+        ],
+        "score": 76.347,
+        "quality": 0.8307,
+        "fit": 0.8829,
+        "penalties": {
+          "hiring": 0.12,
+          "lock_in": 1.26,
+          "maturity": 0.5,
+          "two_codebases": 7.192
+        },
+        "fit_terms": {
+          "archetype": 0.9,
+          "budget": 0.76,
+          "capability": 0.921,
+          "compat": 0.8,
+          "ops": 1.0,
+          "skill": 0.898
         }
       },
       {
         "rank": 5,
         "stack": [
-          ".NET MAUI + Next.js",
+          "React Native (Expo) + Next.js",
           "Supabase (BaaS)",
           "Supabase Postgres",
-          "Cloudflare Pages"
+          "Firebase Hosting"
         ],
-        "score": 76.266,
-        "quality": 0.8289,
-        "fit": 0.8887,
+        "score": 75.968,
+        "quality": 0.818,
+        "fit": 0.89,
         "penalties": {
-          "hiring": 0.24,
+          "hiring": 0.12,
           "lock_in": 1.26,
-          "maturity": 0.625,
+          "maturity": 0.5,
           "two_codebases": 7.192
         },
         "fit_terms": {
-          "archetype": 0.85,
-          "budget": 0.76,
-          "capability": 0.885,
-          "compat": 0.8,
+          "archetype": 0.9,
+          "budget": 0.628,
+          "capability": 0.921,
+          "compat": 0.833,
           "ops": 1.0,
-          "skill": 0.962
+          "skill": 0.996
         }
       }
     ],
@@ -1607,9 +1607,9 @@
     "budget_reference": 315.209
   },
   "score": {
-    "total": 78.071,
+    "total": 78.025,
     "quality": 0.8315,
-    "fit": 0.9182,
+    "fit": 0.9172,
     "penalty": 8.982,
     "penalties": {
       "availability": 0.0,
@@ -1636,7 +1636,7 @@
       "capability": 0.9214,
       "compat": 0.8667,
       "ops": 1.0,
-      "skill": 1.0
+      "skill": 0.9964
     },
     "criteria": {
       "cost": 8.85,
@@ -1656,9 +1656,9 @@
         "database": "Supabase Postgres",
         "hosting": "Cloudflare Pages"
       },
-      "score": 78.071,
+      "score": 78.025,
       "quality": 0.8315,
-      "fit": 0.9182,
+      "fit": 0.9172,
       "penalty": 8.982,
       "cost_usd": [
         133,
@@ -1673,9 +1673,9 @@
         "database": "Supabase Postgres",
         "hosting": "Cloudflare Pages"
       },
-      "score": 77.411,
+      "score": 76.66,
       "quality": 0.8303,
-      "fit": 0.905,
+      "fit": 0.8883,
       "penalty": 8.982,
       "cost_usd": [
         133,
@@ -1685,15 +1685,15 @@
     {
       "rank": 3,
       "stack": {
-        "frontend": "Kotlin + Jetpack Compose (Android native) + Next.js",
+        "frontend": "React Native (Expo)",
         "backend": "Supabase (BaaS)",
         "database": "Supabase Postgres",
         "hosting": "Cloudflare Pages"
       },
-      "score": 77.147,
-      "quality": 0.8307,
-      "fit": 0.9007,
-      "penalty": 9.072,
+      "score": 76.57,
+      "quality": 0.8305,
+      "fit": 0.8906,
+      "penalty": 9.182,
       "cost_usd": [
         133,
         316
@@ -1702,15 +1702,15 @@
     {
       "rank": 4,
       "stack": {
-        "frontend": "React Native (Expo)",
+        "frontend": "Kotlin + Jetpack Compose (Android native) + Next.js",
         "backend": "Supabase (BaaS)",
         "database": "Supabase Postgres",
         "hosting": "Cloudflare Pages"
       },
-      "score": 76.586,
-      "quality": 0.8305,
-      "fit": 0.8909,
-      "penalty": 9.182,
+      "score": 76.347,
+      "quality": 0.8307,
+      "fit": 0.8829,
+      "penalty": 9.072,
       "cost_usd": [
         133,
         316
@@ -1719,18 +1719,18 @@
     {
       "rank": 5,
       "stack": {
-        "frontend": ".NET MAUI + Next.js",
+        "frontend": "React Native (Expo) + Next.js",
         "backend": "Supabase (BaaS)",
         "database": "Supabase Postgres",
-        "hosting": "Cloudflare Pages"
+        "hosting": "Firebase Hosting"
       },
-      "score": 76.266,
-      "quality": 0.8289,
-      "fit": 0.8887,
-      "penalty": 9.317,
+      "score": 75.968,
+      "quality": 0.818,
+      "fit": 0.89,
+      "penalty": 9.072,
       "cost_usd": [
         133,
-        316
+        450
       ]
     },
     {
@@ -1739,32 +1739,32 @@
         "frontend": "React Native (Expo) + Next.js",
         "backend": "Supabase (BaaS)",
         "database": "Supabase Postgres",
-        "hosting": "Firebase Hosting"
+        "hosting": "Azure Static Web Apps"
       },
-      "score": 76.014,
-      "quality": 0.818,
-      "fit": 0.891,
+      "score": 75.475,
+      "quality": 0.8093,
+      "fit": 0.8897,
       "penalty": 9.072,
       "cost_usd": [
         133,
-        450
+        438
       ]
     },
     {
       "rank": 7,
       "stack": {
-        "frontend": "React Native (Expo) + Next.js",
+        "frontend": ".NET MAUI + Next.js",
         "backend": "Supabase (BaaS)",
         "database": "Supabase Postgres",
-        "hosting": "Azure Static Web Apps"
+        "hosting": "Cloudflare Pages"
       },
-      "score": 75.557,
-      "quality": 0.8093,
-      "fit": 0.8916,
-      "penalty": 9.072,
+      "score": 75.47,
+      "quality": 0.8289,
+      "fit": 0.871,
+      "penalty": 9.317,
       "cost_usd": [
         133,
-        438
+        316
       ]
     },
     {
@@ -1787,23 +1787,6 @@
     {
       "rank": 9,
       "stack": {
-        "frontend": "Flutter + Next.js",
-        "backend": "Supabase (BaaS)",
-        "database": "Supabase Postgres",
-        "hosting": "Firebase Hosting"
-      },
-      "score": 75.354,
-      "quality": 0.8168,
-      "fit": 0.8779,
-      "penalty": 9.072,
-      "cost_usd": [
-        133,
-        450
-      ]
-    },
-    {
-      "rank": 10,
-      "stack": {
         "frontend": "Django templates + htmx + React Native (Expo)",
         "backend": "Python + Django",
         "database": "PostgreSQL (managed or self-hosted)",
@@ -1817,11 +1800,28 @@
         353,
         638
       ]
+    },
+    {
+      "rank": 10,
+      "stack": {
+        "frontend": "React Native (Expo) + Next.js",
+        "backend": "Supabase (BaaS)",
+        "database": "Supabase Postgres",
+        "hosting": "AWS Amplify Hosting"
+      },
+      "score": 74.751,
+      "quality": 0.7964,
+      "fit": 0.8913,
+      "penalty": 9.162,
+      "cost_usd": [
+        133,
+        443
+      ]
     }
   ],
   "robustness": {
     "verdict": "stable",
-    "margin_points": 0.66,
+    "margin_points": 1.365,
     "runner_up": {
       "frontend": "Flutter + Next.js",
       "backend": "Supabase (BaaS)",
@@ -1914,7 +1914,7 @@
         }
       ],
       "score": 68.668,
-      "points_behind": 9.403,
+      "points_behind": 9.357,
       "cost_usd": [
         17,
         50
@@ -1972,7 +1972,7 @@
         }
       ],
       "score": 75.279,
-      "points_behind": 2.792,
+      "points_behind": 2.747,
       "cost_usd": [
         353,
         638
@@ -1983,7 +1983,7 @@
         "performance (-0.9 pts)",
         "time to market (-0.5 pts)"
       ],
-      "summary": "Frontend React Native (Expo) + Next.js -> Django templates + htmx + React Native (Expo); backend Supabase (BaaS) -> Python + Django; database Supabase Postgres -> PostgreSQL (managed or self-hosted); hosting Cloudflare Pages -> Google Cloud Run: lock-in 1.7 instead of 3.3 (0-10 scale). Gives up 2.8 points, mainly on budget fit (-3.6 pts), performance (-0.9 pts), time to market (-0.5 pts)."
+      "summary": "Frontend React Native (Expo) + Next.js -> Django templates + htmx + React Native (Expo); backend Supabase (BaaS) -> Python + Django; database Supabase Postgres -> PostgreSQL (managed or self-hosted); hosting Cloudflare Pages -> Google Cloud Run: lock-in 1.7 instead of 3.3 (0-10 scale). Gives up 2.7 points, mainly on budget fit (-3.6 pts), performance (-0.9 pts), time to market (-0.5 pts)."
     }
   ]
 }

@@ -34,19 +34,19 @@
       ],
       "alternatives": [
         {
-          "choice": "Angular",
-          "why_not": "Angular scores 0.8 points lower overall, mainly on budget fit (1.3 points) and cost (0.7 points). Estimated infrastructure about $180-$360/month versus about $77-$170/month."
+          "choice": "Vue 3 + Vite (SPA)",
+          "why_not": "Vue 3 + Vite (SPA) scores 0.9 points lower overall, mainly on compatibility with the rest of the stack (0.6 points) and team skill fit (0.4 points)."
         },
         {
-          "choice": "Vue 3 + Vite (SPA)",
-          "why_not": "Vue 3 + Vite (SPA) scores 0.9 points lower overall, mainly on budget fit (1.3 points) and compatibility with the rest of the stack (0.6 points). Estimated infrastructure about $180-$360/month versus about $77-$170/month."
+          "choice": "Angular",
+          "why_not": "Angular scores 1.2 points lower overall, mainly on budget fit (1.3 points) and team skill fit (1.1 points). Estimated infrastructure about $180-$360/month versus about $77-$170/month."
         }
       ],
       "tradeoffs": [
         "Server mode ties UI to a live connection"
       ],
       "confidence": "low",
-      "margin_points": 0.79,
+      "margin_points": 0.88,
       "kb_id": "blazor",
       "sources": [
         {
@@ -66,19 +66,19 @@
       ],
       "alternatives": [
         {
-          "choice": "Python + Django",
-          "why_not": "Python + Django scores 5.7 points lower overall, mainly on reuse of existing systems (5.0 points) and team skill fit (2.3 points)."
+          "choice": "Next.js route handlers (serverless)",
+          "why_not": "Next.js route handlers (serverless) scores 6.8 points lower overall, mainly on reuse of existing systems (5.0 points) and compatibility with the rest of the stack (0.9 points)."
         },
         {
-          "choice": "PHP + Laravel",
-          "why_not": "PHP + Laravel scores 6.6 points lower overall, mainly on reuse of existing systems (5.0 points) and team skill fit (2.3 points)."
+          "choice": "Node.js + NestJS",
+          "why_not": "Node.js + NestJS scores 7.2 points lower overall, mainly on reuse of existing systems (5.0 points) and security (1.0 points)."
         }
       ],
       "tradeoffs": [
         "Smaller community outside enterprise"
       ],
       "confidence": "high",
-      "margin_points": 5.72,
+      "margin_points": 6.81,
       "kb_id": "aspnet_core",
       "sources": [
         {
@@ -539,8 +539,8 @@
         "eligible_after_stack_checks": 17,
         "shortlist": [
           "blazor",
-          "angular",
           "vue_vite",
+          "angular",
           "react_vite",
           "electron",
           "tauri",
@@ -593,13 +593,13 @@
         "eligible_after_stack_checks": 11,
         "shortlist": [
           "aspnet_core",
-          "django",
-          "laravel",
           "nextjs_api",
           "nestjs",
           "express",
+          "django",
+          "laravel",
           "fastapi",
-          "rails"
+          "spring_boot"
         ],
         "chosen": [
           "aspnet_core"
@@ -913,62 +913,14 @@
       {
         "rank": 3,
         "stack": [
-          "Angular",
-          "C# + ASP.NET Core",
-          "Microsoft SQL Server / Azure SQL",
-          "Azure App Service"
-        ],
-        "score": 93.416,
-        "quality": 0.7813,
-        "fit": 0.8996,
-        "penalties": {
-          "existing_reuse": -11.2,
-          "lock_in": 1.238
-        },
-        "fit_terms": {
-          "archetype": 1.0,
-          "budget": 0.706,
-          "capability": 0.962,
-          "compat": 0.933,
-          "ops": 0.877,
-          "skill": 0.946
-        }
-      },
-      {
-        "rank": 4,
-        "stack": [
-          "Vue 3 + Vite (SPA)",
-          "C# + ASP.NET Core",
-          "Microsoft SQL Server / Azure SQL",
-          "Azure App Service"
-        ],
-        "score": 93.335,
-        "quality": 0.783,
-        "fit": 0.8932,
-        "penalties": {
-          "existing_reuse": -11.2,
-          "lock_in": 1.125
-        },
-        "fit_terms": {
-          "archetype": 1.0,
-          "budget": 0.706,
-          "capability": 0.962,
-          "compat": 0.8,
-          "ops": 0.877,
-          "skill": 0.971
-        }
-      },
-      {
-        "rank": 5,
-        "stack": [
           "Vue 3 + Vite (SPA)",
           "C# + ASP.NET Core",
           "Microsoft SQL Server / Azure SQL",
           "Azure Container Apps"
         ],
-        "score": 93.329,
+        "score": 93.328,
         "quality": 0.7651,
-        "fit": 0.9206,
+        "fit": 0.9205,
         "penalties": {
           "existing_reuse": -11.2,
           "lock_in": 1.125,
@@ -981,6 +933,54 @@
           "compat": 0.8,
           "ops": 0.877,
           "skill": 0.967
+        }
+      },
+      {
+        "rank": 4,
+        "stack": [
+          "Vue 3 + Vite (SPA)",
+          "C# + ASP.NET Core",
+          "Microsoft SQL Server / Azure SQL",
+          "Azure App Service"
+        ],
+        "score": 93.315,
+        "quality": 0.783,
+        "fit": 0.8928,
+        "penalties": {
+          "existing_reuse": -11.2,
+          "lock_in": 1.125
+        },
+        "fit_terms": {
+          "archetype": 1.0,
+          "budget": 0.706,
+          "capability": 0.962,
+          "compat": 0.8,
+          "ops": 0.877,
+          "skill": 0.969
+        }
+      },
+      {
+        "rank": 5,
+        "stack": [
+          "Angular",
+          "C# + ASP.NET Core",
+          "Microsoft SQL Server / Azure SQL",
+          "Azure App Service"
+        ],
+        "score": 93.046,
+        "quality": 0.7813,
+        "fit": 0.8914,
+        "penalties": {
+          "existing_reuse": -11.2,
+          "lock_in": 1.238
+        },
+        "fit_terms": {
+          "archetype": 1.0,
+          "budget": 0.706,
+          "capability": 0.962,
+          "compat": 0.933,
+          "ops": 0.877,
+          "skill": 0.916
         }
       }
     ],
@@ -1418,18 +1418,18 @@
     {
       "rank": 3,
       "stack": {
-        "frontend": "Angular",
+        "frontend": "Vue 3 + Vite (SPA)",
         "backend": "C# + ASP.NET Core",
         "database": "Microsoft SQL Server / Azure SQL",
-        "hosting": "Azure App Service"
+        "hosting": "Azure Container Apps"
       },
-      "score": 93.416,
-      "quality": 0.7813,
-      "fit": 0.8996,
-      "penalty": -9.962,
+      "score": 93.328,
+      "quality": 0.7651,
+      "fit": 0.9205,
+      "penalty": -9.825,
       "cost_usd": [
-        179,
-        356
+        77,
+        169
       ]
     },
     {
@@ -1440,9 +1440,9 @@
         "database": "Microsoft SQL Server / Azure SQL",
         "hosting": "Azure App Service"
       },
-      "score": 93.335,
+      "score": 93.315,
       "quality": 0.783,
-      "fit": 0.8932,
+      "fit": 0.8928,
       "penalty": -10.075,
       "cost_usd": [
         179,
@@ -1452,32 +1452,32 @@
     {
       "rank": 5,
       "stack": {
-        "frontend": "Vue 3 + Vite (SPA)",
+        "frontend": "Angular",
         "backend": "C# + ASP.NET Core",
         "database": "Microsoft SQL Server / Azure SQL",
-        "hosting": "Azure Container Apps"
+        "hosting": "Azure App Service"
       },
-      "score": 93.329,
-      "quality": 0.7651,
-      "fit": 0.9206,
-      "penalty": -9.825,
+      "score": 93.046,
+      "quality": 0.7813,
+      "fit": 0.8914,
+      "penalty": -9.962,
       "cost_usd": [
-        77,
-        169
+        179,
+        356
       ]
     },
     {
       "rank": 6,
       "stack": {
-        "frontend": "Angular",
+        "frontend": "React + Vite (SPA)",
         "backend": "C# + ASP.NET Core",
         "database": "Microsoft SQL Server / Azure SQL",
         "hosting": "Azure Container Apps"
       },
-      "score": 93.109,
-      "quality": 0.7634,
-      "fit": 0.9202,
-      "penalty": -9.712,
+      "score": 93.042,
+      "quality": 0.7605,
+      "fit": 0.9198,
+      "penalty": -9.825,
       "cost_usd": [
         77,
         169
@@ -1491,9 +1491,9 @@
         "database": "Microsoft SQL Server / Azure SQL",
         "hosting": "Azure App Service"
       },
-      "score": 93.067,
+      "score": 93.028,
       "quality": 0.7784,
-      "fit": 0.8929,
+      "fit": 0.892,
       "penalty": -10.075,
       "cost_usd": [
         179,
@@ -1503,15 +1503,15 @@
     {
       "rank": 8,
       "stack": {
-        "frontend": "React + Vite (SPA)",
+        "frontend": "Angular",
         "backend": "C# + ASP.NET Core",
         "database": "Microsoft SQL Server / Azure SQL",
         "hosting": "Azure Container Apps"
       },
-      "score": 93.061,
-      "quality": 0.7605,
-      "fit": 0.9202,
-      "penalty": -9.825,
+      "score": 92.76,
+      "quality": 0.7634,
+      "fit": 0.9125,
+      "penalty": -9.712,
       "cost_usd": [
         77,
         169
@@ -1523,15 +1523,15 @@
         "frontend": "Electron",
         "backend": "C# + ASP.NET Core",
         "database": "Microsoft SQL Server / Azure SQL",
-        "hosting": "Azure App Service"
+        "hosting": "Azure Container Apps"
       },
-      "score": 92.546,
-      "quality": 0.7811,
-      "fit": 0.878,
-      "penalty": -10.075,
+      "score": 92.539,
+      "quality": 0.7632,
+      "fit": 0.9053,
+      "penalty": -9.825,
       "cost_usd": [
-        179,
-        356
+        77,
+        169
       ]
     },
     {
@@ -1540,15 +1540,15 @@
         "frontend": "Electron",
         "backend": "C# + ASP.NET Core",
         "database": "Microsoft SQL Server / Azure SQL",
-        "hosting": "Azure Container Apps"
+        "hosting": "Azure App Service"
       },
-      "score": 92.54,
-      "quality": 0.7632,
-      "fit": 0.9053,
-      "penalty": -9.825,
+      "score": 92.526,
+      "quality": 0.7811,
+      "fit": 0.8775,
+      "penalty": -10.075,
       "cost_usd": [
-        77,
-        169
+        179,
+        356
       ]
     }
   ],
@@ -1709,8 +1709,8 @@
           "to": "Azure App Service"
         }
       ],
-      "score": 92.546,
-      "points_behind": 1.664,
+      "score": 92.526,
+      "points_behind": 1.685,
       "cost_usd": [
         179,
         356
@@ -1750,8 +1750,8 @@
           "to": "Azure Virtual Machines"
         }
       ],
-      "score": 86.467,
-      "points_behind": 7.744,
+      "score": 86.485,
+      "points_behind": 7.726,
       "cost_usd": [
         190,
         363

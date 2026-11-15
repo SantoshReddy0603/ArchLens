@@ -46,15 +46,15 @@
         },
         {
           "choice": "Flutter",
-          "why_not": "Flutter scores 12.4 points lower overall, mainly on a game engine client (12.0 points) and team skill fit (1.3 points)."
+          "why_not": "Flutter scores 13.6 points lower overall, mainly on a game engine client (12.0 points) and team skill fit (2.5 points)."
         }
       ],
       "tradeoffs": [
         "Mobile store builds go through a wrapper such as Capacitor",
         "2D only"
       ],
-      "confidence": "low",
-      "margin_points": 0.1,
+      "confidence": "medium",
+      "margin_points": 1.33,
       "kb_id": "phaser",
       "sources": [
         {
@@ -86,8 +86,8 @@
           "why_not": "Colyseus (Node.js game server) scores 4.3 points lower overall, mainly on headroom for the expected load (3.3 points) and performance (0.9 points)."
         },
         {
-          "choice": "Go (net/http + chi)",
-          "why_not": "Go (net/http + chi) scores 7.8 points lower overall, mainly on a purpose-built game server (8.0 points) and team skill fit (1.4 points)."
+          "choice": "Node.js + NestJS",
+          "why_not": "Node.js + NestJS scores 8.5 points lower overall, mainly on a purpose-built game server (8.0 points) and performance (0.9 points)."
         }
       ],
       "tradeoffs": [
@@ -923,12 +923,12 @@
         "shortlist": [
           "nakama",
           "colyseus",
-          "go_chi",
           "nestjs",
-          "aspnet_core",
-          "phoenix",
+          "go_chi",
           "firebase",
-          "spring_boot"
+          "supabase",
+          "aspnet_core",
+          "phoenix"
         ],
         "chosen": [
           "nakama"
@@ -1098,48 +1098,6 @@
       {
         "rank": 3,
         "stack": [
-          "Unity",
-          "Nakama (Go game backend)",
-          "PostgreSQL (managed or self-hosted)",
-          "Google Cloud Run"
-        ],
-        "score": 82.09,
-        "quality": 0.8073,
-        "fit": 0.8375,
-        "penalties": {},
-        "fit_terms": {
-          "archetype": 0.8,
-          "budget": 0.711,
-          "capability": 0.833,
-          "compat": 0.8,
-          "ops": 0.934,
-          "skill": 0.898
-        }
-      },
-      {
-        "rank": 4,
-        "stack": [
-          "Godot Engine",
-          "Nakama (Go game backend)",
-          "PostgreSQL (managed or self-hosted)",
-          "Google Cloud Run"
-        ],
-        "score": 81.834,
-        "quality": 0.8037,
-        "fit": 0.8362,
-        "penalties": {},
-        "fit_terms": {
-          "archetype": 0.8,
-          "budget": 0.711,
-          "capability": 0.828,
-          "compat": 0.8,
-          "ops": 0.934,
-          "skill": 0.898
-        }
-      },
-      {
-        "rank": 5,
-        "stack": [
           "Phaser (HTML5 game framework)",
           "Nakama (Go game backend)",
           "PostgreSQL (managed or self-hosted)",
@@ -1159,6 +1117,48 @@
           "compat": 0.8,
           "ops": 0.922,
           "skill": 1.0
+        }
+      },
+      {
+        "rank": 4,
+        "stack": [
+          "Unity",
+          "Nakama (Go game backend)",
+          "PostgreSQL (managed or self-hosted)",
+          "Google Cloud Run"
+        ],
+        "score": 80.852,
+        "quality": 0.8073,
+        "fit": 0.81,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.8,
+          "budget": 0.711,
+          "capability": 0.833,
+          "compat": 0.8,
+          "ops": 0.934,
+          "skill": 0.8
+        }
+      },
+      {
+        "rank": 5,
+        "stack": [
+          "Godot Engine",
+          "Nakama (Go game backend)",
+          "PostgreSQL (managed or self-hosted)",
+          "Google Cloud Run"
+        ],
+        "score": 80.596,
+        "quality": 0.8037,
+        "fit": 0.8087,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.8,
+          "budget": 0.711,
+          "capability": 0.828,
+          "compat": 0.8,
+          "ops": 0.934,
+          "skill": 0.8
         }
       }
     ],
@@ -1541,40 +1541,6 @@
     {
       "rank": 3,
       "stack": {
-        "frontend": "Unity",
-        "backend": "Nakama (Go game backend)",
-        "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "Google Cloud Run"
-      },
-      "score": 82.09,
-      "quality": 0.8073,
-      "fit": 0.8375,
-      "penalty": 0.0,
-      "cost_usd": [
-        2158,
-        3595
-      ]
-    },
-    {
-      "rank": 4,
-      "stack": {
-        "frontend": "Godot Engine",
-        "backend": "Nakama (Go game backend)",
-        "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "Google Cloud Run"
-      },
-      "score": 81.834,
-      "quality": 0.8037,
-      "fit": 0.8362,
-      "penalty": 0.0,
-      "cost_usd": [
-        2158,
-        3595
-      ]
-    },
-    {
-      "rank": 5,
-      "stack": {
         "frontend": "Phaser (HTML5 game framework)",
         "backend": "Nakama (Go game backend)",
         "database": "PostgreSQL (managed or self-hosted)",
@@ -1590,6 +1556,40 @@
       ]
     },
     {
+      "rank": 4,
+      "stack": {
+        "frontend": "Unity",
+        "backend": "Nakama (Go game backend)",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 80.852,
+      "quality": 0.8073,
+      "fit": 0.81,
+      "penalty": 0.0,
+      "cost_usd": [
+        2158,
+        3595
+      ]
+    },
+    {
+      "rank": 5,
+      "stack": {
+        "frontend": "Godot Engine",
+        "backend": "Nakama (Go game backend)",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 80.596,
+      "quality": 0.8037,
+      "fit": 0.8087,
+      "penalty": 0.0,
+      "cost_usd": [
+        2158,
+        3595
+      ]
+    },
+    {
       "rank": 6,
       "stack": {
         "frontend": "Unity",
@@ -1597,9 +1597,9 @@
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Fly.io"
       },
-      "score": 81.51,
+      "score": 80.281,
       "quality": 0.7911,
-      "fit": 0.85,
+      "fit": 0.8227,
       "penalty": 0.25,
       "cost_usd": [
         1579,
@@ -1614,9 +1614,9 @@
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Fly.io"
       },
-      "score": 81.254,
+      "score": 80.025,
       "quality": 0.7874,
-      "fit": 0.8488,
+      "fit": 0.8215,
       "penalty": 0.25,
       "cost_usd": [
         1579,
@@ -1625,40 +1625,6 @@
     },
     {
       "rank": 8,
-      "stack": {
-        "frontend": "Unity",
-        "backend": "Nakama (Go game backend)",
-        "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "Azure Container Apps"
-      },
-      "score": 80.963,
-      "quality": 0.7964,
-      "fit": 0.8388,
-      "penalty": 0.588,
-      "cost_usd": [
-        1929,
-        3401
-      ]
-    },
-    {
-      "rank": 9,
-      "stack": {
-        "frontend": "Godot Engine",
-        "backend": "Nakama (Go game backend)",
-        "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "Azure Container Apps"
-      },
-      "score": 80.707,
-      "quality": 0.7928,
-      "fit": 0.8376,
-      "penalty": 0.588,
-      "cost_usd": [
-        1929,
-        3401
-      ]
-    },
-    {
-      "rank": 10,
       "stack": {
         "frontend": "Phaser (HTML5 game framework)",
         "backend": "Nakama (Go game backend)",
@@ -1672,6 +1638,40 @@
       "cost_usd": [
         2030,
         3462
+      ]
+    },
+    {
+      "rank": 9,
+      "stack": {
+        "frontend": "Unity",
+        "backend": "Nakama (Go game backend)",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Azure Container Apps"
+      },
+      "score": 79.734,
+      "quality": 0.7964,
+      "fit": 0.8115,
+      "penalty": 0.588,
+      "cost_usd": [
+        1929,
+        3401
+      ]
+    },
+    {
+      "rank": 10,
+      "stack": {
+        "frontend": "Phaser (HTML5 game framework)",
+        "backend": "Nakama (Go game backend)",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "AWS EKS (Kubernetes)"
+      },
+      "score": 79.573,
+      "quality": 0.7822,
+      "fit": 0.8123,
+      "penalty": 0.0,
+      "cost_usd": [
+        2896,
+        5153
       ]
     }
   ],
@@ -1836,19 +1836,19 @@
           "to": "Google Cloud Run"
         }
       ],
-      "score": 79.01,
-      "points_behind": 3.175,
+      "score": 77.791,
+      "points_behind": 4.394,
       "cost_usd": [
         2030,
         3462
       ],
       "gains": "scalability 8.8 instead of 8.0",
       "gives_up": [
+        "team skill fit (-2.5 pts)",
         "compliance attestations (-1.5 pts)",
-        "team skill fit (-1.3 pts)",
         "cost (-0.6 pts)"
       ],
-      "summary": "Frontend Phaser (HTML5 game framework) -> Unity; database PostgreSQL (managed or self-hosted) -> CockroachDB; hosting Fly.io -> Google Cloud Run: scalability 8.8 instead of 8.0. Gives up 3.2 points, mainly on compliance attestations (-1.5 pts), team skill fit (-1.3 pts), cost (-0.6 pts)."
+      "summary": "Frontend Phaser (HTML5 game framework) -> Unity; database PostgreSQL (managed or self-hosted) -> CockroachDB; hosting Fly.io -> Google Cloud Run: scalability 8.8 instead of 8.0. Gives up 4.4 points, mainly on team skill fit (-2.5 pts), compliance attestations (-1.5 pts), cost (-0.6 pts)."
     },
     {
       "direction": "faster_build",

@@ -447,7 +447,7 @@
         562,
         1227
       ],
-      "score": 79.619
+      "score": 79.477
     }
   ],
   "closest_option": {
@@ -458,9 +458,9 @@
       "database": "Cloud Firestore",
       "hosting": "None"
     },
-    "score": 75.083,
+    "score": 75.02,
     "quality": 0.8154,
-    "fit": 0.9491,
+    "fit": 0.9477,
     "penalty": 12.475,
     "cost_usd": [
       252,

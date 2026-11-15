@@ -44,7 +44,7 @@
         "Not meant for app-like UIs"
       ],
       "confidence": "low",
-      "margin_points": 0.71,
+      "margin_points": 0.75,
       "kb_id": "astro",
       "sources": [
         {
@@ -72,12 +72,12 @@
         },
         {
           "choice": "Go (net/http + chi)",
-          "why_not": "Go (net/http + chi) scores 13.1 points lower overall, mainly on budget fit (8.1 points) and team skill fit (1.5 points). Estimated infrastructure about $14,300-$19,400/month versus about $0/month."
+          "why_not": "Go (net/http + chi) scores 14.6 points lower overall, mainly on budget fit (8.1 points) and team skill fit (3.0 points). Estimated infrastructure about $14,300-$19,400/month versus about $0/month."
         }
       ],
       "tradeoffs": [],
       "confidence": "high",
-      "margin_points": 12.15
+      "margin_points": 12.13
     },
     "database": {
       "choice": "None",
@@ -98,7 +98,7 @@
       ],
       "tradeoffs": [],
       "confidence": "high",
-      "margin_points": 12.95
+      "margin_points": 12.93
     },
     "hosting": {
       "choice": "Cloudflare Pages",
@@ -124,7 +124,7 @@
         "No published uptime SLA below the Enterprise plan"
       ],
       "confidence": "high",
-      "margin_points": 6.33,
+      "margin_points": 6.29,
       "kb_id": "cloudflare_pages",
       "sources": [
         {
@@ -504,11 +504,11 @@
           "none_be",
           "nestjs",
           "go_chi",
-          "aspnet_core",
-          "spring_boot",
-          "phoenix",
           "firebase",
-          "supabase"
+          "aspnet_core",
+          "supabase",
+          "spring_boot",
+          "phoenix"
         ],
         "chosen": [
           "none_be"
@@ -633,9 +633,9 @@
           "None (no database)",
           "Cloudflare Pages"
         ],
-        "score": 95.332,
+        "score": 95.312,
         "quality": 0.9482,
-        "fit": 0.9595,
+        "fit": 0.9591,
         "penalties": {},
         "fit_terms": {
           "archetype": 1.0,
@@ -643,7 +643,7 @@
           "capability": 0.973,
           "compat": 0.667,
           "ops": 1.0,
-          "skill": 0.996
+          "skill": 0.994
         }
       },
       {
@@ -654,11 +654,35 @@
           "None (no database)",
           "Cloudflare Pages"
         ],
-        "score": 94.618,
+        "score": 94.566,
         "quality": 0.9379,
-        "fit": 0.9589,
+        "fit": 0.9578,
         "penalties": {
           "hiring": 0.12
+        },
+        "fit_terms": {
+          "archetype": 1.0,
+          "budget": 1.0,
+          "capability": 0.973,
+          "compat": 0.667,
+          "ops": 1.0,
+          "skill": 0.99
+        }
+      },
+      {
+        "rank": 3,
+        "stack": [
+          "Eleventy (11ty)",
+          "No backend (static)",
+          "None (no database)",
+          "Cloudflare Pages"
+        ],
+        "score": 94.256,
+        "quality": 0.938,
+        "fit": 0.9591,
+        "penalties": {
+          "hiring": 0.24,
+          "maturity": 0.25
         },
         "fit_terms": {
           "archetype": 1.0,
@@ -670,30 +694,6 @@
         }
       },
       {
-        "rank": 3,
-        "stack": [
-          "Eleventy (11ty)",
-          "No backend (static)",
-          "None (no database)",
-          "Cloudflare Pages"
-        ],
-        "score": 94.276,
-        "quality": 0.938,
-        "fit": 0.9595,
-        "penalties": {
-          "hiring": 0.24,
-          "maturity": 0.25
-        },
-        "fit_terms": {
-          "archetype": 1.0,
-          "budget": 1.0,
-          "capability": 0.973,
-          "compat": 0.667,
-          "ops": 1.0,
-          "skill": 0.996
-        }
-      },
-      {
         "rank": 4,
         "stack": [
           "SvelteKit",
@@ -701,9 +701,9 @@
           "None (no database)",
           "Cloudflare Pages"
         ],
-        "score": 91.213,
+        "score": 91.182,
         "quality": 0.8873,
-        "fit": 0.9533,
+        "fit": 0.9526,
         "penalties": {
           "hiring": 0.24,
           "maturity": 0.25
@@ -714,7 +714,7 @@
           "capability": 0.945,
           "compat": 0.667,
           "ops": 1.0,
-          "skill": 0.995
+          "skill": 0.993
         }
       },
       {
@@ -725,9 +725,9 @@
           "None (no database)",
           "Cloudflare Pages"
         ],
-        "score": 90.932,
+        "score": 90.902,
         "quality": 0.8788,
-        "fit": 0.9466,
+        "fit": 0.946,
         "penalties": {},
         "fit_terms": {
           "archetype": 1.0,
@@ -735,7 +735,7 @@
           "capability": 0.945,
           "compat": 0.6,
           "ops": 1.0,
-          "skill": 0.995
+          "skill": 0.993
         }
       }
     ],
@@ -918,9 +918,9 @@
     "notes": []
   },
   "score": {
-    "total": 95.332,
+    "total": 95.312,
     "quality": 0.9482,
-    "fit": 0.9595,
+    "fit": 0.9591,
     "penalty": 0.0,
     "penalties": {
       "availability": 0.0,
@@ -947,7 +947,7 @@
       "capability": 0.9727,
       "compat": 0.6667,
       "ops": 1.0,
-      "skill": 0.9959
+      "skill": 0.9943
     },
     "criteria": {
       "cost": 10.0,
@@ -967,9 +967,9 @@
         "database": "None",
         "hosting": "Cloudflare Pages"
       },
-      "score": 95.332,
+      "score": 95.312,
       "quality": 0.9482,
-      "fit": 0.9595,
+      "fit": 0.9591,
       "penalty": 0.0,
       "cost_usd": [
         0,
@@ -984,9 +984,9 @@
         "database": "None",
         "hosting": "Cloudflare Pages"
       },
-      "score": 94.618,
+      "score": 94.566,
       "quality": 0.9379,
-      "fit": 0.9589,
+      "fit": 0.9578,
       "penalty": 0.12,
       "cost_usd": [
         0,
@@ -1001,9 +1001,9 @@
         "database": "None",
         "hosting": "Cloudflare Pages"
       },
-      "score": 94.276,
+      "score": 94.256,
       "quality": 0.938,
-      "fit": 0.9595,
+      "fit": 0.9591,
       "penalty": 0.49,
       "cost_usd": [
         0,
@@ -1018,9 +1018,9 @@
         "database": "None",
         "hosting": "Cloudflare Pages"
       },
-      "score": 91.213,
+      "score": 91.182,
       "quality": 0.8873,
-      "fit": 0.9533,
+      "fit": 0.9526,
       "penalty": 0.49,
       "cost_usd": [
         0,
@@ -1035,9 +1035,9 @@
         "database": "None",
         "hosting": "Cloudflare Pages"
       },
-      "score": 90.932,
+      "score": 90.902,
       "quality": 0.8788,
-      "fit": 0.9466,
+      "fit": 0.946,
       "penalty": 0.0,
       "cost_usd": [
         0,
@@ -1052,9 +1052,9 @@
         "database": "None",
         "hosting": "Cloudflare Pages"
       },
-      "score": 90.531,
+      "score": 90.49,
       "quality": 0.8839,
-      "fit": 0.9464,
+      "fit": 0.9455,
       "penalty": 0.675,
       "cost_usd": [
         0,
@@ -1069,9 +1069,9 @@
         "database": "None",
         "hosting": "Cloudflare Workers"
       },
-      "score": 89.005,
+      "score": 89.018,
       "quality": 0.9308,
-      "fit": 0.8778,
+      "fit": 0.8781,
       "penalty": 1.688,
       "cost_usd": [
         0,
@@ -1086,9 +1086,9 @@
         "database": "None",
         "hosting": "Cloudflare Workers"
       },
-      "score": 88.291,
+      "score": 88.273,
       "quality": 0.9205,
-      "fit": 0.8771,
+      "fit": 0.8767,
       "penalty": 1.808,
       "cost_usd": [
         0,
@@ -1103,9 +1103,9 @@
         "database": "None",
         "hosting": "Cloudflare Workers"
       },
-      "score": 87.95,
+      "score": 87.963,
       "quality": 0.9205,
-      "fit": 0.8778,
+      "fit": 0.8781,
       "penalty": 2.178,
       "cost_usd": [
         0,
@@ -1120,9 +1120,9 @@
         "database": "None",
         "hosting": "Cloudflare Pages"
       },
-      "score": 87.229,
+      "score": 87.168,
       "quality": 0.8856,
-      "fit": 0.856,
+      "fit": 0.8547,
       "penalty": 0.0,
       "cost_usd": [
         0,
@@ -1132,7 +1132,7 @@
   ],
   "robustness": {
     "verdict": "stable",
-    "margin_points": 0.714,
+    "margin_points": 0.745,
     "runner_up": {
       "frontend": "Hugo",
       "backend": "None",

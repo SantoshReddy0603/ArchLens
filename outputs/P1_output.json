@@ -36,7 +36,7 @@
         },
         {
           "choice": "Hugo",
-          "why_not": "Hugo scores 1.5 points lower overall, mainly on time to market (1.2 points)."
+          "why_not": "Hugo scores 1.7 points lower overall, mainly on time to market (1.2 points) and team skill fit (0.5 points)."
         }
       ],
       "tradeoffs": [
@@ -68,16 +68,16 @@
       "alternatives": [
         {
           "choice": "Supabase (BaaS)",
-          "why_not": "Supabase (BaaS) scores 11.5 points lower overall, mainly on budget fit (8.1 points) and cost (0.9 points). Estimated infrastructure about $17-$41/month versus about $0/month."
+          "why_not": "Supabase (BaaS) scores 11.6 points lower overall, mainly on budget fit (8.1 points) and cost (0.9 points). Estimated infrastructure about $17-$41/month versus about $0/month."
         },
         {
           "choice": "Node.js + Express",
-          "why_not": "Node.js + Express scores 12.5 points lower overall, mainly on budget fit (8.1 points) and cost (1.6 points). Estimated infrastructure about $21-$68/month versus about $0/month."
+          "why_not": "Node.js + Express scores 12.6 points lower overall, mainly on budget fit (8.1 points) and cost (1.6 points). Estimated infrastructure about $21-$68/month versus about $0/month."
         }
       ],
       "tradeoffs": [],
       "confidence": "high",
-      "margin_points": 11.52
+      "margin_points": 11.63
     },
     "database": {
       "choice": "None",
@@ -89,7 +89,7 @@
       "alternatives": [
         {
           "choice": "Supabase Postgres",
-          "why_not": "Supabase Postgres scores 11.5 points lower overall, mainly on budget fit (8.1 points) and cost (0.9 points). Estimated infrastructure about $17-$41/month versus about $0/month."
+          "why_not": "Supabase Postgres scores 11.6 points lower overall, mainly on budget fit (8.1 points) and cost (0.9 points). Estimated infrastructure about $17-$41/month versus about $0/month."
         },
         {
           "choice": "SQLite (embedded)",
@@ -98,7 +98,7 @@
       ],
       "tradeoffs": [],
       "confidence": "high",
-      "margin_points": 11.52
+      "margin_points": 11.63
     },
     "hosting": {
       "choice": "Cloudflare Pages",
@@ -402,7 +402,7 @@
           "nuxt",
           "nextjs",
           "angular",
-          "django_htmx"
+          "vue_vite"
         ],
         "chosen": [
           "astro"
@@ -432,10 +432,10 @@
           "supabase",
           "express",
           "nestjs",
+          "firebase",
           "django",
-          "laravel",
-          "go_chi",
-          "fastapi"
+          "nextjs_api",
+          "laravel"
         ],
         "chosen": [
           "none_be"
@@ -560,9 +560,9 @@
           "None (no database)",
           "Cloudflare Pages"
         ],
-        "score": 94.497,
+        "score": 94.335,
         "quality": 0.9348,
-        "fit": 0.9575,
+        "fit": 0.9539,
         "penalties": {},
         "fit_terms": {
           "archetype": 1.0,
@@ -570,7 +570,7 @@
           "capability": 1.0,
           "compat": 0.667,
           "ops": 1.0,
-          "skill": 0.967
+          "skill": 0.954
         }
       },
       {
@@ -581,9 +581,9 @@
           "None (no database)",
           "Cloudflare Pages"
         ],
-        "score": 93.144,
+        "score": 92.982,
         "quality": 0.9191,
-        "fit": 0.9575,
+        "fit": 0.9539,
         "penalties": {
           "hiring": 0.24,
           "maturity": 0.25
@@ -594,7 +594,7 @@
           "capability": 1.0,
           "compat": 0.667,
           "ops": 1.0,
-          "skill": 0.967
+          "skill": 0.954
         }
       },
       {
@@ -605,9 +605,9 @@
           "None (no database)",
           "Cloudflare Pages"
         ],
-        "score": 92.999,
+        "score": 92.585,
         "quality": 0.9138,
-        "fit": 0.9524,
+        "fit": 0.9433,
         "penalties": {
           "hiring": 0.12
         },
@@ -617,7 +617,7 @@
           "capability": 1.0,
           "compat": 0.667,
           "ops": 1.0,
-          "skill": 0.949
+          "skill": 0.916
         }
       },
       {
@@ -628,9 +628,9 @@
           "None (no database)",
           "Cloudflare Pages"
         ],
-        "score": 90.083,
+        "score": 89.837,
         "quality": 0.8708,
-        "fit": 0.9485,
+        "fit": 0.943,
         "penalties": {
           "hiring": 0.24,
           "maturity": 0.25
@@ -641,7 +641,7 @@
           "capability": 0.967,
           "compat": 0.667,
           "ops": 1.0,
-          "skill": 0.961
+          "skill": 0.942
         }
       },
       {
@@ -652,9 +652,9 @@
           "None (no database)",
           "Cloudflare Pages"
         ],
-        "score": 89.914,
+        "score": 89.668,
         "quality": 0.8642,
-        "fit": 0.9418,
+        "fit": 0.9363,
         "penalties": {},
         "fit_terms": {
           "archetype": 1.0,
@@ -662,7 +662,7 @@
           "capability": 0.967,
           "compat": 0.6,
           "ops": 1.0,
-          "skill": 0.961
+          "skill": 0.942
         }
       }
     ],
@@ -816,9 +816,9 @@
     "notes": []
   },
   "score": {
-    "total": 94.497,
+    "total": 94.335,
     "quality": 0.9348,
-    "fit": 0.9575,
+    "fit": 0.9539,
     "penalty": 0.0,
     "penalties": {
       "availability": 0.0,
@@ -845,7 +845,7 @@
       "capability": 1.0,
       "compat": 0.6667,
       "ops": 1.0,
-      "skill": 0.9671
+      "skill": 0.9543
     },
     "criteria": {
       "cost": 10.0,
@@ -865,9 +865,9 @@
         "database": "None",
         "hosting": "Cloudflare Pages"
       },
-      "score": 94.497,
+      "score": 94.335,
       "quality": 0.9348,
-      "fit": 0.9575,
+      "fit": 0.9539,
       "penalty": 0.0,
       "cost_usd": [
         0,
@@ -882,9 +882,9 @@
         "database": "None",
         "hosting": "Cloudflare Pages"
       },
-      "score": 93.144,
+      "score": 92.982,
       "quality": 0.9191,
-      "fit": 0.9575,
+      "fit": 0.9539,
       "penalty": 0.49,
       "cost_usd": [
         0,
@@ -899,9 +899,9 @@
         "database": "None",
         "hosting": "Cloudflare Pages"
       },
-      "score": 92.999,
+      "score": 92.585,
       "quality": 0.9138,
-      "fit": 0.9524,
+      "fit": 0.9433,
       "penalty": 0.12,
       "cost_usd": [
         0,
@@ -916,9 +916,9 @@
         "database": "None",
         "hosting": "Cloudflare Pages"
       },
-      "score": 90.083,
+      "score": 89.837,
       "quality": 0.8708,
-      "fit": 0.9485,
+      "fit": 0.943,
       "penalty": 0.49,
       "cost_usd": [
         0,
@@ -933,9 +933,9 @@
         "database": "None",
         "hosting": "Cloudflare Pages"
       },
-      "score": 89.914,
+      "score": 89.668,
       "quality": 0.8642,
-      "fit": 0.9418,
+      "fit": 0.9363,
       "penalty": 0.0,
       "cost_usd": [
         0,
@@ -950,9 +950,9 @@
         "database": "None",
         "hosting": "Cloudflare Pages"
       },
-      "score": 89.74,
+      "score": 89.41,
       "quality": 0.8747,
-      "fit": 0.9401,
+      "fit": 0.9328,
       "penalty": 0.675,
       "cost_usd": [
         0,
@@ -967,9 +967,9 @@
         "database": "None",
         "hosting": "Netlify"
       },
-      "score": 85.544,
+      "score": 85.382,
       "quality": 0.9191,
-      "fit": 0.7776,
+      "fit": 0.774,
       "penalty": 0.0,
       "cost_usd": [
         0,
@@ -984,9 +984,9 @@
         "database": "None",
         "hosting": "Firebase Hosting"
       },
-      "score": 85.31,
+      "score": 85.148,
       "quality": 0.9144,
-      "fit": 0.7781,
+      "fit": 0.7745,
       "penalty": 0.0,
       "cost_usd": [
         0,
@@ -1001,9 +1001,9 @@
         "database": "None",
         "hosting": "Azure Static Web Apps"
       },
-      "score": 84.451,
+      "score": 84.377,
       "quality": 0.9075,
-      "fit": 0.7676,
+      "fit": 0.7659,
       "penalty": 0.0,
       "cost_usd": [
         0,
@@ -1018,9 +1018,9 @@
         "database": "None",
         "hosting": "Netlify"
       },
-      "score": 84.191,
+      "score": 84.028,
       "quality": 0.9034,
-      "fit": 0.7776,
+      "fit": 0.774,
       "penalty": 0.49,
       "cost_usd": [
         0,

@@ -8,7 +8,36 @@ ArchLens turns a project scenario (a JSON file, or a free-text description revie
 
 The stack is chosen only by a deterministic rule and score engine over a hand-written knowledge base. An optional LLM can suggest form values from a free-text description and reword the summary. It never picks, ranks or changes a stack.
 
+Quick start, about two minutes on a normal connection (full steps in section 5):
+
+```
+cd source
+python -m venv .venv
+.venv/bin/pip install -r requirements.txt        # Windows: .venv\Scripts\pip install -r requirements.txt
+.venv/bin/python run.py                          # Windows: .venv\Scripts\python run.py
+```
+
+Then open http://127.0.0.1:8000.
+
+### What it looks like
+
+A plain-language description becomes a reviewed form, then a scored recommendation with its full calculation (recorded from the running app, LLM off):
+
+![ArchLens demo: describe a project, review the extracted values, evaluate, read the result and the calculations](docs/demo.gif)
+
+| Start | Review with live checks |
+|---|---|
+| ![Start view](docs/start.png) | ![Review view](docs/review.png) |
+| **Result (P4, lending fintech)** | **How the pick was earned** |
+| ![Result view](docs/result.png) | ![Score breakdown, weights, search funnel and closest rivals](docs/score.png) |
+| **Warnings with codes and severity** | **Calculations** |
+| ![Warnings](docs/warnings.png) | ![Calculations view](docs/calculations.png) |
+
 ## 2. Architecture
+
+![ArchLens architecture: input, the deterministic engine pipeline, the knowledge base and outputs](docs/architecture.svg)
+
+The same flow as text, with the API routes:
 
 ```
  description / .txt / .pdf / .docx            scenario JSON
@@ -96,7 +125,9 @@ pip install -r requirements.txt
 python run.py
 ```
 
-Open http://127.0.0.1:8000. Optional settings go in a `.env` file (copy `.env.example`): `STACKSENSE_LLM`, `GEMINI_API_KEY`, `GEMINI_MODEL`, `HOST`, `PORT`.
+If PowerShell blocks `Activate.ps1`, skip activation and call the venv directly: `.venv\Scripts\pip install -r requirements.txt`, then `.venv\Scripts\python run.py`.
+
+Open http://127.0.0.1:8000. On a clean copy, creating the venv and installing took about 70 seconds and the page was up 3 seconds later; no API key or account is needed. Optional settings go in a `.env` file (copy `.env.example`): `STACKSENSE_LLM`, `GEMINI_API_KEY`, `GEMINI_MODEL`, `HOST`, `PORT`.
 
 Docker Compose (optional, instead of the steps above): from `source/`, run `docker compose up --build` and open http://127.0.0.1:8000. The LLM is off unless `STACKSENSE_LLM=on` and `GEMINI_API_KEY` are set in the shell or in `source/.env`.
 
@@ -141,7 +172,9 @@ ArchLens/
       kb/                  knowledge base JSON
       web/app.py           FastAPI app
     web/                   index.html, css/, js/, fonts/, favicon.svg
-    tests/                 test_engine.py, test_details.py, test_fuzz.py, test_extract.py, test_web.py
+    tests/                 test_engine.py, test_details.py, test_fuzz.py, test_extract.py, test_web.py, test_benchmark.py
+    benchmark/             briefs.json, holdout.json (briefs with answer keys), run_benchmark.py
+    docs/                  architecture diagram, demo recording and screenshots used in this README
 ```
 
 ## 9. Credits
@@ -238,4 +271,24 @@ pip install -r requirements-dev.txt
 python -m pytest -q
 ```
 
+The full suite (236 tests) takes about 9 minutes; `python -m pytest -q tests/test_engine.py` is a quicker check of the engine alone.
+
 The suite covers the engine, the extractor, the API and the PDF, and includes checks that no network call is made with the LLM off. `test_fuzz.py` runs 150 seeded random scenarios and checks that valid input is never rejected, every feasible plan fills all four core layers with a justification, an explicit cloud or data residency is kept or flagged critical, and reruns are identical. A one-off run of the same checks on 1,000 seeds found no failures.
+
+## Benchmark against an answer key
+
+`benchmark/` holds 40 briefs that are not P1-P6 or the edge scenarios, each with an answer key per core layer: the pick an experienced architect would most likely make, plus defensible alternatives. A frontend pair counts only as a whole. From `source/`:
+
+```
+python benchmark/run_benchmark.py              # 25 development briefs
+python benchmark/run_benchmark.py holdout.json # 15 held-out briefs
+```
+
+| Set | Layer decisions | Expected pick | Expected or acceptable | Whole stack acceptable |
+|---|---|---|---|---|
+| Development briefs, first run | 100 | 67% | 84% | 16 of 25 |
+| Development briefs, after the skill-weight fix | 100 | 76% | 91% | 18 of 25 |
+| Held-out briefs, single run | 60 | 83% | 97% | 13 of 15 |
+
+How it was run: the 25 development keys were written and frozen before any brief went through the engine. The first run showed one general fault: database and hosting, which have no language, carried most of the team-skill term, so a Java-only team could get Django and Ruby or PHP teams a BaaS in another language. Their weight in that term was cut, and P1-P6, the edge scenarios and the random-scenario tests were rechecked. The 15 held-out briefs and keys were then written and scored once. One catalogue fix came later, found on 200 outside scenarios rather than the benchmark: static site generators (Hugo, Eleventy) are now marked weak for interactive app types, after Hugo won an internal tool for a Java team. Both benchmark sets gave the same numbers after it. `tests/test_benchmark.py` keeps both sets above a floor. The keys are one person's judgement, so the numbers measure agreement with that judgement, not ground truth. Most remaining misses are near-equivalent choices, such as Neon instead of a managed PostgreSQL service.
+

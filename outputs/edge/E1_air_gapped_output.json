@@ -33,12 +33,12 @@
       ],
       "alternatives": [
         {
-          "choice": "Django templates + htmx",
-          "why_not": "Django templates + htmx scores 0.2 points lower overall, mainly on team skill fit (1.8 points) and performance (0.7 points)."
+          "choice": "Nuxt",
+          "why_not": "Nuxt scores 0.3 points lower overall, mainly on security (1.1 points)."
         },
         {
-          "choice": "Nuxt",
-          "why_not": "Nuxt scores 0.4 points lower overall, mainly on security (1.1 points)."
+          "choice": "Vue 3 + Vite (SPA)",
+          "why_not": "Vue 3 + Vite (SPA) scores 0.3 points lower overall, mainly on security (1.3 points) and performance (0.5 points)."
         }
       ],
       "tradeoffs": [
@@ -46,7 +46,7 @@
         "Verbose"
       ],
       "confidence": "low",
-      "margin_points": 0.19,
+      "margin_points": 0.26,
       "kb_id": "angular",
       "sources": [
         {
@@ -65,12 +65,12 @@
       ],
       "alternatives": [
         {
-          "choice": "Python + Django",
-          "why_not": "Python + Django scores 0.2 points lower overall, mainly on team skill fit (1.8 points) and performance (0.7 points)."
-        },
-        {
           "choice": "Node.js + NestJS",
           "why_not": "Node.js + NestJS scores 0.3 points lower overall, mainly on security (0.9 points) and performance (0.5 points)."
+        },
+        {
+          "choice": "Node.js + Express",
+          "why_not": "Node.js + Express scores 1.4 points lower overall, mainly on security (1.3 points) and maintainability (1.1 points)."
         }
       ],
       "tradeoffs": [
@@ -78,7 +78,7 @@
         "More memory"
       ],
       "confidence": "low",
-      "margin_points": 0.19,
+      "margin_points": 0.25,
       "kb_id": "spring_boot",
       "sources": [
         {
@@ -107,7 +107,7 @@
         },
         {
           "choice": "Microsoft SQL Server / Azure SQL",
-          "why_not": "Microsoft SQL Server / Azure SQL scores 2.2 points lower overall, mainly on vendor lock-in (1.2 points) and team skill fit (1.1 points)."
+          "why_not": "Microsoft SQL Server / Azure SQL scores 2.6 points lower overall, mainly on vendor lock-in (0.8 points) and cost (0.7 points)."
         }
       ],
       "tradeoffs": [
@@ -146,11 +146,11 @@
       "alternatives": [
         {
           "choice": "Self-managed Kubernetes (on-premise)",
-          "why_not": "Self-managed Kubernetes (on-premise) is a close second: only 0.1 points behind, with no single weakness."
+          "why_not": "Self-managed Kubernetes (on-premise) is a close second: only 0.0 points behind, with no single weakness."
         },
         {
           "choice": "Windows Server + IIS (self-hosted)",
-          "why_not": "Windows Server + IIS (self-hosted) scores 0.4 points lower overall, mainly on team skill fit (0.9 points)."
+          "why_not": "Windows Server + IIS (self-hosted) scores 0.6 points lower overall, mainly on security (0.9 points) and performance (0.5 points)."
         }
       ],
       "tradeoffs": [
@@ -158,7 +158,7 @@
         "Needs real operations effort (patching, scaling, monitoring)."
       ],
       "confidence": "low",
-      "margin_points": 0.13,
+      "margin_points": 0.01,
       "kb_id": "onprem_linux_vm",
       "sources": [
         {
@@ -475,13 +475,13 @@
         "eligible_after_stack_checks": 17,
         "shortlist": [
           "angular",
-          "django_htmx",
           "nuxt",
           "vue_vite",
-          "blazor",
           "astro",
           "react_vite",
-          "sveltekit"
+          "sveltekit",
+          "nextjs",
+          "expo_rn"
         ],
         "chosen": [
           "angular"
@@ -523,13 +523,13 @@
         "eligible_after_stack_checks": 10,
         "shortlist": [
           "spring_boot",
-          "django",
           "nestjs",
-          "aspnet_core",
-          "laravel",
           "express",
+          "aspnet_core",
+          "django",
           "go_chi",
-          "rails"
+          "laravel",
+          "fastapi"
         ],
         "chosen": [
           "spring_boot"
@@ -865,9 +865,9 @@
           "PostgreSQL (managed or self-hosted)",
           "Self-managed Linux servers (on-premise)"
         ],
-        "score": 80.054,
+        "score": 79.88,
         "quality": 0.7286,
-        "fit": 0.8884,
+        "fit": 0.8846,
         "penalties": {},
         "fit_terms": {
           "archetype": 0.8,
@@ -875,7 +875,7 @@
           "capability": 0.864,
           "compat": 0.747,
           "ops": 0.843,
-          "skill": 0.939
+          "skill": 0.925
         }
       },
       {
@@ -886,9 +886,9 @@
           "PostgreSQL (managed or self-hosted)",
           "Self-managed Kubernetes (on-premise)"
         ],
-        "score": 79.923,
+        "score": 79.866,
         "quality": 0.7335,
-        "fit": 0.8796,
+        "fit": 0.8783,
         "penalties": {},
         "fit_terms": {
           "archetype": 0.8,
@@ -896,41 +896,20 @@
           "capability": 0.864,
           "compat": 0.747,
           "ops": 0.819,
-          "skill": 0.919
+          "skill": 0.914
         }
       },
       {
         "rank": 3,
-        "stack": [
-          "Django templates + htmx",
-          "Python + Django",
-          "PostgreSQL (managed or self-hosted)",
-          "Self-managed Linux servers (on-premise)"
-        ],
-        "score": 79.86,
-        "quality": 0.7474,
-        "fit": 0.8612,
-        "penalties": {},
-        "fit_terms": {
-          "archetype": 0.8,
-          "budget": 0.994,
-          "capability": 0.882,
-          "compat": 0.813,
-          "ops": 0.852,
-          "skill": 0.799
-        }
-      },
-      {
-        "rank": 4,
         "stack": [
           "Angular",
           "Node.js + NestJS",
           "PostgreSQL (managed or self-hosted)",
           "Self-managed Linux servers (on-premise)"
         ],
-        "score": 79.769,
+        "score": 79.627,
         "quality": 0.717,
-        "fit": 0.8963,
+        "fit": 0.8931,
         "penalties": {},
         "fit_terms": {
           "archetype": 0.7,
@@ -938,28 +917,49 @@
           "capability": 0.864,
           "compat": 0.747,
           "ops": 0.852,
-          "skill": 0.991
+          "skill": 0.979
+        }
+      },
+      {
+        "rank": 4,
+        "stack": [
+          "Nuxt",
+          "Node.js + NestJS",
+          "PostgreSQL (managed or self-hosted)",
+          "Self-managed Linux servers (on-premise)"
+        ],
+        "score": 79.619,
+        "quality": 0.714,
+        "fit": 0.8966,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.7,
+          "budget": 0.994,
+          "capability": 0.864,
+          "compat": 0.747,
+          "ops": 0.852,
+          "skill": 0.992
         }
       },
       {
         "rank": 5,
         "stack": [
-          "Django templates + htmx",
-          "Python + Django",
+          "Angular",
+          "Node.js + NestJS",
           "PostgreSQL (managed or self-hosted)",
           "Self-managed Kubernetes (on-premise)"
         ],
-        "score": 79.729,
-        "quality": 0.7522,
-        "fit": 0.8524,
+        "score": 79.613,
+        "quality": 0.7219,
+        "fit": 0.8869,
         "penalties": {},
         "fit_terms": {
-          "archetype": 0.8,
+          "archetype": 0.7,
           "budget": 0.994,
-          "capability": 0.882,
-          "compat": 0.813,
+          "capability": 0.864,
+          "compat": 0.747,
           "ops": 0.828,
-          "skill": 0.779
+          "skill": 0.969
         }
       }
     ],
@@ -1305,9 +1305,9 @@
     "notes": []
   },
   "score": {
-    "total": 80.054,
+    "total": 79.88,
     "quality": 0.7286,
-    "fit": 0.8884,
+    "fit": 0.8846,
     "penalty": 0.0,
     "penalties": {
       "availability": 0.0,
@@ -1334,7 +1334,7 @@
       "capability": 0.8636,
       "compat": 0.7467,
       "ops": 0.8425,
-      "skill": 0.9386
+      "skill": 0.9248
     },
     "criteria": {
       "cost": 7.1,
@@ -1354,9 +1354,9 @@
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Self-managed Linux servers (on-premise)"
       },
-      "score": 80.054,
+      "score": 79.88,
       "quality": 0.7286,
-      "fit": 0.8884,
+      "fit": 0.8846,
       "penalty": 0.0,
       "cost_usd": [
         0,
@@ -1371,9 +1371,9 @@
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Self-managed Kubernetes (on-premise)"
       },
-      "score": 79.923,
+      "score": 79.866,
       "quality": 0.7335,
-      "fit": 0.8796,
+      "fit": 0.8783,
       "penalty": 0.0,
       "cost_usd": [
         0,
@@ -1383,14 +1383,14 @@
     {
       "rank": 3,
       "stack": {
-        "frontend": "Django templates + htmx",
-        "backend": "Python + Django",
+        "frontend": "Angular",
+        "backend": "Node.js + NestJS",
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Self-managed Linux servers (on-premise)"
       },
-      "score": 79.86,
-      "quality": 0.7474,
-      "fit": 0.8612,
+      "score": 79.627,
+      "quality": 0.717,
+      "fit": 0.8931,
       "penalty": 0.0,
       "cost_usd": [
         0,
@@ -1400,14 +1400,14 @@
     {
       "rank": 4,
       "stack": {
-        "frontend": "Angular",
+        "frontend": "Nuxt",
         "backend": "Node.js + NestJS",
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Self-managed Linux servers (on-premise)"
       },
-      "score": 79.769,
-      "quality": 0.717,
-      "fit": 0.8963,
+      "score": 79.619,
+      "quality": 0.714,
+      "fit": 0.8966,
       "penalty": 0.0,
       "cost_usd": [
         0,
@@ -1417,14 +1417,14 @@
     {
       "rank": 5,
       "stack": {
-        "frontend": "Django templates + htmx",
-        "backend": "Python + Django",
+        "frontend": "Angular",
+        "backend": "Node.js + NestJS",
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Self-managed Kubernetes (on-premise)"
       },
-      "score": 79.729,
-      "quality": 0.7522,
-      "fit": 0.8524,
+      "score": 79.613,
+      "quality": 0.7219,
+      "fit": 0.8869,
       "penalty": 0.0,
       "cost_usd": [
         0,
@@ -1434,14 +1434,14 @@
     {
       "rank": 6,
       "stack": {
-        "frontend": "Angular",
-        "backend": "C# + ASP.NET Core",
+        "frontend": "Nuxt",
+        "backend": "Node.js + NestJS",
         "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "Windows Server + IIS (self-hosted)"
+        "hosting": "Self-managed Kubernetes (on-premise)"
       },
-      "score": 79.68,
-      "quality": 0.7358,
-      "fit": 0.8713,
+      "score": 79.605,
+      "quality": 0.7189,
+      "fit": 0.8904,
       "penalty": 0.0,
       "cost_usd": [
         0,
@@ -1451,14 +1451,14 @@
     {
       "rank": 7,
       "stack": {
-        "frontend": "Nuxt",
+        "frontend": "Vue 3 + Vite (SPA)",
         "backend": "Node.js + NestJS",
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Self-managed Linux servers (on-premise)"
       },
-      "score": 79.679,
-      "quality": 0.714,
-      "fit": 0.898,
+      "score": 79.594,
+      "quality": 0.7126,
+      "fit": 0.8978,
       "penalty": 0.0,
       "cost_usd": [
         0,
@@ -1468,14 +1468,14 @@
     {
       "rank": 8,
       "stack": {
-        "frontend": "Nuxt",
-        "backend": "Java + Spring Boot",
+        "frontend": "Vue 3 + Vite (SPA)",
+        "backend": "Node.js + NestJS",
         "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "Self-managed Linux servers (on-premise)"
+        "hosting": "Self-managed Kubernetes (on-premise)"
       },
-      "score": 79.664,
-      "quality": 0.7256,
-      "fit": 0.8834,
+      "score": 79.58,
+      "quality": 0.7175,
+      "fit": 0.8915,
       "penalty": 0.0,
       "cost_usd": [
         0,
@@ -1485,14 +1485,14 @@
     {
       "rank": 9,
       "stack": {
-        "frontend": "Angular",
-        "backend": "Node.js + NestJS",
+        "frontend": "Nuxt",
+        "backend": "Java + Spring Boot",
         "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "Self-managed Kubernetes (on-premise)"
+        "hosting": "Self-managed Linux servers (on-premise)"
       },
-      "score": 79.639,
-      "quality": 0.7219,
-      "fit": 0.8874,
+      "score": 79.573,
+      "quality": 0.7256,
+      "fit": 0.8814,
       "penalty": 0.0,
       "cost_usd": [
         0,
@@ -1502,14 +1502,14 @@
     {
       "rank": 10,
       "stack": {
-        "frontend": "Vue 3 + Vite (SPA)",
-        "backend": "Node.js + NestJS",
+        "frontend": "Nuxt",
+        "backend": "Java + Spring Boot",
         "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "Self-managed Linux servers (on-premise)"
+        "hosting": "Self-managed Kubernetes (on-premise)"
       },
-      "score": 79.627,
-      "quality": 0.7126,
-      "fit": 0.8985,
+      "score": 79.559,
+      "quality": 0.7305,
+      "fit": 0.8751,
       "penalty": 0.0,
       "cost_usd": [
         0,
@@ -1519,7 +1519,7 @@
   ],
   "robustness": {
     "verdict": "sensitive",
-    "margin_points": 0.131,
+    "margin_points": 0.014,
     "runner_up": {
       "frontend": "Angular",
       "backend": "Java + Spring Boot",
@@ -1527,15 +1527,15 @@
       "hosting": "Self-managed Kubernetes (on-premise)"
     },
     "checks_run": 14,
-    "checks_held": 7,
-    "summary": "The same stack wins in 7 of 14 checks. It switches to Django templates + htmx (frontend), Python + Django (backend) when cost counted twice as much, time to market counted twice as much, performance counted half as much; and to Self-managed Kubernetes (on-premise) (hosting) when cost counted half as much, performance counted twice as much, security counted twice as much; and to Vue 3 + Vite (SPA) (frontend), Node.js + NestJS (backend) when security counted half as much.",
+    "checks_held": 6,
+    "summary": "The same stack wins in 6 of 14 checks. It switches to Vue 3 + Vite (SPA) (frontend), Node.js + NestJS (backend) when cost counted twice as much, security counted half as much; and to Self-managed Kubernetes (on-premise) (hosting) when cost counted half as much, time to market counted half as much, performance counted twice as much, maintainability counted half as much, security counted twice as much; and to Nuxt (frontend), Node.js + NestJS (backend) when time to market counted twice as much.",
     "checks": [
       {
         "change": "cost counted twice as much",
         "same_stack": false,
         "new_stack": {
-          "frontend": "Django templates + htmx",
-          "backend": "Python + Django",
+          "frontend": "Vue 3 + Vite (SPA)",
+          "backend": "Node.js + NestJS",
           "database": "PostgreSQL (managed or self-hosted)",
           "hosting": "Self-managed Linux servers (on-premise)"
         },
@@ -1543,12 +1543,12 @@
           {
             "layer": "frontend",
             "from": "Angular",
-            "to": "Django templates + htmx"
+            "to": "Vue 3 + Vite (SPA)"
           },
           {
             "layer": "backend",
             "from": "Java + Spring Boot",
-            "to": "Python + Django"
+            "to": "Node.js + NestJS"
           }
         ]
       },
@@ -1573,8 +1573,8 @@
         "change": "time to market counted twice as much",
         "same_stack": false,
         "new_stack": {
-          "frontend": "Django templates + htmx",
-          "backend": "Python + Django",
+          "frontend": "Nuxt",
+          "backend": "Node.js + NestJS",
           "database": "PostgreSQL (managed or self-hosted)",
           "hosting": "Self-managed Linux servers (on-premise)"
         },
@@ -1582,18 +1582,31 @@
           {
             "layer": "frontend",
             "from": "Angular",
-            "to": "Django templates + htmx"
+            "to": "Nuxt"
           },
           {
             "layer": "backend",
             "from": "Java + Spring Boot",
-            "to": "Python + Django"
+            "to": "Node.js + NestJS"
           }
         ]
       },
       {
         "change": "time to market counted half as much",
-        "same_stack": true
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Angular",
+          "backend": "Java + Spring Boot",
+          "database": "PostgreSQL (managed or self-hosted)",
+          "hosting": "Self-managed Kubernetes (on-premise)"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "Self-managed Linux servers (on-premise)",
+            "to": "Self-managed Kubernetes (on-premise)"
+          }
+        ]
       },
       {
         "change": "scalability counted twice as much",
@@ -1622,25 +1635,7 @@
       },
       {
         "change": "performance counted half as much",
-        "same_stack": false,
-        "new_stack": {
-          "frontend": "Django templates + htmx",
-          "backend": "Python + Django",
-          "database": "PostgreSQL (managed or self-hosted)",
-          "hosting": "Self-managed Linux servers (on-premise)"
-        },
-        "swaps": [
-          {
-            "layer": "frontend",
-            "from": "Angular",
-            "to": "Django templates + htmx"
-          },
-          {
-            "layer": "backend",
-            "from": "Java + Spring Boot",
-            "to": "Python + Django"
-          }
-        ]
+        "same_stack": true
       },
       {
         "change": "maintainability counted twice as much",
@@ -1648,7 +1643,20 @@
       },
       {
         "change": "maintainability counted half as much",
-        "same_stack": true
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Angular",
+          "backend": "Java + Spring Boot",
+          "database": "PostgreSQL (managed or self-hosted)",
+          "hosting": "Self-managed Kubernetes (on-premise)"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "Self-managed Linux servers (on-premise)",
+            "to": "Self-managed Kubernetes (on-premise)"
+          }
+        ]
       },
       {
         "change": "security counted twice as much",
@@ -1711,8 +1719,8 @@
       "title": "Ship sooner",
       "available": true,
       "stack": {
-        "frontend": "Django templates + htmx",
-        "backend": "Python + Django",
+        "frontend": "Astro",
+        "backend": "Node.js + NestJS",
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Self-managed Linux servers (on-premise)"
       },
@@ -1720,27 +1728,27 @@
         {
           "layer": "frontend",
           "from": "Angular",
-          "to": "Django templates + htmx"
+          "to": "Astro"
         },
         {
           "layer": "backend",
           "from": "Java + Spring Boot",
-          "to": "Python + Django"
+          "to": "Node.js + NestJS"
         }
       ],
-      "score": 79.86,
-      "points_behind": 0.194,
+      "score": 79.514,
+      "points_behind": 0.366,
       "cost_usd": [
         0,
         8
       ],
-      "gains": "time to market 8.1 instead of 6.4",
+      "gains": "time to market 7.2 instead of 6.4",
       "gives_up": [
-        "team skill fit (-1.8 pts)",
-        "performance (-0.7 pts)",
-        "maintainability (-0.1 pts)"
+        "coverage of the required features (-1.3 pts)",
+        "security (-0.7 pts)",
+        "fit to this kind of project (-0.4 pts)"
       ],
-      "summary": "Frontend Angular -> Django templates + htmx; backend Java + Spring Boot -> Python + Django: time to market 8.1 instead of 6.4. Gives up 0.2 points, mainly on team skill fit (-1.8 pts), performance (-0.7 pts), maintainability (-0.1 pts)."
+      "summary": "Frontend Angular -> Astro; backend Java + Spring Boot -> Node.js + NestJS: time to market 7.2 instead of 6.4. Gives up 0.4 points, mainly on coverage of the required features (-1.3 pts), security (-0.7 pts), fit to this kind of project (-0.4 pts)."
     }
   ]
 }

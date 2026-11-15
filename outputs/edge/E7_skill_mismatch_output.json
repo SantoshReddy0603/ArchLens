@@ -46,7 +46,7 @@
         "New to the team (python); plan for learning time."
       ],
       "confidence": "low",
-      "margin_points": 0.16,
+      "margin_points": 0.17,
       "kb_id": "django_htmx",
       "sources": [
         {
@@ -81,7 +81,7 @@
         "New to the team (python); plan for learning time."
       ],
       "confidence": "low",
-      "margin_points": 0.16,
+      "margin_points": 0.17,
       "kb_id": "django",
       "sources": [
         {
@@ -110,7 +110,7 @@
         },
         {
           "choice": "CockroachDB",
-          "why_not": "CockroachDB scores 2.5 points lower overall, mainly on cost (0.8 points) and compatibility with the rest of the stack (0.5 points). Estimated infrastructure about $56-$130/month versus about $91-$180/month."
+          "why_not": "CockroachDB scores 2.4 points lower overall, mainly on cost (0.8 points) and compatibility with the rest of the stack (0.5 points). Estimated infrastructure about $56-$130/month versus about $91-$180/month."
         }
       ],
       "tradeoffs": [
@@ -836,9 +836,9 @@
           "PostgreSQL (managed or self-hosted)",
           "Google Cloud Run"
         ],
-        "score": 82.041,
+        "score": 79.44,
         "quality": 0.7872,
-        "fit": 0.861,
+        "fit": 0.8032,
         "penalties": {},
         "fit_terms": {
           "archetype": 0.7,
@@ -846,7 +846,7 @@
           "capability": 0.877,
           "compat": 0.867,
           "ops": 0.934,
-          "skill": 0.861
+          "skill": 0.655
         }
       },
       {
@@ -857,9 +857,9 @@
           "PostgreSQL (managed or self-hosted)",
           "Google Cloud Run"
         ],
-        "score": 81.88,
+        "score": 79.274,
         "quality": 0.7574,
-        "fit": 0.8938,
+        "fit": 0.8359,
         "penalties": {},
         "fit_terms": {
           "archetype": 0.9,
@@ -867,7 +867,7 @@
           "capability": 0.954,
           "compat": 0.867,
           "ops": 0.934,
-          "skill": 0.861
+          "skill": 0.654
         }
       },
       {
@@ -878,9 +878,9 @@
           "PostgreSQL (managed or self-hosted)",
           "Google Cloud Run"
         ],
-        "score": 81.603,
+        "score": 78.997,
         "quality": 0.7733,
-        "fit": 0.8682,
+        "fit": 0.8103,
         "penalties": {},
         "fit_terms": {
           "archetype": 0.9,
@@ -888,7 +888,7 @@
           "capability": 0.962,
           "compat": 0.733,
           "ops": 0.934,
-          "skill": 0.811
+          "skill": 0.604
         }
       },
       {
@@ -899,9 +899,9 @@
           "PostgreSQL (managed or self-hosted)",
           "Google Cloud Run"
         ],
-        "score": 81.601,
+        "score": 78.995,
         "quality": 0.7758,
-        "fit": 0.8652,
+        "fit": 0.8072,
         "penalties": {},
         "fit_terms": {
           "archetype": 0.8,
@@ -909,7 +909,7 @@
           "capability": 0.954,
           "compat": 0.8,
           "ops": 0.934,
-          "skill": 0.811
+          "skill": 0.604
         }
       },
       {
@@ -920,9 +920,9 @@
           "PostgreSQL (managed or self-hosted)",
           "Google Cloud Run"
         ],
-        "score": 81.512,
+        "score": 78.908,
         "quality": 0.7768,
-        "fit": 0.8619,
+        "fit": 0.804,
         "penalties": {},
         "fit_terms": {
           "archetype": 0.8,
@@ -930,7 +930,7 @@
           "capability": 0.969,
           "compat": 0.733,
           "ops": 0.934,
-          "skill": 0.811
+          "skill": 0.604
         }
       }
     ],
@@ -1171,9 +1171,9 @@
     "notes": []
   },
   "score": {
-    "total": 82.041,
+    "total": 79.44,
     "quality": 0.7872,
-    "fit": 0.861,
+    "fit": 0.8032,
     "penalty": 0.0,
     "penalties": {
       "availability": 0.0,
@@ -1200,7 +1200,7 @@
       "capability": 0.8769,
       "compat": 0.8667,
       "ops": 0.934,
-      "skill": 0.861
+      "skill": 0.6546
     },
     "criteria": {
       "cost": 8.9,
@@ -1220,9 +1220,9 @@
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Google Cloud Run"
       },
-      "score": 82.041,
+      "score": 79.44,
       "quality": 0.7872,
-      "fit": 0.861,
+      "fit": 0.8032,
       "penalty": 0.0,
       "cost_usd": [
         91,
@@ -1237,9 +1237,9 @@
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Google Cloud Run"
       },
-      "score": 81.88,
+      "score": 79.274,
       "quality": 0.7574,
-      "fit": 0.8938,
+      "fit": 0.8359,
       "penalty": 0.0,
       "cost_usd": [
         91,
@@ -1254,9 +1254,9 @@
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Google Cloud Run"
       },
-      "score": 81.603,
+      "score": 78.997,
       "quality": 0.7733,
-      "fit": 0.8682,
+      "fit": 0.8103,
       "penalty": 0.0,
       "cost_usd": [
         91,
@@ -1271,9 +1271,9 @@
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Google Cloud Run"
       },
-      "score": 81.601,
+      "score": 78.995,
       "quality": 0.7758,
-      "fit": 0.8652,
+      "fit": 0.8072,
       "penalty": 0.0,
       "cost_usd": [
         91,
@@ -1288,9 +1288,9 @@
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Google Cloud Run"
       },
-      "score": 81.512,
+      "score": 78.908,
       "quality": 0.7768,
-      "fit": 0.8619,
+      "fit": 0.804,
       "penalty": 0.0,
       "cost_usd": [
         91,
@@ -1305,9 +1305,9 @@
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Google Cloud Run"
       },
-      "score": 81.497,
+      "score": 78.896,
       "quality": 0.7787,
-      "fit": 0.8593,
+      "fit": 0.8015,
       "penalty": 0.0,
       "cost_usd": [
         91,
@@ -1322,9 +1322,9 @@
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Google Cloud Run"
       },
-      "score": 81.207,
+      "score": 78.599,
       "quality": 0.7631,
-      "fit": 0.8719,
+      "fit": 0.8139,
       "penalty": 0.0,
       "cost_usd": [
         91,
@@ -1339,9 +1339,9 @@
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Google Cloud Run"
       },
-      "score": 81.139,
+      "score": 78.535,
       "quality": 0.7571,
-      "fit": 0.8777,
+      "fit": 0.8198,
       "penalty": 0.0,
       "cost_usd": [
         91,
@@ -1356,9 +1356,9 @@
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Google Cloud Run"
       },
-      "score": 80.969,
+      "score": 78.364,
       "quality": 0.7683,
-      "fit": 0.8602,
+      "fit": 0.8023,
       "penalty": 0.0,
       "cost_usd": [
         91,
@@ -1373,9 +1373,9 @@
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Azure App Service"
       },
-      "score": 80.901,
+      "score": 78.3,
       "quality": 0.78,
-      "fit": 0.8494,
+      "fit": 0.7916,
       "penalty": 0.225,
       "cost_usd": [
         154,
@@ -1385,7 +1385,7 @@
   ],
   "robustness": {
     "verdict": "sensitive",
-    "margin_points": 0.16,
+    "margin_points": 0.165,
     "runner_up": {
       "frontend": "Angular",
       "backend": "Node.js + NestJS",
@@ -1562,8 +1562,8 @@
           "to": "CockroachDB"
         }
       ],
-      "score": 79.59,
-      "points_behind": 2.451,
+      "score": 76.993,
+      "points_behind": 2.447,
       "cost_usd": [
         56,
         128
@@ -1574,7 +1574,7 @@
         "time to market (-0.4 pts)",
         "maintainability (-0.4 pts)"
       ],
-      "summary": "Database PostgreSQL (managed or self-hosted) -> CockroachDB: about 30% cheaper on the core layers plus required supporting services ($56-$130 against $91-$180 per month). Gives up 2.5 points, mainly on compatibility with the rest of the stack (-0.5 pts), time to market (-0.4 pts), maintainability (-0.4 pts)."
+      "summary": "Database PostgreSQL (managed or self-hosted) -> CockroachDB: about 30% cheaper on the core layers plus required supporting services ($56-$130 against $91-$180 per month). Gives up 2.4 points, mainly on compatibility with the rest of the stack (-0.5 pts), time to market (-0.4 pts), maintainability (-0.4 pts)."
     },
     {
       "direction": "more_headroom",
@@ -1585,6 +1585,12 @@
     {
       "direction": "faster_build",
       "title": "Ship sooner",
+      "available": false,
+      "note": "Nothing within 12 points of the winner does clearly better here, so the chosen stack is already a strong pick on this."
+    },
+    {
+      "direction": "team_skills",
+      "title": "Closer to the team's skills",
       "available": false,
       "note": "Nothing within 12 points of the winner does clearly better here, so the chosen stack is already a strong pick on this."
     }

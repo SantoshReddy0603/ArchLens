@@ -42,14 +42,14 @@
       "alternatives": [
         {
           "choice": "Flutter",
-          "why_not": "Flutter scores 1.1 points lower overall, mainly on team skill fit (1.1 points)."
+          "why_not": "Flutter scores 2.3 points lower overall, mainly on team skill fit (2.3 points)."
         }
       ],
       "tradeoffs": [
         "Native modules outside the Expo SDK need a custom development build"
       ],
       "confidence": "medium",
-      "margin_points": 1.07,
+      "margin_points": 2.3,
       "kb_id": "expo_rn",
       "sources": [
         {
@@ -78,7 +78,7 @@
         },
         {
           "choice": "C# + ASP.NET Core",
-          "why_not": "C# + ASP.NET Core scores 1.4 points lower overall, mainly on team skill fit (1.1 points) and compatibility with the rest of the stack (0.6 points)."
+          "why_not": "C# + ASP.NET Core scores 2.6 points lower overall, mainly on team skill fit (2.3 points) and compatibility with the rest of the stack (0.6 points)."
         }
       ],
       "tradeoffs": [
@@ -1027,10 +1027,10 @@
           "nestjs",
           "aspnet_core",
           "go_chi",
+          "express",
           "django",
           "phoenix",
-          "fastapi",
-          "express"
+          "fastapi"
         ],
         "chosen": [
           "spring_boot"
@@ -1397,24 +1397,22 @@
       {
         "rank": 5,
         "stack": [
-          "Flutter",
-          "Java + Spring Boot",
+          "React Native (Expo)",
+          "Node.js + NestJS",
           "PostgreSQL (managed or self-hosted)",
-          "AWS ECS on Fargate"
+          "AWS EKS (Kubernetes)"
         ],
-        "score": 83.457,
-        "quality": 0.8209,
-        "fit": 0.8713,
-        "penalties": {
-          "lock_in": 0.9
-        },
+        "score": 83.336,
+        "quality": 0.7832,
+        "fit": 0.8947,
+        "penalties": {},
         "fit_terms": {
           "archetype": 1.0,
-          "budget": 0.75,
+          "budget": 0.736,
           "capability": 0.885,
-          "compat": 0.8,
-          "ops": 0.901,
-          "skill": 0.912
+          "compat": 0.867,
+          "ops": 0.862,
+          "skill": 1.0
         }
       }
     ],
@@ -2014,40 +2012,6 @@
     {
       "rank": 5,
       "stack": {
-        "frontend": "Flutter",
-        "backend": "Java + Spring Boot",
-        "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "AWS ECS on Fargate"
-      },
-      "score": 83.457,
-      "quality": 0.8209,
-      "fit": 0.8713,
-      "penalty": 0.9,
-      "cost_usd": [
-        3137,
-        6011
-      ]
-    },
-    {
-      "rank": 6,
-      "stack": {
-        "frontend": "Flutter",
-        "backend": "Java + Spring Boot",
-        "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "AWS EKS (Kubernetes)"
-      },
-      "score": 83.377,
-      "quality": 0.8105,
-      "fit": 0.8622,
-      "penalty": 0.0,
-      "cost_usd": [
-        3269,
-        6349
-      ]
-    },
-    {
-      "rank": 7,
-      "stack": {
         "frontend": "React Native (Expo)",
         "backend": "Node.js + NestJS",
         "database": "PostgreSQL (managed or self-hosted)",
@@ -2063,7 +2027,7 @@
       ]
     },
     {
-      "rank": 8,
+      "rank": 6,
       "stack": {
         "frontend": "React Native (Expo)",
         "backend": "Java + Spring Boot",
@@ -2080,34 +2044,68 @@
       ]
     },
     {
+      "rank": 7,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Java + Spring Boot",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "AWS Elastic Beanstalk"
+      },
+      "score": 82.931,
+      "quality": 0.7979,
+      "fit": 0.8797,
+      "penalty": 0.538,
+      "cost_usd": [
+        3201,
+        6236
+      ]
+    },
+    {
+      "rank": 8,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Java + Spring Boot",
+        "database": "CockroachDB",
+        "hosting": "AWS ECS on Fargate"
+      },
+      "score": 82.847,
+      "quality": 0.8039,
+      "fit": 0.8891,
+      "penalty": 1.375,
+      "cost_usd": [
+        2949,
+        5774
+      ]
+    },
+    {
       "rank": 9,
       "stack": {
         "frontend": "React Native (Expo)",
-        "backend": "C# + ASP.NET Core",
+        "backend": "Node.js + NestJS",
         "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "AWS EKS (Kubernetes)"
+        "hosting": "AWS EC2 (self-managed VMs)"
       },
-      "score": 83.166,
-      "quality": 0.8153,
-      "fit": 0.8517,
+      "score": 82.663,
+      "quality": 0.7682,
+      "fit": 0.898,
       "penalty": 0.0,
       "cost_usd": [
-        3269,
-        6349
+        3349,
+        6599
       ]
     },
     {
       "rank": 10,
       "stack": {
         "frontend": "React Native (Expo)",
-        "backend": "C# + ASP.NET Core",
-        "database": "PostgreSQL (managed or self-hosted)",
+        "backend": "Java + Spring Boot",
+        "database": "MySQL (managed or self-hosted)",
         "hosting": "AWS ECS on Fargate"
       },
-      "score": 83.133,
-      "quality": 0.8257,
-      "fit": 0.8608,
-      "penalty": 1.012,
+      "score": 82.653,
+      "quality": 0.7982,
+      "fit": 0.8812,
+      "penalty": 0.9,
       "cost_usd": [
         3137,
         6011
@@ -2330,30 +2328,35 @@
       "available": true,
       "stack": {
         "frontend": "React Native (Expo)",
-        "backend": "Python + Django",
+        "backend": "Node.js + NestJS",
         "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "AWS ECS on Fargate"
+        "hosting": "AWS Elastic Beanstalk"
       },
       "swaps": [
         {
           "layer": "backend",
           "from": "Java + Spring Boot",
-          "to": "Python + Django"
+          "to": "Node.js + NestJS"
+        },
+        {
+          "layer": "hosting",
+          "from": "AWS ECS on Fargate",
+          "to": "AWS Elastic Beanstalk"
         }
       ],
-      "score": 82.223,
-      "points_behind": 2.304,
+      "score": 82.12,
+      "points_behind": 2.406,
       "cost_usd": [
-        3137,
-        6011
+        3201,
+        6236
       ],
-      "gains": "time to market 8.4 instead of 7.2",
+      "gains": "time to market 8.1 instead of 7.2",
       "gives_up": [
-        "team skill fit (-1.2 pts)",
-        "performance (-0.7 pts)",
-        "scalability (-0.7 pts)"
+        "security (-1.6 pts)",
+        "scalability (-1.0 pts)",
+        "performance (-0.7 pts)"
       ],
-      "summary": "Backend Java + Spring Boot -> Python + Django: time to market 8.4 instead of 7.2. Gives up 2.3 points, mainly on team skill fit (-1.2 pts), performance (-0.7 pts), scalability (-0.7 pts)."
+      "summary": "Backend Java + Spring Boot -> Node.js + NestJS; hosting AWS ECS on Fargate -> AWS Elastic Beanstalk: time to market 8.1 instead of 7.2. Gives up 2.4 points, mainly on security (-1.6 pts), scalability (-1.0 pts), performance (-0.7 pts)."
     }
   ]
 }

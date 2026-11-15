@@ -82,8 +82,8 @@
           "why_not": "Node.js + NestJS scores 2.0 points lower overall, mainly on performance (1.5 points) and scalability (0.8 points)."
         },
         {
-          "choice": "C# + ASP.NET Core",
-          "why_not": "C# + ASP.NET Core scores 2.7 points lower overall, mainly on team skill fit (1.2 points) and compatibility with the rest of the stack (0.6 points)."
+          "choice": "Supabase (BaaS)",
+          "why_not": "Supabase (BaaS) scores 3.3 points lower overall, mainly on headroom for the expected load (4.4 points) and scalability (1.2 points)."
         }
       ],
       "tradeoffs": [
@@ -818,11 +818,11 @@
         "shortlist": [
           "go_chi",
           "nestjs",
+          "supabase",
+          "firebase",
           "aspnet_core",
           "phoenix",
           "spring_boot",
-          "supabase",
-          "firebase",
           "express"
         ],
         "chosen": [

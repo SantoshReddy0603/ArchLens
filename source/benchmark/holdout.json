@@ -1,0 +1,1660 @@
+{
+ "note": "Held-out set: written after the round-7 engine change and before any of these briefs was run. Not used to tune the engine.",
+ "briefs": [
+  {
+   "scenario": {
+    "scenario_id": "H01",
+    "project": {
+     "name": "Wedding Pages",
+     "type": "content_site",
+     "description": "Event microsite with RSVP form for one wedding.",
+     "platforms": [
+      "web"
+     ]
+    },
+    "scale": {
+     "users_at_launch": 200,
+     "users_12_months": 300,
+     "peak_concurrent_users": 50,
+     "traffic_pattern": "steady",
+     "workload": "read_heavy",
+     "data_volume_gb_12_months": 1
+    },
+    "team": {
+     "size": 1,
+     "experience": "beginner",
+     "languages": [
+      "javascript"
+     ],
+     "has_devops": false
+    },
+    "budget": {
+     "monthly_infra_usd": 0
+    },
+    "timeline": {
+     "mvp_weeks": 2
+    },
+    "infrastructure": {
+     "cloud_preference": "any",
+     "deployment_model": "managed_cloud",
+     "data_residency": "none",
+     "existing_systems": []
+    },
+    "requirements": {
+     "realtime": false,
+     "offline_support": false,
+     "full_text_search": false,
+     "file_media_storage": false,
+     "payments": false,
+     "auth": "none",
+     "multi_tenant": false,
+     "ml_features": "none",
+     "seo_critical": false,
+     "availability": "99.9",
+     "p95_latency_ms": null
+    },
+    "compliance": [],
+    "priorities": {
+     "cost": 5,
+     "time_to_market": 3,
+     "scalability": 3,
+     "performance": 3,
+     "maintainability": 3,
+     "security": 3
+    }
+   },
+   "key": {
+    "frontend": {
+     "best": [
+      "astro",
+      "nextjs",
+      "eleventy",
+      "sveltekit"
+     ],
+     "acceptable": [
+      "hugo",
+      "react_vite",
+      "vue_vite",
+      "nuxt"
+     ]
+    },
+    "backend": {
+     "best": [
+      "none_be",
+      "supabase",
+      "firebase"
+     ],
+     "acceptable": [
+      "nextjs_api"
+     ]
+    },
+    "database": {
+     "best": [
+      "none_db",
+      "supabase_postgres",
+      "firestore"
+     ],
+     "acceptable": []
+    },
+    "hosting": {
+     "best": [
+      "cloudflare_pages",
+      "netlify",
+      "vercel",
+      "github_pages",
+      "firebase_hosting"
+     ],
+     "acceptable": [
+      "none_host"
+     ]
+    }
+   }
+  },
+  {
+   "scenario": {
+    "scenario_id": "H02",
+    "project": {
+     "name": "ClinicQ",
+     "type": "healthtech",
+     "description": "Clinic queue and appointment app for Indian hospitals.",
+     "platforms": [
+      "web",
+      "android"
+     ]
+    },
+    "scale": {
+     "users_at_launch": 5000,
+     "users_12_months": 60000,
+     "peak_concurrent_users": 2000,
+     "traffic_pattern": "steady",
+     "workload": "balanced",
+     "data_volume_gb_12_months": 20
+    },
+    "team": {
+     "size": 4,
+     "experience": "intermediate",
+     "languages": [
+      "python",
+      "javascript"
+     ],
+     "has_devops": false
+    },
+    "budget": {
+     "monthly_infra_usd": 400
+    },
+    "timeline": {
+     "mvp_weeks": 10
+    },
+    "infrastructure": {
+     "cloud_preference": "any",
+     "deployment_model": "managed_cloud",
+     "data_residency": "india",
+     "existing_systems": []
+    },
+    "requirements": {
+     "realtime": true,
+     "offline_support": false,
+     "full_text_search": false,
+     "file_media_storage": false,
+     "payments": false,
+     "auth": "phone_otp",
+     "multi_tenant": false,
+     "ml_features": "none",
+     "seo_critical": false,
+     "availability": "99.9",
+     "p95_latency_ms": null
+    },
+    "compliance": [
+     "dpdp"
+    ],
+    "priorities": {
+     "cost": 3,
+     "time_to_market": 3,
+     "scalability": 3,
+     "performance": 3,
+     "maintainability": 3,
+     "security": 4
+    }
+   },
+   "key": {
+    "frontend": {
+     "best": [
+      "expo_rn+nextjs",
+      "flutter+nextjs",
+      "expo_rn+react_vite"
+     ],
+     "acceptable": [
+      "flutter",
+      "expo_rn",
+      "flutter+react_vite",
+      "kotlin_android+nextjs",
+      "kotlin_android+react_vite"
+     ]
+    },
+    "backend": {
+     "best": [
+      "django",
+      "fastapi",
+      "supabase",
+      "express"
+     ],
+     "acceptable": [
+      "nestjs",
+      "nextjs_api",
+      "firebase"
+     ]
+    },
+    "database": {
+     "best": [
+      "postgresql",
+      "supabase_postgres"
+     ],
+     "acceptable": [
+      "mysql",
+      "firestore",
+      "mongodb"
+     ]
+    },
+    "hosting": {
+     "best": [
+      "aws_ecs_fargate",
+      "gke_cloud_run",
+      "cloudflare_pages",
+      "vercel",
+      "azure_app_service",
+      "azure_container_apps"
+     ],
+     "acceptable": [
+      "aws_elastic_beanstalk",
+      "fly_io",
+      "none_host",
+      "firebase_hosting",
+      "aws_amplify"
+     ]
+    }
+   }
+  },
+  {
+   "scenario": {
+    "scenario_id": "H03",
+    "project": {
+     "name": "Treasury Desk",
+     "type": "fintech",
+     "description": "Corporate treasury dashboard for a bank, Azure only, SSO.",
+     "platforms": [
+      "web"
+     ]
+    },
+    "scale": {
+     "users_at_launch": 500,
+     "users_12_months": 2000,
+     "peak_concurrent_users": 300,
+     "traffic_pattern": "steady",
+     "workload": "balanced",
+     "data_volume_gb_12_months": 20
+    },
+    "team": {
+     "size": 8,
+     "experience": "senior",
+     "languages": [
+      "csharp",
+      "typescript"
+     ],
+     "has_devops": true
+    },
+    "budget": {
+     "monthly_infra_usd": 4000
+    },
+    "timeline": {
+     "mvp_weeks": 10
+    },
+    "infrastructure": {
+     "cloud_preference": "azure",
+     "deployment_model": "managed_cloud",
+     "data_residency": "none",
+     "existing_systems": []
+    },
+    "requirements": {
+     "realtime": false,
+     "offline_support": false,
+     "full_text_search": false,
+     "file_media_storage": false,
+     "payments": false,
+     "auth": "enterprise_sso",
+     "multi_tenant": false,
+     "ml_features": "none",
+     "seo_critical": false,
+     "availability": "99.95",
+     "p95_latency_ms": null
+    },
+    "compliance": [
+     "soc2",
+     "iso27001"
+    ],
+    "priorities": {
+     "cost": 3,
+     "time_to_market": 3,
+     "scalability": 3,
+     "performance": 3,
+     "maintainability": 3,
+     "security": 5
+    }
+   },
+   "key": {
+    "frontend": {
+     "best": [
+      "react_vite",
+      "angular",
+      "blazor",
+      "nextjs"
+     ],
+     "acceptable": [
+      "vue_vite",
+      "sveltekit"
+     ]
+    },
+    "backend": {
+     "best": [
+      "aspnet_core"
+     ],
+     "acceptable": [
+      "nestjs"
+     ]
+    },
+    "database": {
+     "best": [
+      "sql_server",
+      "postgresql"
+     ],
+     "acceptable": [
+      "cosmos_db"
+     ]
+    },
+    "hosting": {
+     "best": [
+      "azure_app_service",
+      "azure_container_apps"
+     ],
+     "acceptable": [
+      "azure_vm",
+      "azure_static_web_apps"
+     ]
+    }
+   }
+  },
+  {
+   "scenario": {
+    "scenario_id": "H04",
+    "project": {
+     "name": "LabNotebook",
+     "type": "saas_b2b",
+     "description": "Electronic lab notebook for research groups; Python scientists build it.",
+     "platforms": [
+      "web"
+     ]
+    },
+    "scale": {
+     "users_at_launch": 300,
+     "users_12_months": 3000,
+     "peak_concurrent_users": 200,
+     "traffic_pattern": "steady",
+     "workload": "balanced",
+     "data_volume_gb_12_months": 20
+    },
+    "team": {
+     "size": 3,
+     "experience": "intermediate",
+     "languages": [
+      "python"
+     ],
+     "has_devops": false
+    },
+    "budget": {
+     "monthly_infra_usd": 150
+    },
+    "timeline": {
+     "mvp_weeks": 10
+    },
+    "infrastructure": {
+     "cloud_preference": "any",
+     "deployment_model": "managed_cloud",
+     "data_residency": "none",
+     "existing_systems": []
+    },
+    "requirements": {
+     "realtime": false,
+     "offline_support": false,
+     "full_text_search": true,
+     "file_media_storage": true,
+     "payments": false,
+     "auth": "email_password",
+     "multi_tenant": true,
+     "ml_features": "none",
+     "seo_critical": false,
+     "availability": "99.9",
+     "p95_latency_ms": null
+    },
+    "compliance": [],
+    "priorities": {
+     "cost": 3,
+     "time_to_market": 3,
+     "scalability": 3,
+     "performance": 3,
+     "maintainability": 3,
+     "security": 3
+    }
+   },
+   "key": {
+    "frontend": {
+     "best": [
+      "django_htmx",
+      "react_vite"
+     ],
+     "acceptable": [
+      "nextjs",
+      "vue_vite",
+      "sveltekit"
+     ]
+    },
+    "backend": {
+     "best": [
+      "django",
+      "fastapi"
+     ],
+     "acceptable": [
+      "supabase"
+     ]
+    },
+    "database": {
+     "best": [
+      "postgresql"
+     ],
+     "acceptable": [
+      "supabase_postgres",
+      "neon",
+      "mysql"
+     ]
+    },
+    "hosting": {
+     "best": [
+      "render",
+      "railway",
+      "fly_io",
+      "gke_cloud_run"
+     ],
+     "acceptable": [
+      "aws_ecs_fargate",
+      "azure_app_service",
+      "aws_elastic_beanstalk",
+      "digitalocean_droplet",
+      "hetzner_vps",
+      "azure_container_apps"
+     ]
+    }
+   }
+  },
+  {
+   "scenario": {
+    "scenario_id": "H05",
+    "project": {
+     "name": "Gridwatch",
+     "type": "iot",
+     "description": "Smart-meter readings from 200,000 homes every 15 minutes; Java team on GCP.",
+     "platforms": [
+      "web"
+     ]
+    },
+    "scale": {
+     "users_at_launch": 1000,
+     "users_12_months": 5000,
+     "peak_concurrent_users": 500,
+     "traffic_pattern": "steady",
+     "workload": "write_heavy",
+     "data_volume_gb_12_months": 4000
+    },
+    "team": {
+     "size": 6,
+     "experience": "senior",
+     "languages": [
+      "java"
+     ],
+     "has_devops": true
+    },
+    "budget": {
+     "monthly_infra_usd": 3000
+    },
+    "timeline": {
+     "mvp_weeks": 10
+    },
+    "infrastructure": {
+     "cloud_preference": "gcp",
+     "deployment_model": "managed_cloud",
+     "data_residency": "none",
+     "existing_systems": []
+    },
+    "requirements": {
+     "realtime": false,
+     "offline_support": false,
+     "full_text_search": false,
+     "file_media_storage": false,
+     "payments": false,
+     "auth": "email_password",
+     "multi_tenant": false,
+     "ml_features": "none",
+     "seo_critical": false,
+     "availability": "99.9",
+     "p95_latency_ms": null
+    },
+    "compliance": [],
+    "priorities": {
+     "cost": 3,
+     "time_to_market": 3,
+     "scalability": 5,
+     "performance": 3,
+     "maintainability": 3,
+     "security": 3
+    }
+   },
+   "key": {
+    "frontend": {
+     "best": [
+      "react_vite",
+      "angular",
+      "nextjs"
+     ],
+     "acceptable": [
+      "vue_vite",
+      "sveltekit"
+     ]
+    },
+    "backend": {
+     "best": [
+      "spring_boot"
+     ],
+     "acceptable": [
+      "go_chi"
+     ]
+    },
+    "database": {
+     "best": [
+      "bigquery",
+      "timescaledb",
+      "clickhouse"
+     ],
+     "acceptable": [
+      "postgresql"
+     ]
+    },
+    "hosting": {
+     "best": [
+      "gke_cloud_run"
+     ],
+     "acceptable": [
+      "gce_vm"
+     ]
+    }
+   }
+  },
+  {
+   "scenario": {
+    "scenario_id": "H06",
+    "project": {
+     "name": "Pocket Tutor",
+     "type": "ai_ml_product",
+     "description": "Mobile homework helper using a hosted LLM API.",
+     "platforms": [
+      "android",
+      "ios"
+     ]
+    },
+    "scale": {
+     "users_at_launch": 2000,
+     "users_12_months": 50000,
+     "peak_concurrent_users": 1000,
+     "traffic_pattern": "steady",
+     "workload": "balanced",
+     "data_volume_gb_12_months": 20
+    },
+    "team": {
+     "size": 2,
+     "experience": "intermediate",
+     "languages": [
+      "typescript"
+     ],
+     "has_devops": false
+    },
+    "budget": {
+     "monthly_infra_usd": 200
+    },
+    "timeline": {
+     "mvp_weeks": 10
+    },
+    "infrastructure": {
+     "cloud_preference": "any",
+     "deployment_model": "managed_cloud",
+     "data_residency": "none",
+     "existing_systems": []
+    },
+    "requirements": {
+     "realtime": false,
+     "offline_support": false,
+     "full_text_search": false,
+     "file_media_storage": false,
+     "payments": false,
+     "auth": "social",
+     "multi_tenant": false,
+     "ml_features": "inference_api",
+     "seo_critical": false,
+     "availability": "99.9",
+     "p95_latency_ms": null
+    },
+    "compliance": [],
+    "priorities": {
+     "cost": 3,
+     "time_to_market": 5,
+     "scalability": 3,
+     "performance": 3,
+     "maintainability": 3,
+     "security": 3
+    }
+   },
+   "key": {
+    "frontend": {
+     "best": [
+      "expo_rn"
+     ],
+     "acceptable": [
+      "flutter"
+     ]
+    },
+    "backend": {
+     "best": [
+      "supabase",
+      "firebase",
+      "nextjs_api",
+      "express",
+      "nestjs"
+     ],
+     "acceptable": [
+      "fastapi"
+     ]
+    },
+    "database": {
+     "best": [
+      "supabase_postgres",
+      "firestore",
+      "postgresql"
+     ],
+     "acceptable": [
+      "neon",
+      "mongodb"
+     ]
+    },
+    "hosting": {
+     "best": [
+      "none_host",
+      "vercel",
+      "gke_cloud_run",
+      "render",
+      "railway",
+      "fly_io",
+      "firebase_hosting"
+     ],
+     "acceptable": [
+      "aws_lambda",
+      "cloudflare_workers",
+      "aws_ecs_fargate",
+      "cloudflare_pages"
+     ]
+    }
+   }
+  },
+  {
+   "scenario": {
+    "scenario_id": "H07",
+    "project": {
+     "name": "Ops Portal",
+     "type": "internal_tool",
+     "description": "Admin console for support staff over existing PostgreSQL; Go team.",
+     "platforms": [
+      "web"
+     ]
+    },
+    "scale": {
+     "users_at_launch": 80,
+     "users_12_months": 120,
+     "peak_concurrent_users": 40,
+     "traffic_pattern": "steady",
+     "workload": "balanced",
+     "data_volume_gb_12_months": 20
+    },
+    "team": {
+     "size": 2,
+     "experience": "senior",
+     "languages": [
+      "go"
+     ],
+     "has_devops": true
+    },
+    "budget": {
+     "monthly_infra_usd": 100
+    },
+    "timeline": {
+     "mvp_weeks": 10
+    },
+    "infrastructure": {
+     "cloud_preference": "any",
+     "deployment_model": "managed_cloud",
+     "data_residency": "none",
+     "existing_systems": [
+      "PostgreSQL 16"
+     ]
+    },
+    "requirements": {
+     "realtime": false,
+     "offline_support": false,
+     "full_text_search": false,
+     "file_media_storage": false,
+     "payments": false,
+     "auth": "enterprise_sso",
+     "multi_tenant": false,
+     "ml_features": "none",
+     "seo_critical": false,
+     "availability": "99.9",
+     "p95_latency_ms": null
+    },
+    "compliance": [],
+    "priorities": {
+     "cost": 3,
+     "time_to_market": 3,
+     "scalability": 3,
+     "performance": 3,
+     "maintainability": 3,
+     "security": 3
+    }
+   },
+   "key": {
+    "frontend": {
+     "best": [
+      "react_vite",
+      "vue_vite",
+      "sveltekit"
+     ],
+     "acceptable": [
+      "nextjs",
+      "angular"
+     ]
+    },
+    "backend": {
+     "best": [
+      "go_chi"
+     ],
+     "acceptable": []
+    },
+    "database": {
+     "best": [
+      "postgresql"
+     ],
+     "acceptable": []
+    },
+    "hosting": {
+     "best": [
+      "gke_cloud_run",
+      "fly_io",
+      "render",
+      "aws_ecs_fargate",
+      "railway"
+     ],
+     "acceptable": [
+      "digitalocean_droplet",
+      "hetzner_vps",
+      "azure_container_apps",
+      "aws_ec2",
+      "gce_vm"
+     ]
+    }
+   }
+  },
+  {
+   "scenario": {
+    "scenario_id": "H08",
+    "project": {
+     "name": "Freightline",
+     "type": "marketplace",
+     "description": "Truck load-booking marketplace across the US with live tracking.",
+     "platforms": [
+      "web",
+      "android",
+      "ios"
+     ]
+    },
+    "scale": {
+     "users_at_launch": 10000,
+     "users_12_months": 150000,
+     "peak_concurrent_users": 8000,
+     "traffic_pattern": "steady",
+     "workload": "balanced",
+     "data_volume_gb_12_months": 20
+    },
+    "team": {
+     "size": 10,
+     "experience": "mixed",
+     "languages": [
+      "typescript",
+      "kotlin",
+      "swift"
+     ],
+     "has_devops": true
+    },
+    "budget": {
+     "monthly_infra_usd": 6000
+    },
+    "timeline": {
+     "mvp_weeks": 10
+    },
+    "infrastructure": {
+     "cloud_preference": "aws",
+     "deployment_model": "managed_cloud",
+     "data_residency": "none",
+     "existing_systems": []
+    },
+    "requirements": {
+     "realtime": true,
+     "offline_support": false,
+     "full_text_search": false,
+     "file_media_storage": false,
+     "payments": true,
+     "auth": "phone_otp",
+     "multi_tenant": false,
+     "ml_features": "none",
+     "seo_critical": false,
+     "availability": "99.95",
+     "p95_latency_ms": null
+    },
+    "compliance": [],
+    "priorities": {
+     "cost": 3,
+     "time_to_market": 3,
+     "scalability": 4,
+     "performance": 3,
+     "maintainability": 3,
+     "security": 3
+    }
+   },
+   "key": {
+    "frontend": {
+     "best": [
+      "expo_rn+nextjs",
+      "kotlin_android+swift_ios+nextjs",
+      "expo_rn+react_vite",
+      "kotlin_android+swift_ios+react_vite"
+     ],
+     "acceptable": [
+      "flutter+nextjs",
+      "expo_rn",
+      "flutter"
+     ]
+    },
+    "backend": {
+     "best": [
+      "nestjs",
+      "express"
+     ],
+     "acceptable": [
+      "go_chi",
+      "spring_boot",
+      "nextjs_api"
+     ]
+    },
+    "database": {
+     "best": [
+      "postgresql"
+     ],
+     "acceptable": [
+      "dynamodb",
+      "cockroachdb",
+      "mongodb"
+     ]
+    },
+    "hosting": {
+     "best": [
+      "aws_ecs_fargate",
+      "aws_eks"
+     ],
+     "acceptable": [
+      "aws_lambda",
+      "aws_elastic_beanstalk",
+      "aws_amplify"
+     ]
+    }
+   }
+  },
+  {
+   "scenario": {
+    "scenario_id": "H09",
+    "project": {
+     "name": "Recipe Box",
+     "type": "web_app",
+     "description": "Personal recipe collection with photo uploads, hobby project.",
+     "platforms": [
+      "web"
+     ]
+    },
+    "scale": {
+     "users_at_launch": 50,
+     "users_12_months": 500,
+     "peak_concurrent_users": 20,
+     "traffic_pattern": "steady",
+     "workload": "balanced",
+     "data_volume_gb_12_months": 20
+    },
+    "team": {
+     "size": 1,
+     "experience": "intermediate",
+     "languages": [
+      "typescript"
+     ],
+     "has_devops": false
+    },
+    "budget": {
+     "monthly_infra_usd": 5
+    },
+    "timeline": {
+     "mvp_weeks": 10
+    },
+    "infrastructure": {
+     "cloud_preference": "any",
+     "deployment_model": "managed_cloud",
+     "data_residency": "none",
+     "existing_systems": []
+    },
+    "requirements": {
+     "realtime": false,
+     "offline_support": false,
+     "full_text_search": false,
+     "file_media_storage": true,
+     "payments": false,
+     "auth": "email_password",
+     "multi_tenant": false,
+     "ml_features": "none",
+     "seo_critical": false,
+     "availability": "99",
+     "p95_latency_ms": null
+    },
+    "compliance": [],
+    "priorities": {
+     "cost": 5,
+     "time_to_market": 3,
+     "scalability": 3,
+     "performance": 3,
+     "maintainability": 3,
+     "security": 3
+    }
+   },
+   "key": {
+    "frontend": {
+     "best": [
+      "nextjs",
+      "sveltekit",
+      "react_vite",
+      "vue_vite"
+     ],
+     "acceptable": [
+      "nuxt",
+      "astro"
+     ]
+    },
+    "backend": {
+     "best": [
+      "supabase",
+      "firebase",
+      "nextjs_api"
+     ],
+     "acceptable": [
+      "express"
+     ]
+    },
+    "database": {
+     "best": [
+      "supabase_postgres",
+      "firestore",
+      "neon",
+      "sqlite"
+     ],
+     "acceptable": [
+      "postgresql"
+     ]
+    },
+    "hosting": {
+     "best": [
+      "vercel",
+      "cloudflare_pages",
+      "netlify",
+      "firebase_hosting"
+     ],
+     "acceptable": [
+      "none_host",
+      "render",
+      "fly_io",
+      "railway"
+     ]
+    }
+   }
+  },
+  {
+   "scenario": {
+    "scenario_id": "H10",
+    "project": {
+     "name": "Bharat Bank Lite",
+     "type": "fintech",
+     "description": "Loan origination system for an Indian NBFC, kept in the company's own data centre.",
+     "platforms": [
+      "web"
+     ]
+    },
+    "scale": {
+     "users_at_launch": 2000,
+     "users_12_months": 20000,
+     "peak_concurrent_users": 800,
+     "traffic_pattern": "steady",
+     "workload": "balanced",
+     "data_volume_gb_12_months": 20
+    },
+    "team": {
+     "size": 12,
+     "experience": "mixed",
+     "languages": [
+      "java"
+     ],
+     "has_devops": true
+    },
+    "budget": {
+     "monthly_infra_usd": 5000
+    },
+    "timeline": {
+     "mvp_weeks": 10
+    },
+    "infrastructure": {
+     "cloud_preference": "none",
+     "deployment_model": "on_premise",
+     "data_residency": "india",
+     "existing_systems": []
+    },
+    "requirements": {
+     "realtime": false,
+     "offline_support": false,
+     "full_text_search": false,
+     "file_media_storage": false,
+     "payments": false,
+     "auth": "enterprise_sso",
+     "multi_tenant": false,
+     "ml_features": "none",
+     "seo_critical": false,
+     "availability": "99.9",
+     "p95_latency_ms": null
+    },
+    "compliance": [
+     "rbi_localisation",
+     "dpdp",
+     "iso27001"
+    ],
+    "priorities": {
+     "cost": 3,
+     "time_to_market": 3,
+     "scalability": 3,
+     "performance": 3,
+     "maintainability": 3,
+     "security": 5
+    }
+   },
+   "key": {
+    "frontend": {
+     "best": [
+      "angular",
+      "react_vite"
+     ],
+     "acceptable": [
+      "vue_vite",
+      "nextjs"
+     ]
+    },
+    "backend": {
+     "best": [
+      "spring_boot"
+     ],
+     "acceptable": []
+    },
+    "database": {
+     "best": [
+      "postgresql",
+      "oracle_db"
+     ],
+     "acceptable": [
+      "mysql",
+      "sql_server"
+     ]
+    },
+    "hosting": {
+     "best": [
+      "onprem_k8s",
+      "onprem_linux_vm"
+     ],
+     "acceptable": []
+    }
+   }
+  },
+  {
+   "scenario": {
+    "scenario_id": "H11",
+    "project": {
+     "name": "Trivia Night",
+     "type": "gaming",
+     "description": "Live multiplayer trivia for bars, phones as buzzers.",
+     "platforms": [
+      "web"
+     ]
+    },
+    "scale": {
+     "users_at_launch": 2000,
+     "users_12_months": 20000,
+     "peak_concurrent_users": 1500,
+     "traffic_pattern": "spiky",
+     "workload": "balanced",
+     "data_volume_gb_12_months": 20
+    },
+    "team": {
+     "size": 2,
+     "experience": "intermediate",
+     "languages": [
+      "javascript",
+      "typescript"
+     ],
+     "has_devops": false
+    },
+    "budget": {
+     "monthly_infra_usd": 60
+    },
+    "timeline": {
+     "mvp_weeks": 10
+    },
+    "infrastructure": {
+     "cloud_preference": "any",
+     "deployment_model": "managed_cloud",
+     "data_residency": "none",
+     "existing_systems": []
+    },
+    "requirements": {
+     "realtime": true,
+     "offline_support": false,
+     "full_text_search": false,
+     "file_media_storage": false,
+     "payments": false,
+     "auth": "none",
+     "multi_tenant": false,
+     "ml_features": "none",
+     "seo_critical": false,
+     "availability": "99.9",
+     "p95_latency_ms": null
+    },
+    "compliance": [],
+    "priorities": {
+     "cost": 3,
+     "time_to_market": 3,
+     "scalability": 3,
+     "performance": 3,
+     "maintainability": 3,
+     "security": 3
+    }
+   },
+   "key": {
+    "frontend": {
+     "best": [
+      "phaser",
+      "react_vite",
+      "sveltekit",
+      "nextjs"
+     ],
+     "acceptable": [
+      "vue_vite"
+     ]
+    },
+    "backend": {
+     "best": [
+      "colyseus",
+      "express",
+      "supabase",
+      "firebase"
+     ],
+     "acceptable": [
+      "nakama",
+      "nestjs"
+     ]
+    },
+    "database": {
+     "best": [
+      "none_db",
+      "supabase_postgres",
+      "firestore",
+      "postgresql"
+     ],
+     "acceptable": [
+      "sqlite",
+      "mongodb"
+     ]
+    },
+    "hosting": {
+     "best": [
+      "fly_io",
+      "render",
+      "railway",
+      "gke_cloud_run",
+      "none_host",
+      "cloudflare_pages"
+     ],
+     "acceptable": [
+      "digitalocean_droplet",
+      "hetzner_vps",
+      "aws_ecs_fargate",
+      "vercel"
+     ]
+    }
+   }
+  },
+  {
+   "scenario": {
+    "scenario_id": "H12",
+    "project": {
+     "name": "OpenTransit API",
+     "type": "api_platform",
+     "description": "Public transit timetable API for city developers; Python team, EU data.",
+     "platforms": [
+      "api_only"
+     ]
+    },
+    "scale": {
+     "users_at_launch": 200,
+     "users_12_months": 2000,
+     "peak_concurrent_users": 500,
+     "traffic_pattern": "steady",
+     "workload": "read_heavy",
+     "data_volume_gb_12_months": 20
+    },
+    "team": {
+     "size": 2,
+     "experience": "intermediate",
+     "languages": [
+      "python"
+     ],
+     "has_devops": false
+    },
+    "budget": {
+     "monthly_infra_usd": 150
+    },
+    "timeline": {
+     "mvp_weeks": 10
+    },
+    "infrastructure": {
+     "cloud_preference": "any",
+     "deployment_model": "managed_cloud",
+     "data_residency": "eu",
+     "existing_systems": []
+    },
+    "requirements": {
+     "realtime": false,
+     "offline_support": false,
+     "full_text_search": false,
+     "file_media_storage": false,
+     "payments": false,
+     "auth": "none",
+     "multi_tenant": false,
+     "ml_features": "none",
+     "seo_critical": false,
+     "availability": "99.9",
+     "p95_latency_ms": null
+    },
+    "compliance": [
+     "gdpr"
+    ],
+    "priorities": {
+     "cost": 3,
+     "time_to_market": 3,
+     "scalability": 3,
+     "performance": 3,
+     "maintainability": 3,
+     "security": 3
+    }
+   },
+   "key": {
+    "frontend": {
+     "best": [
+      "none_fe"
+     ],
+     "acceptable": [
+      "astro",
+      "hugo"
+     ]
+    },
+    "backend": {
+     "best": [
+      "fastapi"
+     ],
+     "acceptable": [
+      "django"
+     ]
+    },
+    "database": {
+     "best": [
+      "postgresql"
+     ],
+     "acceptable": [
+      "neon",
+      "supabase_postgres",
+      "sqlite"
+     ]
+    },
+    "hosting": {
+     "best": [
+      "gke_cloud_run",
+      "fly_io",
+      "render",
+      "aws_ecs_fargate",
+      "hetzner_vps"
+     ],
+     "acceptable": [
+      "railway",
+      "aws_lambda",
+      "azure_container_apps",
+      "digitalocean_droplet",
+      "azure_app_service"
+     ]
+    }
+   }
+  },
+  {
+   "scenario": {
+    "scenario_id": "H13",
+    "project": {
+     "name": "Studio Booker",
+     "type": "saas_b2b",
+     "description": "Booking and payments SaaS for yoga studios, small TS team, tight timeline.",
+     "platforms": [
+      "web"
+     ]
+    },
+    "scale": {
+     "users_at_launch": 500,
+     "users_12_months": 10000,
+     "peak_concurrent_users": 300,
+     "traffic_pattern": "steady",
+     "workload": "balanced",
+     "data_volume_gb_12_months": 20
+    },
+    "team": {
+     "size": 2,
+     "experience": "intermediate",
+     "languages": [
+      "typescript"
+     ],
+     "has_devops": false
+    },
+    "budget": {
+     "monthly_infra_usd": 100
+    },
+    "timeline": {
+     "mvp_weeks": 6
+    },
+    "infrastructure": {
+     "cloud_preference": "any",
+     "deployment_model": "managed_cloud",
+     "data_residency": "none",
+     "existing_systems": []
+    },
+    "requirements": {
+     "realtime": false,
+     "offline_support": false,
+     "full_text_search": false,
+     "file_media_storage": false,
+     "payments": true,
+     "auth": "email_password",
+     "multi_tenant": true,
+     "ml_features": "none",
+     "seo_critical": false,
+     "availability": "99.9",
+     "p95_latency_ms": null
+    },
+    "compliance": [],
+    "priorities": {
+     "cost": 4,
+     "time_to_market": 5,
+     "scalability": 3,
+     "performance": 3,
+     "maintainability": 3,
+     "security": 3
+    }
+   },
+   "key": {
+    "frontend": {
+     "best": [
+      "nextjs",
+      "sveltekit",
+      "react_vite"
+     ],
+     "acceptable": [
+      "nuxt",
+      "vue_vite"
+     ]
+    },
+    "backend": {
+     "best": [
+      "supabase",
+      "nextjs_api"
+     ],
+     "acceptable": [
+      "express",
+      "nestjs",
+      "firebase"
+     ]
+    },
+    "database": {
+     "best": [
+      "supabase_postgres",
+      "postgresql",
+      "neon"
+     ],
+     "acceptable": [
+      "firestore"
+     ]
+    },
+    "hosting": {
+     "best": [
+      "vercel",
+      "cloudflare_pages",
+      "netlify"
+     ],
+     "acceptable": [
+      "render",
+      "railway",
+      "fly_io",
+      "none_host",
+      "gke_cloud_run"
+     ]
+    }
+   }
+  },
+  {
+   "scenario": {
+    "scenario_id": "H14",
+    "project": {
+     "name": "Archive Search",
+     "type": "data_analytics",
+     "description": "Search across 10 years of scanned company documents, AWS.",
+     "platforms": [
+      "web"
+     ]
+    },
+    "scale": {
+     "users_at_launch": 300,
+     "users_12_months": 600,
+     "peak_concurrent_users": 100,
+     "traffic_pattern": "steady",
+     "workload": "read_heavy",
+     "data_volume_gb_12_months": 3000
+    },
+    "team": {
+     "size": 4,
+     "experience": "senior",
+     "languages": [
+      "python",
+      "typescript"
+     ],
+     "has_devops": true
+    },
+    "budget": {
+     "monthly_infra_usd": 1500
+    },
+    "timeline": {
+     "mvp_weeks": 10
+    },
+    "infrastructure": {
+     "cloud_preference": "aws",
+     "deployment_model": "managed_cloud",
+     "data_residency": "none",
+     "existing_systems": []
+    },
+    "requirements": {
+     "realtime": false,
+     "offline_support": false,
+     "full_text_search": true,
+     "file_media_storage": true,
+     "payments": false,
+     "auth": "enterprise_sso",
+     "multi_tenant": false,
+     "ml_features": "none",
+     "seo_critical": false,
+     "availability": "99.9",
+     "p95_latency_ms": null
+    },
+    "compliance": [],
+    "priorities": {
+     "cost": 3,
+     "time_to_market": 3,
+     "scalability": 3,
+     "performance": 3,
+     "maintainability": 3,
+     "security": 3
+    }
+   },
+   "key": {
+    "frontend": {
+     "best": [
+      "react_vite",
+      "nextjs"
+     ],
+     "acceptable": [
+      "vue_vite",
+      "sveltekit",
+      "angular",
+      "django_htmx"
+     ]
+    },
+    "backend": {
+     "best": [
+      "fastapi",
+      "django"
+     ],
+     "acceptable": [
+      "nestjs",
+      "express"
+     ]
+    },
+    "database": {
+     "best": [
+      "postgresql"
+     ],
+     "acceptable": [
+      "dynamodb",
+      "mongodb",
+      "clickhouse"
+     ]
+    },
+    "hosting": {
+     "best": [
+      "aws_ecs_fargate"
+     ],
+     "acceptable": [
+      "aws_lambda",
+      "aws_eks",
+      "aws_elastic_beanstalk",
+      "aws_ec2"
+     ]
+    }
+   }
+  },
+  {
+   "scenario": {
+    "scenario_id": "H15",
+    "project": {
+     "name": "Kirana Ledger",
+     "type": "other",
+     "description": "Offline-first Android billing app for small shops with daily cloud backup.",
+     "platforms": [
+      "android"
+     ]
+    },
+    "scale": {
+     "users_at_launch": 1000,
+     "users_12_months": 30000,
+     "peak_concurrent_users": 500,
+     "traffic_pattern": "steady",
+     "workload": "balanced",
+     "data_volume_gb_12_months": 20
+    },
+    "team": {
+     "size": 2,
+     "experience": "intermediate",
+     "languages": [
+      "dart"
+     ],
+     "has_devops": false
+    },
+    "budget": {
+     "monthly_infra_usd": 50
+    },
+    "timeline": {
+     "mvp_weeks": 10
+    },
+    "infrastructure": {
+     "cloud_preference": "any",
+     "deployment_model": "managed_cloud",
+     "data_residency": "india",
+     "existing_systems": []
+    },
+    "requirements": {
+     "realtime": false,
+     "offline_support": true,
+     "full_text_search": false,
+     "file_media_storage": false,
+     "payments": false,
+     "auth": "phone_otp",
+     "multi_tenant": false,
+     "ml_features": "none",
+     "seo_critical": false,
+     "availability": "99.9",
+     "p95_latency_ms": null
+    },
+    "compliance": [
+     "dpdp"
+    ],
+    "priorities": {
+     "cost": 5,
+     "time_to_market": 3,
+     "scalability": 3,
+     "performance": 3,
+     "maintainability": 3,
+     "security": 3
+    }
+   },
+   "key": {
+    "frontend": {
+     "best": [
+      "flutter"
+     ],
+     "acceptable": [
+      "kotlin_android",
+      "expo_rn"
+     ]
+    },
+    "backend": {
+     "best": [
+      "firebase",
+      "supabase"
+     ],
+     "acceptable": [
+      "express",
+      "fastapi"
+     ]
+    },
+    "database": {
+     "best": [
+      "firestore",
+      "supabase_postgres"
+     ],
+     "acceptable": [
+      "postgresql"
+     ]
+    },
+    "hosting": {
+     "best": [
+      "none_host",
+      "firebase_hosting"
+     ],
+     "acceptable": [
+      "gke_cloud_run",
+      "render",
+      "aws_ecs_fargate"
+     ]
+    }
+   }
+  }
+ ]
+}

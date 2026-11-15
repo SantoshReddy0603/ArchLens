@@ -37,14 +37,14 @@
       "alternatives": [
         {
           "choice": "Flutter",
-          "why_not": "Flutter scores 0.9 points lower overall, mainly on team skill fit (1.1 points)."
+          "why_not": "Flutter scores 2.1 points lower overall, mainly on team skill fit (2.3 points)."
         }
       ],
       "tradeoffs": [
         "Native modules outside the Expo SDK need a custom development build"
       ],
-      "confidence": "low",
-      "margin_points": 0.92,
+      "confidence": "medium",
+      "margin_points": 2.15,
       "kb_id": "expo_rn",
       "sources": [
         {
@@ -69,7 +69,7 @@
       "alternatives": [
         {
           "choice": "Elixir + Phoenix",
-          "why_not": "Elixir + Phoenix scores 2.6 points lower overall, mainly on team skill fit (1.2 points) and performance (0.5 points)."
+          "why_not": "Elixir + Phoenix scores 4.0 points lower overall, mainly on team skill fit (2.6 points) and performance (0.5 points)."
         },
         {
           "choice": "Java + Spring Boot",
@@ -79,8 +79,8 @@
       "tradeoffs": [
         "No batteries, more code per feature"
       ],
-      "confidence": "medium",
-      "margin_points": 2.61,
+      "confidence": "high",
+      "margin_points": 3.99,
       "kb_id": "go_chi",
       "sources": [
         {
@@ -1100,9 +1100,9 @@
           "Amazon DynamoDB",
           "AWS EKS (Kubernetes)"
         ],
-        "score": 80.702,
+        "score": 79.474,
         "quality": 0.8392,
-        "fit": 0.8535,
+        "fit": 0.8262,
         "penalties": {
           "availability": 0.6,
           "lock_in": 3.263
@@ -1113,7 +1113,7 @@
           "capability": 0.916,
           "compat": 0.667,
           "ops": 0.889,
-          "skill": 0.912
+          "skill": 0.815
         }
       },
       {
@@ -1124,9 +1124,9 @@
           "Azure Cosmos DB",
           "AWS EKS (Kubernetes)"
         ],
-        "score": 80.364,
+        "score": 79.136,
         "quality": 0.8367,
-        "fit": 0.8491,
+        "fit": 0.8218,
         "penalties": {
           "availability": 0.6,
           "lock_in": 3.263
@@ -1137,33 +1137,31 @@
           "capability": 0.916,
           "compat": 0.6,
           "ops": 0.889,
-          "skill": 0.912
+          "skill": 0.815
         }
       },
       {
         "rank": 5,
         "stack": [
           "React Native (Expo)",
-          "Elixir + Phoenix",
+          "Go (net/http + chi)",
           "Amazon DynamoDB",
-          "AWS EKS (Kubernetes)"
+          "AWS ECS on Fargate"
         ],
-        "score": 79.015,
-        "quality": 0.8231,
-        "fit": 0.8519,
+        "score": 77.794,
+        "quality": 0.8338,
+        "fit": 0.8983,
         "penalties": {
-          "availability": 0.6,
-          "hiring": 0.48,
-          "lock_in": 3.263,
-          "maturity": 0.25
+          "lock_in": 3.488,
+          "under_provision": 5.0
         },
         "fit_terms": {
-          "archetype": 0.9,
-          "budget": 0.742,
-          "capability": 0.922,
-          "compat": 0.667,
-          "ops": 0.889,
-          "skill": 0.901
+          "archetype": 1.0,
+          "budget": 0.736,
+          "capability": 0.916,
+          "compat": 0.733,
+          "ops": 0.937,
+          "skill": 1.0
         }
       }
     ],
@@ -1571,9 +1569,9 @@
         "database": "Amazon DynamoDB",
         "hosting": "AWS EKS (Kubernetes)"
       },
-      "score": 80.702,
+      "score": 79.474,
       "quality": 0.8392,
-      "fit": 0.8535,
+      "fit": 0.8262,
       "penalty": 3.863,
       "cost_usd": [
         83549,
@@ -1588,9 +1586,9 @@
         "database": "Azure Cosmos DB",
         "hosting": "AWS EKS (Kubernetes)"
       },
-      "score": 80.364,
+      "score": 79.136,
       "quality": 0.8367,
-      "fit": 0.8491,
+      "fit": 0.8218,
       "penalty": 3.863,
       "cost_usd": [
         77102,
@@ -1599,57 +1597,6 @@
     },
     {
       "rank": 5,
-      "stack": {
-        "frontend": "React Native (Expo)",
-        "backend": "Elixir + Phoenix",
-        "database": "Amazon DynamoDB",
-        "hosting": "AWS EKS (Kubernetes)"
-      },
-      "score": 79.015,
-      "quality": 0.8231,
-      "fit": 0.8519,
-      "penalty": 4.593,
-      "cost_usd": [
-        83549,
-        118436
-      ]
-    },
-    {
-      "rank": 6,
-      "stack": {
-        "frontend": "React Native (Expo)",
-        "backend": "Elixir + Phoenix",
-        "database": "Azure Cosmos DB",
-        "hosting": "AWS EKS (Kubernetes)"
-      },
-      "score": 78.676,
-      "quality": 0.8206,
-      "fit": 0.8475,
-      "penalty": 4.593,
-      "cost_usd": [
-        77102,
-        114009
-      ]
-    },
-    {
-      "rank": 7,
-      "stack": {
-        "frontend": "Flutter",
-        "backend": "Elixir + Phoenix",
-        "database": "Amazon DynamoDB",
-        "hosting": "AWS EKS (Kubernetes)"
-      },
-      "score": 78.094,
-      "quality": 0.8264,
-      "fit": 0.8274,
-      "penalty": 4.593,
-      "cost_usd": [
-        83549,
-        118436
-      ]
-    },
-    {
-      "rank": 8,
       "stack": {
         "frontend": "React Native (Expo)",
         "backend": "Go (net/http + chi)",
@@ -1666,24 +1613,24 @@
       ]
     },
     {
-      "rank": 9,
+      "rank": 6,
       "stack": {
-        "frontend": "Flutter",
+        "frontend": "React Native (Expo)",
         "backend": "Elixir + Phoenix",
-        "database": "Azure Cosmos DB",
+        "database": "Amazon DynamoDB",
         "hosting": "AWS EKS (Kubernetes)"
       },
-      "score": 77.755,
-      "quality": 0.8239,
-      "fit": 0.823,
+      "score": 77.633,
+      "quality": 0.8231,
+      "fit": 0.8212,
       "penalty": 4.593,
       "cost_usd": [
-        77102,
-        114009
+        83549,
+        118436
       ]
     },
     {
-      "rank": 10,
+      "rank": 7,
       "stack": {
         "frontend": "React Native (Expo)",
         "backend": "Go (net/http + chi)",
@@ -1697,6 +1644,57 @@
       "cost_usd": [
         79053,
         116878
+      ]
+    },
+    {
+      "rank": 8,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Elixir + Phoenix",
+        "database": "Azure Cosmos DB",
+        "hosting": "AWS EKS (Kubernetes)"
+      },
+      "score": 77.295,
+      "quality": 0.8206,
+      "fit": 0.8168,
+      "penalty": 4.593,
+      "cost_usd": [
+        77102,
+        114009
+      ]
+    },
+    {
+      "rank": 9,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Go (net/http + chi)",
+        "database": "Cloud Firestore",
+        "hosting": "AWS ECS on Fargate"
+      },
+      "score": 76.708,
+      "quality": 0.8159,
+      "fit": 0.8961,
+      "penalty": 8.488,
+      "cost_usd": [
+        76097,
+        110909
+      ]
+    },
+    {
+      "rank": 10,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Go (net/http + chi)",
+        "database": "CockroachDB",
+        "hosting": "AWS ECS on Fargate"
+      },
+      "score": 76.429,
+      "quality": 0.8086,
+      "fit": 0.8851,
+      "penalty": 7.875,
+      "cost_usd": [
+        81525,
+        121230
       ]
     }
   ],

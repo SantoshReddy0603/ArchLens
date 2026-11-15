@@ -49,7 +49,7 @@
   function store(k, v) { try { sessionStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* storage unavailable */ } }
   function load(k) { try { return JSON.parse(sessionStorage.getItem(k)); } catch (e) { return null; } }
 
-  var NAMES = { pci_dss: "PCI DSS", rbi_localisation: "RBI localisation", dpdp: "DPDP", gdpr: "GDPR", hipaa: "HIPAA", soc2: "SOC 2",
+  var NAMES = { lock_in: "Lock-in", pci_dss: "PCI DSS", rbi_localisation: "RBI localisation", dpdp: "DPDP", gdpr: "GDPR", hipaa: "HIPAA", soc2: "SOC 2",
     iso27001: "ISO 27001", csharp: "C#", cpp: "C++", api_only: "API only", llm_rag: "LLM / RAG", phone_otp: "Phone OTP",
     email_password: "Email and password", enterprise_sso: "Enterprise SSO", ios: "iOS", aws: "AWS", gcp: "GCP", azure: "Azure",
     none: "None", any: "Any", saas_b2b: "SaaS (B2B)", ai_ml_product: "AI / ML product", p95: "p95", microsoft_365: "Microsoft 365",
@@ -435,9 +435,11 @@
     var samples = h("section", { class: "samples", "aria-labelledby": "samples-h" },
       h("p", { class: "eyebrow", id: "samples-h", text: "Or start from a sample" }),
       h("div", { class: "chips" }, state.samples.length ? state.samples.map(function (s) {
-        return h("button", { type: "button", class: "chip", onclick: function () { useScenario(JSON.parse(JSON.stringify(s.scenario)), []); location.hash = "#/review"; } },
-          s.id, h("small", { text: s.name }));
-      }) : h("span", { class: "note", text: "No sample scenarios found." })));
+        return h("span", { class: "chip-pair" },
+          h("button", { type: "button", class: "chip", title: "Evaluate " + s.id + " now", onclick: function (e) { runSample(s, e.currentTarget); } }, s.id, h("small", { text: s.name })),
+          h("button", { type: "button", class: "chip-edit", "aria-label": "Open " + s.id + " in the form first", title: "Open in the form first", onclick: function () { useScenario(JSON.parse(JSON.stringify(s.scenario)), []); location.hash = "#/review"; } }, "edit"));
+      }) : h("span", { class: "note", text: "No sample scenarios found." })),
+      h("p", { class: "note", style: "margin-top:10px", text: "A sample runs straight to its result. Use edit to change it first." }));
 
     main.textContent = "";
     main.appendChild(h("div", { class: "hero" },
@@ -446,6 +448,13 @@
     main.appendChild(methods); main.appendChild(describe); main.appendChild(samples); main.appendChild(fileIn); main.appendChild(jsonIn);
   }
 
+  function runSample(s, btn) {
+    useScenario(JSON.parse(JSON.stringify(s.scenario)), []);
+    btn.disabled = true; btn.classList.add("busy"); say("Evaluating " + s.id + ".");
+    api("/api/recommend", { scenario: state.scenario, options: state.llm ? {} : { llm: false } }).then(function (res) {
+      state.result = res; store("result", res); location.hash = "#/result";
+    }).catch(function (e) { btn.disabled = false; btn.classList.remove("busy"); toast(e.message); });
+  }
   function newScenario() { state.scenario = {}; state.suggestions = []; state.edited = {}; state.validation = null; state.result = null; store("scenario", state.scenario); }
   function useScenario(obj, suggestions) {
     state.scenario = obj; state.suggestions = suggestions || []; state.edited = {}; state.validation = null; state.result = null;
@@ -622,6 +631,8 @@
     var index = h("div", { class: "index" }, CORE.map(function (k) { return indexLine(k, stack[k]); }),
       (stack.supporting || []).map(function (s) { return indexLine(s.layer, s); }));
     main.appendChild(index);
+    var anat = anatomy(r);
+    if (anat) main.appendChild(anat);
 
     main.appendChild(h("section", { class: "sec" }, h("h2", { text: "Why each layer" }),
       h("div", { class: "cards" }, CORE.map(function (k, i) { return card(k, stack[k], i === 0); }),
@@ -706,6 +717,85 @@
     }
     main.appendChild(inspect(r));
     main.appendChild(h("div", { class: "actions" }, h("a", { class: "btn", href: "#/result", text: "Back to result" })));
+  }
+
+  // How the winning score is built, how the criteria were weighted, and how far the search narrowed.
+  function anatomy(r) {
+    var sc = r.score, t = r.decision_trace || {};
+    if (!sc || typeof sc.total !== "number") return null;
+    var m = /([0-9.]+)\s*\*\s*Q\s*\+\s*([0-9.]+)\s*\*\s*F/.exec(t.score_formula || "");
+    var wq = m ? Number(m[1]) : 0.55, wf = m ? Number(m[2]) : 0.45;
+    var qp = 100 * wq * sc.quality, fp = 100 * wf * sc.fit, pen = Math.max(0, sc.penalty || 0);
+    var pens = Object.keys(sc.penalties || {}).filter(function (k) { return sc.penalties[k] > 0.005; })
+      .sort(function (a, b) { return sc.penalties[b] - sc.penalties[a] || (a < b ? -1 : 1); });
+    var keep = Math.max(0, qp - Math.min(pen, qp)), fkeep = Math.max(0, fp - Math.max(0, pen - qp));
+    var strip = h("div", { class: "strip", role: "img", "aria-label": "Score " + sc.total.toFixed(1) + " of 100: quality " + qp.toFixed(1) + ", fit " + fp.toFixed(1) + ", penalties minus " + pen.toFixed(1) },
+      h("span", { class: "s-q", style: "width:" + keep + "%" }),
+      h("span", { class: "s-f", style: "width:" + fkeep + "%" }),
+      pen > 0 ? h("span", { class: "s-p", style: "width:" + Math.min(pen, qp + fp) + "%" }) : null);
+    var ticks = h("div", { class: "strip-ticks", "aria-hidden": "true" }, [0, 25, 50, 75, 100].map(function (v) { return h("span", { style: "left:" + v + "%", text: String(v) }); }));
+    function eqRow(sign, label, detail, val, cls) {
+      return h("div", { class: "eq " + (cls || "") }, h("span", { class: "eq-s", text: sign }), h("span", { class: "eq-l" }, label, detail ? h("small", { text: detail }) : null), h("span", { class: "eq-v", text: val }));
+    }
+    var eq = h("div", { class: "equation" },
+      eqRow("", "Quality", "how good each layer is on the weighted criteria: " + sc.quality.toFixed(3) + " of 1, counted at " + Math.round(wq * 100) + "%", qp.toFixed(1), "q"),
+      eqRow("+", "Fit", "team skills, budget, operations, compatibility: " + sc.fit.toFixed(3) + " of 1, counted at " + Math.round(wf * 100) + "%", fp.toFixed(1), "f"),
+      eqRow("\u2212", "Penalties", pens.length ? pens.map(function (k) { return nice(k) + " " + sc.penalties[k].toFixed(1); }).join(", ") : "none applied", pen.toFixed(1), "p"),
+      eqRow("=", "Score", "out of 100", sc.total.toFixed(1), "t"));
+
+    var weights = t.weights || {}, wk = Object.keys(weights);
+    var even = wk.length ? 1 / wk.length : 0;
+    wk.sort(function (a, b) { return weights[b] - weights[a] || (a < b ? -1 : 1); });
+    var crit = wk.length ? h("div", { class: "weigh" },
+      h("h4", { class: "sh", text: "What the scoring cared about most" }),
+      h("ol", { class: "wlist" }, wk.map(function (k) {
+        var w = weights[k], ratio = even ? w / even : 1, cells = Math.round(w * 40);
+        var crs = sc.criteria && typeof sc.criteria[k] === "number" ? sc.criteria[k] : null;
+        return h("li", null,
+          h("span", { class: "w-k", text: nice(k) }),
+          h("span", { class: "w-t", "aria-hidden": "true" }, Array.apply(null, Array(Math.max(1, cells))).map(function () { return h("i"); })),
+          h("span", { class: "w-n", text: Math.round(w * 100) + "%" }),
+          h("span", { class: "w-r" }, h("b", { class: ratio >= 1.25 ? "up" : null, text: ratio >= 1.25 ? ratio.toFixed(1) + "\u00d7 an even share" : ratio <= 0.8 ? "below an even share" : "about an even share" }),
+            crs !== null ? "; the pick scores " + crs.toFixed(1) + " of 10 here" : ""));
+      })),
+      h("p", { class: "note", style: "margin:8px 0 0", text: "An even share would be " + Math.round(even * 100) + "% each. Weights start from your priorities and are adjusted by scale, team and timeline (see Calculations)." })) : null;
+
+    var ss = t.stack_search || {}, rk = Array.isArray(r.ranking) ? r.ranking : [];
+    var funnel = null;
+    if (ss.considered) {
+      var steps = [[ss.considered, "combinations of frontend, backend, database and hosting"],
+        [ss.scored, "compatible with each other and your hard constraints, then scored"]];
+      var close = rk.filter(function (x) { return typeof x.score === "number" && sc.total - x.score < 2; }).length;
+      if (close > 1) steps.push([close, "within 2 points of the top, so near ties"]);
+      steps.push([1, "chosen"]);
+      funnel = h("div", { class: "funnel" }, h("h4", { class: "sh", text: "How far the search narrowed" }),
+        h("ol", null, steps.map(function (st, i) {
+          return h("li", { style: "--d:" + i }, h("span", { class: "fn", text: Number(st[0]).toLocaleString("en-US") }), h("span", { class: "fd", text: st[1] }));
+        })));
+    }
+
+    var ladder = null, top = rk.filter(function (x) { return typeof x.score === "number" && x.stack; }).slice(0, 6);
+    if (top.length > 1) {
+      var hi = top[0].score, lo = top[top.length - 1].score, span = Math.max(hi - lo, 1), base = top[0].stack;
+      ladder = h("div", { class: "ladder" }, h("h4", { class: "sh", text: "The closest rivals and what they swap" }),
+        h("ol", null, top.map(function (x, i) {
+          var diff = CORE.filter(function (k) { return x.stack[k] !== base[k]; }).map(function (k) { return nice(k) + ": " + x.stack[k]; });
+          var pos = 100 - ((hi - x.score) / span) * 100;
+          return h("li", { class: i === 0 ? "win" : null },
+            h("span", { class: "l-rank", text: i === 0 ? "Pick" : "#" + (i + 1) }),
+            h("span", { class: "l-track", "aria-hidden": "true" }, h("i", { style: "left:" + pos.toFixed(1) + "%" })),
+            h("span", { class: "l-score", text: x.score.toFixed(1) }),
+            h("span", { class: "l-what", text: i === 0 ? CORE.map(function (k) { return x.stack[k]; }).filter(function (v) { return v && v !== "None"; }).join(" / ") : (diff.join("; ") || "same core layers") + " (\u2212" + (hi - x.score).toFixed(2) + ")" }));
+        })),
+        h("p", { class: "note", style: "margin:8px 0 0", text: "Track runs from " + lo.toFixed(1) + " to " + hi.toFixed(1) + " points. Each rival lists only the layers that differ from the pick." }));
+    }
+
+    return h("section", { class: "sec anatomy", "aria-labelledby": "anat-h" },
+      h("h2", { id: "anat-h" }, "How the pick ", h("em", { text: "was earned." })),
+      h("div", { class: "anat-top" }, h("div", { class: "anat-total" }, h("span", { class: "big", text: sc.total.toFixed(1) }), h("span", { class: "muted", text: "of 100" })),
+        h("div", { class: "anat-strip" }, strip, ticks, h("div", { class: "legend" },
+          h("span", null, h("i", { class: "k-q" }), "Quality"), h("span", null, h("i", { class: "k-f" }), "Fit"), pen > 0 ? h("span", null, h("i", { class: "k-p" }), "Lost to penalties") : null))),
+      h("div", { class: "anat-grid" }, eq, crit, funnel, ladder));
   }
 
   function indexLine(k, c) {

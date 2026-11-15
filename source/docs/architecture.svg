@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" width="1200" height="760" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#e8a277"/>
+    </marker>
+    <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#a9b3a3"/>
+    </marker>
+    <style>
+      .t{fill:#ece8dc;font-size:15px;font-weight:600}
+      .s{fill:#a9b3a3;font-size:12px}
+      .h{fill:#ece8dc;font-family:Georgia,'Times New Roman',serif;font-size:24px}
+      .e{fill:#e8a277;font-size:11px;letter-spacing:1.6px;font-weight:600}
+      .b{fill:#262c25;stroke:rgba(236,232,220,.28);stroke-width:1}
+      .k{fill:#2c332b;stroke:#e8a277;stroke-width:1.2}
+      .l{stroke:#e8a277;stroke-width:1.6;fill:none}
+      .d{stroke:#a9b3a3;stroke-width:1.3;fill:none;stroke-dasharray:5 4}
+    </style>
+  </defs>
+  <rect width="1200" height="760" fill="#1f241f"/>
+  <text x="40" y="52" class="h">ArchLens architecture</text>
+  <text x="40" y="76" class="s">One pure function, recommend(scenario), picks the stack. The CLI and the web API both call it.</text>
+
+  <!-- inputs -->
+  <text x="40" y="118" class="e">INPUT</text>
+  <rect x="40" y="130" width="250" height="64" rx="7" class="b"/>
+  <text x="58" y="157" class="t">Free text or a brief</text>
+  <text x="58" y="178" class="s">typed, .txt, .pdf or .docx</text>
+  <rect x="340" y="130" width="270" height="64" rx="7" class="b"/>
+  <text x="358" y="157" class="t">extract.py</text>
+  <text x="358" y="178" class="s">lexicon and regex, evidence, confidence</text>
+  <rect x="660" y="130" width="230" height="64" rx="7" class="b"/>
+  <text x="678" y="157" class="t">Review form</text>
+  <text x="678" y="178" class="s">user confirms every value</text>
+  <rect x="940" y="130" width="220" height="64" rx="7" class="b"/>
+  <text x="958" y="157" class="t">Scenario JSON</text>
+  <text x="958" y="178" class="s">file, CLI or /api/recommend</text>
+  <path d="M290 162H336" class="l" marker-end="url(#a)"/>
+  <path d="M610 162H656" class="l" marker-end="url(#a)"/>
+  <rect x="340" y="214" width="270" height="44" rx="7" fill="none" stroke="rgba(236,232,220,.28)" stroke-dasharray="5 4"/>
+  <text x="358" y="241" class="s">Gemini, optional: extra suggestions only</text>
+  <path d="M475 214V198" class="d" marker-end="url(#m)"/>
+
+  <!-- engine -->
+  <rect x="40" y="300" width="1120" height="250" rx="10" fill="none" stroke="#e8a277" stroke-width="1.2"/>
+  <text x="60" y="330" class="e">DETERMINISTIC ENGINE  ·  stacksense/engine.py  ·  never imports llm or web</text>
+  <path d="M775 194V296" class="l" marker-end="url(#a)"/>
+  <path d="M1050 194V296" class="l" marker-end="url(#a)"/>
+
+  <g>
+    <rect x="60" y="350" width="190" height="72" rx="7" class="b"/>
+    <text x="76" y="378" class="t">validate</text><text x="76" y="400" class="s">types, ranges, defaults</text>
+    <rect x="280" y="350" width="190" height="72" rx="7" class="b"/>
+    <text x="296" y="378" class="t">derive</text><text x="296" y="400" class="s">profile, weights, needs</text>
+    <rect x="500" y="350" width="190" height="72" rx="7" class="b"/>
+    <text x="516" y="378" class="t">constraints</text><text x="516" y="400" class="s">hard filters with reasons</text>
+    <rect x="720" y="350" width="190" height="72" rx="7" class="b"/>
+    <text x="736" y="378" class="t">stacks</text><text x="736" y="400" class="s">compatible combinations</text>
+    <rect x="940" y="350" width="200" height="72" rx="7" class="b"/>
+    <text x="956" y="378" class="t">scoring</text><text x="956" y="400" class="s">55% Q + 45% F − penalties</text>
+    <path d="M250 386H276" class="l" marker-end="url(#a)"/>
+    <path d="M470 386H496" class="l" marker-end="url(#a)"/>
+    <path d="M690 386H716" class="l" marker-end="url(#a)"/>
+    <path d="M910 386H936" class="l" marker-end="url(#a)"/>
+    <path d="M1040 422V440H155V458" class="l" marker-end="url(#a)"/>
+
+    <rect x="60" y="462" width="190" height="72" rx="7" class="b"/>
+    <text x="76" y="490" class="t">supporting</text><text x="76" y="512" class="s">auth, payments, cache…</text>
+    <rect x="280" y="462" width="190" height="72" rx="7" class="b"/>
+    <text x="296" y="490" class="t">cost</text><text x="296" y="512" class="s">USD band, line items</text>
+    <rect x="500" y="462" width="190" height="72" rx="7" class="b"/>
+    <text x="516" y="490" class="t">conflicts</text><text x="516" y="512" class="s">coded warnings</text>
+    <rect x="720" y="462" width="190" height="72" rx="7" class="b"/>
+    <text x="736" y="490" class="t">explain</text><text x="736" y="512" class="s">why, why not, trace</text>
+    <rect x="940" y="462" width="200" height="72" rx="7" class="b"/>
+    <text x="956" y="490" class="t">robust</text><text x="956" y="512" class="s">sensitivity, repairs</text>
+    <path d="M250 498H276" class="l" marker-end="url(#a)"/>
+    <path d="M470 498H496" class="l" marker-end="url(#a)"/>
+    <path d="M690 498H716" class="l" marker-end="url(#a)"/>
+    <path d="M910 498H936" class="l" marker-end="url(#a)"/>
+  </g>
+
+  <!-- knowledge base -->
+  <rect x="40" y="580" width="420" height="140" rx="10" class="k"/>
+  <text x="60" y="610" class="e">KNOWLEDGE BASE  ·  stacksense/kb/*.json</text>
+  <text x="60" y="640" class="t">25 frontends · 16 backends · 16 databases · 27 hosts</text>
+  <text x="60" y="664" class="s">126 supporting services, 20 integrations, 21 end-of-life records</text>
+  <text x="60" y="686" class="s">scores with reasons, regions, certifications, cost models</text>
+  <text x="60" y="708" class="s">every entry cites vendor sources</text>
+  <path d="M250 580V556" class="d" marker-end="url(#m)"/>
+
+  <!-- outputs -->
+  <text x="500" y="610" class="e">OUTPUT</text>
+  <rect x="500" y="622" width="200" height="64" rx="7" class="b"/>
+  <text x="516" y="649" class="t">Result JSON</text><text x="516" y="670" class="s">outputs/P*_output.json</text>
+  <rect x="730" y="622" width="200" height="64" rx="7" class="b"/>
+  <text x="746" y="649" class="t">Web UI</text><text x="746" y="670" class="s">result and calculations</text>
+  <rect x="960" y="622" width="200" height="64" rx="7" class="b"/>
+  <text x="976" y="649" class="t">PDF report</text><text x="976" y="670" class="s">report.py</text>
+  <path d="M600 554V618" class="l" marker-end="url(#a)"/>
+  <path d="M700 654H726" class="l" marker-end="url(#a)"/>
+  <path d="M930 654H956" class="l" marker-end="url(#a)"/>
+  <text x="500" y="716" class="s">Gemini, optional, can reword the finished explanation as ai_narrative. The stack is identical with it off.</text>
+</svg>

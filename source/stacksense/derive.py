@@ -90,10 +90,11 @@ def skill_fit_lang(profile, lang):
 
 def skill_fit_component(profile, comp):
     """Language fit of a component (best of its languages) reduced by a learning-curve cost that bites
-    beginners and short timelines. Components without a language (static generators, None) fit at 1."""
+    beginners and short timelines, and more so when the team has little appetite for learning (medium leaves it
+    unchanged). Components without a language (static generators, None) fit at 1."""
     langs = comp.get("languages") or []
     fit = 1.0 if not langs else max(skill_fit_lang(profile, l) for l in langs)
-    learn = comp.get("learning_curve", 3) / 10.0
+    learn = comp.get("learning_curve", 3) / 10.0 * (1.25 - 0.5 * profile["appetite"])
     pen = 0.35 * profile["beginner_sens"] * learn + 0.15 * profile["time_pressure"] * learn
     return _clamp(fit * (1.0 - pen))
 

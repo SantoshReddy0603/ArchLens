@@ -42,7 +42,7 @@
       "alternatives": [
         {
           "choice": "Angular",
-          "why_not": "Angular scores 1.5 points lower overall, mainly on team skill fit (0.6 points) and compatibility with the rest of the stack (0.6 points)."
+          "why_not": "Angular scores 1.6 points lower overall, mainly on team skill fit (0.7 points) and compatibility with the rest of the stack (0.6 points)."
         },
         {
           "choice": "Nuxt",
@@ -54,7 +54,7 @@
         "No offline"
       ],
       "confidence": "medium",
-      "margin_points": 1.5,
+      "margin_points": 1.61,
       "kb_id": "django_htmx",
       "sources": [
         {
@@ -79,18 +79,18 @@
       "alternatives": [
         {
           "choice": "Node.js + NestJS",
-          "why_not": "Node.js + NestJS scores 1.7 points lower overall, mainly on security (1.0 points) and time to market (0.8 points)."
+          "why_not": "Node.js + NestJS scores 1.9 points lower overall, mainly on security (1.0 points) and time to market (0.8 points)."
         },
         {
           "choice": "Python + FastAPI",
-          "why_not": "Python + FastAPI scores 2.5 points lower overall, mainly on security (1.0 points) and team skill fit (0.6 points)."
+          "why_not": "Python + FastAPI scores 2.7 points lower overall, mainly on security (1.0 points) and team skill fit (0.7 points)."
         }
       ],
       "tradeoffs": [
         "Sync-first, so realtime needs Channels"
       ],
       "confidence": "medium",
-      "margin_points": 1.73,
+      "margin_points": 1.9,
       "kb_id": "django",
       "sources": [
         {
@@ -586,7 +586,7 @@
     {
       "code": "OVERENGINEERING_AVOIDED",
       "severity": "info",
-      "message": "A heavier setup (Python + Django with PostgreSQL (managed or self-hosted) on AWS EKS (Kubernetes)) was considered and is 5.1 points behind; 2.6 of those points come from the extra complexity and operations work it puts on a team of 6 without a DevOps engineer.",
+      "message": "A heavier setup (Python + Django with PostgreSQL (managed or self-hosted) on AWS EKS (Kubernetes)) was considered and is 5.0 points behind; 2.6 of those points come from the extra complexity and operations work it puts on a team of 6 without a DevOps engineer.",
       "fields": [
         "team.size",
         "team.has_devops",
@@ -732,11 +732,11 @@
           "django",
           "nestjs",
           "fastapi",
-          "aspnet_core",
-          "go_chi",
-          "spring_boot",
           "supabase",
-          "laravel"
+          "express",
+          "nextjs_api",
+          "aspnet_core",
+          "go_chi"
         ],
         "chosen": [
           "django"
@@ -957,9 +957,9 @@
           "PostgreSQL (managed or self-hosted)",
           "Google Cloud Run"
         ],
-        "score": 85.717,
+        "score": 85.607,
         "quality": 0.8081,
-        "fit": 0.9171,
+        "fit": 0.9147,
         "penalties": {},
         "fit_terms": {
           "archetype": 1.0,
@@ -967,7 +967,7 @@
           "capability": 0.937,
           "compat": 0.733,
           "ops": 0.934,
-          "skill": 0.95
+          "skill": 0.941
         }
       }
     ],
@@ -1384,9 +1384,9 @@
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Google Cloud Run"
       },
-      "score": 85.717,
+      "score": 85.607,
       "quality": 0.8081,
-      "fit": 0.9171,
+      "fit": 0.9147,
       "penalty": 0.0,
       "cost_usd": [
         280,
@@ -1418,9 +1418,9 @@
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Google Cloud Run"
       },
-      "score": 85.538,
+      "score": 85.51,
       "quality": 0.8035,
-      "fit": 0.9188,
+      "fit": 0.9182,
       "penalty": 0.0,
       "cost_usd": [
         280,
@@ -1447,23 +1447,6 @@
     {
       "rank": 9,
       "stack": {
-        "frontend": "Angular",
-        "backend": "Node.js + NestJS",
-        "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "Google Cloud Run"
-      },
-      "score": 85.489,
-      "quality": 0.7845,
-      "fit": 0.9409,
-      "penalty": 0.0,
-      "cost_usd": [
-        280,
-        502
-      ]
-    },
-    {
-      "rank": 10,
-      "stack": {
         "frontend": "Django templates + htmx",
         "backend": "Python + Django",
         "database": "PostgreSQL (managed or self-hosted)",
@@ -1476,6 +1459,23 @@
       "cost_usd": [
         297,
         558
+      ]
+    },
+    {
+      "rank": 10,
+      "stack": {
+        "frontend": "Vue 3 + Vite (SPA)",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 85.464,
+      "quality": 0.8017,
+      "fit": 0.9193,
+      "penalty": 0.0,
+      "cost_usd": [
+        280,
+        502
       ]
     }
   ],

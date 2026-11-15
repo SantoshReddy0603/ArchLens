@@ -55,18 +55,18 @@
       "alternatives": [
         {
           "choice": "C# + ASP.NET Core",
-          "why_not": "C# + ASP.NET Core scores 1.9 points lower overall, mainly on team skill fit (1.2 points) and compatibility with the rest of the stack (0.6 points)."
+          "why_not": "C# + ASP.NET Core scores 3.3 points lower overall, mainly on team skill fit (2.6 points) and compatibility with the rest of the stack (0.6 points)."
         },
         {
           "choice": "Java + Spring Boot",
-          "why_not": "Java + Spring Boot scores 2.2 points lower overall, mainly on team skill fit (1.2 points) and cost (0.6 points)."
+          "why_not": "Java + Spring Boot scores 3.6 points lower overall, mainly on team skill fit (2.6 points) and cost (0.6 points)."
         }
       ],
       "tradeoffs": [
         "No batteries, more code per feature"
       ],
-      "confidence": "medium",
-      "margin_points": 1.9,
+      "confidence": "high",
+      "margin_points": 3.28,
       "kb_id": "go_chi",
       "sources": [
         {
@@ -137,7 +137,7 @@
         },
         {
           "choice": "Firebase Hosting",
-          "why_not": "Firebase Hosting scores 11.0 points lower overall, mainly on vendor lock-in (3.9 points) and data-model fit (2.5 points)."
+          "why_not": "Firebase Hosting scores 12.4 points lower overall, mainly on vendor lock-in (3.9 points) and team skill fit (2.6 points)."
         }
       ],
       "tradeoffs": [
@@ -1019,27 +1019,6 @@
         "rank": 3,
         "stack": [
           "None",
-          "C# + ASP.NET Core",
-          "PostgreSQL (managed or self-hosted)",
-          "Google Cloud Run"
-        ],
-        "score": 84.487,
-        "quality": 0.8116,
-        "fit": 0.8855,
-        "penalties": {},
-        "fit_terms": {
-          "archetype": 0.9,
-          "budget": 0.941,
-          "capability": 0.883,
-          "compat": 0.667,
-          "ops": 0.934,
-          "skill": 0.901
-        }
-      },
-      {
-        "rank": 4,
-        "stack": [
-          "None",
           "Go (net/http + chi)",
           "PostgreSQL (managed or self-hosted)",
           "Google Compute Engine"
@@ -1058,24 +1037,48 @@
         }
       },
       {
+        "rank": 4,
+        "stack": [
+          "None",
+          "Go (net/http + chi)",
+          "CockroachDB",
+          "Google Cloud Run"
+        ],
+        "score": 83.739,
+        "quality": 0.7874,
+        "fit": 0.909,
+        "penalties": {
+          "lock_in": 0.225,
+          "maturity": 0.25
+        },
+        "fit_terms": {
+          "archetype": 0.9,
+          "budget": 0.954,
+          "capability": 0.833,
+          "compat": 0.7,
+          "ops": 0.943,
+          "skill": 1.0
+        }
+      },
+      {
         "rank": 5,
         "stack": [
           "None",
-          "Java + Spring Boot",
+          "C# + ASP.NET Core",
           "PostgreSQL (managed or self-hosted)",
           "Google Cloud Run"
         ],
-        "score": 84.204,
-        "quality": 0.805,
-        "fit": 0.8873,
+        "score": 83.105,
+        "quality": 0.8116,
+        "fit": 0.8548,
         "penalties": {},
         "fit_terms": {
           "archetype": 0.9,
           "budget": 0.941,
-          "capability": 0.867,
-          "compat": 0.733,
-          "ops": 0.925,
-          "skill": 0.901
+          "capability": 0.883,
+          "compat": 0.667,
+          "ops": 0.934,
+          "skill": 0.792
         }
       }
     ],
@@ -1444,23 +1447,6 @@
       "rank": 3,
       "stack": {
         "frontend": "None",
-        "backend": "C# + ASP.NET Core",
-        "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "Google Cloud Run"
-      },
-      "score": 84.487,
-      "quality": 0.8116,
-      "fit": 0.8855,
-      "penalty": 0.0,
-      "cost_usd": [
-        189,
-        351
-      ]
-    },
-    {
-      "rank": 4,
-      "stack": {
-        "frontend": "None",
         "backend": "Go (net/http + chi)",
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Google Compute Engine"
@@ -1475,41 +1461,7 @@
       ]
     },
     {
-      "rank": 5,
-      "stack": {
-        "frontend": "None",
-        "backend": "Java + Spring Boot",
-        "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "Google Cloud Run"
-      },
-      "score": 84.204,
-      "quality": 0.805,
-      "fit": 0.8873,
-      "penalty": 0.0,
-      "cost_usd": [
-        189,
-        351
-      ]
-    },
-    {
-      "rank": 6,
-      "stack": {
-        "frontend": "None",
-        "backend": "Python + Django",
-        "database": "PostgreSQL (managed or self-hosted)",
-        "hosting": "Google Cloud Run"
-      },
-      "score": 83.771,
-      "quality": 0.7967,
-      "fit": 0.8879,
-      "penalty": 0.0,
-      "cost_usd": [
-        189,
-        351
-      ]
-    },
-    {
-      "rank": 7,
+      "rank": 4,
       "stack": {
         "frontend": "None",
         "backend": "Go (net/http + chi)",
@@ -1526,16 +1478,67 @@
       ]
     },
     {
-      "rank": 8,
+      "rank": 5,
       "stack": {
         "frontend": "None",
-        "backend": "Python + FastAPI",
+        "backend": "C# + ASP.NET Core",
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Google Cloud Run"
       },
-      "score": 83.632,
-      "quality": 0.7881,
-      "fit": 0.8952,
+      "score": 83.105,
+      "quality": 0.8116,
+      "fit": 0.8548,
+      "penalty": 0.0,
+      "cost_usd": [
+        189,
+        351
+      ]
+    },
+    {
+      "rank": 6,
+      "stack": {
+        "frontend": "None",
+        "backend": "Java + Spring Boot",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 82.822,
+      "quality": 0.805,
+      "fit": 0.8566,
+      "penalty": 0.0,
+      "cost_usd": [
+        189,
+        351
+      ]
+    },
+    {
+      "rank": 7,
+      "stack": {
+        "frontend": "None",
+        "backend": "Go (net/http + chi)",
+        "database": "MySQL (managed or self-hosted)",
+        "hosting": "Google Compute Engine"
+      },
+      "score": 82.503,
+      "quality": 0.782,
+      "fit": 0.8776,
+      "penalty": 0.0,
+      "cost_usd": [
+        259,
+        492
+      ]
+    },
+    {
+      "rank": 8,
+      "stack": {
+        "frontend": "None",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 82.389,
+      "quality": 0.7967,
+      "fit": 0.8572,
       "penalty": 0.0,
       "cost_usd": [
         189,
@@ -1546,13 +1549,13 @@
       "rank": 9,
       "stack": {
         "frontend": "None",
-        "backend": "Node.js + NestJS",
+        "backend": "Python + FastAPI",
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Google Cloud Run"
       },
-      "score": 83.523,
-      "quality": 0.7862,
-      "fit": 0.8952,
+      "score": 82.25,
+      "quality": 0.7881,
+      "fit": 0.8645,
       "penalty": 0.0,
       "cost_usd": [
         189,
@@ -1563,13 +1566,13 @@
       "rank": 10,
       "stack": {
         "frontend": "None",
-        "backend": "PHP + Laravel",
+        "backend": "Node.js + NestJS",
         "database": "PostgreSQL (managed or self-hosted)",
         "hosting": "Google Cloud Run"
       },
-      "score": 83.126,
-      "quality": 0.7879,
-      "fit": 0.8842,
+      "score": 82.141,
+      "quality": 0.7862,
+      "fit": 0.8645,
       "penalty": 0.0,
       "cost_usd": [
         189,
@@ -1703,19 +1706,19 @@
           "to": "Python + Django"
         }
       ],
-      "score": 83.771,
-      "points_behind": 2.616,
+      "score": 82.389,
+      "points_behind": 3.998,
       "cost_usd": [
         189,
         351
       ],
       "gains": "time to market 9.2 instead of 7.9",
       "gives_up": [
+        "team skill fit (-2.6 pts)",
         "performance (-2.0 pts)",
-        "team skill fit (-1.2 pts)",
         "fit to this kind of project (-0.4 pts)"
       ],
-      "summary": "Backend Go (net/http + chi) -> Python + Django: time to market 9.2 instead of 7.9. Gives up 2.6 points, mainly on performance (-2.0 pts), team skill fit (-1.2 pts), fit to this kind of project (-0.4 pts)."
+      "summary": "Backend Go (net/http + chi) -> Python + Django: time to market 9.2 instead of 7.9. Gives up 4.0 points, mainly on team skill fit (-2.6 pts), performance (-2.0 pts), fit to this kind of project (-0.4 pts)."
     }
   ]
 }
