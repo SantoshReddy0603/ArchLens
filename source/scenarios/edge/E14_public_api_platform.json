@@ -1,0 +1,63 @@
+{
+  "scenario_id": "E14",
+  "project": {
+    "name": "GeoTax API",
+    "type": "api_platform",
+    "description": "Public REST API that returns sales tax rates by address for developers, with API keys, usage metering and monthly invoicing.",
+    "platforms": [
+      "api_only"
+    ]
+  },
+  "scale": {
+    "traffic_pattern": "steady",
+    "workload": "read_heavy",
+    "users_at_launch": 300,
+    "users_12_months": 3000,
+    "peak_concurrent_users": 400,
+    "data_volume_gb_12_months": 60
+  },
+  "team": {
+    "has_devops": true,
+    "size": 3,
+    "experience": "senior",
+    "languages": [
+      "go"
+    ]
+  },
+  "budget": {
+    "monthly_infra_usd": 1500
+  },
+  "timeline": {
+    "mvp_weeks": 10
+  },
+  "infrastructure": {
+    "cloud_preference": "gcp",
+    "deployment_model": "managed_cloud",
+    "data_residency": "us",
+    "existing_systems": []
+  },
+  "requirements": {
+    "realtime": false,
+    "offline_support": false,
+    "full_text_search": false,
+    "file_media_storage": false,
+    "payments": true,
+    "auth": "email_password",
+    "multi_tenant": true,
+    "ml_features": "none",
+    "seo_critical": false,
+    "availability": "99.95",
+    "p95_latency_ms": 80
+  },
+  "compliance": [
+    "soc2"
+  ],
+  "priorities": {
+    "cost": 3,
+    "time_to_market": 3,
+    "scalability": 4,
+    "performance": 5,
+    "maintainability": 4,
+    "security": 4
+  }
+}

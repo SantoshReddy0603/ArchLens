@@ -413,8 +413,11 @@ def test_marketplace_prefers_relational_database(outputs):
 def test_gaming_picks_engine_client_and_game_server():
     o = recommend(variant("P3", project__type="gaming"))
     c = choices(o)
-    assert c["frontend"] in ("Unity", "Godot Engine", "Unreal Engine")
+    # web-only TypeScript team: an HTML5 game framework, not a native engine
+    assert c["frontend"].startswith("Phaser")
     assert c["backend"].split()[0] in ("Nakama", "Colyseus")
+    o = recommend(variant("P3", project__type="gaming", team__languages=["csharp"]))
+    assert choices(o)["frontend"] in ("Unity", "Godot Engine", "Unreal Engine")
 
 
 def test_collab_can_pick_crdt_for_devops_team(outputs):
@@ -594,7 +597,8 @@ def test_cloud_preference_keeps_baas_without_separate_host():
 EDGE = os.path.join(ROOT, "scenarios", "edge")
 EDGE_STATUS = {"E1": "ok_with_warnings", "E2": "infeasible", "E3": "infeasible", "E4": "ok_with_warnings",
                "E5": "invalid_input", "E6": "ok", "E7": "ok_with_warnings", "E8": "ok_with_warnings",
-               "E9": "ok", "E10": "ok", "E11": "ok_with_warnings"}
+               "E9": "ok", "E10": "ok", "E11": "ok_with_warnings", "E12": "ok", "E13": "ok_with_warnings",
+               "E14": "ok", "E15": "ok"}
 
 
 def _edge(eid):
@@ -639,6 +643,62 @@ def test_build_time_search_needs_a_static_site(outputs):
         assert _svc(outputs[pid], "search") != "Pagefind"
     dyn = recommend(variant("P3", requirements=dict(load("P3")["requirements"], full_text_search=True)))
     assert _svc(dyn, "search") != "Pagefind"
+
+
+def _with(eid, **sections):
+    s = _edge(eid)
+    for k, v in sections.items():
+        a, b = k.split("__")
+        s[a][b] = v
+    return recommend(s)
+
+
+def test_iot_telemetry_lands_on_a_time_series_store():
+    e12 = recommend(_edge("E12"))
+    assert e12["stack"]["database"]["kb_id"] == "timescaledb"
+    assert "Mumbai" in e12["stack"]["database"]["choice"]
+    assert _svc(e12, "ingest") == "AWS IoT Core"
+    # the vendor has no India region on Azure, so it must not be offered there
+    az = _with("E12", infrastructure__cloud_preference="azure")
+    assert az["stack"]["database"]["kb_id"] not in ("timescaledb", "clickhouse")
+    gp = [w for w in az["warnings"] if w["code"] == "GENERAL_PURPOSE_DATABASE"]
+    assert gp and gp[0]["severity"] == "warning" and "past the point" in gp[0]["message"]
+
+
+def test_game_client_follows_team_language():
+    e13 = recommend(_edge("E13"))
+    assert e13["stack"]["frontend"]["kb_id"] == "phaser"
+    assert e13["stack"]["backend"]["kb_id"] in ("nakama", "colyseus")
+    cs = _with("E13", team__languages=["csharp"])
+    assert cs["stack"]["frontend"]["kb_id"] == "unity"
+
+
+def test_in_app_purchases_flag_store_billing(outputs):
+    codes = [w["code"] for w in recommend(_edge("E13"))["warnings"]]
+    assert "APP_STORE_BILLING" in codes
+    web = _with("E13", project__platforms=["web"])
+    assert "APP_STORE_BILLING" not in [w["code"] for w in web["warnings"]]
+    for pid in IDS:
+        assert "APP_STORE_BILLING" not in [w["code"] for w in outputs[pid]["warnings"]]
+
+
+def test_public_api_gets_a_gateway_on_its_own_cloud(outputs):
+    e14 = recommend(_edge("E14"))
+    assert e14["stack"]["frontend"]["choice"] == "None"
+    assert _svc(e14, "api_gateway") == "Google Cloud API Gateway"
+    aws = _with("E14", infrastructure__cloud_preference="aws")
+    assert "Amazon API Gateway" in _svc(aws, "api_gateway")
+    onprem = _with("E14", infrastructure__cloud_preference="none", infrastructure__deployment_model="on_premise")
+    assert "Kong" in _svc(onprem, "api_gateway")
+    for pid in IDS:
+        assert _svc(outputs[pid], "api_gateway") is None
+
+
+def test_eu_sso_saas_keeps_data_in_the_eu():
+    e15 = recommend(_edge("E15"))
+    assert e15["stack"]["database"]["region"] and "europe" in e15["stack"]["database"]["choice"].lower()
+    assert _svc(e15, "auth") and "built-in" not in _svc(e15, "auth")
+    assert {"GDPR_NOTES", "SOC2_NOTES", "ISO27001_NOTES"} <= {w["code"] for w in e15["warnings"]}
 
 
 def test_robustness_shape_and_determinism(outputs, scenarios):

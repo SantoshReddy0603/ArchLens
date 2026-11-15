@@ -1,0 +1,66 @@
+{
+  "scenario_id": "E15",
+  "project": {
+    "name": "HireDesk",
+    "type": "saas_b2b",
+    "description": "Applicant tracking SaaS for mid-size European companies. Each customer signs in with its own Okta or Entra ID, searches CVs and schedules interviews.",
+    "platforms": [
+      "web"
+    ]
+  },
+  "scale": {
+    "traffic_pattern": "steady",
+    "workload": "balanced",
+    "users_at_launch": 800,
+    "users_12_months": 10000,
+    "peak_concurrent_users": 700,
+    "data_volume_gb_12_months": 300
+  },
+  "team": {
+    "has_devops": false,
+    "size": 6,
+    "experience": "mixed",
+    "languages": [
+      "typescript",
+      "python"
+    ]
+  },
+  "budget": {
+    "monthly_infra_usd": 1200
+  },
+  "timeline": {
+    "mvp_weeks": 16
+  },
+  "infrastructure": {
+    "cloud_preference": "any",
+    "deployment_model": "managed_cloud",
+    "data_residency": "eu",
+    "existing_systems": []
+  },
+  "requirements": {
+    "realtime": false,
+    "offline_support": false,
+    "full_text_search": true,
+    "file_media_storage": true,
+    "payments": true,
+    "auth": "enterprise_sso",
+    "multi_tenant": true,
+    "ml_features": "none",
+    "seo_critical": false,
+    "availability": "99.9",
+    "p95_latency_ms": null
+  },
+  "compliance": [
+    "gdpr",
+    "soc2",
+    "iso27001"
+  ],
+  "priorities": {
+    "cost": 3,
+    "time_to_market": 3,
+    "scalability": 3,
+    "performance": 3,
+    "maintainability": 5,
+    "security": 5
+  }
+}

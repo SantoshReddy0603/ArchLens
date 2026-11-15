@@ -1,0 +1,65 @@
+{
+  "scenario_id": "E12",
+  "project": {
+    "name": "FieldPulse",
+    "type": "iot",
+    "description": "Soil and pump sensors on 4,000 farms send a reading every minute. Farmers see live charts and get alerts when moisture drops.",
+    "platforms": [
+      "web",
+      "android"
+    ]
+  },
+  "scale": {
+    "traffic_pattern": "steady",
+    "workload": "write_heavy",
+    "users_at_launch": 2000,
+    "users_12_months": 8000,
+    "peak_concurrent_users": 600,
+    "data_volume_gb_12_months": 900
+  },
+  "team": {
+    "has_devops": true,
+    "size": 4,
+    "experience": "intermediate",
+    "languages": [
+      "python",
+      "javascript"
+    ]
+  },
+  "budget": {
+    "monthly_infra_usd": 800
+  },
+  "timeline": {
+    "mvp_weeks": 14
+  },
+  "infrastructure": {
+    "cloud_preference": "aws",
+    "deployment_model": "managed_cloud",
+    "data_residency": "india",
+    "existing_systems": []
+  },
+  "requirements": {
+    "realtime": true,
+    "offline_support": false,
+    "full_text_search": false,
+    "file_media_storage": false,
+    "payments": false,
+    "auth": "phone_otp",
+    "multi_tenant": false,
+    "ml_features": "none",
+    "seo_critical": false,
+    "availability": "99.9",
+    "p95_latency_ms": null
+  },
+  "compliance": [
+    "dpdp"
+  ],
+  "priorities": {
+    "cost": 4,
+    "time_to_market": 3,
+    "scalability": 5,
+    "performance": 4,
+    "maintainability": 3,
+    "security": 3
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "scenario_id": "E13",
+  "project": {
+    "name": "Quizzle Arena",
+    "type": "gaming",
+    "description": "Live multiplayer trivia rooms of up to 50 players with a global leaderboard and in-app coin purchases.",
+    "platforms": [
+      "web",
+      "android",
+      "ios"
+    ]
+  },
+  "scale": {
+    "traffic_pattern": "spiky",
+    "workload": "balanced",
+    "users_at_launch": 5000,
+    "users_12_months": 120000,
+    "peak_concurrent_users": 9000,
+    "data_volume_gb_12_months": 40
+  },
+  "team": {
+    "has_devops": true,
+    "size": 5,
+    "experience": "senior",
+    "languages": [
+      "typescript"
+    ]
+  },
+  "budget": {
+    "monthly_infra_usd": 2500
+  },
+  "timeline": {
+    "mvp_weeks": 12
+  },
+  "infrastructure": {
+    "cloud_preference": "any",
+    "deployment_model": "managed_cloud",
+    "data_residency": "none",
+    "existing_systems": []
+  },
+  "requirements": {
+    "realtime": true,
+    "offline_support": false,
+    "full_text_search": false,
+    "file_media_storage": true,
+    "payments": true,
+    "auth": "social",
+    "multi_tenant": false,
+    "ml_features": "none",
+    "seo_critical": false,
+    "availability": "99.9",
+    "p95_latency_ms": 100
+  },
+  "compliance": [
+    "gdpr"
+  ],
+  "priorities": {
+    "cost": 3,
+    "time_to_market": 4,
+    "scalability": 5,
+    "performance": 5,
+    "maintainability": 3,
+    "security": 3
+  }
+}
