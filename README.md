@@ -4,6 +4,8 @@ Deterministic tech-stack recommender for the StackSense challenge. It turns a pr
 
 ![ArchLens demo: describe a project, review the extracted values, evaluate, read the result and the calculations](source/docs/demo.gif)
 
+Live demo: https://archlens-sxie.onrender.com (free hosting, so the first load after a quiet period can take about a minute). The local setup below is the reference.
+
 ## Run it
 
 Python 3.10 or newer. About two minutes on a normal connection; no API key needed.
