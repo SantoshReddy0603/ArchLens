@@ -608,7 +608,7 @@
     },
     "layers": {
       "frontend": {
-        "candidates": 24,
+        "candidates": 25,
         "eliminated": [
           {
             "id": "angular",
@@ -706,6 +706,13 @@
             "name": "Nuxt",
             "reasons": [
               "does not serve ios/android well enough on its own"
+            ]
+          },
+          {
+            "id": "phaser",
+            "name": "Phaser (HTML5 game framework)",
+            "reasons": [
+              "a game engine client is only for game projects"
             ]
           },
           {

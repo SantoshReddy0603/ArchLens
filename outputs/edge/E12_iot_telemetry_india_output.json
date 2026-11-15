@@ -1,0 +1,2019 @@
+{
+  "scenario_id": "E12",
+  "engine_version": "1.0.0",
+  "status": "ok",
+  "summary": "Serverless-first design: React Native (Expo), Node.js + NestJS, TimescaleDB (PostgreSQL time-series) database on AWS Lambda + API Gateway. It keeps data in Indian regions, matches the team's languages and is estimated at $460-$890 per month.",
+  "architecture_style": "serverless",
+  "architecture": {
+    "style": "serverless",
+    "name": "serverless",
+    "justification": "Node.js + NestJS runs on managed, scale-to-zero functions, so there are no servers to size or patch and idle time costs little.",
+    "driven_by": [
+      "team.has_devops",
+      "budget.monthly_infra_usd",
+      "scale.traffic_pattern"
+    ],
+    "alternatives": [
+      {
+        "choice": "Microservices",
+        "why_not": "Adds service boundaries, network calls and per-service deployment that this team does not need at this scale (team 4)."
+      },
+      {
+        "choice": "Monolith on a container host",
+        "why_not": "Steadier cost at sustained high load, but needs a host to size, patch and monitor."
+      }
+    ]
+  },
+  "stack": {
+    "frontend": {
+      "choice": "React Native (Expo)",
+      "justification": "React Native (Expo) matches the team's javascript skills; covers web and android from one codebase; scales on clients, JS bridge limits heavy UIs.",
+      "driven_by": [
+        "team.languages",
+        "project.platforms",
+        "priorities.scalability"
+      ],
+      "alternatives": [
+        {
+          "choice": "Flutter",
+          "why_not": "Flutter scores 0.8 points lower overall, mainly on team skill fit (1.4 points) and cost (0.6 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Native modules outside the Expo SDK need a custom development build"
+      ],
+      "confidence": "low",
+      "margin_points": 0.78,
+      "kb_id": "expo_rn",
+      "sources": [
+        {
+          "title": "Expo docs",
+          "url": "https://docs.expo.dev/"
+        },
+        {
+          "title": "React Native docs",
+          "url": "https://reactnative.dev/docs/getting-started"
+        }
+      ]
+    },
+    "backend": {
+      "choice": "Node.js + NestJS",
+      "justification": "Node.js + NestJS builds on the team's existing language skills; handles many concurrent realtime connections well; modular design, microservice transports, WebSocket gateways.",
+      "driven_by": [
+        "team.languages",
+        "requirements.realtime",
+        "priorities.scalability"
+      ],
+      "alternatives": [
+        {
+          "choice": "Python + Django",
+          "why_not": "Python + Django scores 0.37 points higher, which is inside the near-tie range, and loses the tie-break: lower cost first, then complexity and operations load."
+        },
+        {
+          "choice": "Python + FastAPI",
+          "why_not": "Python + FastAPI scores 0.1 points lower overall, mainly on cost (0.6 points) and compatibility with the rest of the stack (0.6 points). Estimated infrastructure about $470-$930/month versus about $370-$750/month."
+        }
+      ],
+      "tradeoffs": [
+        "More boilerplate"
+      ],
+      "confidence": "low",
+      "margin_points": -0.37,
+      "kb_id": "nestjs",
+      "sources": [
+        {
+          "title": "NestJS docs",
+          "url": "https://docs.nestjs.com/"
+        }
+      ]
+    },
+    "database": {
+      "choice": "Tiger Cloud (managed TimescaleDB) in Mumbai (ap-south-1)",
+      "justification": "TimescaleDB can be placed in Mumbai (ap-south-1) to keep data in India; has headroom for the expected load; hypertables, compression and continuous aggregates; is a proven choice for iot projects. It runs as Tiger Cloud (managed TimescaleDB), the managed service from the database vendor, so backups, patching and failover are the provider's job.",
+      "driven_by": [
+        "infrastructure.data_residency",
+        "scale.peak_concurrent_users",
+        "priorities.scalability",
+        "project.type"
+      ],
+      "alternatives": [
+        {
+          "choice": "ClickHouse",
+          "why_not": "ClickHouse scores 2.7 points lower overall, mainly on data-model fit (3.0 points) and time to market (0.7 points)."
+        },
+        {
+          "choice": "MongoDB (Atlas or self-hosted)",
+          "why_not": "MongoDB (Atlas or self-hosted) scores 4.2 points lower overall, mainly on data-model fit (4.4 points) and cost (0.6 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Smaller managed footprint than plain Postgres"
+      ],
+      "region": "Mumbai (ap-south-1)",
+      "engine": "TimescaleDB",
+      "offering": "Tiger Cloud (managed TimescaleDB)",
+      "confidence": "medium",
+      "margin_points": 2.7,
+      "kb_id": "timescaledb",
+      "sources": [
+        {
+          "title": "Tiger Cloud (managed TimescaleDB)",
+          "url": "https://www.tigerdata.com/docs/"
+        },
+        {
+          "title": "TimescaleDB docs",
+          "url": "https://docs.timescale.com/"
+        },
+        {
+          "title": "Timescale pricing",
+          "url": "https://www.timescale.com/pricing"
+        }
+      ]
+    },
+    "hosting": {
+      "choice": "AWS Lambda + API Gateway",
+      "justification": "AWS Lambda + API Gateway runs on AWS as preferred; can be placed in Mumbai (ap-south-1) to keep data in India; offers a 99.95% SLA, in line with the 99.9% target; automatic scale to thousands of concurrent.",
+      "driven_by": [
+        "infrastructure.cloud_preference",
+        "infrastructure.data_residency",
+        "requirements.availability",
+        "priorities.scalability"
+      ],
+      "alternatives": [
+        {
+          "choice": "AWS EC2 (self-managed VMs)",
+          "why_not": "AWS EC2 (self-managed VMs) scores 0.47 points higher, which is inside the near-tie range, and loses the tie-break: lower cost first, then complexity and operations load."
+        },
+        {
+          "choice": "AWS Elastic Beanstalk",
+          "why_not": "AWS Elastic Beanstalk scores 0.37 points higher, which is inside the near-tie range, and loses the tie-break: lower cost first, then complexity and operations load."
+        }
+      ],
+      "tradeoffs": [
+        "No long-lived connections without API Gateway websockets",
+        "Cold starts",
+        "High vendor lock-in: AWS Lambda + API Gateway is hard to leave once the data model and SDKs are in use."
+      ],
+      "region": "Mumbai (ap-south-1)",
+      "confidence": "low",
+      "margin_points": -0.47,
+      "kb_id": "aws_lambda",
+      "sources": [
+        {
+          "title": "Lambda pricing",
+          "url": "https://aws.amazon.com/lambda/pricing/"
+        }
+      ]
+    },
+    "supporting": [
+      {
+        "layer": "auth",
+        "choice": "Amazon Cognito",
+        "justification": "Amazon Cognito: users sign in (phone otp); cheap user pools with SAML/OIDC federation; clunky developer experience; free at this scale.",
+        "driven_by": [
+          "requirements.auth"
+        ],
+        "alternatives": [
+          {
+            "choice": "Keycloak",
+            "why_not": "Ranks lower (costs more (about $36 vs $0 per month at the high end), more to operate); score 0.44 vs 0.65."
+          },
+          {
+            "choice": "Framework built-in auth (sessions/JWT)",
+            "why_not": "Ranks lower (lower quality rating (6 vs 7)); score 0.40 vs 0.65."
+          }
+        ],
+        "tradeoffs": [
+          "Notable vendor lock-in.",
+          "Customising hosted flows is limited and migrating users out is hard"
+        ],
+        "kb_id": "cognito",
+        "sources": [
+          {
+            "title": "Cognito pricing",
+            "url": "https://aws.amazon.com/cognito/pricing/"
+          },
+          {
+            "title": "Cognito docs",
+            "url": "https://docs.aws.amazon.com/cognito/"
+          }
+        ]
+      },
+      {
+        "layer": "sms",
+        "choice": "MSG91",
+        "justification": "MSG91: phone one-time passwords need SMS delivery; india-focused OTP and SMS with DLT support.",
+        "driven_by": [
+          "requirements.auth"
+        ],
+        "alternatives": [
+          {
+            "choice": "Amazon SNS SMS",
+            "why_not": "Ranks lower (lower quality rating (7 vs 8), costs more (about $49 vs $32 per month at the high end)); score 0.77 vs 0.84."
+          }
+        ],
+        "tradeoffs": [
+          "India-focused; DLT template registration is required",
+          "Adds about $15-$32 per month."
+        ],
+        "kb_id": "msg91",
+        "sources": [
+          {
+            "title": "MSG91 pricing",
+            "url": "https://msg91.com/in/pricing/sms"
+          },
+          {
+            "title": "MSG91 docs",
+            "url": "https://docs.msg91.com/"
+          }
+        ]
+      },
+      {
+        "layer": "storage",
+        "choice": "Amazon S3",
+        "justification": "Amazon S3: users upload files; 11 nines durability, de facto object storage.",
+        "driven_by": [
+          "requirements.file_media_storage",
+          "scale.data_volume_gb_12_months"
+        ],
+        "alternatives": [
+          {
+            "choice": "MinIO (self-hosted)",
+            "why_not": "Ranks lower (lower quality rating (8 vs 10), more to operate); score 0.71 vs 0.87."
+          }
+        ],
+        "tradeoffs": [
+          "Egress and request charges add up for public media",
+          "Adds about $38-$49 per month."
+        ],
+        "kb_id": "s3",
+        "sources": [
+          {
+            "title": "S3 pricing",
+            "url": "https://aws.amazon.com/s3/pricing/"
+          },
+          {
+            "title": "S3 docs",
+            "url": "https://docs.aws.amazon.com/s3/"
+          }
+        ]
+      },
+      {
+        "layer": "realtime",
+        "choice": "Ably",
+        "justification": "Ably: live updates are required; managed pub/sub with presence and history.",
+        "driven_by": [
+          "requirements.realtime",
+          "scale.peak_concurrent_users"
+        ],
+        "alternatives": [
+          {
+            "choice": "Pusher Channels",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $120 vs $72 per month at the high end)); score 0.68 vs 0.74."
+          }
+        ],
+        "tradeoffs": [
+          "Priced per message and connection; costs climb quickly with high fan-out",
+          "Adds about $35-$72 per month."
+        ],
+        "kb_id": "ably",
+        "sources": [
+          {
+            "title": "Ably pricing",
+            "url": "https://ably.com/pricing"
+          },
+          {
+            "title": "Ably docs",
+            "url": "https://ably.com/docs"
+          }
+        ]
+      },
+      {
+        "layer": "ingest",
+        "choice": "AWS IoT Core",
+        "justification": "AWS IoT Core: devices send telemetry that needs a purpose-built MQTT ingestion layer; managed MQTT ingestion with device registry and rules.",
+        "driven_by": [
+          "project.type",
+          "scale.peak_concurrent_users"
+        ],
+        "alternatives": [
+          {
+            "choice": "No other eligible option",
+            "why_not": "No other ingest service satisfies the hard constraints."
+          }
+        ],
+        "tradeoffs": [
+          "Notable vendor lock-in.",
+          "Priced per message and connection minute; AWS-specific device model",
+          "Adds about $35-$47 per month."
+        ],
+        "kb_id": "aws_iot_core",
+        "sources": [
+          {
+            "title": "AWS IoT Core",
+            "url": "https://docs.aws.amazon.com/iot/latest/developerguide/what-is-aws-iot.html"
+          },
+          {
+            "title": "AWS IoT Core pricing",
+            "url": "https://aws.amazon.com/iot-core/pricing/"
+          }
+        ]
+      },
+      {
+        "layer": "cdn",
+        "choice": "Amazon CloudFront",
+        "justification": "Amazon CloudFront: assets are delivered to a wide audience; deep AWS integration, India edge presence, 1 TB free per month.",
+        "driven_by": [
+          "scale.users_12_months",
+          "project.platforms"
+        ],
+        "alternatives": [
+          {
+            "choice": "Cloudflare CDN",
+            "why_not": "A close second with a smaller fit to this stack; score 0.82 vs 0.86."
+          },
+          {
+            "choice": "Bunny CDN",
+            "why_not": "Ranks lower (lower quality rating (7 vs 9), costs more (about $31 vs $18 per month at the high end)); score 0.72 vs 0.86."
+          }
+        ],
+        "tradeoffs": [
+          "Pricing varies by region; cache invalidations past the free quota are billed",
+          "Adds about $14-$18 per month."
+        ],
+        "kb_id": "cloudfront",
+        "sources": [
+          {
+            "title": "CloudFront pricing",
+            "url": "https://aws.amazon.com/cloudfront/pricing/"
+          },
+          {
+            "title": "CloudFront docs",
+            "url": "https://docs.aws.amazon.com/cloudfront/"
+          }
+        ]
+      },
+      {
+        "layer": "ci_cd",
+        "choice": "GitHub Actions",
+        "justification": "GitHub Actions: automated build and deploy for the team; workflows next to the code; the 2,000 free minutes a month cover a small team, larger teams buy extra minutes.",
+        "driven_by": [
+          "team.size"
+        ],
+        "alternatives": [
+          {
+            "choice": "GitLab CI/CD",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $25 vs $3 per month at the high end), more to operate); score 0.76 vs 0.84."
+          },
+          {
+            "choice": "Jenkins",
+            "why_not": "Ranks lower (lower quality rating (7 vs 9), more to operate); score 0.56 vs 0.84."
+          }
+        ],
+        "tradeoffs": [
+          "Minute limits on private repositories; long builds need paid or self-hosted runners",
+          "Adds about $0-$3 per month."
+        ],
+        "kb_id": "github_actions",
+        "sources": [
+          {
+            "title": "Actions billing",
+            "url": "https://docs.github.com/billing/managing-billing-for-your-products/managing-billing-for-github-actions/about-billing-for-github-actions"
+          },
+          {
+            "title": "GitHub Actions docs",
+            "url": "https://docs.github.com/actions"
+          },
+          {
+            "title": "GitHub Data Protection Agreement",
+            "url": "https://docs.github.com/en/site-policy/privacy-policies/github-data-protection-agreement"
+          }
+        ]
+      },
+      {
+        "layer": "observability",
+        "choice": "Amazon CloudWatch",
+        "justification": "Amazon CloudWatch: production monitoring for the availability target; native AWS metrics, logs and alarms.",
+        "driven_by": [
+          "requirements.availability",
+          "scale.users_12_months"
+        ],
+        "alternatives": [
+          {
+            "choice": "Prometheus + Grafana (self-hosted)",
+            "why_not": "Ranks lower (more to operate); score 0.75 vs 0.79."
+          },
+          {
+            "choice": "UptimeRobot / Better Stack uptime checks",
+            "why_not": "Ranks lower (lower quality rating (6 vs 7)); score 0.72 vs 0.79."
+          }
+        ],
+        "tradeoffs": [
+          "Logs and custom metrics are billed per GB and per metric; costs creep without retention limits",
+          "Adds about $0-$26 per month."
+        ],
+        "kb_id": "cloudwatch",
+        "sources": [
+          {
+            "title": "CloudWatch pricing",
+            "url": "https://aws.amazon.com/cloudwatch/pricing/"
+          },
+          {
+            "title": "CloudWatch docs",
+            "url": "https://docs.aws.amazon.com/cloudwatch/"
+          }
+        ]
+      }
+    ]
+  },
+  "estimated_monthly_cost_usd": {
+    "min": 460,
+    "max": 890,
+    "assumptions": [
+      "Load estimate: peak about 60 requests/second and about 39M requests/month from 8K users in 12 months.",
+      "Usage-priced items are shown as a band (0.75x to 1.3x of the estimate) because load figures are order-of-magnitude.",
+      "Public list prices of each product, in USD, without taxes, committed-use discounts or developer time.",
+      "The 99.9% availability target doubles or adds redundancy for hosting and database where needed.",
+      "Hosting (AWS Lambda + API Gateway): about $150-$240/month",
+      "Database (Tiger Cloud (managed TimescaleDB)): about $180-$390/month",
+      "SMS (MSG91): about $15-$32/month",
+      "Storage (Amazon S3): about $38-$49/month",
+      "Realtime (Ably): about $35-$72/month",
+      "Device ingestion (AWS IoT Core): about $35-$47/month",
+      "CDN (Amazon CloudFront): about $14-$18/month",
+      "CI/CD (GitHub Actions): about $0-$3/month",
+      "Observability (Amazon CloudWatch): about $0-$26/month"
+    ],
+    "breakdown": [
+      {
+        "layer": "hosting",
+        "item": "AWS Lambda + API Gateway",
+        "min": 150,
+        "max": 240
+      },
+      {
+        "layer": "database",
+        "item": "Tiger Cloud (managed TimescaleDB)",
+        "min": 180,
+        "max": 390
+      },
+      {
+        "layer": "backend",
+        "item": "Node.js + NestJS",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "frontend",
+        "item": "React Native (Expo)",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "auth",
+        "item": "Amazon Cognito",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "sms",
+        "item": "MSG91",
+        "min": 15,
+        "max": 32
+      },
+      {
+        "layer": "storage",
+        "item": "Amazon S3",
+        "min": 38,
+        "max": 49
+      },
+      {
+        "layer": "realtime",
+        "item": "Ably",
+        "min": 35,
+        "max": 72
+      },
+      {
+        "layer": "ingest",
+        "item": "AWS IoT Core",
+        "min": 35,
+        "max": 47
+      },
+      {
+        "layer": "cdn",
+        "item": "Amazon CloudFront",
+        "min": 14,
+        "max": 18
+      },
+      {
+        "layer": "ci_cd",
+        "item": "GitHub Actions",
+        "min": 0,
+        "max": 3
+      },
+      {
+        "layer": "observability",
+        "item": "Amazon CloudWatch",
+        "min": 0,
+        "max": 26
+      }
+    ]
+  },
+  "warnings": [
+    {
+      "code": "SMS_DLT_REQUIRED",
+      "severity": "info",
+      "message": "SMS to Indian numbers needs DLT registration (entity, sender ID and message templates) with a telecom operator before launch; allow one to two weeks.",
+      "fields": [
+        "requirements.auth"
+      ]
+    },
+    {
+      "code": "DPDP_NOTES",
+      "severity": "info",
+      "message": "DPDP Act: record consent, support erasure and correction, notify breaches, and take extra care with children's data. Cross-border transfer is allowed except to countries the government restricts.",
+      "fields": [
+        "compliance",
+        "infrastructure.data_residency"
+      ]
+    },
+    {
+      "code": "CERT_IN_LOGS",
+      "severity": "info",
+      "message": "CERT-In directions (April 2022) apply to services used in India: enable logs on all systems, keep them for 180 days within India, sync clocks to an NTP source and report cyber incidents within 6 hours. Size log retention and storage for this.",
+      "fields": [
+        "infrastructure.data_residency",
+        "compliance"
+      ]
+    },
+    {
+      "code": "BUDGET_PEAK_HEADROOM",
+      "severity": "info",
+      "message": "Expected cost ($460-$890) is inside the $800 budget at typical load but can pass it at peak usage; watch database (TimescaleDB (PostgreSQL time-series), $180-$390) and hosting (AWS Lambda + API Gateway, $150-$240) first.",
+      "fields": [
+        "budget.monthly_infra_usd",
+        "scale.peak_concurrent_users"
+      ]
+    }
+  ],
+  "assumptions": [
+    "No extra inputs supplied; neutral defaults are used (learning appetite medium, lock-in tolerance medium, budget strictness firm, no hiring plan, no mobile preference).",
+    "No cache layer: about 60 requests/second and 8,000 users in 12 months are served directly by the database or BaaS."
+  ],
+  "validation_errors": [],
+  "decision_trace": {
+    "pipeline": [
+      "validate input",
+      "derive profile",
+      "filter each layer by hard constraints",
+      "enumerate compatible stacks",
+      "score quality, fit and penalties",
+      "rank deterministically",
+      "select supporting services",
+      "estimate cost",
+      "explain"
+    ],
+    "weights": {
+      "cost": 0.1895,
+      "maintainability": 0.1115,
+      "performance": 0.1859,
+      "scalability": 0.2644,
+      "security": 0.1283,
+      "time_to_market": 0.1204
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "layers": {
+      "frontend": {
+        "candidates": 25,
+        "eliminated": [
+          {
+            "id": "angular",
+            "name": "Angular",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "astro",
+            "name": "Astro",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "blazor",
+            "name": "Blazor (ASP.NET Core)",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "django_htmx",
+            "name": "Django templates + htmx",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "electron",
+            "name": "Electron",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "eleventy",
+            "name": "Eleventy (11ty)",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "godot",
+            "name": "Godot Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "hugo",
+            "name": "Hugo",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "kotlin_android",
+            "name": "Kotlin + Jetpack Compose (Android native)",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "laravel_livewire",
+            "name": "Laravel Blade + Livewire",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "maui",
+            "name": ".NET MAUI",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "nextjs",
+            "name": "Next.js",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "none_fe",
+            "name": "None (API only)",
+            "reasons": [
+              "the project has client platforms to build"
+            ]
+          },
+          {
+            "id": "nuxt",
+            "name": "Nuxt",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "phaser",
+            "name": "Phaser (HTML5 game framework)",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "rails_hotwire",
+            "name": "Rails + Hotwire",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "react_vite",
+            "name": "React + Vite (SPA)",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "sveltekit",
+            "name": "SvelteKit",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "swift_ios",
+            "name": "Swift + SwiftUI (iOS native)",
+            "reasons": [
+              "does not serve web/android well enough on its own"
+            ]
+          },
+          {
+            "id": "tauri",
+            "name": "Tauri",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          },
+          {
+            "id": "unity",
+            "name": "Unity",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "unreal",
+            "name": "Unreal Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "vue_vite",
+            "name": "Vue 3 + Vite (SPA)",
+            "reasons": [
+              "does not serve android well enough on its own"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 2,
+        "shortlist": [
+          "expo_rn",
+          "flutter"
+        ],
+        "chosen": [
+          "expo_rn"
+        ]
+      },
+      "backend": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "colyseus",
+            "name": "Colyseus (Node.js game server)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "firebase",
+            "name": "Firebase (BaaS)",
+            "reasons": [
+              "cloud_preference is aws and this runs on gcp"
+            ]
+          },
+          {
+            "id": "nakama",
+            "name": "Nakama (Go game backend)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "none_be",
+            "name": "No backend (static)",
+            "reasons": [
+              "the project needs server-side logic (accounts, payments, uploads, realtime or non-content features)"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 11,
+        "shortlist": [
+          "nestjs",
+          "django",
+          "fastapi",
+          "go_chi",
+          "express",
+          "aspnet_core",
+          "phoenix",
+          "spring_boot"
+        ],
+        "chosen": [
+          "nestjs"
+        ]
+      },
+      "database": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "neon",
+            "name": "Neon (serverless Postgres)",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "none_db",
+            "name": "None (no database)",
+            "reasons": [
+              "the project needs persistent data"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 11,
+        "shortlist": [
+          "timescaledb",
+          "clickhouse",
+          "mongodb",
+          "supabase_postgres",
+          "postgresql",
+          "dynamodb",
+          "mysql",
+          "sql_server"
+        ],
+        "chosen": [
+          "timescaledb"
+        ]
+      },
+      "hosting": {
+        "candidates": 27,
+        "eliminated": [
+          {
+            "id": "azure_app_service",
+            "name": "Azure App Service",
+            "reasons": [
+              "cloud_preference is aws and this runs on azure"
+            ]
+          },
+          {
+            "id": "azure_container_apps",
+            "name": "Azure Container Apps",
+            "reasons": [
+              "cloud_preference is aws and this runs on azure"
+            ]
+          },
+          {
+            "id": "azure_static_web_apps",
+            "name": "Azure Static Web Apps",
+            "reasons": [
+              "cloud_preference is aws and this runs on azure"
+            ]
+          },
+          {
+            "id": "azure_vm",
+            "name": "Azure Virtual Machines",
+            "reasons": [
+              "cloud_preference is aws and this runs on azure"
+            ]
+          },
+          {
+            "id": "cloudflare_pages",
+            "name": "Cloudflare Pages",
+            "reasons": [
+              "cloud_preference is aws and this runs on cloudflare"
+            ]
+          },
+          {
+            "id": "cloudflare_workers",
+            "name": "Cloudflare Workers",
+            "reasons": [
+              "cloud_preference is aws and this runs on cloudflare",
+              "no india region available"
+            ]
+          },
+          {
+            "id": "digitalocean_droplet",
+            "name": "DigitalOcean App Platform / Droplets",
+            "reasons": [
+              "cloud_preference is aws and this runs on digitalocean"
+            ]
+          },
+          {
+            "id": "firebase_hosting",
+            "name": "Firebase Hosting",
+            "reasons": [
+              "cloud_preference is aws and this runs on gcp"
+            ]
+          },
+          {
+            "id": "fly_io",
+            "name": "Fly.io",
+            "reasons": [
+              "cloud_preference is aws and this runs on fly"
+            ]
+          },
+          {
+            "id": "gce_vm",
+            "name": "Google Compute Engine",
+            "reasons": [
+              "cloud_preference is aws and this runs on gcp"
+            ]
+          },
+          {
+            "id": "github_pages",
+            "name": "GitHub Pages",
+            "reasons": [
+              "expected traffic (about 1185 GB/month) exceeds the 100 GB/month soft limit",
+              "cloud_preference is aws and this runs on github"
+            ]
+          },
+          {
+            "id": "gke_cloud_run",
+            "name": "Google Cloud Run",
+            "reasons": [
+              "cloud_preference is aws and this runs on gcp"
+            ]
+          },
+          {
+            "id": "hetzner_vps",
+            "name": "Hetzner Cloud VPS",
+            "reasons": [
+              "cloud_preference is aws and this runs on hetzner",
+              "no india region available"
+            ]
+          },
+          {
+            "id": "netlify",
+            "name": "Netlify",
+            "reasons": [
+              "cloud_preference is aws and this runs on netlify",
+              "no india region available"
+            ]
+          },
+          {
+            "id": "none_host",
+            "name": "None (provided by the backend platform)",
+            "reasons": [
+              "a web client or API needs somewhere to be served from"
+            ]
+          },
+          {
+            "id": "onprem_k8s",
+            "name": "Self-managed Kubernetes (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting",
+              "cloud_preference is aws and this runs on onprem"
+            ]
+          },
+          {
+            "id": "onprem_linux_vm",
+            "name": "Self-managed Linux servers (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting",
+              "cloud_preference is aws and this runs on onprem"
+            ]
+          },
+          {
+            "id": "railway",
+            "name": "Railway",
+            "reasons": [
+              "cloud_preference is aws and this runs on railway",
+              "no india region available"
+            ]
+          },
+          {
+            "id": "render",
+            "name": "Render",
+            "reasons": [
+              "cloud_preference is aws and this runs on render",
+              "no india region available"
+            ]
+          },
+          {
+            "id": "vercel",
+            "name": "Vercel",
+            "reasons": [
+              "cloud_preference is aws and this runs on vercel"
+            ]
+          },
+          {
+            "id": "windows_iis",
+            "name": "Windows Server + IIS (self-hosted)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting",
+              "cloud_preference is aws and this runs on onprem"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 6,
+        "shortlist": [
+          "aws_ec2",
+          "aws_elastic_beanstalk",
+          "aws_ecs_fargate",
+          "aws_lambda",
+          "aws_eks",
+          "aws_amplify"
+        ],
+        "chosen": [
+          "aws_lambda"
+        ]
+      }
+    },
+    "stack_search": {
+      "considered": 1428,
+      "pruned_by_reason": {
+        "backend bundled with a specific database": 48,
+        "backend bundled with a specific frontend": 56,
+        "database cannot be reached from the host": 130,
+        "database does not run on the chosen cloud": 154,
+        "database tied to another backend": 38,
+        "runtime not supported by the host": 588
+      },
+      "scored": 1002,
+      "removed_by_hard_budget": 0,
+      "frontend_pairs": false,
+      "budget_reference_usd": 800
+    },
+    "top_stacks": [
+      {
+        "rank": 1,
+        "stack": [
+          "React Native (Expo)",
+          "Node.js + NestJS",
+          "TimescaleDB (PostgreSQL time-series)",
+          "AWS Lambda + API Gateway"
+        ],
+        "score": 78.68,
+        "quality": 0.7615,
+        "fit": 0.8652,
+        "penalties": {
+          "lock_in": 2.138
+        },
+        "fit_terms": {
+          "archetype": 0.8,
+          "budget": 0.768,
+          "capability": 0.811,
+          "compat": 0.767,
+          "ops": 0.922,
+          "skill": 0.996
+        }
+      },
+      {
+        "rank": 2,
+        "stack": [
+          "React Native (Expo)",
+          "Node.js + NestJS",
+          "TimescaleDB (PostgreSQL time-series)",
+          "AWS EC2 (self-managed VMs)"
+        ],
+        "score": 79.152,
+        "quality": 0.7469,
+        "fit": 0.8461,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.7,
+          "budget": 0.711,
+          "capability": 0.82,
+          "compat": 0.767,
+          "ops": 0.898,
+          "skill": 0.998
+        }
+      },
+      {
+        "rank": 3,
+        "stack": [
+          "React Native (Expo)",
+          "Python + Django",
+          "TimescaleDB (PostgreSQL time-series)",
+          "AWS Elastic Beanstalk"
+        ],
+        "score": 79.051,
+        "quality": 0.7624,
+        "fit": 0.8349,
+        "penalties": {
+          "lock_in": 0.45
+        },
+        "fit_terms": {
+          "archetype": 0.7,
+          "budget": 0.701,
+          "capability": 0.826,
+          "compat": 0.7,
+          "ops": 0.91,
+          "skill": 0.977
+        }
+      },
+      {
+        "rank": 4,
+        "stack": [
+          "React Native (Expo)",
+          "Node.js + NestJS",
+          "TimescaleDB (PostgreSQL time-series)",
+          "AWS Elastic Beanstalk"
+        ],
+        "score": 79.028,
+        "quality": 0.7525,
+        "fit": 0.8465,
+        "penalties": {
+          "lock_in": 0.45
+        },
+        "fit_terms": {
+          "archetype": 0.7,
+          "budget": 0.701,
+          "capability": 0.82,
+          "compat": 0.767,
+          "ops": 0.91,
+          "skill": 1.0
+        }
+      },
+      {
+        "rank": 5,
+        "stack": [
+          "React Native (Expo)",
+          "Python + Django",
+          "TimescaleDB (PostgreSQL time-series)",
+          "AWS EC2 (self-managed VMs)"
+        ],
+        "score": 78.843,
+        "quality": 0.7568,
+        "fit": 0.8271,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.7,
+          "budget": 0.711,
+          "capability": 0.826,
+          "compat": 0.633,
+          "ops": 0.898,
+          "skill": 0.973
+        }
+      }
+    ],
+    "supporting": {
+      "auth": {
+        "chosen": "cognito",
+        "covered_natively": false,
+        "score": 0.6496,
+        "alternatives": [
+          "keycloak",
+          "framework_auth"
+        ],
+        "eliminated": [
+          {
+            "id": "auth0",
+            "name": "Auth0",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "clerk",
+            "name": "Clerk",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "entra_external_id",
+            "name": "Microsoft Entra External ID",
+            "reasons": [
+              "cloud_preference is aws and this is a azure service",
+              "no india region available"
+            ]
+          },
+          {
+            "id": "entra_id",
+            "name": "Microsoft Entra ID (workforce SSO)",
+            "reasons": [
+              "cloud_preference is aws and this is a azure service",
+              "workforce single sign-on is for employees, not consumer sign-in"
+            ]
+          },
+          {
+            "id": "firebase_auth",
+            "name": "Firebase Authentication",
+            "reasons": [
+              "cloud_preference is aws and this is a gcp service",
+              "no india region available"
+            ]
+          },
+          {
+            "id": "identity_platform",
+            "name": "Google Cloud Identity Platform",
+            "reasons": [
+              "cloud_preference is aws and this is a gcp service"
+            ]
+          },
+          {
+            "id": "supabase_auth",
+            "name": "Supabase Auth",
+            "reasons": [
+              "is part of Supabase (BaaS) only"
+            ]
+          }
+        ]
+      },
+      "sms": {
+        "chosen": "msg91",
+        "covered_natively": false,
+        "score": 0.8421,
+        "alternatives": [
+          "aws_sns_sms"
+        ],
+        "eliminated": [
+          {
+            "id": "firebase_phone_auth",
+            "name": "Firebase phone verification",
+            "reasons": [
+              "cloud_preference is aws and this is a gcp service",
+              "no india region available",
+              "is part of Firebase Authentication only"
+            ]
+          },
+          {
+            "id": "twilio_verify",
+            "name": "Twilio Verify / SMS",
+            "reasons": [
+              "no india region available"
+            ]
+          }
+        ]
+      },
+      "storage": {
+        "chosen": "s3",
+        "covered_natively": false,
+        "score": 0.8672,
+        "alternatives": [
+          "minio"
+        ],
+        "eliminated": [
+          {
+            "id": "azure_blob",
+            "name": "Azure Blob Storage",
+            "reasons": [
+              "cloud_preference is aws and this is a azure service"
+            ]
+          },
+          {
+            "id": "backblaze_b2",
+            "name": "Backblaze B2",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "cloudflare_r2",
+            "name": "Cloudflare R2",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "firebase_storage",
+            "name": "Cloud Storage for Firebase",
+            "reasons": [
+              "cloud_preference is aws and this is a gcp service",
+              "is part of Firebase (BaaS) only"
+            ]
+          },
+          {
+            "id": "gcs",
+            "name": "Google Cloud Storage",
+            "reasons": [
+              "cloud_preference is aws and this is a gcp service"
+            ]
+          },
+          {
+            "id": "supabase_storage",
+            "name": "Supabase Storage",
+            "reasons": [
+              "is part of Supabase (BaaS) only"
+            ]
+          }
+        ]
+      },
+      "realtime": {
+        "chosen": "ably",
+        "covered_natively": false,
+        "score": 0.738,
+        "alternatives": [
+          "pusher"
+        ],
+        "eliminated": [
+          {
+            "id": "azure_signalr",
+            "name": "Azure SignalR Service",
+            "reasons": [
+              "cloud_preference is aws and this is a azure service"
+            ]
+          },
+          {
+            "id": "centrifugo",
+            "name": "Centrifugo",
+            "reasons": [
+              "needs a long-running process, which AWS Lambda + API Gateway does not provide"
+            ]
+          },
+          {
+            "id": "firestore_listeners",
+            "name": "Firestore real-time listeners",
+            "reasons": [
+              "cloud_preference is aws and this is a gcp service",
+              "is part of Firebase (BaaS)/Cloud Firestore only"
+            ]
+          },
+          {
+            "id": "framework_websocket",
+            "name": "WebSockets/SSE in the backend framework",
+            "reasons": [
+              "needs a long-running process, which AWS Lambda + API Gateway does not provide"
+            ]
+          },
+          {
+            "id": "liveblocks",
+            "name": "Liveblocks",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "supabase_realtime",
+            "name": "Supabase Realtime",
+            "reasons": [
+              "is part of Supabase (BaaS)/Supabase Postgres only"
+            ]
+          },
+          {
+            "id": "yjs_hocuspocus",
+            "name": "Yjs with Hocuspocus",
+            "reasons": [
+              "needs a long-running process, which AWS Lambda + API Gateway does not provide"
+            ]
+          }
+        ]
+      },
+      "ingest": {
+        "chosen": "aws_iot_core",
+        "covered_natively": false,
+        "score": 0.8099,
+        "alternatives": [],
+        "eliminated": [
+          {
+            "id": "azure_iot_hub",
+            "name": "Azure IoT Hub",
+            "reasons": [
+              "cloud_preference is aws and this is a azure service"
+            ]
+          },
+          {
+            "id": "emqx",
+            "name": "EMQX (MQTT broker)",
+            "reasons": [
+              "needs a long-running process, which AWS Lambda + API Gateway does not provide"
+            ]
+          }
+        ]
+      },
+      "cdn": {
+        "chosen": "cloudfront",
+        "covered_natively": false,
+        "score": 0.8627,
+        "alternatives": [
+          "cloudflare_cdn",
+          "bunny_cdn"
+        ],
+        "eliminated": [
+          {
+            "id": "azure_front_door",
+            "name": "Azure Front Door",
+            "reasons": [
+              "cloud_preference is aws and this is a azure service"
+            ]
+          }
+        ]
+      },
+      "ci_cd": {
+        "chosen": "github_actions",
+        "covered_natively": false,
+        "score": 0.8353,
+        "alternatives": [
+          "gitlab_ci",
+          "jenkins"
+        ],
+        "eliminated": [
+          {
+            "id": "azure_devops",
+            "name": "Azure DevOps Pipelines",
+            "reasons": [
+              "cloud_preference is aws and this is a azure service"
+            ]
+          }
+        ]
+      },
+      "observability": {
+        "chosen": "cloudwatch",
+        "covered_natively": false,
+        "score": 0.7901,
+        "alternatives": [
+          "prometheus_grafana",
+          "uptime_monitor"
+        ],
+        "eliminated": [
+          {
+            "id": "azure_monitor",
+            "name": "Azure Monitor / Application Insights",
+            "reasons": [
+              "cloud_preference is aws and this is a azure service"
+            ]
+          },
+          {
+            "id": "datadog",
+            "name": "Datadog",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "grafana_cloud",
+            "name": "Grafana Cloud",
+            "reasons": [
+              "no india region available"
+            ]
+          },
+          {
+            "id": "sentry",
+            "name": "Sentry",
+            "reasons": [
+              "no india region available"
+            ]
+          }
+        ]
+      }
+    },
+    "relaxed_constraints": [
+      "No cache layer: about 60 requests/second and 8,000 users in 12 months are served directly by the database or BaaS."
+    ],
+    "score_formula": "score = 100 * (0.55 * Q + 0.45 * F) - penalties"
+  },
+  "profile": {
+    "project_type": "iot",
+    "client_platforms": [
+      "web",
+      "android"
+    ],
+    "api_only": false,
+    "users_launch": 2000,
+    "users_12m": 8000,
+    "peak_concurrent": 600,
+    "peak_estimated": false,
+    "peak_eff": 600,
+    "peak_rps": 60.0,
+    "avg_rps": 15.0,
+    "monthly_requests": 39496835.3163,
+    "egress_gb": 1184.9051,
+    "data_gb": 900,
+    "traffic_pattern": "steady",
+    "workload": "write_heavy",
+    "scale_need": 5.3799,
+    "scale_tier": 2,
+    "team_size": 4,
+    "experience": "intermediate",
+    "exp_factor": 0.5,
+    "has_devops": true,
+    "ops_capacity": 0.775,
+    "skills": [
+      "python",
+      "javascript"
+    ],
+    "appetite": 0.5,
+    "beginner_sens": 0.15,
+    "lock_in_tolerance": "medium",
+    "hiring_plan": "none",
+    "mobile_preference": "no_preference",
+    "licenses": [],
+    "effort_pw": 19.2,
+    "capacity_pw": 36.4,
+    "effort_ratio": 0.5275,
+    "time_pressure": 0.0797,
+    "mvp_weeks": 14,
+    "budget": 800.0,
+    "budget_tier": 3,
+    "budget_tightness": 0.2741,
+    "budget_strictness": "firm",
+    "availability": "99.9",
+    "avail_level": 3.0,
+    "avail_required": 5.8,
+    "p95": null,
+    "latency_need": 0.25,
+    "residency": "india",
+    "compliance": [
+      "dpdp"
+    ],
+    "regulated_count": 1,
+    "deployment": "managed_cloud",
+    "cloud_pref": "aws",
+    "existing_systems": [],
+    "license_texts": [],
+    "cloud_credits_usd": null,
+    "realtime": true,
+    "offline": false,
+    "search": false,
+    "files": false,
+    "payments": false,
+    "auth": "phone_otp",
+    "multi_tenant": false,
+    "ml": "none",
+    "seo": false,
+    "needs_server_logic": true,
+    "needs_persistence": true,
+    "static_candidate": false,
+    "geography": "country",
+    "data_sensitivity": "personal",
+    "hints": {
+      "low_end_devices": false,
+      "poor_connectivity": false,
+      "upi": false,
+      "location": false,
+      "tabular_ml": false,
+      "approvals": false,
+      "ledger": false
+    },
+    "india_ctx": true,
+    "weights": {
+      "cost": 0.1895,
+      "maintainability": 0.1115,
+      "performance": 0.1859,
+      "scalability": 0.2644,
+      "security": 0.1283,
+      "time_to_market": 0.1204
+    },
+    "weight_multipliers": {
+      "cost": 1.2741,
+      "time_to_market": 1.0797,
+      "scalability": 1.4225,
+      "performance": 1.25,
+      "maintainability": 1.0,
+      "security": 1.15
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "allowed_complexity": 7.4435,
+    "notes": []
+  },
+  "score": {
+    "total": 78.68,
+    "quality": 0.7615,
+    "fit": 0.8652,
+    "penalty": 2.138,
+    "penalties": {
+      "availability": 0.0,
+      "cold_start": -0.0,
+      "data_model": 0.0,
+      "durability": 0.0,
+      "existing_reuse": -0.0,
+      "game_client": 0.0,
+      "game_server": 0.0,
+      "hiring": 0.0,
+      "lock_in": 2.138,
+      "maturity": 0.0,
+      "mobile_preference": 0.0,
+      "over_engineering": 0.0,
+      "self_run_db": 0.0,
+      "seo": 0.0,
+      "soft_certs": 0.0,
+      "two_codebases": 0.0,
+      "under_provision": 0.0
+    },
+    "fit_terms": {
+      "archetype": 0.8,
+      "budget": 0.7683,
+      "capability": 0.8108,
+      "compat": 0.7667,
+      "ops": 0.922,
+      "skill": 0.9958
+    },
+    "criteria": {
+      "cost": 8.35,
+      "maintainability": 7.55,
+      "performance": 7.2,
+      "scalability": 7.323,
+      "security": 7.85,
+      "time_to_market": 7.55
+    }
+  },
+  "ranking": [
+    {
+      "rank": 1,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Node.js + NestJS",
+        "database": "TimescaleDB (PostgreSQL time-series)",
+        "hosting": "AWS Lambda + API Gateway"
+      },
+      "score": 78.68,
+      "quality": 0.7615,
+      "fit": 0.8652,
+      "penalty": 2.138,
+      "cost_usd": [
+        366,
+        753
+      ]
+    },
+    {
+      "rank": 2,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Node.js + NestJS",
+        "database": "TimescaleDB (PostgreSQL time-series)",
+        "hosting": "AWS EC2 (self-managed VMs)"
+      },
+      "score": 79.152,
+      "quality": 0.7469,
+      "fit": 0.8461,
+      "penalty": 0.0,
+      "cost_usd": [
+        468,
+        935
+      ]
+    },
+    {
+      "rank": 3,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Python + Django",
+        "database": "TimescaleDB (PostgreSQL time-series)",
+        "hosting": "AWS Elastic Beanstalk"
+      },
+      "score": 79.051,
+      "quality": 0.7624,
+      "fit": 0.8349,
+      "penalty": 0.45,
+      "cost_usd": [
+        493,
+        963
+      ]
+    },
+    {
+      "rank": 4,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Node.js + NestJS",
+        "database": "TimescaleDB (PostgreSQL time-series)",
+        "hosting": "AWS Elastic Beanstalk"
+      },
+      "score": 79.028,
+      "quality": 0.7525,
+      "fit": 0.8465,
+      "penalty": 0.45,
+      "cost_usd": [
+        493,
+        963
+      ]
+    },
+    {
+      "rank": 5,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Python + Django",
+        "database": "TimescaleDB (PostgreSQL time-series)",
+        "hosting": "AWS EC2 (self-managed VMs)"
+      },
+      "score": 78.843,
+      "quality": 0.7568,
+      "fit": 0.8271,
+      "penalty": 0.0,
+      "cost_usd": [
+        468,
+        935
+      ]
+    },
+    {
+      "rank": 6,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Node.js + NestJS",
+        "database": "TimescaleDB (PostgreSQL time-series)",
+        "hosting": "AWS ECS on Fargate"
+      },
+      "score": 78.818,
+      "quality": 0.7553,
+      "fit": 0.8508,
+      "penalty": 1.012,
+      "cost_usd": [
+        502,
+        967
+      ]
+    },
+    {
+      "rank": 7,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Python + FastAPI",
+        "database": "TimescaleDB (PostgreSQL time-series)",
+        "hosting": "AWS EC2 (self-managed VMs)"
+      },
+      "score": 78.556,
+      "quality": 0.7477,
+      "fit": 0.8318,
+      "penalty": 0.0,
+      "cost_usd": [
+        468,
+        935
+      ]
+    },
+    {
+      "rank": 8,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Python + FastAPI",
+        "database": "TimescaleDB (PostgreSQL time-series)",
+        "hosting": "AWS Elastic Beanstalk"
+      },
+      "score": 78.464,
+      "quality": 0.7533,
+      "fit": 0.8329,
+      "penalty": 0.45,
+      "cost_usd": [
+        493,
+        963
+      ]
+    },
+    {
+      "rank": 9,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Python + Django",
+        "database": "TimescaleDB (PostgreSQL time-series)",
+        "hosting": "AWS Lambda + API Gateway"
+      },
+      "score": 78.459,
+      "quality": 0.7714,
+      "fit": 0.8482,
+      "penalty": 2.138,
+      "cost_usd": [
+        366,
+        753
+      ]
+    },
+    {
+      "rank": 10,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Go (net/http + chi)",
+        "database": "TimescaleDB (PostgreSQL time-series)",
+        "hosting": "AWS EC2 (self-managed VMs)"
+      },
+      "score": 78.374,
+      "quality": 0.7662,
+      "fit": 0.8052,
+      "penalty": 0.0,
+      "cost_usd": [
+        468,
+        935
+      ]
+    }
+  ],
+  "robustness": {
+    "verdict": "sensitive",
+    "margin_points": -0.472,
+    "runner_up": {
+      "frontend": "React Native (Expo)",
+      "backend": "Node.js + NestJS",
+      "database": "TimescaleDB (PostgreSQL time-series)",
+      "hosting": "AWS EC2 (self-managed VMs)"
+    },
+    "checks_run": 14,
+    "checks_held": 10,
+    "summary": "The same stack wins in 10 of 14 checks. It switches to Python + Django (backend), AWS Elastic Beanstalk (hosting) when time to market counted twice as much; and to AWS EC2 (self-managed VMs) (hosting) when performance counted twice as much; and to Python + Django (backend) when performance counted half as much, security counted twice as much. The runner-up scores 0.47 points higher but costs more, and stacks within 0.75 points count as a tie that the cheaper one wins.",
+    "checks": [
+      {
+        "change": "cost counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "cost counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "time to market counted twice as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "React Native (Expo)",
+          "backend": "Python + Django",
+          "database": "TimescaleDB (PostgreSQL time-series)",
+          "hosting": "AWS Elastic Beanstalk"
+        },
+        "swaps": [
+          {
+            "layer": "backend",
+            "from": "Node.js + NestJS",
+            "to": "Python + Django"
+          },
+          {
+            "layer": "hosting",
+            "from": "AWS Lambda + API Gateway",
+            "to": "AWS Elastic Beanstalk"
+          }
+        ]
+      },
+      {
+        "change": "time to market counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "scalability counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "scalability counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "performance counted twice as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "React Native (Expo)",
+          "backend": "Node.js + NestJS",
+          "database": "TimescaleDB (PostgreSQL time-series)",
+          "hosting": "AWS EC2 (self-managed VMs)"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "AWS Lambda + API Gateway",
+            "to": "AWS EC2 (self-managed VMs)"
+          }
+        ]
+      },
+      {
+        "change": "performance counted half as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "React Native (Expo)",
+          "backend": "Python + Django",
+          "database": "TimescaleDB (PostgreSQL time-series)",
+          "hosting": "AWS Lambda + API Gateway"
+        },
+        "swaps": [
+          {
+            "layer": "backend",
+            "from": "Node.js + NestJS",
+            "to": "Python + Django"
+          }
+        ]
+      },
+      {
+        "change": "maintainability counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "maintainability counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "security counted twice as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "React Native (Expo)",
+          "backend": "Python + Django",
+          "database": "TimescaleDB (PostgreSQL time-series)",
+          "hosting": "AWS Lambda + API Gateway"
+        },
+        "swaps": [
+          {
+            "layer": "backend",
+            "from": "Node.js + NestJS",
+            "to": "Python + Django"
+          }
+        ]
+      },
+      {
+        "change": "security counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "budget halved ($400)",
+        "same_stack": true
+      },
+      {
+        "change": "budget doubled ($1,600)",
+        "same_stack": true
+      }
+    ]
+  },
+  "trade_off_options": [
+    {
+      "direction": "cheaper",
+      "title": "Spend less",
+      "available": true,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Supabase (BaaS)",
+        "database": "Supabase Postgres",
+        "hosting": "AWS Amplify Hosting"
+      },
+      "swaps": [
+        {
+          "layer": "backend",
+          "from": "Node.js + NestJS",
+          "to": "Supabase (BaaS)"
+        },
+        {
+          "layer": "database",
+          "from": "TimescaleDB (PostgreSQL time-series)",
+          "to": "Supabase Postgres"
+        },
+        {
+          "layer": "hosting",
+          "from": "AWS Lambda + API Gateway",
+          "to": "AWS Amplify Hosting"
+        }
+      ],
+      "score": 74.113,
+      "points_behind": 4.567,
+      "cost_usd": [
+        96,
+        428
+      ],
+      "gains": "about 50% cheaper on the core layers plus required supporting services ($96-$430 against $370-$750 per month)",
+      "gives_up": [
+        "data-model fit (-5.9 pts)",
+        "fit to this kind of project (-0.7 pts)",
+        "maintainability (-0.5 pts)"
+      ],
+      "summary": "Backend Node.js + NestJS -> Supabase (BaaS); database TimescaleDB (PostgreSQL time-series) -> Supabase Postgres; hosting AWS Lambda + API Gateway -> AWS Amplify Hosting: about 50% cheaper on the core layers plus required supporting services ($96-$430 against $370-$750 per month). Gives up 4.6 points, mainly on data-model fit (-5.9 pts), fit to this kind of project (-0.7 pts), maintainability (-0.5 pts)."
+    },
+    {
+      "direction": "more_headroom",
+      "title": "More headroom to scale",
+      "available": false,
+      "note": "Nothing within 12 points of the winner does clearly better here, so the chosen stack is already a strong pick on this."
+    },
+    {
+      "direction": "faster_build",
+      "title": "Ship sooner",
+      "available": true,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Python + Django",
+        "database": "TimescaleDB (PostgreSQL time-series)",
+        "hosting": "AWS Elastic Beanstalk"
+      },
+      "swaps": [
+        {
+          "layer": "backend",
+          "from": "Node.js + NestJS",
+          "to": "Python + Django"
+        },
+        {
+          "layer": "hosting",
+          "from": "AWS Lambda + API Gateway",
+          "to": "AWS Elastic Beanstalk"
+        }
+      ],
+      "score": 79.051,
+      "points_behind": -0.371,
+      "cost_usd": [
+        493,
+        963
+      ],
+      "gains": "time to market 8.8 instead of 7.6",
+      "gives_up": [
+        "cost (-0.6 pts)",
+        "budget fit (-0.5 pts)",
+        "fit to this kind of project (-0.4 pts)"
+      ],
+      "summary": "Backend Node.js + NestJS -> Python + Django; hosting AWS Lambda + API Gateway -> AWS Elastic Beanstalk: time to market 8.8 instead of 7.6. Gives back 0.4 points, mainly on cost (-0.6 pts), budget fit (-0.5 pts), fit to this kind of project (-0.4 pts)."
+    },
+    {
+      "direction": "less_lock_in",
+      "title": "Less vendor lock-in",
+      "available": true,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Node.js + NestJS",
+        "database": "TimescaleDB (PostgreSQL time-series)",
+        "hosting": "AWS EC2 (self-managed VMs)"
+      },
+      "swaps": [
+        {
+          "layer": "hosting",
+          "from": "AWS Lambda + API Gateway",
+          "to": "AWS EC2 (self-managed VMs)"
+        }
+      ],
+      "score": 79.152,
+      "points_behind": -0.472,
+      "cost_usd": [
+        468,
+        935
+      ],
+      "gains": "lock-in 1.9 instead of 4.4 (0-10 scale)",
+      "gives_up": [
+        "cost (-0.6 pts)",
+        "budget fit (-0.5 pts)",
+        "time to market (-0.4 pts)"
+      ],
+      "summary": "Hosting AWS Lambda + API Gateway -> AWS EC2 (self-managed VMs): lock-in 1.9 instead of 4.4 (0-10 scale). Gives back 0.5 points, mainly on cost (-0.6 pts), budget fit (-0.5 pts), time to market (-0.4 pts)."
+    }
+  ]
+}

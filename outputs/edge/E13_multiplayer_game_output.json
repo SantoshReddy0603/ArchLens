@@ -1,0 +1,1895 @@
+{
+  "scenario_id": "E13",
+  "engine_version": "1.0.0",
+  "status": "ok_with_warnings",
+  "summary": "Modular monolith: Phaser (HTML5 game framework), Nakama (Go game backend), PostgreSQL (managed or self-hosted) database on Fly.io. It matches the team's languages and is estimated at $1,600-$3,300 per month.",
+  "architecture_style": "modular_monolith",
+  "architecture": {
+    "style": "modular_monolith",
+    "name": "modular monolith",
+    "justification": "One deployable with clear internal modules per feature area suits a team of 5 and 3 feature areas (payments, realtime, file storage): simple to run now, with seams to split later if load demands it.",
+    "driven_by": [
+      "team.size",
+      "requirements.payments",
+      "requirements.realtime",
+      "requirements.file_media_storage"
+    ],
+    "alternatives": [
+      {
+        "choice": "Microservices",
+        "why_not": "Adds service boundaries, network calls and per-service deployment that this team does not need at this scale (team 5)."
+      },
+      {
+        "choice": "Plain monolith",
+        "why_not": "With 3 feature areas, code without module boundaries tends to tangle as the team grows."
+      },
+      {
+        "choice": "Serverless",
+        "why_not": "Per-request functions suit light, spiky work; this backend runs as a long-lived service on Fly.io, which suits websockets, background jobs and steady traffic better."
+      }
+    ]
+  },
+  "stack": {
+    "frontend": {
+      "choice": "Phaser (HTML5 game framework)",
+      "justification": "Phaser (HTML5 game framework) matches the team's typescript skills; covers web and android and ios from one codebase; WebGL with canvas fallback; fine for 2D and casual games, below native engines; is a proven choice for gaming projects.",
+      "driven_by": [
+        "team.languages",
+        "project.platforms",
+        "priorities.performance",
+        "project.type"
+      ],
+      "alternatives": [
+        {
+          "choice": "React Native (Expo)",
+          "why_not": "React Native (Expo) scores 10.9 points lower overall, mainly on a game engine client (12.0 points) and fit to this kind of project (0.7 points)."
+        },
+        {
+          "choice": "Flutter",
+          "why_not": "Flutter scores 12.4 points lower overall, mainly on a game engine client (12.0 points) and team skill fit (1.3 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Mobile store builds go through a wrapper such as Capacitor",
+        "2D only"
+      ],
+      "confidence": "low",
+      "margin_points": 0.1,
+      "kb_id": "phaser",
+      "sources": [
+        {
+          "title": "Phaser documentation",
+          "url": "https://docs.phaser.io/"
+        },
+        {
+          "title": "Phaser on GitHub",
+          "url": "https://github.com/phaserjs/phaser"
+        },
+        {
+          "title": "Capacitor documentation",
+          "url": "https://capacitorjs.com/docs"
+        }
+      ]
+    },
+    "backend": {
+      "choice": "Nakama (Go game backend)",
+      "justification": "Nakama (Go game backend) matches the team's typescript skills; handles many concurrent realtime connections well; go core with a realtime socket API; is a proven choice for gaming projects.",
+      "driven_by": [
+        "team.languages",
+        "requirements.realtime",
+        "priorities.performance",
+        "project.type"
+      ],
+      "alternatives": [
+        {
+          "choice": "Colyseus (Node.js game server)",
+          "why_not": "Colyseus (Node.js game server) scores 4.3 points lower overall, mainly on headroom for the expected load (3.3 points) and performance (0.9 points)."
+        },
+        {
+          "choice": "Go (net/http + chi)",
+          "why_not": "Go (net/http + chi) scores 7.8 points lower overall, mainly on a purpose-built game server (8.0 points) and team skill fit (1.4 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Another service to operate",
+        "Needs CockroachDB or PostgreSQL"
+      ],
+      "confidence": "high",
+      "margin_points": 4.33,
+      "kb_id": "nakama",
+      "sources": [
+        {
+          "title": "Nakama docs",
+          "url": "https://heroiclabs.com/docs/nakama/"
+        },
+        {
+          "title": "Nakama repository",
+          "url": "https://github.com/heroiclabs/nakama"
+        }
+      ]
+    },
+    "database": {
+      "choice": "Fly.io Managed Postgres in Frankfurt (fra)",
+      "justification": "PostgreSQL gives ACID transactions for money-handling data; can be placed in Frankfurt (fra), an EU region, which keeps GDPR transfers simple; excellent query planner, rich indexing. It runs as Fly.io Managed Postgres, the managed service on the same cloud as the application, so backups, patching and failover are the provider's job.",
+      "driven_by": [
+        "requirements.payments",
+        "compliance",
+        "priorities.performance"
+      ],
+      "alternatives": [
+        {
+          "choice": "CockroachDB",
+          "why_not": "CockroachDB scores 2.4 points lower overall, mainly on compliance attestations (1.5 points) and performance (0.8 points)."
+        },
+        {
+          "choice": "Neon (serverless Postgres)",
+          "why_not": "Neon (serverless Postgres) scores 4.9 points lower overall, mainly on headroom for the expected load (3.3 points) and performance (1.3 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Write scaling beyond one primary needs design"
+      ],
+      "region": "Frankfurt (fra)",
+      "engine": "PostgreSQL",
+      "offering": "Fly.io Managed Postgres",
+      "confidence": "medium",
+      "margin_points": 2.37,
+      "kb_id": "postgresql",
+      "sources": [
+        {
+          "title": "Fly.io Managed Postgres",
+          "url": "https://fly.io/docs/mpg/"
+        },
+        {
+          "title": "PostgreSQL docs",
+          "url": "https://www.postgresql.org/docs/"
+        },
+        {
+          "title": "Stack Overflow Developer Survey 2024 databases",
+          "url": "https://survey.stackoverflow.co/2024/technology#1-databases"
+        }
+      ]
+    },
+    "hosting": {
+      "choice": "Fly.io",
+      "justification": "Fly.io can be placed in Frankfurt (fra), an EU region, which keeps GDPR transfers simple; offers a 99.95% SLA, in line with the 99.9% target; anycast, close to users; is a proven choice for gaming projects.",
+      "driven_by": [
+        "compliance",
+        "requirements.availability",
+        "priorities.performance",
+        "project.type"
+      ],
+      "alternatives": [
+        {
+          "choice": "Google Cloud Run",
+          "why_not": "Google Cloud Run scores 0.56 points higher, which is inside the near-tie range, and loses the tie-break: lower cost first, then complexity and operations load."
+        },
+        {
+          "choice": "Azure Container Apps",
+          "why_not": "Azure Container Apps scores 0.4 points lower overall, mainly on performance (0.5 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Reliability history less steady than hyperscalers",
+        "Upper cost estimate ($1,600-$3,300/month) exceeds the $2,500 budget at peak."
+      ],
+      "region": "Frankfurt (fra)",
+      "confidence": "low",
+      "margin_points": -0.56,
+      "kb_id": "fly_io",
+      "sources": [
+        {
+          "title": "Fly.io pricing",
+          "url": "https://fly.io/docs/about/pricing/"
+        },
+        {
+          "title": "Fly.io regions",
+          "url": "https://fly.io/docs/reference/regions/"
+        }
+      ]
+    },
+    "supporting": [
+      {
+        "layer": "auth",
+        "choice": "Framework built-in auth (sessions/JWT)",
+        "justification": "Framework built-in auth (sessions/JWT): users sign in (social); no external service; uses the backend framework's own session or token auth (Django auth, Laravel, ASP.NET Core Identity, Spring Security and similar); already part of the chosen core stack.",
+        "driven_by": [
+          "requirements.auth"
+        ],
+        "alternatives": [
+          {
+            "choice": "Keycloak",
+            "why_not": "A separate auth service (about $32-$86 per month, one more system to run) when Framework built-in auth (sessions/JWT) already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.73 vs 0.84."
+          },
+          {
+            "choice": "Auth0",
+            "why_not": "A separate auth service (about $0-$2,400 per month) when Framework built-in auth (sessions/JWT) already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.65 vs 0.84."
+          }
+        ],
+        "tradeoffs": [
+          "Password storage, resets, MFA and account lockout are your responsibility"
+        ],
+        "kb_id": "framework_auth",
+        "sources": [
+          {
+            "title": "OWASP authentication cheat sheet",
+            "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html"
+          }
+        ]
+      },
+      {
+        "layer": "payments",
+        "choice": "Stripe",
+        "justification": "Stripe: the product takes payments; best developer experience and global coverage; free at this scale.",
+        "driven_by": [
+          "requirements.payments",
+          "infrastructure.data_residency",
+          "compliance"
+        ],
+        "alternatives": [
+          {
+            "choice": "Razorpay",
+            "why_not": "Ranks lower (lower quality rating (9 vs 10)); score 0.71 vs 0.86."
+          },
+          {
+            "choice": "Adyen",
+            "why_not": "Ranks lower (lower quality rating (9 vs 10)); score 0.70 vs 0.86."
+          }
+        ],
+        "tradeoffs": [
+          "Per-transaction fees; payouts and some methods vary by country"
+        ],
+        "kb_id": "stripe",
+        "sources": [
+          {
+            "title": "Stripe pricing",
+            "url": "https://stripe.com/pricing"
+          },
+          {
+            "title": "Stripe India",
+            "url": "https://stripe.com/in"
+          },
+          {
+            "title": "Stripe Data Processing Agreement",
+            "url": "https://stripe.com/legal/dpa"
+          }
+        ]
+      },
+      {
+        "layer": "storage",
+        "choice": "Cloudflare R2",
+        "justification": "Cloudflare R2: users upload files; s3-compatible with zero egress fees; free at this scale.",
+        "driven_by": [
+          "requirements.file_media_storage",
+          "scale.data_volume_gb_12_months"
+        ],
+        "alternatives": [
+          {
+            "choice": "MinIO (self-hosted)",
+            "why_not": "Ranks lower (more to operate); score 0.77 vs 0.80."
+          },
+          {
+            "choice": "Amazon S3",
+            "why_not": "Ranks lower (costs more (about $250 vs $0 per month at the high end), more lock-in); score 0.68 vs 0.80."
+          }
+        ],
+        "tradeoffs": [
+          "Fewer storage classes and lifecycle options than S3",
+          "Adds about $0 per month."
+        ],
+        "kb_id": "cloudflare_r2",
+        "sources": [
+          {
+            "title": "R2 pricing",
+            "url": "https://developers.cloudflare.com/r2/pricing/"
+          },
+          {
+            "title": "R2 docs",
+            "url": "https://developers.cloudflare.com/r2/"
+          }
+        ]
+      },
+      {
+        "layer": "realtime",
+        "choice": "WebSockets/SSE in the backend framework",
+        "justification": "WebSockets/SSE in the backend framework: live updates are required; the backend serves WebSocket or server-sent-event connections itself; already part of the chosen core stack.",
+        "driven_by": [
+          "requirements.realtime",
+          "scale.peak_concurrent_users"
+        ],
+        "alternatives": [
+          {
+            "choice": "Centrifugo",
+            "why_not": "A separate realtime service (about $47-$110 per month) when WebSockets/SSE in the backend framework already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.78 vs 0.75."
+          },
+          {
+            "choice": "Pusher Channels",
+            "why_not": "A separate realtime service (about $130-$270 per month) when WebSockets/SSE in the backend framework already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.70 vs 0.75."
+          }
+        ],
+        "tradeoffs": [
+          "Sticky connections complicate scaling; fan-out across instances needs a pub/sub layer"
+        ],
+        "kb_id": "framework_websocket",
+        "sources": [
+          {
+            "title": "WebSocket protocol (RFC 6455)",
+            "url": "https://www.rfc-editor.org/rfc/rfc6455"
+          },
+          {
+            "title": "Server-sent events",
+            "url": "https://html.spec.whatwg.org/multipage/server-sent-events.html"
+          }
+        ]
+      },
+      {
+        "layer": "cache",
+        "choice": "Upstash Redis",
+        "justification": "Upstash Redis: peak load of about 900 requests/second is better served from a cache than from the database; Serverless Redis billed per request, suits functions. Chosen over Managed Redis/Valkey (ElastiCache, Memorystore, Azure Cache), which fits slightly better but costs about $66 more per month.",
+        "driven_by": [
+          "scale.peak_concurrent_users",
+          "requirements.p95_latency_ms",
+          "scale.workload"
+        ],
+        "alternatives": [
+          {
+            "choice": "Managed Redis/Valkey (ElastiCache, Memorystore, Azure Cache)",
+            "why_not": "Better fit (score 0.77 vs 0.77), but about $66 per month more expensive; replaced to bring the plan toward the $2,500 budget."
+          },
+          {
+            "choice": "Self-hosted Redis/Valkey",
+            "why_not": "Ranks lower (more to operate); score 0.73 vs 0.77."
+          }
+        ],
+        "tradeoffs": [
+          "Per-request pricing gets costly at sustained high throughput",
+          "Adds about $52-$71 per month."
+        ],
+        "kb_id": "upstash_redis",
+        "sources": [
+          {
+            "title": "Upstash pricing",
+            "url": "https://upstash.com/pricing"
+          },
+          {
+            "title": "Upstash docs",
+            "url": "https://upstash.com/docs/redis/overall/getstarted"
+          }
+        ]
+      },
+      {
+        "layer": "queue",
+        "choice": "Google Pub/Sub",
+        "justification": "Google Pub/Sub: payment callbacks and receipts at about 900 requests/second should be processed asynchronously; managed messaging with global scale. Chosen over NATS JetStream, which fits slightly better but costs about $31 more per month.",
+        "driven_by": [
+          "scale.peak_concurrent_users",
+          "requirements.payments",
+          "requirements.file_media_storage"
+        ],
+        "alternatives": [
+          {
+            "choice": "NATS JetStream",
+            "why_not": "Better fit (score 0.76 vs 0.71), but about $31 per month more expensive; replaced to bring the plan toward the $2,500 budget."
+          },
+          {
+            "choice": "RabbitMQ",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $210 vs $13 per month at the high end), more to operate); score 0.70 vs 0.71."
+          }
+        ],
+        "tradeoffs": [
+          "At-least-once delivery, so consumers must handle duplicates",
+          "Adds about $10-$13 per month."
+        ],
+        "kb_id": "gcp_pubsub",
+        "sources": [
+          {
+            "title": "Pub/Sub pricing",
+            "url": "https://cloud.google.com/pubsub/pricing"
+          },
+          {
+            "title": "Pub/Sub docs",
+            "url": "https://cloud.google.com/pubsub/docs"
+          }
+        ]
+      },
+      {
+        "layer": "cdn",
+        "choice": "Cloudflare CDN",
+        "justification": "Cloudflare CDN: assets are delivered to a wide audience; free global CDN with DDoS protection; unlimited bandwidth on free plan.",
+        "driven_by": [
+          "scale.users_12_months",
+          "project.platforms"
+        ],
+        "alternatives": [
+          {
+            "choice": "Bunny CDN",
+            "why_not": "Ranks lower (lower quality rating (7 vs 9), costs more (about $220 vs $17 per month at the high end)); score 0.70 vs 0.83."
+          },
+          {
+            "choice": "Amazon CloudFront",
+            "why_not": "Ranks lower (costs more (about $730 vs $17 per month at the high end), more to operate); score 0.69 vs 0.83."
+          }
+        ],
+        "tradeoffs": [
+          "Advanced caching rules and features sit on paid plans",
+          "Adds about $0-$17 per month."
+        ],
+        "kb_id": "cloudflare_cdn",
+        "sources": [
+          {
+            "title": "Cloudflare plans",
+            "url": "https://www.cloudflare.com/plans/"
+          },
+          {
+            "title": "Cloudflare CDN docs",
+            "url": "https://developers.cloudflare.com/cache/"
+          }
+        ]
+      },
+      {
+        "layer": "email",
+        "choice": "Postmark",
+        "justification": "Postmark: payments need emailed receipts and confirmations; high deliverability for transactional email.",
+        "driven_by": [
+          "requirements.auth",
+          "requirements.payments"
+        ],
+        "alternatives": [
+          {
+            "choice": "Resend",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9)); score 0.80 vs 0.84."
+          },
+          {
+            "choice": "Amazon SES",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9)); score 0.80 vs 0.84."
+          }
+        ],
+        "tradeoffs": [
+          "Transactional email only; marketing email needs a separate stream",
+          "Adds about $15 per month."
+        ],
+        "kb_id": "postmark",
+        "sources": [
+          {
+            "title": "Postmark pricing",
+            "url": "https://postmarkapp.com/pricing"
+          },
+          {
+            "title": "Postmark docs",
+            "url": "https://postmarkapp.com/developer"
+          }
+        ]
+      },
+      {
+        "layer": "notifications",
+        "choice": "Firebase Cloud Messaging",
+        "justification": "Firebase Cloud Messaging: mobile users expect push notifications; free push for Android, iOS and web; free at this scale.",
+        "driven_by": [
+          "project.platforms"
+        ],
+        "alternatives": [
+          {
+            "choice": "OneSignal",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $16 vs $0 per month at the high end)); score 0.78 vs 0.83."
+          },
+          {
+            "choice": "Amazon SNS mobile push",
+            "why_not": "Ranks lower (lower quality rating (7 vs 9), more to operate); score 0.73 vs 0.83."
+          }
+        ],
+        "tradeoffs": [
+          "Delivery is best effort with no guaranteed timing; analytics are basic"
+        ],
+        "kb_id": "fcm",
+        "sources": [
+          {
+            "title": "FCM docs",
+            "url": "https://firebase.google.com/docs/cloud-messaging"
+          }
+        ]
+      },
+      {
+        "layer": "ci_cd",
+        "choice": "GitHub Actions",
+        "justification": "GitHub Actions: automated build and deploy for the team; workflows next to the code; the 2,000 free minutes a month cover a small team, larger teams buy extra minutes.",
+        "driven_by": [
+          "team.size"
+        ],
+        "alternatives": [
+          {
+            "choice": "GitLab CI/CD",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $25 vs $7 per month at the high end), more to operate); score 0.78 vs 0.84."
+          },
+          {
+            "choice": "Azure DevOps Pipelines",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $26 vs $7 per month at the high end), more to operate); score 0.77 vs 0.84."
+          }
+        ],
+        "tradeoffs": [
+          "Minute limits on private repositories; long builds need paid or self-hosted runners",
+          "Adds about $0-$7 per month."
+        ],
+        "kb_id": "github_actions",
+        "sources": [
+          {
+            "title": "Actions billing",
+            "url": "https://docs.github.com/billing/managing-billing-for-your-products/managing-billing-for-github-actions/about-billing-for-github-actions"
+          },
+          {
+            "title": "GitHub Actions docs",
+            "url": "https://docs.github.com/actions"
+          },
+          {
+            "title": "GitHub Data Protection Agreement",
+            "url": "https://docs.github.com/en/site-policy/privacy-policies/github-data-protection-agreement"
+          }
+        ]
+      },
+      {
+        "layer": "observability",
+        "choice": "Sentry",
+        "justification": "Sentry: production monitoring for the availability target; error tracking and performance with free developer plan.",
+        "driven_by": [
+          "requirements.availability",
+          "scale.users_12_months"
+        ],
+        "alternatives": [
+          {
+            "choice": "Datadog",
+            "why_not": "Ranks lower (costs more (about $80 vs $22 per month at the high end), more lock-in); score 0.82 vs 0.83."
+          },
+          {
+            "choice": "Grafana Cloud",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), more to operate); score 0.78 vs 0.83."
+          }
+        ],
+        "tradeoffs": [
+          "Event quota per plan; sample high-volume errors",
+          "Adds about $0-$22 per month."
+        ],
+        "kb_id": "sentry",
+        "sources": [
+          {
+            "title": "Sentry pricing",
+            "url": "https://sentry.io/pricing/"
+          },
+          {
+            "title": "Sentry docs",
+            "url": "https://docs.sentry.io/"
+          }
+        ]
+      }
+    ]
+  },
+  "estimated_monthly_cost_usd": {
+    "min": 1620,
+    "max": 3340,
+    "assumptions": [
+      "Load estimate: peak about 900 requests/second and about 290M requests/month from 120K users in 12 months.",
+      "Usage-priced items are shown as a band (0.75x to 1.3x of the estimate) because load figures are order-of-magnitude.",
+      "Public list prices of each product, in USD, without taxes, committed-use discounts or developer time.",
+      "The 99.9% availability target doubles or adds redundancy for hosting and database where needed.",
+      "Hosting (Fly.io): about $740-$1,700/month",
+      "Database (Fly.io Managed Postgres): about $810-$1,500/month",
+      "Cache (Upstash Redis): about $52-$71/month",
+      "Queue (Google Pub/Sub): about $10-$13/month",
+      "CDN (Cloudflare CDN): about $0-$17/month",
+      "Email (Postmark): about $15/month",
+      "CI/CD (GitHub Actions): about $0-$7/month",
+      "Observability (Sentry): about $0-$22/month"
+    ],
+    "breakdown": [
+      {
+        "layer": "hosting",
+        "item": "Fly.io",
+        "min": 740,
+        "max": 1670
+      },
+      {
+        "layer": "database",
+        "item": "Fly.io Managed Postgres",
+        "min": 810,
+        "max": 1520
+      },
+      {
+        "layer": "backend",
+        "item": "Nakama (Go game backend)",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "frontend",
+        "item": "Phaser (HTML5 game framework)",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "auth",
+        "item": "Framework built-in auth (sessions/JWT)",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "payments",
+        "item": "Stripe",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "storage",
+        "item": "Cloudflare R2",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "layer": "realtime",
+        "item": "WebSockets/SSE in the backend framework",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "cache",
+        "item": "Upstash Redis",
+        "min": 52,
+        "max": 71
+      },
+      {
+        "layer": "queue",
+        "item": "Google Pub/Sub",
+        "min": 10,
+        "max": 13
+      },
+      {
+        "layer": "cdn",
+        "item": "Cloudflare CDN",
+        "min": 0,
+        "max": 17
+      },
+      {
+        "layer": "email",
+        "item": "Postmark",
+        "min": 15,
+        "max": 15
+      },
+      {
+        "layer": "notifications",
+        "item": "Firebase Cloud Messaging",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "ci_cd",
+        "item": "GitHub Actions",
+        "min": 0,
+        "max": 7
+      },
+      {
+        "layer": "observability",
+        "item": "Sentry",
+        "min": 0,
+        "max": 22
+      }
+    ]
+  },
+  "warnings": [
+    {
+      "code": "PCI_SCOPE",
+      "severity": "info",
+      "message": "Use a hosted checkout from a PCI DSS certified provider so card data never reaches your servers.",
+      "fields": [
+        "requirements.payments"
+      ]
+    },
+    {
+      "code": "GDPR_NOTES",
+      "severity": "info",
+      "message": "GDPR: keep a record of processing, sign a data processing agreement with every vendor that handles personal data, support access and erasure requests, and use standard contractual clauses for any transfer outside the EU/EEA; consider EU data residency to keep transfers simple.",
+      "fields": [
+        "compliance",
+        "infrastructure.data_residency"
+      ]
+    },
+    {
+      "code": "REALTIME_LATENCY",
+      "severity": "warning",
+      "message": "A p95 of 100 ms with live updates for users spread across regions is reachable only over persistent connections (WebSockets) to servers in the users' region; avoid cold-starting functions on the hot path and load-test the fan-out at the expected 9,000 concurrent users.",
+      "fields": [
+        "requirements.p95_latency_ms",
+        "requirements.realtime",
+        "scale.peak_concurrent_users"
+      ]
+    },
+    {
+      "code": "BUDGET_PEAK_HEADROOM",
+      "severity": "info",
+      "message": "Expected cost ($1,600-$3,300) is inside the $2,500 budget at typical load but can pass it at peak usage; watch hosting (Fly.io, $740-$1,700) and database (PostgreSQL (managed or self-hosted), $810-$1,500) first.",
+      "fields": [
+        "budget.monthly_infra_usd",
+        "scale.peak_concurrent_users"
+      ]
+    },
+    {
+      "code": "APP_STORE_BILLING",
+      "severity": "warning",
+      "message": "Coins and other digital items sold inside the iOS/Android app must normally go through Apple In-App Purchase and Google Play Billing, which take a 15-30% commission; card checkout (Stripe) stays for the web build and for regions whose rules allow outside payment links.",
+      "fields": [
+        "requirements.payments",
+        "project.platforms"
+      ]
+    }
+  ],
+  "assumptions": [
+    "No extra inputs supplied; neutral defaults are used (learning appetite medium, lock-in tolerance medium, budget strictness firm, no hiring plan, no mobile preference).",
+    "No compatible stack fits the $2,500 budget, so cost was compared against a reference of about $3,200 per month (the cheapest compatible stack plus 25%) to keep the cheaper options ahead.",
+    "Cache: Managed Redis/Valkey (ElastiCache, Memorystore, Azure Cache) replaced by Upstash Redis to bring the stack toward the budget (about $66 per month cheaper).",
+    "Queue: NATS JetStream replaced by Google Pub/Sub to bring the stack toward the budget (about $31 per month cheaper)."
+  ],
+  "validation_errors": [],
+  "decision_trace": {
+    "pipeline": [
+      "validate input",
+      "derive profile",
+      "filter each layer by hard constraints",
+      "enumerate compatible stacks",
+      "score quality, fit and penalties",
+      "rank deterministically",
+      "select supporting services",
+      "estimate cost",
+      "explain"
+    ],
+    "weights": {
+      "cost": 0.1077,
+      "maintainability": 0.0936,
+      "performance": 0.276,
+      "scalability": 0.234,
+      "security": 0.1264,
+      "time_to_market": 0.1623
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "layers": {
+      "frontend": {
+        "candidates": 25,
+        "eliminated": [
+          {
+            "id": "angular",
+            "name": "Angular",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "astro",
+            "name": "Astro",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "blazor",
+            "name": "Blazor (ASP.NET Core)",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "django_htmx",
+            "name": "Django templates + htmx",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "electron",
+            "name": "Electron",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "eleventy",
+            "name": "Eleventy (11ty)",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "hugo",
+            "name": "Hugo",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "kotlin_android",
+            "name": "Kotlin + Jetpack Compose (Android native)",
+            "reasons": [
+              "does not serve web/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "laravel_livewire",
+            "name": "Laravel Blade + Livewire",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "maui",
+            "name": ".NET MAUI",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "nextjs",
+            "name": "Next.js",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "none_fe",
+            "name": "None (API only)",
+            "reasons": [
+              "the project has client platforms to build"
+            ]
+          },
+          {
+            "id": "nuxt",
+            "name": "Nuxt",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "rails_hotwire",
+            "name": "Rails + Hotwire",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "react_vite",
+            "name": "React + Vite (SPA)",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "sveltekit",
+            "name": "SvelteKit",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "swift_ios",
+            "name": "Swift + SwiftUI (iOS native)",
+            "reasons": [
+              "does not serve web/android well enough on its own"
+            ]
+          },
+          {
+            "id": "tauri",
+            "name": "Tauri",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "unreal",
+            "name": "Unreal Engine",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "vue_vite",
+            "name": "Vue 3 + Vite (SPA)",
+            "reasons": [
+              "does not serve android/ios well enough on its own"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 5,
+        "shortlist": [
+          "phaser",
+          "unity",
+          "godot",
+          "expo_rn",
+          "flutter"
+        ],
+        "chosen": [
+          "phaser"
+        ]
+      },
+      "backend": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "none_be",
+            "name": "No backend (static)",
+            "reasons": [
+              "the project needs server-side logic (accounts, payments, uploads, realtime or non-content features)"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 14,
+        "shortlist": [
+          "nakama",
+          "colyseus",
+          "go_chi",
+          "nestjs",
+          "aspnet_core",
+          "phoenix",
+          "firebase",
+          "spring_boot"
+        ],
+        "chosen": [
+          "nakama"
+        ]
+      },
+      "database": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "bigquery",
+            "name": "Google BigQuery",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          },
+          {
+            "id": "clickhouse",
+            "name": "ClickHouse",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          },
+          {
+            "id": "none_db",
+            "name": "None (no database)",
+            "reasons": [
+              "the project needs persistent data"
+            ]
+          },
+          {
+            "id": "timescaledb",
+            "name": "TimescaleDB (PostgreSQL time-series)",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 12,
+        "shortlist": [
+          "postgresql",
+          "cockroachdb",
+          "neon",
+          "mysql",
+          "sql_server",
+          "mongodb",
+          "cosmos_db",
+          "dynamodb"
+        ],
+        "chosen": [
+          "postgresql"
+        ]
+      },
+      "hosting": {
+        "candidates": 27,
+        "eliminated": [
+          {
+            "id": "github_pages",
+            "name": "GitHub Pages",
+            "reasons": [
+              "expected traffic (about 8707 GB/month) exceeds the 100 GB/month soft limit"
+            ]
+          },
+          {
+            "id": "none_host",
+            "name": "None (provided by the backend platform)",
+            "reasons": [
+              "a web client or API needs somewhere to be served from"
+            ]
+          },
+          {
+            "id": "onprem_k8s",
+            "name": "Self-managed Kubernetes (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          },
+          {
+            "id": "onprem_linux_vm",
+            "name": "Self-managed Linux servers (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          },
+          {
+            "id": "windows_iis",
+            "name": "Windows Server + IIS (self-hosted)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 22,
+        "shortlist": [
+          "gke_cloud_run",
+          "fly_io",
+          "azure_container_apps",
+          "aws_eks",
+          "aws_ecs_fargate",
+          "aws_lambda",
+          "gce_vm",
+          "aws_ec2"
+        ],
+        "chosen": [
+          "fly_io"
+        ]
+      }
+    },
+    "stack_search": {
+      "considered": 11700,
+      "pruned_by_reason": {
+        "backend bundled with a specific database": 1360,
+        "backend bundled with a specific frontend": 360,
+        "database cannot be reached from the host": 375,
+        "database tied to another backend": 645,
+        "runtime not supported by the host": 8100
+      },
+      "scored": 8960,
+      "removed_by_hard_budget": 0,
+      "frontend_pairs": false,
+      "budget_reference_usd": 3208
+    },
+    "top_stacks": [
+      {
+        "rank": 1,
+        "stack": [
+          "Phaser (HTML5 game framework)",
+          "Nakama (Go game backend)",
+          "PostgreSQL (managed or self-hosted)",
+          "Fly.io"
+        ],
+        "score": 82.185,
+        "quality": 0.7822,
+        "fit": 0.8758,
+        "penalties": {
+          "maturity": 0.25
+        },
+        "fit_terms": {
+          "archetype": 0.9,
+          "budget": 0.748,
+          "capability": 0.819,
+          "compat": 0.8,
+          "ops": 0.922,
+          "skill": 1.0
+        }
+      },
+      {
+        "rank": 2,
+        "stack": [
+          "Phaser (HTML5 game framework)",
+          "Nakama (Go game backend)",
+          "PostgreSQL (managed or self-hosted)",
+          "Google Cloud Run"
+        ],
+        "score": 82.746,
+        "quality": 0.7985,
+        "fit": 0.8629,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.8,
+          "budget": 0.711,
+          "capability": 0.819,
+          "compat": 0.8,
+          "ops": 0.934,
+          "skill": 1.0
+        }
+      },
+      {
+        "rank": 3,
+        "stack": [
+          "Unity",
+          "Nakama (Go game backend)",
+          "PostgreSQL (managed or self-hosted)",
+          "Google Cloud Run"
+        ],
+        "score": 82.09,
+        "quality": 0.8073,
+        "fit": 0.8375,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.8,
+          "budget": 0.711,
+          "capability": 0.833,
+          "compat": 0.8,
+          "ops": 0.934,
+          "skill": 0.898
+        }
+      },
+      {
+        "rank": 4,
+        "stack": [
+          "Godot Engine",
+          "Nakama (Go game backend)",
+          "PostgreSQL (managed or self-hosted)",
+          "Google Cloud Run"
+        ],
+        "score": 81.834,
+        "quality": 0.8037,
+        "fit": 0.8362,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.8,
+          "budget": 0.711,
+          "capability": 0.828,
+          "compat": 0.8,
+          "ops": 0.934,
+          "skill": 0.898
+        }
+      },
+      {
+        "rank": 5,
+        "stack": [
+          "Phaser (HTML5 game framework)",
+          "Nakama (Go game backend)",
+          "PostgreSQL (managed or self-hosted)",
+          "Azure Container Apps"
+        ],
+        "score": 81.751,
+        "quality": 0.7876,
+        "fit": 0.8647,
+        "penalties": {
+          "lock_in": 0.225,
+          "maturity": 0.25
+        },
+        "fit_terms": {
+          "archetype": 0.8,
+          "budget": 0.73,
+          "capability": 0.819,
+          "compat": 0.8,
+          "ops": 0.922,
+          "skill": 1.0
+        }
+      }
+    ],
+    "supporting": {
+      "auth": {
+        "chosen": "framework_auth",
+        "covered_natively": true,
+        "score": 0.838,
+        "alternatives": [
+          "keycloak",
+          "auth0"
+        ],
+        "eliminated": [
+          {
+            "id": "entra_id",
+            "name": "Microsoft Entra ID (workforce SSO)",
+            "reasons": [
+              "workforce single sign-on is for employees, not consumer sign-in"
+            ]
+          },
+          {
+            "id": "supabase_auth",
+            "name": "Supabase Auth",
+            "reasons": [
+              "is part of Supabase (BaaS) only"
+            ]
+          }
+        ]
+      },
+      "payments": {
+        "chosen": "stripe",
+        "covered_natively": false,
+        "score": 0.86,
+        "alternatives": [
+          "razorpay",
+          "adyen"
+        ],
+        "eliminated": []
+      },
+      "storage": {
+        "chosen": "cloudflare_r2",
+        "covered_natively": false,
+        "score": 0.7996,
+        "alternatives": [
+          "minio",
+          "s3"
+        ],
+        "eliminated": [
+          {
+            "id": "firebase_storage",
+            "name": "Cloud Storage for Firebase",
+            "reasons": [
+              "is part of Firebase (BaaS) only"
+            ]
+          },
+          {
+            "id": "supabase_storage",
+            "name": "Supabase Storage",
+            "reasons": [
+              "is part of Supabase (BaaS) only"
+            ]
+          }
+        ]
+      },
+      "realtime": {
+        "chosen": "framework_websocket",
+        "covered_natively": true,
+        "score": 0.746,
+        "alternatives": [
+          "centrifugo",
+          "pusher"
+        ],
+        "eliminated": [
+          {
+            "id": "firestore_listeners",
+            "name": "Firestore real-time listeners",
+            "reasons": [
+              "is part of Firebase (BaaS)/Cloud Firestore only"
+            ]
+          },
+          {
+            "id": "supabase_realtime",
+            "name": "Supabase Realtime",
+            "reasons": [
+              "is part of Supabase (BaaS)/Supabase Postgres only"
+            ]
+          }
+        ]
+      },
+      "cache": {
+        "chosen": "upstash_redis",
+        "covered_natively": false,
+        "score": 0.7652,
+        "alternatives": [
+          "redis_managed",
+          "valkey_selfhost"
+        ],
+        "eliminated": []
+      },
+      "queue": {
+        "chosen": "gcp_pubsub",
+        "covered_natively": false,
+        "score": 0.7125,
+        "alternatives": [
+          "nats",
+          "rabbitmq"
+        ],
+        "eliminated": [
+          {
+            "id": "bullmq",
+            "name": "BullMQ (on Redis)",
+            "reasons": [
+              "works with javascript/typescript backends, not Nakama (Go game backend)"
+            ]
+          },
+          {
+            "id": "celery",
+            "name": "Celery (on Redis/RabbitMQ)",
+            "reasons": [
+              "works with python backends, not Nakama (Go game backend)"
+            ]
+          }
+        ]
+      },
+      "cdn": {
+        "chosen": "cloudflare_cdn",
+        "covered_natively": false,
+        "score": 0.8342,
+        "alternatives": [
+          "bunny_cdn",
+          "cloudfront"
+        ],
+        "eliminated": []
+      },
+      "email": {
+        "chosen": "postmark",
+        "covered_natively": false,
+        "score": 0.8401,
+        "alternatives": [
+          "resend",
+          "aws_ses"
+        ],
+        "eliminated": [
+          {
+            "id": "microsoft_graph_mail",
+            "name": "Microsoft Graph (Outlook mail and Teams messages)",
+            "reasons": [
+              "sends through the organisation's Microsoft 365 tenant, which is not among existing_systems"
+            ]
+          },
+          {
+            "id": "postfix",
+            "name": "Postfix (self-hosted mail relay)",
+            "reasons": [
+              "a self-run mail relay on cloud addresses has poor deliverability; managed email is used instead"
+            ]
+          }
+        ]
+      },
+      "notifications": {
+        "chosen": "fcm",
+        "covered_natively": false,
+        "score": 0.83,
+        "alternatives": [
+          "onesignal",
+          "aws_sns_push"
+        ],
+        "eliminated": []
+      },
+      "ci_cd": {
+        "chosen": "github_actions",
+        "covered_natively": false,
+        "score": 0.8376,
+        "alternatives": [
+          "gitlab_ci",
+          "azure_devops"
+        ],
+        "eliminated": []
+      },
+      "observability": {
+        "chosen": "sentry",
+        "covered_natively": false,
+        "score": 0.8326,
+        "alternatives": [
+          "datadog",
+          "grafana_cloud"
+        ],
+        "eliminated": []
+      }
+    },
+    "relaxed_constraints": [],
+    "score_formula": "score = 100 * (0.55 * Q + 0.45 * F) - penalties"
+  },
+  "profile": {
+    "project_type": "gaming",
+    "client_platforms": [
+      "web",
+      "android",
+      "ios"
+    ],
+    "api_only": false,
+    "users_launch": 5000,
+    "users_12m": 120000,
+    "peak_concurrent": 9000,
+    "peak_estimated": false,
+    "peak_eff": 9000,
+    "peak_rps": 900.0,
+    "avg_rps": 90.0,
+    "monthly_requests": 290241278.9387,
+    "egress_gb": 8707.2384,
+    "data_gb": 40,
+    "traffic_pattern": "spiky",
+    "workload": "balanced",
+    "scale_need": 7.6555,
+    "scale_tier": 4,
+    "team_size": 5,
+    "experience": "senior",
+    "exp_factor": 1.0,
+    "has_devops": true,
+    "ops_capacity": 0.8938,
+    "skills": [
+      "typescript"
+    ],
+    "appetite": 0.5,
+    "beginner_sens": 0.0,
+    "lock_in_tolerance": "medium",
+    "hiring_plan": "none",
+    "mobile_preference": "no_preference",
+    "licenses": [],
+    "effort_pw": 42.9,
+    "capacity_pw": 48.75,
+    "effort_ratio": 0.88,
+    "time_pressure": 0.3,
+    "mvp_weeks": 12,
+    "budget": 2500.0,
+    "budget_tier": 4,
+    "budget_tightness": 0.1505,
+    "budget_strictness": "firm",
+    "availability": "99.9",
+    "avail_level": 3.0,
+    "avail_required": 5.8,
+    "p95": 100,
+    "latency_need": 0.7692,
+    "residency": "none",
+    "compliance": [
+      "gdpr"
+    ],
+    "regulated_count": 1,
+    "deployment": "managed_cloud",
+    "cloud_pref": "any",
+    "existing_systems": [],
+    "license_texts": [],
+    "cloud_credits_usd": null,
+    "realtime": true,
+    "offline": false,
+    "search": false,
+    "files": true,
+    "payments": true,
+    "auth": "social",
+    "multi_tenant": false,
+    "ml": "none",
+    "seo": false,
+    "needs_server_logic": true,
+    "needs_persistence": true,
+    "static_candidate": false,
+    "geography": "global",
+    "data_sensitivity": "financial",
+    "hints": {
+      "low_end_devices": false,
+      "poor_connectivity": false,
+      "upi": false,
+      "location": false,
+      "tabular_ml": false,
+      "approvals": false,
+      "ledger": false
+    },
+    "india_ctx": false,
+    "weights": {
+      "cost": 0.1077,
+      "maintainability": 0.0936,
+      "performance": 0.276,
+      "scalability": 0.234,
+      "security": 0.1264,
+      "time_to_market": 0.1623
+    },
+    "weight_multipliers": {
+      "cost": 1.1505,
+      "time_to_market": 1.3,
+      "scalability": 1.5,
+      "performance": 1.7692,
+      "maintainability": 1.0,
+      "security": 1.35
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "allowed_complexity": 8.7656,
+    "notes": [],
+    "budget_reference": 3207.7138
+  },
+  "score": {
+    "total": 82.185,
+    "quality": 0.7822,
+    "fit": 0.8758,
+    "penalty": 0.25,
+    "penalties": {
+      "availability": 0.0,
+      "cold_start": -0.0,
+      "data_model": 0.0,
+      "durability": 0.0,
+      "existing_reuse": -0.0,
+      "game_client": 0.0,
+      "game_server": 0.0,
+      "hiring": 0.0,
+      "lock_in": 0.0,
+      "maturity": 0.25,
+      "mobile_preference": 0.0,
+      "over_engineering": 0.0,
+      "self_run_db": 0.0,
+      "seo": 0.0,
+      "soft_certs": 0.0,
+      "two_codebases": 0.0,
+      "under_provision": 0.0
+    },
+    "fit_terms": {
+      "archetype": 0.9,
+      "budget": 0.7477,
+      "capability": 0.819,
+      "compat": 0.8,
+      "ops": 0.922,
+      "skill": 1.0
+    },
+    "criteria": {
+      "cost": 8.3,
+      "maintainability": 7.2,
+      "performance": 7.7,
+      "scalability": 8.0,
+      "security": 7.65,
+      "time_to_market": 7.95
+    }
+  },
+  "ranking": [
+    {
+      "rank": 1,
+      "stack": {
+        "frontend": "Phaser (HTML5 game framework)",
+        "backend": "Nakama (Go game backend)",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Fly.io"
+      },
+      "score": 82.185,
+      "quality": 0.7822,
+      "fit": 0.8758,
+      "penalty": 0.25,
+      "cost_usd": [
+        1579,
+        3300
+      ]
+    },
+    {
+      "rank": 2,
+      "stack": {
+        "frontend": "Phaser (HTML5 game framework)",
+        "backend": "Nakama (Go game backend)",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 82.746,
+      "quality": 0.7985,
+      "fit": 0.8629,
+      "penalty": 0.0,
+      "cost_usd": [
+        2158,
+        3595
+      ]
+    },
+    {
+      "rank": 3,
+      "stack": {
+        "frontend": "Unity",
+        "backend": "Nakama (Go game backend)",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 82.09,
+      "quality": 0.8073,
+      "fit": 0.8375,
+      "penalty": 0.0,
+      "cost_usd": [
+        2158,
+        3595
+      ]
+    },
+    {
+      "rank": 4,
+      "stack": {
+        "frontend": "Godot Engine",
+        "backend": "Nakama (Go game backend)",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 81.834,
+      "quality": 0.8037,
+      "fit": 0.8362,
+      "penalty": 0.0,
+      "cost_usd": [
+        2158,
+        3595
+      ]
+    },
+    {
+      "rank": 5,
+      "stack": {
+        "frontend": "Phaser (HTML5 game framework)",
+        "backend": "Nakama (Go game backend)",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Azure Container Apps"
+      },
+      "score": 81.751,
+      "quality": 0.7876,
+      "fit": 0.8647,
+      "penalty": 0.475,
+      "cost_usd": [
+        1929,
+        3401
+      ]
+    },
+    {
+      "rank": 6,
+      "stack": {
+        "frontend": "Unity",
+        "backend": "Nakama (Go game backend)",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Fly.io"
+      },
+      "score": 81.51,
+      "quality": 0.7911,
+      "fit": 0.85,
+      "penalty": 0.25,
+      "cost_usd": [
+        1579,
+        3300
+      ]
+    },
+    {
+      "rank": 7,
+      "stack": {
+        "frontend": "Godot Engine",
+        "backend": "Nakama (Go game backend)",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Fly.io"
+      },
+      "score": 81.254,
+      "quality": 0.7874,
+      "fit": 0.8488,
+      "penalty": 0.25,
+      "cost_usd": [
+        1579,
+        3300
+      ]
+    },
+    {
+      "rank": 8,
+      "stack": {
+        "frontend": "Unity",
+        "backend": "Nakama (Go game backend)",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Azure Container Apps"
+      },
+      "score": 80.963,
+      "quality": 0.7964,
+      "fit": 0.8388,
+      "penalty": 0.588,
+      "cost_usd": [
+        1929,
+        3401
+      ]
+    },
+    {
+      "rank": 9,
+      "stack": {
+        "frontend": "Godot Engine",
+        "backend": "Nakama (Go game backend)",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Azure Container Apps"
+      },
+      "score": 80.707,
+      "quality": 0.7928,
+      "fit": 0.8376,
+      "penalty": 0.588,
+      "cost_usd": [
+        1929,
+        3401
+      ]
+    },
+    {
+      "rank": 10,
+      "stack": {
+        "frontend": "Phaser (HTML5 game framework)",
+        "backend": "Nakama (Go game backend)",
+        "database": "CockroachDB",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 79.819,
+      "quality": 0.7766,
+      "fit": 0.871,
+      "penalty": 2.087,
+      "cost_usd": [
+        2030,
+        3462
+      ]
+    }
+  ],
+  "robustness": {
+    "verdict": "mostly stable",
+    "margin_points": -0.56,
+    "runner_up": {
+      "frontend": "Phaser (HTML5 game framework)",
+      "backend": "Nakama (Go game backend)",
+      "database": "PostgreSQL (managed or self-hosted)",
+      "hosting": "Google Cloud Run"
+    },
+    "checks_run": 14,
+    "checks_held": 12,
+    "summary": "The same stack wins in 12 of 14 checks. It switches to Google Cloud Run (hosting) when performance counted half as much, maintainability counted twice as much. The runner-up scores 0.56 points higher but costs more, and stacks within 0.75 points count as a tie that the cheaper one wins.",
+    "checks": [
+      {
+        "change": "cost counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "cost counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "time to market counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "time to market counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "scalability counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "scalability counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "performance counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "performance counted half as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Phaser (HTML5 game framework)",
+          "backend": "Nakama (Go game backend)",
+          "database": "PostgreSQL (managed or self-hosted)",
+          "hosting": "Google Cloud Run"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "Fly.io",
+            "to": "Google Cloud Run"
+          }
+        ]
+      },
+      {
+        "change": "maintainability counted twice as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Phaser (HTML5 game framework)",
+          "backend": "Nakama (Go game backend)",
+          "database": "PostgreSQL (managed or self-hosted)",
+          "hosting": "Google Cloud Run"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "Fly.io",
+            "to": "Google Cloud Run"
+          }
+        ]
+      },
+      {
+        "change": "maintainability counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "security counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "security counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "budget halved ($1,200)",
+        "same_stack": true
+      },
+      {
+        "change": "budget doubled ($5,000)",
+        "same_stack": true
+      }
+    ]
+  },
+  "trade_off_options": [
+    {
+      "direction": "cheaper",
+      "title": "Spend less",
+      "available": true,
+      "stack": {
+        "frontend": "Phaser (HTML5 game framework)",
+        "backend": "Colyseus (Node.js game server)",
+        "database": "Neon (serverless Postgres)",
+        "hosting": "Fly.io"
+      },
+      "swaps": [
+        {
+          "layer": "backend",
+          "from": "Nakama (Go game backend)",
+          "to": "Colyseus (Node.js game server)"
+        },
+        {
+          "layer": "database",
+          "from": "PostgreSQL (managed or self-hosted)",
+          "to": "Neon (serverless Postgres)"
+        }
+      ],
+      "score": 76.706,
+      "points_behind": 5.479,
+      "cost_usd": [
+        1002,
+        2291
+      ],
+      "gains": "about 32% cheaper on the core layers plus required supporting services ($1,000-$2,300 against $1,600-$3,300 per month)",
+      "gives_up": [
+        "headroom for the expected load (-3.3 pts)",
+        "scalability (-1.1 pts)",
+        "performance (-0.8 pts)"
+      ],
+      "summary": "Backend Nakama (Go game backend) -> Colyseus (Node.js game server); database PostgreSQL (managed or self-hosted) -> Neon (serverless Postgres): about 32% cheaper on the core layers plus required supporting services ($1,000-$2,300 against $1,600-$3,300 per month). Gives up 5.5 points, mainly on headroom for the expected load (-3.3 pts), scalability (-1.1 pts), performance (-0.8 pts)."
+    },
+    {
+      "direction": "more_headroom",
+      "title": "More headroom to scale",
+      "available": true,
+      "stack": {
+        "frontend": "Unity",
+        "backend": "Nakama (Go game backend)",
+        "database": "CockroachDB",
+        "hosting": "Google Cloud Run"
+      },
+      "swaps": [
+        {
+          "layer": "frontend",
+          "from": "Phaser (HTML5 game framework)",
+          "to": "Unity"
+        },
+        {
+          "layer": "database",
+          "from": "PostgreSQL (managed or self-hosted)",
+          "to": "CockroachDB"
+        },
+        {
+          "layer": "hosting",
+          "from": "Fly.io",
+          "to": "Google Cloud Run"
+        }
+      ],
+      "score": 79.01,
+      "points_behind": 3.175,
+      "cost_usd": [
+        2030,
+        3462
+      ],
+      "gains": "scalability 8.8 instead of 8.0",
+      "gives_up": [
+        "compliance attestations (-1.5 pts)",
+        "team skill fit (-1.3 pts)",
+        "cost (-0.6 pts)"
+      ],
+      "summary": "Frontend Phaser (HTML5 game framework) -> Unity; database PostgreSQL (managed or self-hosted) -> CockroachDB; hosting Fly.io -> Google Cloud Run: scalability 8.8 instead of 8.0. Gives up 3.2 points, mainly on compliance attestations (-1.5 pts), team skill fit (-1.3 pts), cost (-0.6 pts)."
+    },
+    {
+      "direction": "faster_build",
+      "title": "Ship sooner",
+      "available": true,
+      "stack": {
+        "frontend": "Phaser (HTML5 game framework)",
+        "backend": "Firebase (BaaS)",
+        "database": "Cloud Firestore",
+        "hosting": "Cloudflare Pages"
+      },
+      "swaps": [
+        {
+          "layer": "backend",
+          "from": "Nakama (Go game backend)",
+          "to": "Firebase (BaaS)"
+        },
+        {
+          "layer": "database",
+          "from": "PostgreSQL (managed or self-hosted)",
+          "to": "Cloud Firestore"
+        },
+        {
+          "layer": "hosting",
+          "from": "Fly.io",
+          "to": "Cloudflare Pages"
+        }
+      ],
+      "score": 72.826,
+      "points_behind": 9.359,
+      "cost_usd": [
+        152,
+        368
+      ],
+      "gains": "time to market 9.2 instead of 7.9",
+      "gives_up": [
+        "a purpose-built game server (-8.0 pts)",
+        "vendor lock-in (-3.9 pts)",
+        "data-model fit (-1.5 pts)"
+      ],
+      "summary": "Backend Nakama (Go game backend) -> Firebase (BaaS); database PostgreSQL (managed or self-hosted) -> Cloud Firestore; hosting Fly.io -> Cloudflare Pages: time to market 9.2 instead of 7.9. Gives up 9.4 points, mainly on a purpose-built game server (-8.0 pts), vendor lock-in (-3.9 pts), data-model fit (-1.5 pts)."
+    }
+  ]
+}

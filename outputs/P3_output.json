@@ -715,7 +715,7 @@
     },
     "layers": {
       "frontend": {
-        "candidates": 24,
+        "candidates": 25,
         "eliminated": [
           {
             "id": "godot",
@@ -743,6 +743,13 @@
             "name": "None (API only)",
             "reasons": [
               "the project has client platforms to build"
+            ]
+          },
+          {
+            "id": "phaser",
+            "name": "Phaser (HTML5 game framework)",
+            "reasons": [
+              "a game engine client is only for game projects"
             ]
           },
           {

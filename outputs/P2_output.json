@@ -699,7 +699,7 @@
     },
     "layers": {
       "frontend": {
-        "candidates": 24,
+        "candidates": 25,
         "eliminated": [
           {
             "id": "angular",
@@ -804,6 +804,13 @@
             "reasons": [
               "does not serve android well enough on its own",
               "not strong enough on any required platform to be part of a pair"
+            ]
+          },
+          {
+            "id": "phaser",
+            "name": "Phaser (HTML5 game framework)",
+            "reasons": [
+              "a game engine client is only for game projects"
             ]
           },
           {
