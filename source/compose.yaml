@@ -1,0 +1,9 @@
+services:
+  archlens:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      STACKSENSE_LLM: ${STACKSENSE_LLM:-off}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-}

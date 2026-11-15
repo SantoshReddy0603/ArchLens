@@ -98,6 +98,8 @@ python run.py
 
 Open http://127.0.0.1:8000. Optional settings go in a `.env` file (copy `.env.example`): `STACKSENSE_LLM`, `GEMINI_API_KEY`, `GEMINI_MODEL`, `HOST`, `PORT`.
 
+Docker Compose (optional, instead of the steps above): from `source/`, run `docker compose up --build` and open http://127.0.0.1:8000. The LLM is off unless `STACKSENSE_LLM=on` and `GEMINI_API_KEY` are set in the shell or in `source/.env`.
+
 ## 6. Running a scenario
 
 CLI, one file or a whole folder (run from `source/`):
@@ -129,6 +131,7 @@ ArchLens/
     edge/                  outputs for the edge scenarios
   source/
     README.md  requirements.txt  requirements-dev.txt  .env.example  run.py
+    Dockerfile  compose.yaml   optional container setup
     scenarios/             P1..P6.json
       edge/                E1..E15: air-gapped, conflicting constraints, hard budget too low,
                            end-of-life systems, invalid input, sparse input, skill mismatch, global scale,
@@ -138,7 +141,7 @@ ArchLens/
       kb/                  knowledge base JSON
       web/app.py           FastAPI app
     web/                   index.html, css/, js/, fonts/, favicon.svg
-    tests/                 test_engine.py, test_extract.py, test_web.py
+    tests/                 test_engine.py, test_details.py, test_fuzz.py, test_extract.py, test_web.py
 ```
 
 ## 9. Credits
@@ -235,4 +238,4 @@ pip install -r requirements-dev.txt
 python -m pytest -q
 ```
 
-The suite covers the engine, the extractor, the API and the PDF, and includes checks that no network call is made with the LLM off.
+The suite covers the engine, the extractor, the API and the PDF, and includes checks that no network call is made with the LLM off. `test_fuzz.py` runs 150 seeded random scenarios and checks that valid input is never rejected, every feasible plan fills all four core layers with a justification, an explicit cloud or data residency is kept or flagged critical, and reruns are identical. A one-off run of the same checks on 1,000 seeds found no failures.
