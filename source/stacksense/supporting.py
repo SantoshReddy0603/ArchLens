@@ -8,7 +8,7 @@ from .constraints import CLOUDS, HARD_CERTS, region_ok
 from .derive import reuse_source
 
 LAYER_LABEL = {"ci_cd": "CI/CD", "sms": "SMS", "cdn": "CDN", "waf": "WAF", "dns": "DNS", "ml": "ML", "ingest": "Device ingestion",
-               "sync": "Offline sync", "forms": "Forms", "auth": "Auth", "geo": "Geospatial"}
+               "sync": "Offline sync", "forms": "Forms", "auth": "Auth", "geo": "Geospatial", "api_gateway": "API gateway"}
 
 
 def label(layer):
@@ -19,7 +19,7 @@ NO_RESIDENCY_LAYERS = ("cdn", "dns", "ci_cd", "waf")
 GEO_DBS = ("postgresql", "neon", "supabase_postgres", "timescaledb")
 NATIVE_CDN_PROVIDERS = ("cloudflare", "netlify", "vercel", "github")
 NATIVE_CDN_HOSTS = ("aws_amplify", "azure_static_web_apps", "firebase_hosting")
-LAYER_ORDER = ["auth", "sms", "payments", "storage", "search", "geo", "realtime", "sync", "cache", "queue", "ingest", "ml", "cdn",
+LAYER_ORDER = ["auth", "sms", "payments", "storage", "search", "geo", "realtime", "sync", "cache", "queue", "ingest", "api_gateway", "ml", "cdn",
                "waf", "forms", "email", "notifications", "analytics", "dns", "ci_cd", "observability"]
 DRIVERS = {
     "auth": ["requirements.auth"], "sms": ["requirements.auth"],
@@ -31,7 +31,7 @@ DRIVERS = {
     "sync": ["requirements.offline_support", "project.platforms"],
     "cache": ["scale.peak_concurrent_users", "requirements.p95_latency_ms", "scale.workload"],
     "queue": ["scale.peak_concurrent_users", "requirements.payments", "requirements.file_media_storage"],
-    "ingest": ["project.type", "scale.peak_concurrent_users"], "ml": ["requirements.ml_features"], "cdn": ["scale.users_12_months", "project.platforms"],
+    "ingest": ["project.type", "scale.peak_concurrent_users"], "api_gateway": ["project.type", "scale.peak_concurrent_users"], "ml": ["requirements.ml_features"], "cdn": ["scale.users_12_months", "project.platforms"],
     "waf": ["compliance", "requirements.payments"], "forms": ["project.type", "requirements.auth"],
     "email": ["requirements.auth", "requirements.payments"], "notifications": ["project.platforms"],
     "analytics": ["project.type"], "dns": ["infrastructure.deployment_model"], "ci_cd": ["team.size"],
@@ -43,7 +43,8 @@ WHY_NEEDED = {
     "geo": "the description mentions GPS or location data, which needs spatial types and indexes", "realtime": "live updates are required",
     "sync": "the app must work offline and reconcile later", "cache": "load and latency targets call for a cache",
     "queue": "background work (payments, media, ML or burst absorption) should leave the request path",
-    "ingest": "devices send telemetry that needs a purpose-built MQTT ingestion layer", "ml": "ML features are required (%s)", "cdn": "assets are delivered to a wide audience", "waf": "regulated payment/health traffic needs a web application firewall",
+    "ingest": "devices send telemetry that needs a purpose-built MQTT ingestion layer",
+    "api_gateway": "a public API product needs keys, per-customer rate limits and usage metering", "ml": "ML features are required (%s)", "cdn": "assets are delivered to a wide audience", "waf": "regulated payment/health traffic needs a web application firewall",
     "forms": "a content site needs a way to receive messages", "email": "transactional email (verification, receipts, invites)",
     "notifications": "mobile users expect push notifications", "analytics": "a public site benefits from basic traffic analytics",
     "dns": "a self-run host needs managed DNS", "ci_cd": "automated build and deploy for the team",
@@ -90,7 +91,7 @@ def reasons(e, p, be=None, host=None):
         r.append("a self-run mail relay on cloud addresses has poor deliverability; managed email is used instead")
     if e["attrs"].get("static_build") and (not p["static_candidate"] or be is not None and be["id"] != "none_be" or host is not None and not host["attrs"]["static_only"]):
         r.append("indexes pages at build time, so it suits only static sites without a backend")
-    if host is not None and e["provider"] == "self" and not e["attrs"].get("db_native") and not e["attrs"].get("static_build") and layer in ("realtime", "queue", "cache", "search", "ingest") and not _persistent(host):
+    if host is not None and e["provider"] == "self" and not e["attrs"].get("db_native") and not e["attrs"].get("static_build") and layer in ("realtime", "queue", "cache", "search", "ingest", "api_gateway") and not _persistent(host):
         r.append("needs a long-running process, which %s does not provide" % host["name"])
     if e["attrs"].get("workforce") and (p["auth"] != "enterprise_sso" or layer == "email") and not any(
             pat in s_.lower() for pat in e["attrs"].get("integrates", []) for s_ in p["existing_systems"]):
@@ -187,6 +188,8 @@ def needed(p, be, db, host, mode):
         out["ml"] = {"native": False}
     if p["project_type"] == "iot":
         out["ingest"] = {"native": False}
+    if p["project_type"] == "api_platform" and not no_server:
+        out["api_gateway"] = {"native": False}
     has_cdn = host["attrs"]["static_only"] or host["attrs"]["provider"] in NATIVE_CDN_PROVIDERS or host["id"] in NATIVE_CDN_HOSTS
     if "web" in plat and not has_cdn and p["project_type"] != "internal_tool" and p["users_12m"] >= 5000 and (p["egress_gb"] > 200 or p["geography"] in ("global", "multi_region")) and p["deployment"] == "managed_cloud":
         out["cdn"] = {"native": False}
@@ -273,14 +276,14 @@ def _score(e, p, parts, layer):
             aff += 0.6
             break
     hp = next((x["attrs"].get("provider") for x in (host, be) if x["attrs"].get("provider") in CLOUDS), host["attrs"]["provider"])
-    if hp in CLOUDS and layer in ("auth", "storage", "queue", "cache", "realtime", "search", "observability", "ml", "ingest", "cdn"):
+    if hp in CLOUDS and layer in ("auth", "storage", "queue", "cache", "realtime", "search", "observability", "ml", "ingest", "api_gateway", "cdn"):
         if e["provider"] in CLOUDS and e["provider"] != hp:
             aff -= 0.45
         elif e["provider"] == "self" and layer in ("storage", "queue", "cache"):
             aff -= 0.15
         elif e["provider"] not in CLOUDS and e["provider"] not in ("self", "any_cloud") and layer in ("storage", "queue", "cache"):
             aff -= 0.2
-    elif hp not in CLOUDS and e["provider"] in CLOUDS and layer in ("auth", "storage", "queue", "cache", "realtime", "ingest") and p["cloud_pref"] != e["provider"]:
+    elif hp not in CLOUDS and e["provider"] in CLOUDS and layer in ("auth", "storage", "queue", "cache", "realtime", "ingest", "api_gateway") and p["cloud_pref"] != e["provider"]:
         aff -= 0.5
     if layer in ("realtime", "search") and e["provider"] == "self" and p["has_devops"] and p["ops_capacity"] >= 0.6 and e["ops_burden"] <= 4:
         aff += 0.2

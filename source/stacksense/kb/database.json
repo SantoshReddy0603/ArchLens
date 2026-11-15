@@ -1839,7 +1839,24 @@
         "aws",
         "gcp",
         "azure"
-      ]
+      ],
+      "regions_by_cloud": {
+        "aws": [
+          "us",
+          "eu",
+          "india",
+          "other"
+        ],
+        "gcp": [
+          "us",
+          "eu",
+          "other"
+        ],
+        "azure": [
+          "us",
+          "eu"
+        ]
+      }
     },
     "capabilities": {
       "search": 0.6,
@@ -1917,6 +1934,10 @@
       {
         "title": "ClickHouse Cloud pricing",
         "url": "https://clickhouse.com/pricing"
+      },
+      {
+        "title": "ClickHouse Cloud supported regions",
+        "url": "https://clickhouse.com/docs/products/cloud/reference/supported-regions"
       }
     ],
     "last_verified": "2026-11",
@@ -1973,7 +1994,20 @@
       "runs_on": [
         "aws",
         "azure"
-      ]
+      ],
+      "regions_by_cloud": {
+        "aws": [
+          "us",
+          "eu",
+          "india",
+          "other"
+        ],
+        "azure": [
+          "us",
+          "eu",
+          "other"
+        ]
+      }
     },
     "capabilities": {
       "search": 0.5,
@@ -2011,6 +2045,7 @@
     "regions": [
       "us",
       "eu",
+      "india",
       "other"
     ],
     "certs": [
@@ -2051,6 +2086,10 @@
       {
         "title": "Azure Database for PostgreSQL extensions (timescaledb)",
         "url": "https://learn.microsoft.com/azure/postgresql/extensions/concepts-extensions-considerations"
+      },
+      {
+        "title": "Tiger Cloud supported regions",
+        "url": "https://www.tigerdata.com/docs/get-started/supported-regions"
       }
     ],
     "last_verified": "2026-11",

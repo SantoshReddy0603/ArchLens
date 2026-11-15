@@ -420,10 +420,24 @@ def recommend(scenario):
                                  % ("time-series" if p["project_type"] == "iot" else "analytics"),
                       "fields": ["project.type"]})
     elif p["project_type"] in ("iot", "data_analytics") and best["db"]["attrs"].get("kind") not in ("analytics", "timeseries"):
-        extra.append({"code": "GENERAL_PURPOSE_DATABASE", "severity": "info",
-                      "message": "At about %s of data a general-purpose database (%s) is simpler and cheaper than a %s store; revisit this once data passes roughly 100 GB or queries scan months of history."
-                                 % ("%d GB" % max(1, round(p["data_gb"])), best["db"]["name"], "time-series" if p["project_type"] == "iot" else "columnar analytics"),
-                      "fields": ["project.type", "scale.data_volume_gb_12_months"]})
+        store = "time-series" if p["project_type"] == "iot" else "columnar analytics"
+        gb = "%d GB" % max(1, round(p["data_gb"]))
+        if p["data_gb"] < 100:
+            msg = ("At about %s of data a general-purpose database (%s) is simpler and cheaper than a %s store; revisit this once data passes roughly 100 GB or queries scan months of history."
+                   % (gb, best["db"]["name"], store))
+        else:
+            msg = ("About %s of data is past the point (roughly 100 GB) where a %s store pays off, but %s still ranked first on the other criteria; plan partitioning and retention from day one, or move the readings to a %s store as volume grows."
+                   % (gb, store, best["db"]["name"], store))
+        extra.append({"code": "GENERAL_PURPOSE_DATABASE", "severity": "info" if p["data_gb"] < 100 else "warning",
+                      "message": msg, "fields": ["project.type", "scale.data_volume_gb_12_months"]})
+    stores = [pl for pl in ("ios", "android") if pl in p["client_platforms"]]
+    if p["project_type"] == "gaming" and p["payments"] and stores:
+        extra.append({"code": "APP_STORE_BILLING", "severity": "warning",
+                      "message": "Coins and other digital items sold inside the %s app must normally go through %s, which take a 15-30%% commission; card checkout (%s) stays for the web build and for regions whose rules allow outside payment links."
+                                 % ("/".join("iOS" if x == "ios" else "Android" for x in stores),
+                                    " and ".join("Apple In-App Purchase" if x == "ios" else "Google Play Billing" for x in stores),
+                                    next((it["entry"]["name"] for it in items if it["layer"] == "payments"), "the payment provider")),
+                      "fields": ["requirements.payments", "project.platforms"]})
     if not p["skills"] and not any(x["code"] == "SKILL_MISMATCH" for x in extra):
         extra.append({"code": "SKILL_MISMATCH", "severity": "warning",
                       "message": "No team languages were given, so language fit could not be checked; list the languages the team knows to get a skill-aware recommendation.",

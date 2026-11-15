@@ -5765,5 +5765,189 @@
       "Someone has to configure relaying, TLS and queue monitoring",
       "Delivery outside the organisation depends on the internal mail gateway"
     ]
+  },
+  {
+    "id": "aws_api_gateway",
+    "name": "Amazon API Gateway (REST, usage plans)",
+    "layer": "api_gateway",
+    "provider": "aws",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 5,
+    "cost": {
+      "per_m_requests": [
+        3.5,
+        3.5
+      ],
+      "free_requests_m": 0
+    },
+    "why": "Managed gateway with API keys, per-key throttling and quota usage plans",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "sources": [
+      {
+        "title": "API Gateway pricing",
+        "url": "https://aws.amazon.com/api-gateway/pricing/"
+      },
+      {
+        "title": "Usage plans and API keys",
+        "url": "https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-api-usage-plans.html"
+      }
+    ],
+    "cons": [
+      "Per-request price adds up for high-volume APIs; usage plans need the REST API type"
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "attrs": {}
+  },
+  {
+    "id": "gcp_api_gateway",
+    "name": "Google Cloud API Gateway",
+    "layer": "api_gateway",
+    "provider": "gcp",
+    "quality": 7,
+    "ops_burden": 0,
+    "lock_in": 5,
+    "cost": {
+      "per_m_requests": [
+        3.0,
+        3.0
+      ],
+      "free_requests_m": 2
+    },
+    "why": "Managed gateway in front of Cloud Run with API keys and quotas",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "sources": [
+      {
+        "title": "API Gateway pricing",
+        "url": "https://cloud.google.com/api-gateway/pricing"
+      },
+      {
+        "title": "Quotas and API keys",
+        "url": "https://cloud.google.com/api-gateway/docs/quotas"
+      }
+    ],
+    "cons": [
+      "Fewer policies than Apigee; per-customer billing still needs your own metering export"
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "attrs": {}
+  },
+  {
+    "id": "azure_apim",
+    "name": "Azure API Management (Consumption)",
+    "layer": "api_gateway",
+    "provider": "azure",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 5,
+    "cost": {
+      "per_m_requests": [
+        4.2,
+        4.2
+      ],
+      "free_requests_m": 1
+    },
+    "why": "Managed gateway with subscription keys, rate-limit policies and a developer portal",
+    "regions": [
+      "*"
+    ],
+    "certs": [
+      "hipaa",
+      "pci_dss",
+      "soc2",
+      "iso27001",
+      "gdpr"
+    ],
+    "self_hostable": false,
+    "requires_saas": true,
+    "sources": [
+      {
+        "title": "API Management pricing",
+        "url": "https://azure.microsoft.com/pricing/details/api-management/"
+      },
+      {
+        "title": "API Management overview",
+        "url": "https://learn.microsoft.com/azure/api-management/api-management-key-concepts"
+      }
+    ],
+    "cons": [
+      "The developer portal is not in the Consumption tier; higher tiers have a fixed monthly fee"
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "attrs": {}
+  },
+  {
+    "id": "kong_gateway",
+    "name": "Kong Gateway (self-hosted)",
+    "layer": "api_gateway",
+    "provider": "self",
+    "quality": 8,
+    "ops_burden": 3,
+    "lock_in": 2,
+    "cost": {
+      "curve": [
+        [
+          30,
+          0,
+          30
+        ],
+        [
+          300,
+          30,
+          120
+        ],
+        [
+          3000,
+          150,
+          600
+        ]
+      ]
+    },
+    "why": "Open-source gateway with key auth, rate limiting and request logging plugins",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "sources": [
+      {
+        "title": "Kong Gateway documentation",
+        "url": "https://developer.konghq.com/gateway/"
+      },
+      {
+        "title": "Kong on GitHub",
+        "url": "https://github.com/Kong/kong"
+      }
+    ],
+    "cons": [
+      "Another service to run, upgrade and keep highly available"
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "attrs": {}
   }
 ]

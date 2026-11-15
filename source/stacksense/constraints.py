@@ -182,6 +182,11 @@ def stack_reasons(fe_parts, be, db, host, p):
     if mode in ("managed_native", "managed_external", "self_hosted") and not host["attrs"]["static_only"]:
         if mode != "self_hosted" and not region_ok(db["regions"], res):
             r.append("%s has no %s region" % (db["name"], res))
+        elif mode == "managed_external":
+            # a vendor service can cover a residency on one cloud but not another
+            on = db["attrs"].get("regions_by_cloud", {}).get(host["attrs"]["provider"])
+            if on is not None and not region_ok(on, res):
+                r.append("%s has no %s region on %s" % (db["name"], res, host["attrs"]["provider"].upper()))
         if mode == "self_hosted" and not region_ok(host["regions"], res):
             r.append("no %s region on %s" % (res, host["name"]))
     hard = [c for c in HARD_CERTS if c in p["compliance"]]

@@ -248,6 +248,9 @@ def data_model_penalty(p, db):
     if t in DATA_MODEL:
         if kind == "relational":
             return (2.0 + 4.0 * grow) if t == "iot" else 3.0 * grow
+        if t == "iot" and kind in ("document", "keyvalue"):
+            # fine for a pilot; past ~100 GB of readings, range scans and retention become the hard part
+            return 2.0 + 2.5 * grow
         return DATA_MODEL[t].get(kind, 0.0)
     if kind == "timeseries":
         return 3.0 if t in RELATIONAL_TYPES else 4.0
