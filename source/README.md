@@ -6,7 +6,7 @@ Repository: https://github.com/SantoshReddy0603/ArchLens
 
 ArchLens turns a project scenario (a JSON file, or a free-text description reviewed in the UI) into a justified technology stack: frontend, backend, database, hosting and supporting services, plus an architecture style, a monthly cost band, warnings, assumptions and a full decision trace.
 
-The stack is chosen only by a deterministic rule and score engine over a hand-written knowledge base. An optional LLM can suggest form values from a free-text description and reword the summary. It never picks, ranks or changes a stack.
+The stack is chosen only by a deterministic rule and score engine over a hand-written knowledge base. Google Gemini is optional and used only for input parsing (turning a free-text description into suggested form values that the user confirms) and for rewording the finished explanation. It never picks, ranks, scores or changes a stack; with it switched off the output is identical.
 
 Quick start, about two minutes on a normal connection (full steps in section 5):
 
