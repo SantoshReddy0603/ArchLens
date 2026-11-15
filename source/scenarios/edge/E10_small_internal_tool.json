@@ -1,0 +1,61 @@
+{
+  "scenario_id": "E10",
+  "project": {
+    "name": "StockRoom",
+    "type": "internal_tool",
+    "description": "Inventory sheet replacement for one warehouse. Staff log stock in and out and the manager exports a weekly report.",
+    "platforms": [
+      "web"
+    ]
+  },
+  "scale": {
+    "traffic_pattern": "steady",
+    "workload": "balanced",
+    "users_at_launch": 15,
+    "users_12_months": 25,
+    "peak_concurrent_users": 8,
+    "data_volume_gb_12_months": 1
+  },
+  "team": {
+    "has_devops": false,
+    "size": 1,
+    "experience": "intermediate",
+    "languages": [
+      "python"
+    ]
+  },
+  "budget": {
+    "monthly_infra_usd": 20
+  },
+  "timeline": {
+    "mvp_weeks": 6
+  },
+  "infrastructure": {
+    "cloud_preference": "any",
+    "deployment_model": "managed_cloud",
+    "data_residency": "none",
+    "existing_systems": []
+  },
+  "requirements": {
+    "realtime": false,
+    "offline_support": false,
+    "full_text_search": false,
+    "file_media_storage": false,
+    "payments": false,
+    "auth": "email_password",
+    "multi_tenant": false,
+    "ml_features": "none",
+    "seo_critical": false,
+    "availability": "99",
+    "p95_latency_ms": null
+  },
+  "compliance": [],
+  "priorities": {
+    "cost": 5,
+    "time_to_market": 4,
+    "scalability": 1,
+    "performance": 3,
+    "maintainability": 3,
+    "security": 3
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "scenario_id": "E9",
+  "project": {
+    "name": "LaunchNotes",
+    "type": "content_site",
+    "description": "Product documentation and release notes for a popular open-source tool. Pages change a few times a week and are read by many developers worldwide.",
+    "platforms": [
+      "web"
+    ]
+  },
+  "scale": {
+    "traffic_pattern": "spiky",
+    "workload": "read_heavy",
+    "users_at_launch": 200000,
+    "users_12_months": 2000000,
+    "peak_concurrent_users": 20000,
+    "data_volume_gb_12_months": 2
+  },
+  "team": {
+    "has_devops": false,
+    "size": 2,
+    "experience": "intermediate",
+    "languages": [
+      "javascript",
+      "typescript"
+    ]
+  },
+  "budget": {
+    "monthly_infra_usd": 50
+  },
+  "timeline": {
+    "mvp_weeks": 4
+  },
+  "infrastructure": {
+    "cloud_preference": "any",
+    "deployment_model": "managed_cloud",
+    "data_residency": "none",
+    "existing_systems": []
+  },
+  "requirements": {
+    "realtime": false,
+    "offline_support": false,
+    "full_text_search": true,
+    "file_media_storage": false,
+    "payments": false,
+    "auth": "none",
+    "multi_tenant": false,
+    "ml_features": "none",
+    "seo_critical": true,
+    "availability": "99.9",
+    "p95_latency_ms": null
+  },
+  "compliance": [],
+  "priorities": {
+    "cost": 4,
+    "time_to_market": 3,
+    "scalability": 4,
+    "performance": 4,
+    "maintainability": 3,
+    "security": 3
+  }
+}

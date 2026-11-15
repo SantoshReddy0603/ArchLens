@@ -593,7 +593,8 @@ def test_cloud_preference_keeps_baas_without_separate_host():
 
 EDGE = os.path.join(ROOT, "scenarios", "edge")
 EDGE_STATUS = {"E1": "ok_with_warnings", "E2": "infeasible", "E3": "infeasible", "E4": "ok_with_warnings",
-               "E5": "invalid_input", "E6": "ok", "E7": "ok_with_warnings", "E8": "ok_with_warnings"}
+               "E5": "invalid_input", "E6": "ok", "E7": "ok_with_warnings", "E8": "ok_with_warnings",
+               "E9": "ok", "E10": "ok", "E11": "ok_with_warnings"}
 
 
 def _edge(eid):
@@ -608,6 +609,36 @@ def test_edge_scenarios_give_expected_status(eid):
     assert out["status"] == EDGE_STATUS[eid]
     for w in out["warnings"]:
         assert w["severity"] in SEVERITIES
+
+
+def _svc(out, layer):
+    return support_ids(out).get(layer)
+
+
+def test_overengineering_traps_stay_small():
+    e9 = recommend(_edge("E9"))
+    assert e9["architecture_style"] == "static" and e9["stack"]["backend"]["choice"] == "None"
+    assert _svc(e9, "search") == "Pagefind" and e9["estimated_monthly_cost_usd"]["max"] <= 25
+    e10 = recommend(_edge("E10"))
+    assert e10["architecture_style"] == "monolith"
+    assert "built-in" in (_svc(e10, "auth") or "")
+    e11 = recommend(_edge("E11"))
+    assert "HIPAA_BAA_NEEDED" in [w["code"] for w in e11["warnings"]]
+
+
+def test_own_mail_relay_only_on_own_hosts(outputs):
+    e1 = recommend(_edge("E1"))
+    assert _svc(e1, "email") and "Postfix" in _svc(e1, "email")
+    assert not [w for w in e1["warnings"] if w["severity"] == "critical"]
+    for pid in IDS:
+        assert "Postfix" not in (_svc(outputs[pid], "email") or "")
+
+
+def test_build_time_search_needs_a_static_site(outputs):
+    for pid in IDS:
+        assert _svc(outputs[pid], "search") != "Pagefind"
+    dyn = recommend(variant("P3", requirements=dict(load("P3")["requirements"], full_text_search=True)))
+    assert _svc(dyn, "search") != "Pagefind"
 
 
 def test_robustness_shape_and_determinism(outputs, scenarios):
