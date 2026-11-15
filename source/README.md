@@ -46,7 +46,7 @@ Data flow: input is validated and normalized, a derived profile (scale, effort, 
 | `stacksense/conflicts.py` | Contradiction and risk warnings |
 | `stacksense/explain.py` | Per-component justification, alternatives, trade-offs |
 | `stacksense/robust.py` | Sensitivity checks on the pick, directional trade-off options, and single-change repairs for infeasible input |
-| `stacksense/kb/*.json`, `kb.py` | Knowledge base: 24 frontends, 16 backends, 16 databases, 27 hosts, 120 supporting services, 20 integrations, 21 deprecations, each with scores, notes and source links; `offerings.json` names the concrete managed product for an engine on each cloud |
+| `stacksense/kb/*.json`, `kb.py` | Knowledge base: 24 frontends, 16 backends, 16 databases, 27 hosts, 122 supporting services, 20 integrations, 21 deprecations, each with scores, notes and source links; `offerings.json` names the concrete managed product for an engine on each cloud |
 | `stacksense/extract.py` | Free text or file to field suggestions with evidence and confidence |
 | `stacksense/llm.py` | Optional Gemini calls (suggestions, rewording) behind one network function |
 | `stacksense/report.py` | PDF export |
@@ -130,8 +130,9 @@ ArchLens/
   source/
     README.md  requirements.txt  requirements-dev.txt  .env.example  run.py
     scenarios/             P1..P6.json
-      edge/                E1..E8: air-gapped, conflicting constraints, hard budget too low,
-                           end-of-life systems, invalid input, sparse input, skill mismatch, global scale
+      edge/                E1..E11: air-gapped, conflicting constraints, hard budget too low,
+                           end-of-life systems, invalid input, sparse input, skill mismatch, global scale,
+                           high-traffic static site, small internal tool, HIPAA in the US
     stacksense/            engine, extractor, LLM helper, report, CLI
       kb/                  knowledge base JSON
       web/app.py           FastAPI app
@@ -170,7 +171,7 @@ score = 100 * (0.55 * Q + 0.45 * F) - penalties
 - Approval steps in the description (leave requests, sign-offs, expense claims) add a notification email service; a double-entry or financial ledger with payments raises `LEDGER_INTEGRITY` (append-only entries, balanced rows in one transaction, integer minor units); location data on a PostgreSQL-family database adds PostGIS as a geospatial layer.
 
 - Hard budget: a stack is kept only if its core layers plus the cheapest required supporting services fit. After supporting services are chosen, the complete plan is checked again; if it is over, cheaper services are swapped in (each swap is shown as an alternative with the money saved) or the next stack is tried, and if nothing fits the result is `infeasible` with `BUDGET_INFEASIBLE` and the single changes that would fix it.
-- When a layer is covered by the core stack (for example PostgreSQL full-text search or Supabase Auth), dedicated services such as Typesense or Auth0 are still listed as alternatives, with their cost and when they become worth it.
+- When a layer is covered by the core stack (for example PostgreSQL full-text search or Supabase Auth), dedicated services such as Typesense or Auth0 are still listed as alternatives, with their cost and when they become worth it. A static site that needs search gets Pagefind, an index built with the site and served from the same static host. On-premise and air-gapped deployments send mail through a self-run Postfix relay, which is never offered on cloud hosting.
 - `architecture` explains the architecture style: why it fits (team size, feature areas, host, scale), the inputs that drove it, and why the neighbouring styles (monolith, modular monolith, serverless, microservices) were not chosen.
 - India-specific notes: `CERT_IN_LOGS` (180-day log retention in India under the CERT-In directions) when residency is India or DPDP/RBI apply, and `REGIONAL_NETWORK_BLOCK` when a Supabase stack serves Indian users (shared-domain ISP block in February-March 2026; use a custom domain).
 - A required certification that the chosen services do not cover is a critical `CERT_GAP`; data residency set to `other` gives `RESIDENCY_UNVERIFIED`, since no provider region can be confirmed.
@@ -185,7 +186,7 @@ The result carries `ranking` (top 10 stacks), `score` (total, Q, F, penalties, f
 - `trade_off_options`: for each direction (spend less, less operations work, more headroom, faster build, closer to the team's skills, less lock-in) the best stack within 12 points that does clearly better on it, with what it gains and what it gives up in points. When nothing nearby does better, the option says so.
 - `repairs` (infeasible results only): single relaxations are tried one at a time (residency, a compliance regime, cloud preference, deployment model, hard budget) and every one that makes a stack possible is listed with that stack and its cost, also as `FEASIBLE_IF_CHANGED` notes.
 
-The UI and PDF show all three. `scenarios/edge/` holds eight hand-built edge cases that exercise these paths.
+The UI and PDF show all three. `scenarios/edge/` holds eleven hand-built edge cases that exercise these paths.
 
 ## Determinism guarantees
 

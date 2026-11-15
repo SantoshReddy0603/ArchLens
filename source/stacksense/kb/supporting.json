@@ -4432,6 +4432,46 @@
     ]
   },
   {
+    "id": "pagefind",
+    "name": "Pagefind",
+    "layer": "search",
+    "provider": "self",
+    "quality": 8,
+    "ops_burden": 0,
+    "lock_in": 0,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Builds a static search index at build time and serves it from the same static host, with no search server",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "static_build": true
+    },
+    "sources": [
+      {
+        "title": "Pagefind documentation",
+        "url": "https://pagefind.app/"
+      },
+      {
+        "title": "Pagefind on GitHub",
+        "url": "https://github.com/CloudCannon/pagefind"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "cons": [
+      "Indexes only what is in the built pages; content that changes between builds is not searchable until the next build"
+    ]
+  },
+  {
     "id": "typesense",
     "name": "Typesense",
     "layer": "search",
@@ -5683,6 +5723,47 @@
     "deprecation": "active",
     "cons": [
       "Starts with low sending quotas that need a support request to raise; custom domain and DNS setup are on you"
+    ]
+  },
+  {
+    "id": "postfix",
+    "name": "Postfix (self-hosted mail relay)",
+    "layer": "email",
+    "provider": "self",
+    "quality": 6,
+    "ops_burden": 3,
+    "lock_in": 0,
+    "cost": {
+      "fixed": [
+        0,
+        0
+      ]
+    },
+    "why": "Open-source mail transfer agent that relays application mail through the organisation's own mail servers, with no external service",
+    "regions": [
+      "*"
+    ],
+    "certs": [],
+    "self_hostable": true,
+    "requires_saas": false,
+    "attrs": {
+      "own_host_only": true
+    },
+    "sources": [
+      {
+        "title": "Postfix documentation",
+        "url": "https://www.postfix.org/documentation.html"
+      },
+      {
+        "title": "Postfix basic configuration",
+        "url": "https://www.postfix.org/BASIC_CONFIGURATION_README.html"
+      }
+    ],
+    "last_verified": "2026-11",
+    "deprecation": "active",
+    "cons": [
+      "Someone has to configure relaying, TLS and queue monitoring",
+      "Delivery outside the organisation depends on the internal mail gateway"
     ]
   }
 ]

@@ -86,13 +86,17 @@ def reasons(e, p, be=None, host=None):
                 and (c == "pci_dss" and layer in ("payments", "storage", "cache", "queue", "search", "auth") or c == "hipaa" and layer not in NO_RESIDENCY_LAYERS + ("payments",))]
         if miss:
             r.append("no %s attestation" % "/".join(m.upper() for m in miss))
-    if host is not None and e["provider"] == "self" and not e["attrs"].get("db_native") and layer in ("realtime", "queue", "cache", "search", "ingest") and not _persistent(host):
+    if e["attrs"].get("own_host_only") and not _own_host(p):
+        r.append("a self-run mail relay on cloud addresses has poor deliverability; managed email is used instead")
+    if e["attrs"].get("static_build") and (not p["static_candidate"] or be is not None and be["id"] != "none_be" or host is not None and not host["attrs"]["static_only"]):
+        r.append("indexes pages at build time, so it suits only static sites without a backend")
+    if host is not None and e["provider"] == "self" and not e["attrs"].get("db_native") and not e["attrs"].get("static_build") and layer in ("realtime", "queue", "cache", "search", "ingest") and not _persistent(host):
         r.append("needs a long-running process, which %s does not provide" % host["name"])
     if e["attrs"].get("workforce") and (p["auth"] != "enterprise_sso" or layer == "email") and not any(
             pat in s_.lower() for pat in e["attrs"].get("integrates", []) for s_ in p["existing_systems"]):
         r.append("sends through the organisation's Microsoft 365 tenant, which is not among existing_systems" if layer == "email"
                  else "workforce single sign-on is for employees, not consumer sign-in")
-    if layer in ("observability", "auth") and e["provider"] == "self" and dep not in ("on_premise", "air_gapped") and not p["has_devops"]:
+    if layer in ("observability", "auth") and e["provider"] == "self" and e["id"] != "framework_auth" and dep not in ("on_premise", "air_gapped") and not p["has_devops"]:
         r.append("self-hosted %s needs a team that runs infrastructure" % ("monitoring" if layer == "observability" else "identity"))
     langs = e["attrs"].get("langs")
     if be is not None and langs and be["languages"] and not set(langs) & set(be["languages"][:1]):
