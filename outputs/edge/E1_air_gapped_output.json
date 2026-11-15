@@ -193,6 +193,35 @@
         ]
       },
       {
+        "layer": "email",
+        "choice": "Postfix (self-hosted mail relay)",
+        "justification": "Postfix (self-hosted mail relay): email and password sign-in needs verification and reset emails; open-source mail transfer agent that relays application mail through the organisation's own mail servers, with no external service; free at this scale.",
+        "driven_by": [
+          "requirements.auth",
+          "requirements.payments"
+        ],
+        "alternatives": [
+          {
+            "choice": "No other eligible option",
+            "why_not": "No other email service satisfies the hard constraints."
+          }
+        ],
+        "tradeoffs": [
+          "Someone has to configure relaying, TLS and queue monitoring"
+        ],
+        "kb_id": "postfix",
+        "sources": [
+          {
+            "title": "Postfix documentation",
+            "url": "https://www.postfix.org/documentation.html"
+          },
+          {
+            "title": "Postfix basic configuration",
+            "url": "https://www.postfix.org/BASIC_CONFIGURATION_README.html"
+          }
+        ]
+      },
+      {
         "layer": "ci_cd",
         "choice": "GitLab CI/CD",
         "justification": "GitLab CI/CD: automated build and deploy for the team; integrated pipelines, self-managed option.",
@@ -304,6 +333,12 @@
         "max": 0
       },
       {
+        "layer": "email",
+        "item": "Postfix (self-hosted mail relay)",
+        "min": 0,
+        "max": 0
+      },
+      {
         "layer": "ci_cd",
         "item": "GitLab CI/CD",
         "min": 0,
@@ -343,21 +378,11 @@
         "infrastructure.data_residency",
         "compliance"
       ]
-    },
-    {
-      "code": "NO_COMPLIANT_SERVICE",
-      "severity": "critical",
-      "message": "No email option satisfies the hard constraints (air-gapped deployment forbids SaaS dependencies). The layer is left out of the recommendation.",
-      "fields": [
-        "requirements.auth",
-        "requirements.payments"
-      ]
     }
   ],
   "assumptions": [
     "No extra inputs supplied; neutral defaults are used (learning appetite medium, lock-in tolerance medium, budget strictness firm, no hiring plan, no mobile preference).",
-    "No cache layer: about 10 requests/second and 2,000 users in 12 months are served directly by the database or BaaS.",
-    "Relaxed: no compliant email service was found, so the layer is left unfilled."
+    "No cache layer: about 10 requests/second and 2,000 users in 12 months are served directly by the database or BaaS."
   ],
   "validation_errors": [],
   "decision_trace": {
@@ -1012,6 +1037,78 @@
           }
         ]
       },
+      "email": {
+        "chosen": "postfix",
+        "covered_natively": false,
+        "score": 0.704,
+        "alternatives": [],
+        "eliminated": [
+          {
+            "id": "aws_ses",
+            "name": "Amazon SES",
+            "reasons": [
+              "air-gapped deployment forbids SaaS dependencies",
+              "cloud_preference none needs self-managed services"
+            ]
+          },
+          {
+            "id": "azure_communication_email",
+            "name": "Azure Communication Services Email",
+            "reasons": [
+              "air-gapped deployment forbids SaaS dependencies",
+              "cloud_preference none needs self-managed services"
+            ]
+          },
+          {
+            "id": "brevo",
+            "name": "Brevo",
+            "reasons": [
+              "air-gapped deployment forbids SaaS dependencies",
+              "cloud_preference none needs self-managed services",
+              "no india region available",
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "microsoft_graph_mail",
+            "name": "Microsoft Graph (Outlook mail and Teams messages)",
+            "reasons": [
+              "air-gapped deployment forbids SaaS dependencies",
+              "cloud_preference none needs self-managed services",
+              "sends through the organisation's Microsoft 365 tenant, which is not among existing_systems"
+            ]
+          },
+          {
+            "id": "postmark",
+            "name": "Postmark",
+            "reasons": [
+              "air-gapped deployment forbids SaaS dependencies",
+              "cloud_preference none needs self-managed services",
+              "no india region available",
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "resend",
+            "name": "Resend",
+            "reasons": [
+              "air-gapped deployment forbids SaaS dependencies",
+              "cloud_preference none needs self-managed services",
+              "no india region available",
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "sendgrid",
+            "name": "Twilio SendGrid",
+            "reasons": [
+              "air-gapped deployment forbids SaaS dependencies",
+              "cloud_preference none needs self-managed services",
+              "no india region available"
+            ]
+          }
+        ]
+      },
       "ci_cd": {
         "chosen": "gitlab_ci",
         "covered_natively": false,
@@ -1088,8 +1185,7 @@
       }
     },
     "relaxed_constraints": [
-      "No cache layer: about 10 requests/second and 2,000 users in 12 months are served directly by the database or BaaS.",
-      "Relaxed: no compliant email service was found, so the layer is left unfilled."
+      "No cache layer: about 10 requests/second and 2,000 users in 12 months are served directly by the database or BaaS."
     ],
     "score_formula": "score = 100 * (0.55 * Q + 0.45 * F) - penalties"
   },

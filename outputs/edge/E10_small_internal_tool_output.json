@@ -1,0 +1,1414 @@
+{
+  "scenario_id": "E10",
+  "engine_version": "1.0.0",
+  "status": "ok",
+  "summary": "Single deployable monolith: Django templates + htmx, Python + Django, SQLite (embedded) database on DigitalOcean App Platform / Droplets. It matches the team's languages and is estimated at $6-$21 per month.",
+  "architecture_style": "monolith",
+  "architecture": {
+    "style": "monolith",
+    "name": "monolith",
+    "justification": "One deployable is the fastest to build and simplest to run for a team of 1 and 0 feature areas (none).",
+    "driven_by": [
+      "team.size",
+      "timeline.mvp_weeks"
+    ],
+    "alternatives": [
+      {
+        "choice": "Microservices",
+        "why_not": "Adds service boundaries, network calls and per-service deployment that this team does not need at this scale (team 1)."
+      },
+      {
+        "choice": "Serverless",
+        "why_not": "Per-request functions suit light, spiky work; this backend runs as a long-lived service on DigitalOcean App Platform / Droplets, which suits websockets, background jobs and steady traffic better."
+      }
+    ]
+  },
+  "stack": {
+    "frontend": {
+      "choice": "Django templates + htmx",
+      "justification": "Django templates + htmx matches the team's python skills; no JS build chain or separate front end; is a proven choice for internal tool projects.",
+      "driven_by": [
+        "team.languages",
+        "priorities.cost",
+        "project.type"
+      ],
+      "alternatives": [
+        {
+          "choice": "Laravel Blade + Livewire",
+          "why_not": "Laravel Blade + Livewire scores 2.2 points lower overall, mainly on team skill fit (2.2 points)."
+        },
+        {
+          "choice": "Vue 3 + Vite (SPA)",
+          "why_not": "Vue 3 + Vite (SPA) scores 2.8 points lower overall, mainly on team skill fit (1.5 points) and compatibility with the rest of the stack (0.6 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Rich interactivity is harder",
+        "No offline"
+      ],
+      "confidence": "medium",
+      "margin_points": 2.24,
+      "kb_id": "django_htmx",
+      "sources": [
+        {
+          "title": "htmx docs",
+          "url": "https://htmx.org/docs/"
+        },
+        {
+          "title": "Django docs",
+          "url": "https://docs.djangoproject.com/"
+        }
+      ]
+    },
+    "backend": {
+      "choice": "Python + Django",
+      "justification": "Python + Django matches the team's python skills; free, runs on one small VM; is a proven choice for internal tool projects.",
+      "driven_by": [
+        "team.languages",
+        "priorities.cost",
+        "project.type"
+      ],
+      "alternatives": [
+        {
+          "choice": "PHP + Laravel",
+          "why_not": "PHP + Laravel scores 2.2 points lower overall, mainly on team skill fit (2.2 points)."
+        },
+        {
+          "choice": "Python + FastAPI",
+          "why_not": "Python + FastAPI scores 4.1 points lower overall, mainly on team skill fit (1.5 points) and security (0.6 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Sync-first, so realtime needs Channels"
+      ],
+      "confidence": "medium",
+      "margin_points": 2.24,
+      "kb_id": "django",
+      "sources": [
+        {
+          "title": "Django docs",
+          "url": "https://docs.djangoproject.com/"
+        },
+        {
+          "title": "Django security",
+          "url": "https://docs.djangoproject.com/en/stable/topics/security/"
+        }
+      ]
+    },
+    "database": {
+      "choice": "SQLite (embedded)",
+      "justification": "SQLite (embedded) runs beside the application on DigitalOcean App Platform / Droplets, with no separate database bill; free, no server; is a proven choice for internal tool projects.",
+      "driven_by": [
+        "budget.monthly_infra_usd",
+        "priorities.cost",
+        "project.type"
+      ],
+      "alternatives": [
+        {
+          "choice": "Neon (serverless Postgres)",
+          "why_not": "Neon (serverless Postgres) scores 1.5 points lower overall, mainly on budget fit (1.5 points) and cost (0.5 points). Estimated infrastructure about $0-$35/month versus about $6-$21/month."
+        },
+        {
+          "choice": "PostgreSQL (managed or self-hosted)",
+          "why_not": "PostgreSQL (managed or self-hosted) scores 2.5 points lower overall, mainly on budget fit (3.3 points) and cost (0.9 points). Estimated infrastructure about $15-$40/month versus about $6-$21/month."
+        }
+      ],
+      "tradeoffs": [
+        "Single node only"
+      ],
+      "confidence": "medium",
+      "margin_points": 1.51,
+      "kb_id": "sqlite",
+      "sources": [
+        {
+          "title": "SQLite when to use",
+          "url": "https://www.sqlite.org/whentouse.html"
+        }
+      ]
+    },
+    "hosting": {
+      "choice": "DigitalOcean App Platform / Droplets",
+      "justification": "DigitalOcean App Platform / Droplets droplets from $4-6/month, App Platform from $5; is a proven choice for internal tool projects.",
+      "driven_by": [
+        "priorities.cost",
+        "project.type"
+      ],
+      "alternatives": [
+        {
+          "choice": "Render",
+          "why_not": "Render scores 0.1 points lower overall, mainly on budget fit (1.4 points) and cost (0.6 points). Estimated infrastructure about $9-$30/month versus about $6-$21/month."
+        },
+        {
+          "choice": "Railway",
+          "why_not": "Railway scores 0.2 points lower overall, mainly on maturity (0.8 points) and cost (0.6 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Fewer managed services than hyperscalers"
+      ],
+      "confidence": "low",
+      "margin_points": 0.14,
+      "kb_id": "digitalocean_droplet",
+      "sources": [
+        {
+          "title": "DigitalOcean pricing",
+          "url": "https://www.digitalocean.com/pricing"
+        },
+        {
+          "title": "DigitalOcean regions",
+          "url": "https://docs.digitalocean.com/platform/regional-availability/"
+        },
+        {
+          "title": "DigitalOcean Data Processing Agreement",
+          "url": "https://www.digitalocean.com/legal/data-processing-agreement"
+        }
+      ]
+    },
+    "supporting": [
+      {
+        "layer": "auth",
+        "choice": "Framework built-in auth (sessions/JWT)",
+        "justification": "Framework built-in auth (sessions/JWT): users sign in (email password); no external service; uses the backend framework's own session or token auth (Django auth, Laravel, ASP.NET Core Identity, Spring Security and similar); already part of the chosen core stack.",
+        "driven_by": [
+          "requirements.auth"
+        ],
+        "alternatives": [
+          {
+            "choice": "Google Cloud Identity Platform",
+            "why_not": "A separate auth service (about $0 per month) when Framework built-in auth (sessions/JWT) already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.67 vs 0.84."
+          },
+          {
+            "choice": "Firebase Authentication",
+            "why_not": "A separate auth service (about $0 per month) when Framework built-in auth (sessions/JWT) already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.66 vs 0.84."
+          }
+        ],
+        "tradeoffs": [
+          "Password storage, resets, MFA and account lockout are your responsibility"
+        ],
+        "kb_id": "framework_auth",
+        "sources": [
+          {
+            "title": "OWASP authentication cheat sheet",
+            "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html"
+          }
+        ]
+      },
+      {
+        "layer": "email",
+        "choice": "Amazon SES",
+        "justification": "Amazon SES: email and password sign-in needs verification and reset emails; $0.10 per 1,000 emails, deliverability work is yours.",
+        "driven_by": [
+          "requirements.auth",
+          "requirements.payments"
+        ],
+        "alternatives": [
+          {
+            "choice": "Postmark",
+            "why_not": "Ranks lower (costs more (about $15 vs $4 per month at the high end)); score 0.69 vs 0.70."
+          },
+          {
+            "choice": "Resend",
+            "why_not": "Ranks lower (costs more (about $17 vs $4 per month at the high end)); score 0.66 vs 0.70."
+          }
+        ],
+        "tradeoffs": [
+          "Starts in a sandbox; production access, bounce handling and domain setup are on you",
+          "Adds about $0-$4 per month."
+        ],
+        "kb_id": "aws_ses",
+        "sources": [
+          {
+            "title": "SES pricing",
+            "url": "https://aws.amazon.com/ses/pricing/"
+          },
+          {
+            "title": "SES docs",
+            "url": "https://docs.aws.amazon.com/ses/"
+          }
+        ]
+      },
+      {
+        "layer": "dns",
+        "choice": "Cloudflare DNS",
+        "justification": "Cloudflare DNS: a self-run host needs managed DNS; free, fast authoritative DNS; free at this scale.",
+        "driven_by": [
+          "infrastructure.deployment_model"
+        ],
+        "alternatives": [
+          {
+            "choice": "Amazon Route 53",
+            "why_not": "Ranks lower (more lock-in); score 0.77 vs 0.85."
+          },
+          {
+            "choice": "Google Cloud DNS",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), more lock-in); score 0.75 vs 0.85."
+          }
+        ],
+        "tradeoffs": [
+          "Works best with Cloudflare proxying, which ties traffic routing to one vendor"
+        ],
+        "kb_id": "cloudflare_dns",
+        "sources": [
+          {
+            "title": "Cloudflare DNS",
+            "url": "https://developers.cloudflare.com/dns/"
+          },
+          {
+            "title": "Cloudflare Customer DPA",
+            "url": "https://www.cloudflare.com/cloudflare-customer-dpa/"
+          }
+        ]
+      },
+      {
+        "layer": "ci_cd",
+        "choice": "GitHub Actions",
+        "justification": "GitHub Actions: automated build and deploy for the team; workflows next to the code; the 2,000 free minutes a month cover a small team, larger teams buy extra minutes; free at this scale.",
+        "driven_by": [
+          "team.size"
+        ],
+        "alternatives": [
+          {
+            "choice": "GitLab CI/CD",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $25 vs $0 per month at the high end), more to operate); score 0.63 vs 0.84."
+          },
+          {
+            "choice": "Azure DevOps Pipelines",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $26 vs $0 per month at the high end), more to operate); score 0.62 vs 0.84."
+          }
+        ],
+        "tradeoffs": [
+          "Minute limits on private repositories; long builds need paid or self-hosted runners"
+        ],
+        "kb_id": "github_actions",
+        "sources": [
+          {
+            "title": "Actions billing",
+            "url": "https://docs.github.com/billing/managing-billing-for-your-products/managing-billing-for-github-actions/about-billing-for-github-actions"
+          },
+          {
+            "title": "GitHub Actions docs",
+            "url": "https://docs.github.com/actions"
+          },
+          {
+            "title": "GitHub Data Protection Agreement",
+            "url": "https://docs.github.com/en/site-policy/privacy-policies/github-data-protection-agreement"
+          }
+        ]
+      },
+      {
+        "layer": "observability",
+        "choice": "UptimeRobot / Better Stack uptime checks",
+        "justification": "UptimeRobot / Better Stack uptime checks: production monitoring for the availability target; basic uptime pings for small sites. Chosen over Sentry, which fits slightly better but costs about $8 more per month.",
+        "driven_by": [
+          "requirements.availability",
+          "scale.users_12_months"
+        ],
+        "alternatives": [
+          {
+            "choice": "Sentry",
+            "why_not": "Better fit (score 0.68 vs 0.61), but about $8 per month more expensive; replaced to bring the plan toward the $20 budget."
+          },
+          {
+            "choice": "Grafana Cloud",
+            "why_not": "Scores higher in isolation but is a weaker fit once the rest of the plan is fixed; score 0.64 vs 0.61."
+          }
+        ],
+        "tradeoffs": [
+          "Checks reachability only, not application errors",
+          "Adds about $0-$6 per month."
+        ],
+        "kb_id": "uptime_monitor",
+        "sources": [
+          {
+            "title": "UptimeRobot pricing",
+            "url": "https://uptimerobot.com/pricing/"
+          },
+          {
+            "title": "UptimeRobot API",
+            "url": "https://uptimerobot.com/api/"
+          }
+        ]
+      }
+    ]
+  },
+  "estimated_monthly_cost_usd": {
+    "min": 6,
+    "max": 21,
+    "assumptions": [
+      "Load estimate: peak about 1 requests/second and about 72K requests/month from 25 users in 12 months.",
+      "Usage-priced items are shown as a band (0.75x to 1.3x of the estimate) because load figures are order-of-magnitude.",
+      "Public list prices of each product, in USD, without taxes, committed-use discounts or developer time.",
+      "Hosting (DigitalOcean App Platform / Droplets): about $6-$11/month",
+      "Email (Amazon SES): about $0-$4/month",
+      "Observability (UptimeRobot / Better Stack uptime checks): about $0-$6/month"
+    ],
+    "breakdown": [
+      {
+        "layer": "hosting",
+        "item": "DigitalOcean App Platform / Droplets",
+        "min": 6,
+        "max": 11
+      },
+      {
+        "layer": "database",
+        "item": "SQLite (embedded)",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "backend",
+        "item": "Python + Django",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "frontend",
+        "item": "Django templates + htmx",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "auth",
+        "item": "Framework built-in auth (sessions/JWT)",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "email",
+        "item": "Amazon SES",
+        "min": 0,
+        "max": 4
+      },
+      {
+        "layer": "dns",
+        "item": "Cloudflare DNS",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "ci_cd",
+        "item": "GitHub Actions",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "observability",
+        "item": "UptimeRobot / Better Stack uptime checks",
+        "min": 0,
+        "max": 6
+      }
+    ]
+  },
+  "warnings": [
+    {
+      "code": "BUDGET_PEAK_HEADROOM",
+      "severity": "info",
+      "message": "Expected cost ($6-$21) is inside the $20 budget at typical load but can pass it at peak usage; watch hosting (DigitalOcean App Platform / Droplets, $6-$11) and observability (UptimeRobot / Better Stack uptime checks, $0-$6) first.",
+      "fields": [
+        "budget.monthly_infra_usd",
+        "scale.peak_concurrent_users"
+      ]
+    }
+  ],
+  "assumptions": [
+    "No extra inputs supplied; neutral defaults are used (learning appetite medium, lock-in tolerance medium, budget strictness firm, no hiring plan, no mobile preference).",
+    "Observability: Sentry replaced by UptimeRobot / Better Stack uptime checks to bring the stack toward the budget (about $8 per month cheaper).",
+    "No cache layer: about 1 requests/second and 25 users in 12 months are served directly by the database or BaaS."
+  ],
+  "validation_errors": [],
+  "decision_trace": {
+    "pipeline": [
+      "validate input",
+      "derive profile",
+      "filter each layer by hard constraints",
+      "enumerate compatible stacks",
+      "score quality, fit and penalties",
+      "rank deterministically",
+      "select supporting services",
+      "estimate cost",
+      "explain"
+    ],
+    "weights": {
+      "cost": 0.3393,
+      "maintainability": 0.1219,
+      "performance": 0.1524,
+      "scalability": 0.0382,
+      "security": 0.1219,
+      "time_to_market": 0.2262
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "layers": {
+      "frontend": {
+        "candidates": 24,
+        "eliminated": [
+          {
+            "id": "godot",
+            "name": "Godot Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "kotlin_android",
+            "name": "Kotlin + Jetpack Compose (Android native)",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "maui",
+            "name": ".NET MAUI",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "none_fe",
+            "name": "None (API only)",
+            "reasons": [
+              "the project has client platforms to build"
+            ]
+          },
+          {
+            "id": "swift_ios",
+            "name": "Swift + SwiftUI (iOS native)",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "unity",
+            "name": "Unity",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "unreal",
+            "name": "Unreal Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 17,
+        "shortlist": [
+          "django_htmx",
+          "laravel_livewire",
+          "vue_vite",
+          "react_vite",
+          "angular",
+          "electron",
+          "tauri",
+          "blazor"
+        ],
+        "chosen": [
+          "django_htmx"
+        ]
+      },
+      "backend": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "colyseus",
+            "name": "Colyseus (Node.js game server)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "nakama",
+            "name": "Nakama (Go game backend)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "none_be",
+            "name": "No backend (static)",
+            "reasons": [
+              "the project needs server-side logic (accounts, payments, uploads, realtime or non-content features)"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 13,
+        "shortlist": [
+          "django",
+          "laravel",
+          "fastapi",
+          "aspnet_core",
+          "supabase",
+          "go_chi",
+          "nestjs",
+          "express"
+        ],
+        "chosen": [
+          "django"
+        ]
+      },
+      "database": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "bigquery",
+            "name": "Google BigQuery",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          },
+          {
+            "id": "clickhouse",
+            "name": "ClickHouse",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          },
+          {
+            "id": "none_db",
+            "name": "None (no database)",
+            "reasons": [
+              "the project needs persistent data"
+            ]
+          },
+          {
+            "id": "timescaledb",
+            "name": "TimescaleDB (PostgreSQL time-series)",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 12,
+        "shortlist": [
+          "sqlite",
+          "neon",
+          "postgresql",
+          "supabase_postgres",
+          "firestore",
+          "mysql",
+          "dynamodb",
+          "sql_server"
+        ],
+        "chosen": [
+          "sqlite"
+        ]
+      },
+      "hosting": {
+        "candidates": 27,
+        "eliminated": [
+          {
+            "id": "none_host",
+            "name": "None (provided by the backend platform)",
+            "reasons": [
+              "a web client or API needs somewhere to be served from"
+            ]
+          },
+          {
+            "id": "onprem_k8s",
+            "name": "Self-managed Kubernetes (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          },
+          {
+            "id": "onprem_linux_vm",
+            "name": "Self-managed Linux servers (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          },
+          {
+            "id": "windows_iis",
+            "name": "Windows Server + IIS (self-hosted)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 22,
+        "shortlist": [
+          "digitalocean_droplet",
+          "render",
+          "railway",
+          "hetzner_vps",
+          "fly_io",
+          "gke_cloud_run",
+          "azure_app_service",
+          "aws_lambda"
+        ],
+        "chosen": [
+          "digitalocean_droplet"
+        ]
+      }
+    },
+    "stack_search": {
+      "considered": 33864,
+      "pruned_by_reason": {
+        "backend bundled with a specific database": 2080,
+        "backend bundled with a specific frontend": 864,
+        "database cannot be reached from the host": 930,
+        "database tied to another backend": 972,
+        "frontend needs a specific backend": 7272,
+        "runtime not supported by the host": 27132
+      },
+      "scored": 21746,
+      "removed_by_hard_budget": 0,
+      "frontend_pairs": false,
+      "budget_reference_usd": 20
+    },
+    "top_stacks": [
+      {
+        "rank": 1,
+        "stack": [
+          "Django templates + htmx",
+          "Python + Django",
+          "SQLite (embedded)",
+          "DigitalOcean App Platform / Droplets"
+        ],
+        "score": 86.675,
+        "quality": 0.8287,
+        "fit": 0.9133,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 1.0,
+          "budget": 0.759,
+          "capability": 0.991,
+          "compat": 0.747,
+          "ops": 0.886,
+          "skill": 1.0
+        }
+      },
+      {
+        "rank": 2,
+        "stack": [
+          "Django templates + htmx",
+          "Python + Django",
+          "SQLite (embedded)",
+          "Render"
+        ],
+        "score": 86.538,
+        "quality": 0.8394,
+        "fit": 0.8972,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 1.0,
+          "budget": 0.588,
+          "capability": 0.991,
+          "compat": 0.8,
+          "ops": 0.952,
+          "skill": 1.0
+        }
+      },
+      {
+        "rank": 3,
+        "stack": [
+          "Django templates + htmx",
+          "Python + Django",
+          "SQLite (embedded)",
+          "Railway"
+        ],
+        "score": 86.438,
+        "quality": 0.8321,
+        "fit": 0.9206,
+        "penalties": {
+          "maturity": 0.75
+        },
+        "fit_terms": {
+          "archetype": 1.0,
+          "budget": 0.718,
+          "capability": 0.991,
+          "compat": 0.8,
+          "ops": 0.952,
+          "skill": 1.0
+        }
+      },
+      {
+        "rank": 4,
+        "stack": [
+          "Django templates + htmx",
+          "Python + Django",
+          "SQLite (embedded)",
+          "Hetzner Cloud VPS"
+        ],
+        "score": 85.901,
+        "quality": 0.8247,
+        "fit": 0.9009,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.9,
+          "budget": 0.806,
+          "capability": 0.991,
+          "compat": 0.747,
+          "ops": 0.794,
+          "skill": 1.0
+        }
+      },
+      {
+        "rank": 5,
+        "stack": [
+          "Django templates + htmx",
+          "Python + Django",
+          "SQLite (embedded)",
+          "Fly.io"
+        ],
+        "score": 85.707,
+        "quality": 0.8231,
+        "fit": 0.9042,
+        "penalties": {
+          "maturity": 0.25
+        },
+        "fit_terms": {
+          "archetype": 0.9,
+          "budget": 0.718,
+          "capability": 0.991,
+          "compat": 0.733,
+          "ops": 0.94,
+          "skill": 1.0
+        }
+      }
+    ],
+    "supporting": {
+      "auth": {
+        "chosen": "framework_auth",
+        "covered_natively": true,
+        "score": 0.838,
+        "alternatives": [
+          "identity_platform",
+          "firebase_auth"
+        ],
+        "eliminated": [
+          {
+            "id": "entra_id",
+            "name": "Microsoft Entra ID (workforce SSO)",
+            "reasons": [
+              "workforce single sign-on is for employees, not consumer sign-in"
+            ]
+          },
+          {
+            "id": "keycloak",
+            "name": "Keycloak",
+            "reasons": [
+              "self-hosted identity needs a team that runs infrastructure"
+            ]
+          },
+          {
+            "id": "supabase_auth",
+            "name": "Supabase Auth",
+            "reasons": [
+              "is part of Supabase (BaaS) only"
+            ]
+          }
+        ]
+      },
+      "email": {
+        "chosen": "aws_ses",
+        "covered_natively": false,
+        "score": 0.6973,
+        "alternatives": [
+          "postmark",
+          "resend"
+        ],
+        "eliminated": [
+          {
+            "id": "microsoft_graph_mail",
+            "name": "Microsoft Graph (Outlook mail and Teams messages)",
+            "reasons": [
+              "sends through the organisation's Microsoft 365 tenant, which is not among existing_systems"
+            ]
+          },
+          {
+            "id": "postfix",
+            "name": "Postfix (self-hosted mail relay)",
+            "reasons": [
+              "a self-run mail relay on cloud addresses has poor deliverability; managed email is used instead"
+            ]
+          }
+        ]
+      },
+      "dns": {
+        "chosen": "cloudflare_dns",
+        "covered_natively": false,
+        "score": 0.85,
+        "alternatives": [
+          "route53",
+          "google_cloud_dns"
+        ],
+        "eliminated": []
+      },
+      "ci_cd": {
+        "chosen": "github_actions",
+        "covered_natively": false,
+        "score": 0.84,
+        "alternatives": [
+          "gitlab_ci",
+          "azure_devops"
+        ],
+        "eliminated": []
+      },
+      "observability": {
+        "chosen": "uptime_monitor",
+        "covered_natively": false,
+        "score": 0.613,
+        "alternatives": [
+          "sentry",
+          "grafana_cloud"
+        ],
+        "eliminated": [
+          {
+            "id": "glitchtip",
+            "name": "GlitchTip (self-hosted)",
+            "reasons": [
+              "self-hosted monitoring needs a team that runs infrastructure"
+            ]
+          },
+          {
+            "id": "prometheus_grafana",
+            "name": "Prometheus + Grafana (self-hosted)",
+            "reasons": [
+              "self-hosted monitoring needs a team that runs infrastructure"
+            ]
+          }
+        ]
+      }
+    },
+    "relaxed_constraints": [
+      "No cache layer: about 1 requests/second and 25 users in 12 months are served directly by the database or BaaS."
+    ],
+    "score_formula": "score = 100 * (0.55 * Q + 0.45 * F) - penalties"
+  },
+  "profile": {
+    "project_type": "internal_tool",
+    "client_platforms": [
+      "web"
+    ],
+    "api_only": false,
+    "users_launch": 15,
+    "users_12m": 25,
+    "peak_concurrent": 8,
+    "peak_estimated": false,
+    "peak_eff": 8,
+    "peak_rps": 0.8,
+    "avg_rps": 0.2,
+    "monthly_requests": 72111.0255,
+    "egress_gb": 2.1633,
+    "data_gb": 1,
+    "traffic_pattern": "steady",
+    "workload": "balanced",
+    "scale_need": 1.5268,
+    "scale_tier": 0,
+    "team_size": 1,
+    "experience": "intermediate",
+    "exp_factor": 0.5,
+    "has_devops": false,
+    "ops_capacity": 0.2188,
+    "skills": [
+      "python"
+    ],
+    "appetite": 0.5,
+    "beginner_sens": 0.15,
+    "lock_in_tolerance": "medium",
+    "hiring_plan": "none",
+    "mobile_preference": "no_preference",
+    "licenses": [],
+    "effort_pw": 4.0,
+    "capacity_pw": 3.9,
+    "effort_ratio": 1.0256,
+    "time_pressure": 0.391,
+    "mvp_weeks": 6,
+    "budget": 20.0,
+    "budget_tier": 1,
+    "budget_tightness": 0.6694,
+    "budget_strictness": "firm",
+    "availability": "99",
+    "avail_level": 2.0,
+    "avail_required": 4.0,
+    "p95": null,
+    "latency_need": 0.25,
+    "residency": "none",
+    "compliance": [],
+    "regulated_count": 0,
+    "deployment": "managed_cloud",
+    "cloud_pref": "any",
+    "existing_systems": [],
+    "license_texts": [],
+    "cloud_credits_usd": null,
+    "realtime": false,
+    "offline": false,
+    "search": false,
+    "files": false,
+    "payments": false,
+    "auth": "email_password",
+    "multi_tenant": false,
+    "ml": "none",
+    "seo": false,
+    "needs_server_logic": true,
+    "needs_persistence": true,
+    "static_candidate": false,
+    "geography": "global",
+    "data_sensitivity": "personal",
+    "hints": {
+      "low_end_devices": false,
+      "poor_connectivity": false,
+      "upi": false,
+      "location": false,
+      "tabular_ml": false,
+      "approvals": false,
+      "ledger": false
+    },
+    "india_ctx": false,
+    "weights": {
+      "cost": 0.3393,
+      "maintainability": 0.1219,
+      "performance": 0.1524,
+      "scalability": 0.0382,
+      "security": 0.1219,
+      "time_to_market": 0.2262
+    },
+    "weight_multipliers": {
+      "cost": 1.6694,
+      "time_to_market": 1.391,
+      "scalability": 0.9408,
+      "performance": 1.25,
+      "maintainability": 1.0,
+      "security": 1.0
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "allowed_complexity": 4.5152,
+    "notes": []
+  },
+  "score": {
+    "total": 86.675,
+    "quality": 0.8287,
+    "fit": 0.9133,
+    "penalty": 0.0,
+    "penalties": {
+      "availability": 0.0,
+      "cold_start": -0.0,
+      "data_model": 0.0,
+      "durability": 0.0,
+      "existing_reuse": -0.0,
+      "game_client": 0.0,
+      "game_server": 0.0,
+      "hiring": 0.0,
+      "lock_in": 0.0,
+      "maturity": 0.0,
+      "mobile_preference": 0.0,
+      "over_engineering": 0.0,
+      "self_run_db": 0.0,
+      "seo": 0.0,
+      "soft_certs": 0.0,
+      "two_codebases": 0.0,
+      "under_provision": 0.0
+    },
+    "fit_terms": {
+      "archetype": 1.0,
+      "budget": 0.7592,
+      "capability": 0.9909,
+      "compat": 0.7467,
+      "ops": 0.8855,
+      "skill": 1.0
+    },
+    "criteria": {
+      "cost": 9.4,
+      "maintainability": 7.7,
+      "performance": 6.95,
+      "scalability": 3.395,
+      "security": 7.75,
+      "time_to_market": 8.95
+    }
+  },
+  "ranking": [
+    {
+      "rank": 1,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "SQLite (embedded)",
+        "hosting": "DigitalOcean App Platform / Droplets"
+      },
+      "score": 86.675,
+      "quality": 0.8287,
+      "fit": 0.9133,
+      "penalty": 0.0,
+      "cost_usd": [
+        6,
+        21
+      ]
+    },
+    {
+      "rank": 2,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "SQLite (embedded)",
+        "hosting": "Render"
+      },
+      "score": 86.538,
+      "quality": 0.8394,
+      "fit": 0.8972,
+      "penalty": 0.0,
+      "cost_usd": [
+        9,
+        30
+      ]
+    },
+    {
+      "rank": 3,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "SQLite (embedded)",
+        "hosting": "Railway"
+      },
+      "score": 86.438,
+      "quality": 0.8321,
+      "fit": 0.9206,
+      "penalty": 0.75,
+      "cost_usd": [
+        6,
+        25
+      ]
+    },
+    {
+      "rank": 4,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "SQLite (embedded)",
+        "hosting": "Hetzner Cloud VPS"
+      },
+      "score": 85.901,
+      "quality": 0.8247,
+      "fit": 0.9009,
+      "penalty": 0.0,
+      "cost_usd": [
+        4,
+        18
+      ]
+    },
+    {
+      "rank": 5,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "SQLite (embedded)",
+        "hosting": "Fly.io"
+      },
+      "score": 85.707,
+      "quality": 0.8231,
+      "fit": 0.9042,
+      "penalty": 0.25,
+      "cost_usd": [
+        6,
+        25
+      ]
+    },
+    {
+      "rank": 6,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "Neon (serverless Postgres)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 85.166,
+      "quality": 0.832,
+      "fit": 0.8812,
+      "penalty": 0.25,
+      "cost_usd": [
+        0,
+        35
+      ]
+    },
+    {
+      "rank": 7,
+      "stack": {
+        "frontend": "Laravel Blade + Livewire",
+        "backend": "PHP + Laravel",
+        "database": "SQLite (embedded)",
+        "hosting": "DigitalOcean App Platform / Droplets"
+      },
+      "score": 84.435,
+      "quality": 0.8247,
+      "fit": 0.8683,
+      "penalty": 0.0,
+      "cost_usd": [
+        6,
+        21
+      ]
+    },
+    {
+      "rank": 8,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 84.15,
+      "quality": 0.8335,
+      "fit": 0.8513,
+      "penalty": 0.0,
+      "cost_usd": [
+        15,
+        40
+      ]
+    },
+    {
+      "rank": 9,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "Supabase Postgres",
+        "hosting": "Google Cloud Run"
+      },
+      "score": 84.145,
+      "quality": 0.8328,
+      "fit": 0.8576,
+      "penalty": 0.25,
+      "cost_usd": [
+        0,
+        42
+      ]
+    },
+    {
+      "rank": 10,
+      "stack": {
+        "frontend": "Vue 3 + Vite (SPA)",
+        "backend": "Python + Django",
+        "database": "SQLite (embedded)",
+        "hosting": "DigitalOcean App Platform / Droplets"
+      },
+      "score": 83.889,
+      "quality": 0.8165,
+      "fit": 0.8662,
+      "penalty": 0.0,
+      "cost_usd": [
+        6,
+        21
+      ]
+    }
+  ],
+  "robustness": {
+    "verdict": "sensitive",
+    "margin_points": 0.137,
+    "runner_up": {
+      "frontend": "Django templates + htmx",
+      "backend": "Python + Django",
+      "database": "SQLite (embedded)",
+      "hosting": "Render"
+    },
+    "checks_run": 14,
+    "checks_held": 7,
+    "summary": "The same stack wins in 7 of 14 checks. It switches to Hetzner Cloud VPS (hosting) when cost counted twice as much, time to market counted half as much, performance counted twice as much, maintainability counted half as much, security counted half as much, budget halved ($10); and to Render (hosting) when budget doubled ($40).",
+    "checks": [
+      {
+        "change": "cost counted twice as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Django templates + htmx",
+          "backend": "Python + Django",
+          "database": "SQLite (embedded)",
+          "hosting": "Hetzner Cloud VPS"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "DigitalOcean App Platform / Droplets",
+            "to": "Hetzner Cloud VPS"
+          }
+        ]
+      },
+      {
+        "change": "cost counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "time to market counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "time to market counted half as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Django templates + htmx",
+          "backend": "Python + Django",
+          "database": "SQLite (embedded)",
+          "hosting": "Hetzner Cloud VPS"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "DigitalOcean App Platform / Droplets",
+            "to": "Hetzner Cloud VPS"
+          }
+        ]
+      },
+      {
+        "change": "scalability counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "scalability counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "performance counted twice as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Django templates + htmx",
+          "backend": "Python + Django",
+          "database": "SQLite (embedded)",
+          "hosting": "Hetzner Cloud VPS"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "DigitalOcean App Platform / Droplets",
+            "to": "Hetzner Cloud VPS"
+          }
+        ]
+      },
+      {
+        "change": "performance counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "maintainability counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "maintainability counted half as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Django templates + htmx",
+          "backend": "Python + Django",
+          "database": "SQLite (embedded)",
+          "hosting": "Hetzner Cloud VPS"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "DigitalOcean App Platform / Droplets",
+            "to": "Hetzner Cloud VPS"
+          }
+        ]
+      },
+      {
+        "change": "security counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "security counted half as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Django templates + htmx",
+          "backend": "Python + Django",
+          "database": "SQLite (embedded)",
+          "hosting": "Hetzner Cloud VPS"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "DigitalOcean App Platform / Droplets",
+            "to": "Hetzner Cloud VPS"
+          }
+        ]
+      },
+      {
+        "change": "budget halved ($10)",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Django templates + htmx",
+          "backend": "Python + Django",
+          "database": "SQLite (embedded)",
+          "hosting": "Hetzner Cloud VPS"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "DigitalOcean App Platform / Droplets",
+            "to": "Hetzner Cloud VPS"
+          }
+        ]
+      },
+      {
+        "change": "budget doubled ($40)",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "Django templates + htmx",
+          "backend": "Python + Django",
+          "database": "SQLite (embedded)",
+          "hosting": "Render"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "DigitalOcean App Platform / Droplets",
+            "to": "Render"
+          }
+        ]
+      }
+    ]
+  },
+  "trade_off_options": [
+    {
+      "direction": "cheaper",
+      "title": "Spend less",
+      "available": true,
+      "stack": {
+        "frontend": "Django templates + htmx",
+        "backend": "Python + Django",
+        "database": "Cloud Firestore",
+        "hosting": "Google Cloud Run"
+      },
+      "swaps": [
+        {
+          "layer": "database",
+          "from": "SQLite (embedded)",
+          "to": "Cloud Firestore"
+        },
+        {
+          "layer": "hosting",
+          "from": "DigitalOcean App Platform / Droplets",
+          "to": "Google Cloud Run"
+        }
+      ],
+      "score": 83.662,
+      "points_behind": 3.013,
+      "cost_usd": [
+        0,
+        19
+      ],
+      "gains": "about 20% cheaper on the core layers plus required supporting services ($0-$19 against $6-$21 per month)",
+      "gives_up": [
+        "vendor lock-in (-3.1 pts)",
+        "fit to this kind of project (-0.4 pts)",
+        "performance (-0.2 pts)"
+      ],
+      "summary": "Database SQLite (embedded) -> Cloud Firestore; hosting DigitalOcean App Platform / Droplets -> Google Cloud Run: about 20% cheaper on the core layers plus required supporting services ($0-$19 against $6-$21 per month). Gives up 3.0 points, mainly on vendor lock-in (-3.1 pts), fit to this kind of project (-0.4 pts), performance (-0.2 pts)."
+    },
+    {
+      "direction": "more_headroom",
+      "title": "More headroom to scale",
+      "available": false,
+      "note": "Nothing within 12 points of the winner does clearly better here, so the chosen stack is already a strong pick on this."
+    },
+    {
+      "direction": "faster_build",
+      "title": "Ship sooner",
+      "available": false,
+      "note": "Nothing within 12 points of the winner does clearly better here, so the chosen stack is already a strong pick on this."
+    }
+  ]
+}

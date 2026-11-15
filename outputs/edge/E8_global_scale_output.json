@@ -1221,6 +1221,13 @@
         ],
         "eliminated": [
           {
+            "id": "pagefind",
+            "name": "Pagefind",
+            "reasons": [
+              "indexes pages at build time, so it suits only static sites without a backend"
+            ]
+          },
+          {
             "id": "postgres_fts",
             "name": "PostgreSQL full-text search",
             "reasons": [
@@ -1313,6 +1320,13 @@
             "name": "Microsoft Graph (Outlook mail and Teams messages)",
             "reasons": [
               "sends through the organisation's Microsoft 365 tenant, which is not among existing_systems"
+            ]
+          },
+          {
+            "id": "postfix",
+            "name": "Postfix (self-hosted mail relay)",
+            "reasons": [
+              "a self-run mail relay on cloud addresses has poor deliverability; managed email is used instead"
             ]
           }
         ]

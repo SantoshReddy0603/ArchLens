@@ -191,12 +191,12 @@
         ],
         "alternatives": [
           {
-            "choice": "Auth0",
-            "why_not": "A separate auth service (about $0-$30 per month) when Supabase Auth already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.73 vs 0.88."
+            "choice": "Framework built-in auth (sessions/JWT)",
+            "why_not": "Ranks lower (lower quality rating (6 vs 8), more to operate); score 0.84 vs 0.88."
           },
           {
-            "choice": "Clerk",
-            "why_not": "A separate auth service (about $0-$21 per month) when Supabase Auth already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.70 vs 0.88."
+            "choice": "Auth0",
+            "why_not": "A separate auth service (about $0-$30 per month) when Supabase Auth already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.73 vs 0.88."
           }
         ],
         "tradeoffs": [
@@ -815,8 +815,8 @@
         "covered_natively": true,
         "score": 0.88,
         "alternatives": [
-          "auth0",
-          "clerk"
+          "framework_auth",
+          "auth0"
         ],
         "eliminated": [
           {
@@ -824,13 +824,6 @@
             "name": "Microsoft Entra ID (workforce SSO)",
             "reasons": [
               "workforce single sign-on is for employees, not consumer sign-in"
-            ]
-          },
-          {
-            "id": "framework_auth",
-            "name": "Framework built-in auth (sessions/JWT)",
-            "reasons": [
-              "self-hosted identity needs a team that runs infrastructure"
             ]
           },
           {
@@ -856,6 +849,13 @@
             "name": "Microsoft Graph (Outlook mail and Teams messages)",
             "reasons": [
               "sends through the organisation's Microsoft 365 tenant, which is not among existing_systems"
+            ]
+          },
+          {
+            "id": "postfix",
+            "name": "Postfix (self-hosted mail relay)",
+            "reasons": [
+              "a self-run mail relay on cloud addresses has poor deliverability; managed email is used instead"
             ]
           }
         ]

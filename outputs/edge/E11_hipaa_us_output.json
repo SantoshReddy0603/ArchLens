@@ -1,0 +1,2041 @@
+{
+  "scenario_id": "E11",
+  "engine_version": "1.0.0",
+  "status": "ok_with_warnings",
+  "summary": "Single deployable monolith: React Native (Expo), Python + Django, PostgreSQL (managed or self-hosted) database on AWS Elastic Beanstalk. It keeps data in US regions, matches the team's languages and is estimated at $510-$950 per month.",
+  "architecture_style": "monolith",
+  "architecture": {
+    "style": "monolith",
+    "name": "monolith",
+    "justification": "One deployable is the fastest to build and simplest to run for a team of 6 and 2 feature areas (realtime, file storage).",
+    "driven_by": [
+      "team.size",
+      "timeline.mvp_weeks"
+    ],
+    "alternatives": [
+      {
+        "choice": "Microservices",
+        "why_not": "Adds service boundaries, network calls and per-service deployment that this team does not need at this scale (team 6)."
+      },
+      {
+        "choice": "Modular monolith",
+        "why_not": "With 2 feature areas the code base stays small enough that formal module boundaries mostly add ceremony; adopt them once a third feature area arrives."
+      },
+      {
+        "choice": "Serverless",
+        "why_not": "Per-request functions suit light, spiky work; this backend runs as a long-lived service on AWS Elastic Beanstalk, which suits websockets, background jobs and steady traffic better."
+      }
+    ]
+  },
+  "stack": {
+    "frontend": {
+      "choice": "React Native (Expo)",
+      "justification": "React Native (Expo) matches the team's typescript skills; covers web and ios and android from one codebase; depends on native module quality.",
+      "driven_by": [
+        "team.languages",
+        "project.platforms",
+        "priorities.security"
+      ],
+      "alternatives": [
+        {
+          "choice": "Flutter",
+          "why_not": "Flutter scores 1.1 points lower overall, mainly on team skill fit (1.1 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Native modules outside the Expo SDK need a custom development build"
+      ],
+      "confidence": "medium",
+      "margin_points": 1.08,
+      "kb_id": "expo_rn",
+      "sources": [
+        {
+          "title": "Expo docs",
+          "url": "https://docs.expo.dev/"
+        },
+        {
+          "title": "React Native docs",
+          "url": "https://reactnative.dev/docs/getting-started"
+        }
+      ]
+    },
+    "backend": {
+      "choice": "Python + Django",
+      "justification": "Python + Django matches the team's python skills; CSRF, XSS, SQLi protections and auth on by default; is a proven choice for healthtech projects.",
+      "driven_by": [
+        "team.languages",
+        "priorities.security",
+        "project.type"
+      ],
+      "alternatives": [
+        {
+          "choice": "Node.js + NestJS",
+          "why_not": "Node.js + NestJS scores 0.8 points lower overall, mainly on time to market (1.0 points) and vendor lock-in (0.6 points)."
+        },
+        {
+          "choice": "Python + FastAPI",
+          "why_not": "Python + FastAPI scores 1.4 points lower overall, mainly on time to market (0.6 points) and vendor lock-in (0.6 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Sync-first, so realtime needs Channels"
+      ],
+      "confidence": "low",
+      "margin_points": 0.81,
+      "kb_id": "django",
+      "sources": [
+        {
+          "title": "Django docs",
+          "url": "https://docs.djangoproject.com/"
+        },
+        {
+          "title": "Django security",
+          "url": "https://docs.djangoproject.com/en/stable/topics/security/"
+        }
+      ]
+    },
+    "database": {
+      "choice": "Amazon RDS for PostgreSQL in N. Virginia (us-east-1)",
+      "justification": "PostgreSQL can be placed in N. Virginia (us-east-1) to keep data in the US; carries HIPAA attestation; has headroom for the expected load; row-level security, mature auditing, encryption. It runs as Amazon RDS for PostgreSQL, the managed service on the same cloud as the application, so backups, patching and failover are the provider's job.",
+      "driven_by": [
+        "infrastructure.data_residency",
+        "compliance",
+        "scale.peak_concurrent_users",
+        "priorities.security"
+      ],
+      "alternatives": [
+        {
+          "choice": "Supabase Postgres",
+          "why_not": "Supabase Postgres scores 1.5 points lower overall, mainly on compatibility with the rest of the stack (0.5 points) and maintainability (0.4 points)."
+        },
+        {
+          "choice": "Microsoft SQL Server / Azure SQL",
+          "why_not": "Microsoft SQL Server / Azure SQL scores 1.6 points lower overall, mainly on vendor lock-in (0.9 points) and cost (0.8 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Write scaling beyond one primary needs design"
+      ],
+      "region": "N. Virginia (us-east-1)",
+      "engine": "PostgreSQL",
+      "offering": "Amazon RDS for PostgreSQL",
+      "confidence": "medium",
+      "margin_points": 1.51,
+      "kb_id": "postgresql",
+      "sources": [
+        {
+          "title": "Amazon RDS for PostgreSQL",
+          "url": "https://aws.amazon.com/rds/postgresql/"
+        },
+        {
+          "title": "PostgreSQL docs",
+          "url": "https://www.postgresql.org/docs/"
+        },
+        {
+          "title": "Stack Overflow Developer Survey 2024 databases",
+          "url": "https://survey.stackoverflow.co/2024/technology#1-databases"
+        }
+      ]
+    },
+    "hosting": {
+      "choice": "AWS Elastic Beanstalk",
+      "justification": "AWS Elastic Beanstalk runs on AWS as preferred; can be placed in N. Virginia (us-east-1) to keep data in the US; offers a 99.99% SLA, in line with the 99.9% target; VPC, IAM.",
+      "driven_by": [
+        "infrastructure.cloud_preference",
+        "infrastructure.data_residency",
+        "requirements.availability",
+        "priorities.security"
+      ],
+      "alternatives": [
+        {
+          "choice": "AWS ECS on Fargate",
+          "why_not": "AWS ECS on Fargate scores 0.1 points lower overall, mainly on vendor lock-in (0.6 points)."
+        },
+        {
+          "choice": "AWS EC2 (self-managed VMs)",
+          "why_not": "AWS EC2 (self-managed VMs) scores 0.6 points lower overall, mainly on time to market (0.6 points)."
+        }
+      ],
+      "tradeoffs": [
+        "Less active than ECS/Amplify"
+      ],
+      "region": "N. Virginia (us-east-1)",
+      "confidence": "low",
+      "margin_points": 0.13,
+      "kb_id": "aws_elastic_beanstalk",
+      "sources": [
+        {
+          "title": "Elastic Beanstalk",
+          "url": "https://aws.amazon.com/elasticbeanstalk/"
+        }
+      ]
+    },
+    "supporting": [
+      {
+        "layer": "auth",
+        "choice": "Framework built-in auth (sessions/JWT)",
+        "justification": "Framework built-in auth (sessions/JWT): users sign in (email password); no external service; uses the backend framework's own session or token auth (Django auth, Laravel, ASP.NET Core Identity, Spring Security and similar); already part of the chosen core stack.",
+        "driven_by": [
+          "requirements.auth"
+        ],
+        "alternatives": [
+          {
+            "choice": "Keycloak",
+            "why_not": "A separate auth service (about $19-$42 per month, one more system to run) when Framework built-in auth (sessions/JWT) already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.74 vs 0.84."
+          },
+          {
+            "choice": "Auth0",
+            "why_not": "A separate auth service (about $0-$410 per month) when Framework built-in auth (sessions/JWT) already covers this inside the core stack; worth it once the built-in option hits its limits. Score 0.71 vs 0.84."
+          }
+        ],
+        "tradeoffs": [
+          "Password storage, resets, MFA and account lockout are your responsibility"
+        ],
+        "kb_id": "framework_auth",
+        "sources": [
+          {
+            "title": "OWASP authentication cheat sheet",
+            "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html"
+          }
+        ]
+      },
+      {
+        "layer": "storage",
+        "choice": "Amazon S3",
+        "justification": "Amazon S3: users upload files; 11 nines durability, de facto object storage.",
+        "driven_by": [
+          "requirements.file_media_storage",
+          "scale.data_volume_gb_12_months"
+        ],
+        "alternatives": [
+          {
+            "choice": "MinIO (self-hosted)",
+            "why_not": "Ranks lower (lower quality rating (8 vs 10), more to operate); score 0.74 vs 0.93."
+          }
+        ],
+        "tradeoffs": [
+          "Egress and request charges add up for public media",
+          "Adds about $11-$15 per month."
+        ],
+        "kb_id": "s3",
+        "sources": [
+          {
+            "title": "S3 pricing",
+            "url": "https://aws.amazon.com/s3/pricing/"
+          },
+          {
+            "title": "S3 docs",
+            "url": "https://docs.aws.amazon.com/s3/"
+          }
+        ]
+      },
+      {
+        "layer": "realtime",
+        "choice": "Centrifugo",
+        "justification": "Centrifugo: live updates are required; self-hosted websocket server in Go, works with any backend.",
+        "driven_by": [
+          "requirements.realtime",
+          "scale.peak_concurrent_users"
+        ],
+        "alternatives": [
+          {
+            "choice": "Ably",
+            "why_not": "Ranks lower (costs more (about $110 vs $19 per month at the high end), more lock-in); score 0.77 vs 0.81."
+          },
+          {
+            "choice": "WebSockets/SSE in the backend framework",
+            "why_not": "Ranks lower (lower quality rating (6 vs 8)); score 0.75 vs 0.81."
+          }
+        ],
+        "tradeoffs": [
+          "Another server to deploy, scale and secure",
+          "Adds about $9-$19 per month."
+        ],
+        "kb_id": "centrifugo",
+        "sources": [
+          {
+            "title": "Centrifugo docs",
+            "url": "https://centrifugal.dev/docs/getting-started/introduction"
+          },
+          {
+            "title": "Centrifugo repository",
+            "url": "https://github.com/centrifugal/centrifugo"
+          }
+        ]
+      },
+      {
+        "layer": "queue",
+        "choice": "Amazon SQS",
+        "justification": "Amazon SQS: KYC, ledger and notification jobs in a healthtech product should run asynchronously; zero-ops managed queue with pay per request.",
+        "driven_by": [
+          "scale.peak_concurrent_users",
+          "requirements.payments",
+          "requirements.file_media_storage"
+        ],
+        "alternatives": [
+          {
+            "choice": "Celery (on Redis/RabbitMQ)",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), more to operate); score 0.76 vs 0.89."
+          },
+          {
+            "choice": "NATS JetStream",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $44 vs $8 per month at the high end), more to operate); score 0.74 vs 0.89."
+          }
+        ],
+        "tradeoffs": [
+          "AWS-only; FIFO queues have throughput limits",
+          "Adds about $6-$8 per month."
+        ],
+        "kb_id": "sqs",
+        "sources": [
+          {
+            "title": "SQS pricing",
+            "url": "https://aws.amazon.com/sqs/pricing/"
+          },
+          {
+            "title": "SQS docs",
+            "url": "https://docs.aws.amazon.com/sqs/"
+          }
+        ]
+      },
+      {
+        "layer": "cdn",
+        "choice": "Amazon CloudFront",
+        "justification": "Amazon CloudFront: assets are delivered to a wide audience; deep AWS integration, India edge presence, 1 TB free per month; free at this scale.",
+        "driven_by": [
+          "scale.users_12_months",
+          "project.platforms"
+        ],
+        "alternatives": [
+          {
+            "choice": "Cloudflare CDN",
+            "why_not": "Ranks lower (costs more (about $17 vs $0 per month at the high end)); score 0.83 vs 0.90."
+          },
+          {
+            "choice": "Bunny CDN",
+            "why_not": "Ranks lower (lower quality rating (7 vs 9), costs more (about $15 vs $0 per month at the high end)); score 0.76 vs 0.90."
+          }
+        ],
+        "tradeoffs": [
+          "Pricing varies by region; cache invalidations past the free quota are billed"
+        ],
+        "kb_id": "cloudfront",
+        "sources": [
+          {
+            "title": "CloudFront pricing",
+            "url": "https://aws.amazon.com/cloudfront/pricing/"
+          },
+          {
+            "title": "CloudFront docs",
+            "url": "https://docs.aws.amazon.com/cloudfront/"
+          }
+        ]
+      },
+      {
+        "layer": "email",
+        "choice": "Amazon SES",
+        "justification": "Amazon SES: email and password sign-in needs verification and reset emails; $0.10 per 1,000 emails, deliverability work is yours.",
+        "driven_by": [
+          "requirements.auth",
+          "requirements.payments"
+        ],
+        "alternatives": [
+          {
+            "choice": "Twilio SendGrid",
+            "why_not": "Ranks lower (costs more (about $17 vs $4 per month at the high end)); score 0.79 vs 0.88."
+          }
+        ],
+        "tradeoffs": [
+          "Starts in a sandbox; production access, bounce handling and domain setup are on you",
+          "Adds about $0-$4 per month."
+        ],
+        "kb_id": "aws_ses",
+        "sources": [
+          {
+            "title": "SES pricing",
+            "url": "https://aws.amazon.com/ses/pricing/"
+          },
+          {
+            "title": "SES docs",
+            "url": "https://docs.aws.amazon.com/ses/"
+          }
+        ]
+      },
+      {
+        "layer": "notifications",
+        "choice": "Amazon SNS mobile push",
+        "justification": "Amazon SNS mobile push: mobile users expect push notifications; AWS-native push fan-out to APNs and FCM device tokens, inside the AWS compliance boundary; free at this scale.",
+        "driven_by": [
+          "project.platforms"
+        ],
+        "alternatives": [
+          {
+            "choice": "No other eligible option",
+            "why_not": "No other notifications service satisfies the hard constraints."
+          }
+        ],
+        "tradeoffs": [
+          "Delivers through APNs and FCM, so device tokens and app credentials for both still have to be managed",
+          "Adds about $0-$0 per month."
+        ],
+        "kb_id": "aws_sns_push",
+        "sources": [
+          {
+            "title": "Amazon SNS mobile push notifications",
+            "url": "https://docs.aws.amazon.com/sns/latest/dg/sns-mobile-application-as-subscriber.html"
+          },
+          {
+            "title": "Amazon SNS pricing",
+            "url": "https://aws.amazon.com/sns/pricing/"
+          },
+          {
+            "title": "AWS services in scope by compliance program",
+            "url": "https://aws.amazon.com/compliance/services-in-scope/"
+          }
+        ]
+      },
+      {
+        "layer": "ci_cd",
+        "choice": "GitHub Actions",
+        "justification": "GitHub Actions: automated build and deploy for the team; workflows next to the code; the 2,000 free minutes a month cover a small team, larger teams buy extra minutes.",
+        "driven_by": [
+          "team.size"
+        ],
+        "alternatives": [
+          {
+            "choice": "GitLab CI/CD",
+            "why_not": "Ranks lower (lower quality rating (8 vs 9), costs more (about $25 vs $10 per month at the high end), more to operate); score 0.78 vs 0.84."
+          },
+          {
+            "choice": "Jenkins",
+            "why_not": "Ranks lower (lower quality rating (7 vs 9), more to operate); score 0.56 vs 0.84."
+          }
+        ],
+        "tradeoffs": [
+          "Minute limits on private repositories; long builds need paid or self-hosted runners",
+          "Adds about $0-$10 per month."
+        ],
+        "kb_id": "github_actions",
+        "sources": [
+          {
+            "title": "Actions billing",
+            "url": "https://docs.github.com/billing/managing-billing-for-your-products/managing-billing-for-github-actions/about-billing-for-github-actions"
+          },
+          {
+            "title": "GitHub Actions docs",
+            "url": "https://docs.github.com/actions"
+          },
+          {
+            "title": "GitHub Data Protection Agreement",
+            "url": "https://docs.github.com/en/site-policy/privacy-policies/github-data-protection-agreement"
+          }
+        ]
+      },
+      {
+        "layer": "observability",
+        "choice": "Sentry",
+        "justification": "Sentry: production monitoring for the availability target; error tracking and performance with free developer plan.",
+        "driven_by": [
+          "requirements.availability",
+          "scale.users_12_months"
+        ],
+        "alternatives": [
+          {
+            "choice": "Datadog",
+            "why_not": "Ranks lower (costs more (about $80 vs $22 per month at the high end), more lock-in); score 0.81 vs 0.83."
+          },
+          {
+            "choice": "Amazon CloudWatch",
+            "why_not": "Ranks lower (lower quality rating (7 vs 9), more lock-in); score 0.81 vs 0.83."
+          }
+        ],
+        "tradeoffs": [
+          "Event quota per plan; sample high-volume errors",
+          "Adds about $0-$22 per month."
+        ],
+        "kb_id": "sentry",
+        "sources": [
+          {
+            "title": "Sentry pricing",
+            "url": "https://sentry.io/pricing/"
+          },
+          {
+            "title": "Sentry docs",
+            "url": "https://docs.sentry.io/"
+          }
+        ]
+      }
+    ]
+  },
+  "estimated_monthly_cost_usd": {
+    "min": 510,
+    "max": 950,
+    "assumptions": [
+      "Load estimate: peak about 90 requests/second and about 19M requests/month from 40K users in 12 months.",
+      "Usage-priced items are shown as a band (0.75x to 1.3x of the estimate) because load figures are order-of-magnitude.",
+      "Public list prices of each product, in USD, without taxes, committed-use discounts or developer time.",
+      "The 99.9% availability target doubles or adds redundancy for hosting and database where needed.",
+      "Hosting (AWS Elastic Beanstalk): about $280-$500/month",
+      "Database (Amazon RDS for PostgreSQL): about $210-$380/month",
+      "Storage (Amazon S3): about $11-$15/month",
+      "Realtime (Centrifugo): about $9-$19/month",
+      "Queue (Amazon SQS): about $6-$8/month",
+      "Email (Amazon SES): about $0-$4/month",
+      "CI/CD (GitHub Actions): about $0-$10/month",
+      "Observability (Sentry): about $0-$22/month"
+    ],
+    "breakdown": [
+      {
+        "layer": "hosting",
+        "item": "AWS Elastic Beanstalk",
+        "min": 280,
+        "max": 500
+      },
+      {
+        "layer": "database",
+        "item": "Amazon RDS for PostgreSQL",
+        "min": 210,
+        "max": 380
+      },
+      {
+        "layer": "backend",
+        "item": "Python + Django",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "frontend",
+        "item": "React Native (Expo)",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "auth",
+        "item": "Framework built-in auth (sessions/JWT)",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "storage",
+        "item": "Amazon S3",
+        "min": 11,
+        "max": 15
+      },
+      {
+        "layer": "realtime",
+        "item": "Centrifugo",
+        "min": 9,
+        "max": 19
+      },
+      {
+        "layer": "queue",
+        "item": "Amazon SQS",
+        "min": 6,
+        "max": 8
+      },
+      {
+        "layer": "cdn",
+        "item": "Amazon CloudFront",
+        "min": 0,
+        "max": 0
+      },
+      {
+        "layer": "email",
+        "item": "Amazon SES",
+        "min": 0,
+        "max": 4
+      },
+      {
+        "layer": "notifications",
+        "item": "Amazon SNS mobile push",
+        "min": 0,
+        "max": 1
+      },
+      {
+        "layer": "ci_cd",
+        "item": "GitHub Actions",
+        "min": 0,
+        "max": 10
+      },
+      {
+        "layer": "observability",
+        "item": "Sentry",
+        "min": 0,
+        "max": 22
+      }
+    ]
+  },
+  "warnings": [
+    {
+      "code": "HIPAA_BAA_NEEDED",
+      "severity": "warning",
+      "message": "HIPAA needs a signed business associate agreement with the host, database and every vendor that touches health data.",
+      "fields": [
+        "compliance"
+      ]
+    }
+  ],
+  "assumptions": [
+    "No extra inputs supplied; neutral defaults are used (learning appetite medium, lock-in tolerance medium, budget strictness firm, no hiring plan, no mobile preference).",
+    "No cache layer: about 90 requests/second and 40,000 users in 12 months are served directly by the database or BaaS."
+  ],
+  "validation_errors": [],
+  "decision_trace": {
+    "pipeline": [
+      "validate input",
+      "derive profile",
+      "filter each layer by hard constraints",
+      "enumerate compatible stacks",
+      "score quality, fit and penalties",
+      "rank deterministically",
+      "select supporting services",
+      "estimate cost",
+      "explain"
+    ],
+    "weights": {
+      "cost": 0.137,
+      "maintainability": 0.1588,
+      "performance": 0.1488,
+      "scalability": 0.1667,
+      "security": 0.2679,
+      "time_to_market": 0.1208
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "layers": {
+      "frontend": {
+        "candidates": 24,
+        "eliminated": [
+          {
+            "id": "angular",
+            "name": "Angular",
+            "reasons": [
+              "does not serve ios/android well enough on its own"
+            ]
+          },
+          {
+            "id": "astro",
+            "name": "Astro",
+            "reasons": [
+              "does not serve ios/android well enough on its own"
+            ]
+          },
+          {
+            "id": "blazor",
+            "name": "Blazor (ASP.NET Core)",
+            "reasons": [
+              "does not serve ios/android well enough on its own"
+            ]
+          },
+          {
+            "id": "django_htmx",
+            "name": "Django templates + htmx",
+            "reasons": [
+              "does not serve ios/android well enough on its own"
+            ]
+          },
+          {
+            "id": "electron",
+            "name": "Electron",
+            "reasons": [
+              "does not serve ios/android well enough on its own"
+            ]
+          },
+          {
+            "id": "eleventy",
+            "name": "Eleventy (11ty)",
+            "reasons": [
+              "does not serve ios/android well enough on its own"
+            ]
+          },
+          {
+            "id": "godot",
+            "name": "Godot Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "hugo",
+            "name": "Hugo",
+            "reasons": [
+              "does not serve ios/android well enough on its own"
+            ]
+          },
+          {
+            "id": "kotlin_android",
+            "name": "Kotlin + Jetpack Compose (Android native)",
+            "reasons": [
+              "does not serve web/ios well enough on its own"
+            ]
+          },
+          {
+            "id": "laravel_livewire",
+            "name": "Laravel Blade + Livewire",
+            "reasons": [
+              "does not serve ios/android well enough on its own"
+            ]
+          },
+          {
+            "id": "maui",
+            "name": ".NET MAUI",
+            "reasons": [
+              "does not serve web well enough on its own"
+            ]
+          },
+          {
+            "id": "nextjs",
+            "name": "Next.js",
+            "reasons": [
+              "does not serve ios/android well enough on its own"
+            ]
+          },
+          {
+            "id": "none_fe",
+            "name": "None (API only)",
+            "reasons": [
+              "the project has client platforms to build"
+            ]
+          },
+          {
+            "id": "nuxt",
+            "name": "Nuxt",
+            "reasons": [
+              "does not serve ios/android well enough on its own"
+            ]
+          },
+          {
+            "id": "rails_hotwire",
+            "name": "Rails + Hotwire",
+            "reasons": [
+              "does not serve ios/android well enough on its own"
+            ]
+          },
+          {
+            "id": "react_vite",
+            "name": "React + Vite (SPA)",
+            "reasons": [
+              "does not serve ios/android well enough on its own"
+            ]
+          },
+          {
+            "id": "sveltekit",
+            "name": "SvelteKit",
+            "reasons": [
+              "does not serve ios/android well enough on its own"
+            ]
+          },
+          {
+            "id": "swift_ios",
+            "name": "Swift + SwiftUI (iOS native)",
+            "reasons": [
+              "does not serve web/android well enough on its own"
+            ]
+          },
+          {
+            "id": "tauri",
+            "name": "Tauri",
+            "reasons": [
+              "does not serve ios/android well enough on its own"
+            ]
+          },
+          {
+            "id": "unity",
+            "name": "Unity",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "unreal",
+            "name": "Unreal Engine",
+            "reasons": [
+              "a game engine client is only for game projects"
+            ]
+          },
+          {
+            "id": "vue_vite",
+            "name": "Vue 3 + Vite (SPA)",
+            "reasons": [
+              "does not serve ios/android well enough on its own"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 2,
+        "shortlist": [
+          "expo_rn",
+          "flutter"
+        ],
+        "chosen": [
+          "expo_rn"
+        ]
+      },
+      "backend": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "colyseus",
+            "name": "Colyseus (Node.js game server)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "firebase",
+            "name": "Firebase (BaaS)",
+            "reasons": [
+              "cloud_preference is aws and this runs on gcp"
+            ]
+          },
+          {
+            "id": "nakama",
+            "name": "Nakama (Go game backend)",
+            "reasons": [
+              "a dedicated game server is only for game projects"
+            ]
+          },
+          {
+            "id": "none_be",
+            "name": "No backend (static)",
+            "reasons": [
+              "the project needs server-side logic (accounts, payments, uploads, realtime or non-content features)"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 11,
+        "shortlist": [
+          "django",
+          "nestjs",
+          "fastapi",
+          "go_chi",
+          "spring_boot",
+          "aspnet_core",
+          "express",
+          "supabase"
+        ],
+        "chosen": [
+          "django"
+        ]
+      },
+      "database": {
+        "candidates": 16,
+        "eliminated": [
+          {
+            "id": "bigquery",
+            "name": "Google BigQuery",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          },
+          {
+            "id": "clickhouse",
+            "name": "ClickHouse",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database"
+            ]
+          },
+          {
+            "id": "neon",
+            "name": "Neon (serverless Postgres)",
+            "reasons": [
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "none_db",
+            "name": "None (no database)",
+            "reasons": [
+              "the project needs persistent data"
+            ]
+          },
+          {
+            "id": "sqlite",
+            "name": "SQLite (embedded)",
+            "reasons": [
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "timescaledb",
+            "name": "TimescaleDB (PostgreSQL time-series)",
+            "reasons": [
+              "an analytics or time-series store does not serve as the main transactional database",
+              "no HIPAA attestation"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 8,
+        "shortlist": [
+          "postgresql",
+          "supabase_postgres",
+          "sql_server",
+          "mysql",
+          "cockroachdb",
+          "oracle_db",
+          "mongodb",
+          "dynamodb"
+        ],
+        "chosen": [
+          "postgresql"
+        ]
+      },
+      "hosting": {
+        "candidates": 27,
+        "eliminated": [
+          {
+            "id": "azure_app_service",
+            "name": "Azure App Service",
+            "reasons": [
+              "cloud_preference is aws and this runs on azure"
+            ]
+          },
+          {
+            "id": "azure_container_apps",
+            "name": "Azure Container Apps",
+            "reasons": [
+              "cloud_preference is aws and this runs on azure"
+            ]
+          },
+          {
+            "id": "azure_static_web_apps",
+            "name": "Azure Static Web Apps",
+            "reasons": [
+              "cloud_preference is aws and this runs on azure"
+            ]
+          },
+          {
+            "id": "azure_vm",
+            "name": "Azure Virtual Machines",
+            "reasons": [
+              "cloud_preference is aws and this runs on azure"
+            ]
+          },
+          {
+            "id": "cloudflare_pages",
+            "name": "Cloudflare Pages",
+            "reasons": [
+              "cloud_preference is aws and this runs on cloudflare"
+            ]
+          },
+          {
+            "id": "cloudflare_workers",
+            "name": "Cloudflare Workers",
+            "reasons": [
+              "cloud_preference is aws and this runs on cloudflare",
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "digitalocean_droplet",
+            "name": "DigitalOcean App Platform / Droplets",
+            "reasons": [
+              "cloud_preference is aws and this runs on digitalocean"
+            ]
+          },
+          {
+            "id": "firebase_hosting",
+            "name": "Firebase Hosting",
+            "reasons": [
+              "cloud_preference is aws and this runs on gcp"
+            ]
+          },
+          {
+            "id": "fly_io",
+            "name": "Fly.io",
+            "reasons": [
+              "cloud_preference is aws and this runs on fly"
+            ]
+          },
+          {
+            "id": "gce_vm",
+            "name": "Google Compute Engine",
+            "reasons": [
+              "cloud_preference is aws and this runs on gcp"
+            ]
+          },
+          {
+            "id": "github_pages",
+            "name": "GitHub Pages",
+            "reasons": [
+              "expected traffic (about 562 GB/month) exceeds the 100 GB/month soft limit",
+              "cloud_preference is aws and this runs on github"
+            ]
+          },
+          {
+            "id": "gke_cloud_run",
+            "name": "Google Cloud Run",
+            "reasons": [
+              "cloud_preference is aws and this runs on gcp"
+            ]
+          },
+          {
+            "id": "hetzner_vps",
+            "name": "Hetzner Cloud VPS",
+            "reasons": [
+              "cloud_preference is aws and this runs on hetzner",
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "netlify",
+            "name": "Netlify",
+            "reasons": [
+              "cloud_preference is aws and this runs on netlify",
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "none_host",
+            "name": "None (provided by the backend platform)",
+            "reasons": [
+              "a web client or API needs somewhere to be served from"
+            ]
+          },
+          {
+            "id": "onprem_k8s",
+            "name": "Self-managed Kubernetes (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting",
+              "cloud_preference is aws and this runs on onprem"
+            ]
+          },
+          {
+            "id": "onprem_linux_vm",
+            "name": "Self-managed Linux servers (on-premise)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting",
+              "cloud_preference is aws and this runs on onprem"
+            ]
+          },
+          {
+            "id": "railway",
+            "name": "Railway",
+            "reasons": [
+              "cloud_preference is aws and this runs on railway",
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "render",
+            "name": "Render",
+            "reasons": [
+              "cloud_preference is aws and this runs on render"
+            ]
+          },
+          {
+            "id": "vercel",
+            "name": "Vercel",
+            "reasons": [
+              "cloud_preference is aws and this runs on vercel",
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "windows_iis",
+            "name": "Windows Server + IIS (self-hosted)",
+            "reasons": [
+              "managed cloud deployment excludes on-premise hosting",
+              "cloud_preference is aws and this runs on onprem"
+            ]
+          }
+        ],
+        "eligible_after_stack_checks": 6,
+        "shortlist": [
+          "aws_elastic_beanstalk",
+          "aws_ecs_fargate",
+          "aws_ec2",
+          "aws_eks",
+          "aws_lambda",
+          "aws_amplify"
+        ],
+        "chosen": [
+          "aws_elastic_beanstalk"
+        ]
+      }
+    },
+    "stack_search": {
+      "considered": 1020,
+      "pruned_by_reason": {
+        "backend bundled with a specific database": 32,
+        "backend bundled with a specific frontend": 40,
+        "database does not run on the chosen cloud": 154,
+        "database tied to another backend": 38,
+        "runtime not supported by the host": 420
+      },
+      "scored": 756,
+      "removed_by_hard_budget": 0,
+      "frontend_pairs": false,
+      "budget_reference_usd": 2500
+    },
+    "top_stacks": [
+      {
+        "rank": 1,
+        "stack": [
+          "React Native (Expo)",
+          "Python + Django",
+          "PostgreSQL (managed or self-hosted)",
+          "AWS Elastic Beanstalk"
+        ],
+        "score": 83.533,
+        "quality": 0.7882,
+        "fit": 0.9005,
+        "penalties": {
+          "lock_in": 0.338
+        },
+        "fit_terms": {
+          "archetype": 0.8,
+          "budget": 0.909,
+          "capability": 0.844,
+          "compat": 0.8,
+          "ops": 0.91,
+          "skill": 0.999
+        }
+      },
+      {
+        "rank": 2,
+        "stack": [
+          "React Native (Expo)",
+          "Python + Django",
+          "PostgreSQL (managed or self-hosted)",
+          "AWS ECS on Fargate"
+        ],
+        "score": 83.404,
+        "quality": 0.7951,
+        "fit": 0.9017,
+        "penalties": {
+          "lock_in": 0.9
+        },
+        "fit_terms": {
+          "archetype": 0.9,
+          "budget": 0.909,
+          "capability": 0.844,
+          "compat": 0.733,
+          "ops": 0.91,
+          "skill": 0.999
+        }
+      },
+      {
+        "rank": 3,
+        "stack": [
+          "React Native (Expo)",
+          "Python + Django",
+          "PostgreSQL (managed or self-hosted)",
+          "AWS EC2 (self-managed VMs)"
+        ],
+        "score": 82.949,
+        "quality": 0.778,
+        "fit": 0.8924,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.8,
+          "budget": 0.911,
+          "capability": 0.844,
+          "compat": 0.733,
+          "ops": 0.898,
+          "skill": 0.999
+        }
+      },
+      {
+        "rank": 4,
+        "stack": [
+          "React Native (Expo)",
+          "Node.js + NestJS",
+          "PostgreSQL (managed or self-hosted)",
+          "AWS ECS on Fargate"
+        ],
+        "score": 82.723,
+        "quality": 0.7736,
+        "fit": 0.9128,
+        "penalties": {
+          "lock_in": 0.9
+        },
+        "fit_terms": {
+          "archetype": 0.8,
+          "budget": 0.909,
+          "capability": 0.838,
+          "compat": 0.933,
+          "ops": 0.91,
+          "skill": 1.0
+        }
+      },
+      {
+        "rank": 5,
+        "stack": [
+          "React Native (Expo)",
+          "Python + Django",
+          "PostgreSQL (managed or self-hosted)",
+          "AWS EKS (Kubernetes)"
+        ],
+        "score": 82.564,
+        "quality": 0.7793,
+        "fit": 0.8823,
+        "penalties": {},
+        "fit_terms": {
+          "archetype": 0.8,
+          "budget": 0.883,
+          "capability": 0.844,
+          "compat": 0.733,
+          "ops": 0.862,
+          "skill": 0.999
+        }
+      }
+    ],
+    "supporting": {
+      "auth": {
+        "chosen": "framework_auth",
+        "covered_natively": true,
+        "score": 0.838,
+        "alternatives": [
+          "keycloak",
+          "auth0"
+        ],
+        "eliminated": [
+          {
+            "id": "clerk",
+            "name": "Clerk",
+            "reasons": [
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "entra_external_id",
+            "name": "Microsoft Entra External ID",
+            "reasons": [
+              "cloud_preference is aws and this is a azure service"
+            ]
+          },
+          {
+            "id": "entra_id",
+            "name": "Microsoft Entra ID (workforce SSO)",
+            "reasons": [
+              "cloud_preference is aws and this is a azure service",
+              "workforce single sign-on is for employees, not consumer sign-in"
+            ]
+          },
+          {
+            "id": "firebase_auth",
+            "name": "Firebase Authentication",
+            "reasons": [
+              "cloud_preference is aws and this is a gcp service",
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "identity_platform",
+            "name": "Google Cloud Identity Platform",
+            "reasons": [
+              "cloud_preference is aws and this is a gcp service"
+            ]
+          },
+          {
+            "id": "supabase_auth",
+            "name": "Supabase Auth",
+            "reasons": [
+              "no HIPAA attestation",
+              "is part of Supabase (BaaS) only"
+            ]
+          }
+        ]
+      },
+      "storage": {
+        "chosen": "s3",
+        "covered_natively": false,
+        "score": 0.929,
+        "alternatives": [
+          "minio"
+        ],
+        "eliminated": [
+          {
+            "id": "azure_blob",
+            "name": "Azure Blob Storage",
+            "reasons": [
+              "cloud_preference is aws and this is a azure service"
+            ]
+          },
+          {
+            "id": "backblaze_b2",
+            "name": "Backblaze B2",
+            "reasons": [
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "cloudflare_r2",
+            "name": "Cloudflare R2",
+            "reasons": [
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "firebase_storage",
+            "name": "Cloud Storage for Firebase",
+            "reasons": [
+              "cloud_preference is aws and this is a gcp service",
+              "no HIPAA attestation",
+              "is part of Firebase (BaaS) only"
+            ]
+          },
+          {
+            "id": "gcs",
+            "name": "Google Cloud Storage",
+            "reasons": [
+              "cloud_preference is aws and this is a gcp service"
+            ]
+          },
+          {
+            "id": "supabase_storage",
+            "name": "Supabase Storage",
+            "reasons": [
+              "no HIPAA attestation",
+              "is part of Supabase (BaaS) only"
+            ]
+          }
+        ]
+      },
+      "realtime": {
+        "chosen": "centrifugo",
+        "covered_natively": false,
+        "score": 0.8144,
+        "alternatives": [
+          "ably",
+          "framework_websocket"
+        ],
+        "eliminated": [
+          {
+            "id": "azure_signalr",
+            "name": "Azure SignalR Service",
+            "reasons": [
+              "cloud_preference is aws and this is a azure service"
+            ]
+          },
+          {
+            "id": "firestore_listeners",
+            "name": "Firestore real-time listeners",
+            "reasons": [
+              "cloud_preference is aws and this is a gcp service",
+              "no HIPAA attestation",
+              "is part of Firebase (BaaS)/Cloud Firestore only"
+            ]
+          },
+          {
+            "id": "liveblocks",
+            "name": "Liveblocks",
+            "reasons": [
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "pusher",
+            "name": "Pusher Channels",
+            "reasons": [
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "supabase_realtime",
+            "name": "Supabase Realtime",
+            "reasons": [
+              "no HIPAA attestation",
+              "is part of Supabase (BaaS)/Supabase Postgres only"
+            ]
+          }
+        ]
+      },
+      "queue": {
+        "chosen": "sqs",
+        "covered_natively": false,
+        "score": 0.8939,
+        "alternatives": [
+          "celery",
+          "nats"
+        ],
+        "eliminated": [
+          {
+            "id": "azure_service_bus",
+            "name": "Azure Service Bus",
+            "reasons": [
+              "cloud_preference is aws and this is a azure service"
+            ]
+          },
+          {
+            "id": "bullmq",
+            "name": "BullMQ (on Redis)",
+            "reasons": [
+              "works with javascript/typescript backends, not Python + Django"
+            ]
+          },
+          {
+            "id": "gcp_pubsub",
+            "name": "Google Pub/Sub",
+            "reasons": [
+              "cloud_preference is aws and this is a gcp service"
+            ]
+          }
+        ]
+      },
+      "cdn": {
+        "chosen": "cloudfront",
+        "covered_natively": false,
+        "score": 0.898,
+        "alternatives": [
+          "cloudflare_cdn",
+          "bunny_cdn"
+        ],
+        "eliminated": [
+          {
+            "id": "azure_front_door",
+            "name": "Azure Front Door",
+            "reasons": [
+              "cloud_preference is aws and this is a azure service"
+            ]
+          }
+        ]
+      },
+      "email": {
+        "chosen": "aws_ses",
+        "covered_natively": false,
+        "score": 0.8781,
+        "alternatives": [
+          "sendgrid"
+        ],
+        "eliminated": [
+          {
+            "id": "azure_communication_email",
+            "name": "Azure Communication Services Email",
+            "reasons": [
+              "cloud_preference is aws and this is a azure service"
+            ]
+          },
+          {
+            "id": "brevo",
+            "name": "Brevo",
+            "reasons": [
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "microsoft_graph_mail",
+            "name": "Microsoft Graph (Outlook mail and Teams messages)",
+            "reasons": [
+              "cloud_preference is aws and this is a azure service",
+              "sends through the organisation's Microsoft 365 tenant, which is not among existing_systems"
+            ]
+          },
+          {
+            "id": "postfix",
+            "name": "Postfix (self-hosted mail relay)",
+            "reasons": [
+              "a self-run mail relay on cloud addresses has poor deliverability; managed email is used instead"
+            ]
+          },
+          {
+            "id": "postmark",
+            "name": "Postmark",
+            "reasons": [
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "resend",
+            "name": "Resend",
+            "reasons": [
+              "no HIPAA attestation"
+            ]
+          }
+        ]
+      },
+      "notifications": {
+        "chosen": "aws_sns_push",
+        "covered_natively": false,
+        "score": 0.8076,
+        "alternatives": [],
+        "eliminated": [
+          {
+            "id": "expo_push",
+            "name": "Expo Push Notifications",
+            "reasons": [
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "fcm",
+            "name": "Firebase Cloud Messaging",
+            "reasons": [
+              "cloud_preference is aws and this is a gcp service",
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "onesignal",
+            "name": "OneSignal",
+            "reasons": [
+              "no HIPAA attestation"
+            ]
+          }
+        ]
+      },
+      "ci_cd": {
+        "chosen": "github_actions",
+        "covered_natively": false,
+        "score": 0.8355,
+        "alternatives": [
+          "gitlab_ci",
+          "jenkins"
+        ],
+        "eliminated": [
+          {
+            "id": "azure_devops",
+            "name": "Azure DevOps Pipelines",
+            "reasons": [
+              "cloud_preference is aws and this is a azure service"
+            ]
+          }
+        ]
+      },
+      "observability": {
+        "chosen": "sentry",
+        "covered_natively": false,
+        "score": 0.8306,
+        "alternatives": [
+          "datadog",
+          "cloudwatch"
+        ],
+        "eliminated": [
+          {
+            "id": "azure_monitor",
+            "name": "Azure Monitor / Application Insights",
+            "reasons": [
+              "cloud_preference is aws and this is a azure service"
+            ]
+          },
+          {
+            "id": "grafana_cloud",
+            "name": "Grafana Cloud",
+            "reasons": [
+              "no HIPAA attestation"
+            ]
+          },
+          {
+            "id": "uptime_monitor",
+            "name": "UptimeRobot / Better Stack uptime checks",
+            "reasons": [
+              "no HIPAA attestation"
+            ]
+          }
+        ]
+      }
+    },
+    "relaxed_constraints": [
+      "No cache layer: about 90 requests/second and 40,000 users in 12 months are served directly by the database or BaaS."
+    ],
+    "score_formula": "score = 100 * (0.55 * Q + 0.45 * F) - penalties"
+  },
+  "profile": {
+    "project_type": "healthtech",
+    "client_platforms": [
+      "web",
+      "ios",
+      "android"
+    ],
+    "api_only": false,
+    "users_launch": 2000,
+    "users_12m": 40000,
+    "peak_concurrent": 900,
+    "peak_estimated": false,
+    "peak_eff": 900,
+    "peak_rps": 90.0,
+    "avg_rps": 22.5,
+    "monthly_requests": 18734993.9952,
+    "egress_gb": 562.0498,
+    "data_gb": 300,
+    "traffic_pattern": "steady",
+    "workload": "balanced",
+    "scale_need": 5.2003,
+    "scale_tier": 2,
+    "team_size": 6,
+    "experience": "senior",
+    "exp_factor": 1.0,
+    "has_devops": true,
+    "ops_capacity": 0.9125,
+    "skills": [
+      "typescript",
+      "python"
+    ],
+    "appetite": 0.5,
+    "beginner_sens": 0.0,
+    "lock_in_tolerance": "medium",
+    "hiring_plan": "none",
+    "mobile_preference": "no_preference",
+    "licenses": [],
+    "effort_pw": 33.0,
+    "capacity_pw": 78.0,
+    "effort_ratio": 0.4231,
+    "time_pressure": 0.0144,
+    "mvp_weeks": 16,
+    "budget": 2500.0,
+    "budget_tier": 4,
+    "budget_tightness": 0.1505,
+    "budget_strictness": "firm",
+    "availability": "99.9",
+    "avail_level": 3.0,
+    "avail_required": 5.8,
+    "p95": null,
+    "latency_need": 0.25,
+    "residency": "us",
+    "compliance": [
+      "hipaa"
+    ],
+    "regulated_count": 1,
+    "deployment": "managed_cloud",
+    "cloud_pref": "aws",
+    "existing_systems": [],
+    "license_texts": [],
+    "cloud_credits_usd": null,
+    "realtime": true,
+    "offline": false,
+    "search": false,
+    "files": true,
+    "payments": false,
+    "auth": "email_password",
+    "multi_tenant": false,
+    "ml": "none",
+    "seo": false,
+    "needs_server_logic": true,
+    "needs_persistence": true,
+    "static_candidate": false,
+    "geography": "country",
+    "data_sensitivity": "health",
+    "hints": {
+      "low_end_devices": false,
+      "poor_connectivity": false,
+      "upi": false,
+      "location": false,
+      "tabular_ml": false,
+      "approvals": false,
+      "ledger": false
+    },
+    "india_ctx": false,
+    "weights": {
+      "cost": 0.137,
+      "maintainability": 0.1588,
+      "performance": 0.1488,
+      "scalability": 0.1667,
+      "security": 0.2679,
+      "time_to_market": 0.1208
+    },
+    "weight_multipliers": {
+      "cost": 1.1505,
+      "time_to_market": 1.0144,
+      "scalability": 1.4,
+      "performance": 1.25,
+      "maintainability": 1.0,
+      "security": 1.35
+    },
+    "layer_weights": {
+      "backend": 0.3,
+      "hosting": 0.3,
+      "database": 0.25,
+      "frontend": 0.15
+    },
+    "allowed_complexity": 7.8089,
+    "notes": []
+  },
+  "score": {
+    "total": 83.533,
+    "quality": 0.7882,
+    "fit": 0.9005,
+    "penalty": 0.338,
+    "penalties": {
+      "availability": 0.0,
+      "cold_start": -0.0,
+      "data_model": 0.0,
+      "durability": 0.0,
+      "existing_reuse": -0.0,
+      "game_client": 0.0,
+      "game_server": 0.0,
+      "hiring": 0.0,
+      "lock_in": 0.338,
+      "maturity": 0.0,
+      "mobile_preference": 0.0,
+      "over_engineering": 0.0,
+      "self_run_db": 0.0,
+      "seo": 0.0,
+      "soft_certs": 0.0,
+      "two_codebases": 0.0,
+      "under_provision": 0.0
+    },
+    "fit_terms": {
+      "archetype": 0.8,
+      "budget": 0.9095,
+      "capability": 0.8435,
+      "compat": 0.8,
+      "ops": 0.91,
+      "skill": 0.9993
+    },
+    "criteria": {
+      "cost": 8.0,
+      "maintainability": 7.8,
+      "performance": 6.95,
+      "scalability": 7.05,
+      "security": 8.4,
+      "time_to_market": 9.0
+    }
+  },
+  "ranking": [
+    {
+      "rank": 1,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "AWS Elastic Beanstalk"
+      },
+      "score": 83.533,
+      "quality": 0.7882,
+      "fit": 0.9005,
+      "penalty": 0.338,
+      "cost_usd": [
+        491,
+        897
+      ]
+    },
+    {
+      "rank": 2,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "AWS ECS on Fargate"
+      },
+      "score": 83.404,
+      "quality": 0.7951,
+      "fit": 0.9017,
+      "penalty": 0.9,
+      "cost_usd": [
+        499,
+        897
+      ]
+    },
+    {
+      "rank": 3,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "AWS EC2 (self-managed VMs)"
+      },
+      "score": 82.949,
+      "quality": 0.778,
+      "fit": 0.8924,
+      "penalty": 0.0,
+      "cost_usd": [
+        471,
+        884
+      ]
+    },
+    {
+      "rank": 4,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Node.js + NestJS",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "AWS ECS on Fargate"
+      },
+      "score": 82.723,
+      "quality": 0.7736,
+      "fit": 0.9128,
+      "penalty": 0.9,
+      "cost_usd": [
+        499,
+        897
+      ]
+    },
+    {
+      "rank": 5,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "AWS EKS (Kubernetes)"
+      },
+      "score": 82.564,
+      "quality": 0.7793,
+      "fit": 0.8823,
+      "penalty": 0.0,
+      "cost_usd": [
+        647,
+        1148
+      ]
+    },
+    {
+      "rank": 6,
+      "stack": {
+        "frontend": "Flutter",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "AWS Elastic Beanstalk"
+      },
+      "score": 82.452,
+      "quality": 0.7886,
+      "fit": 0.8759,
+      "penalty": 0.338,
+      "cost_usd": [
+        491,
+        897
+      ]
+    },
+    {
+      "rank": 7,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "AWS Lambda + API Gateway"
+      },
+      "score": 82.426,
+      "quality": 0.7973,
+      "fit": 0.9022,
+      "penalty": 2.025,
+      "cost_usd": [
+        284,
+        527
+      ]
+    },
+    {
+      "rank": 8,
+      "stack": {
+        "frontend": "Flutter",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "AWS ECS on Fargate"
+      },
+      "score": 82.323,
+      "quality": 0.7955,
+      "fit": 0.8771,
+      "penalty": 0.9,
+      "cost_usd": [
+        499,
+        897
+      ]
+    },
+    {
+      "rank": 9,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Node.js + NestJS",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "AWS Elastic Beanstalk"
+      },
+      "score": 82.249,
+      "quality": 0.7667,
+      "fit": 0.8982,
+      "penalty": 0.338,
+      "cost_usd": [
+        491,
+        897
+      ]
+    },
+    {
+      "rank": 10,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Python + FastAPI",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "AWS ECS on Fargate"
+      },
+      "score": 82.116,
+      "quality": 0.7751,
+      "fit": 0.8975,
+      "penalty": 0.9,
+      "cost_usd": [
+        499,
+        897
+      ]
+    }
+  ],
+  "robustness": {
+    "verdict": "sensitive",
+    "margin_points": 0.129,
+    "runner_up": {
+      "frontend": "React Native (Expo)",
+      "backend": "Python + Django",
+      "database": "PostgreSQL (managed or self-hosted)",
+      "hosting": "AWS ECS on Fargate"
+    },
+    "checks_run": 14,
+    "checks_held": 9,
+    "summary": "The same stack wins in 9 of 14 checks. It switches to AWS ECS on Fargate (hosting) when cost counted half as much, time to market counted half as much, performance counted twice as much, maintainability counted twice as much, security counted twice as much.",
+    "checks": [
+      {
+        "change": "cost counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "cost counted half as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "React Native (Expo)",
+          "backend": "Python + Django",
+          "database": "PostgreSQL (managed or self-hosted)",
+          "hosting": "AWS ECS on Fargate"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "AWS Elastic Beanstalk",
+            "to": "AWS ECS on Fargate"
+          }
+        ]
+      },
+      {
+        "change": "time to market counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "time to market counted half as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "React Native (Expo)",
+          "backend": "Python + Django",
+          "database": "PostgreSQL (managed or self-hosted)",
+          "hosting": "AWS ECS on Fargate"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "AWS Elastic Beanstalk",
+            "to": "AWS ECS on Fargate"
+          }
+        ]
+      },
+      {
+        "change": "scalability counted twice as much",
+        "same_stack": true
+      },
+      {
+        "change": "scalability counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "performance counted twice as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "React Native (Expo)",
+          "backend": "Python + Django",
+          "database": "PostgreSQL (managed or self-hosted)",
+          "hosting": "AWS ECS on Fargate"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "AWS Elastic Beanstalk",
+            "to": "AWS ECS on Fargate"
+          }
+        ]
+      },
+      {
+        "change": "performance counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "maintainability counted twice as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "React Native (Expo)",
+          "backend": "Python + Django",
+          "database": "PostgreSQL (managed or self-hosted)",
+          "hosting": "AWS ECS on Fargate"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "AWS Elastic Beanstalk",
+            "to": "AWS ECS on Fargate"
+          }
+        ]
+      },
+      {
+        "change": "maintainability counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "security counted twice as much",
+        "same_stack": false,
+        "new_stack": {
+          "frontend": "React Native (Expo)",
+          "backend": "Python + Django",
+          "database": "PostgreSQL (managed or self-hosted)",
+          "hosting": "AWS ECS on Fargate"
+        },
+        "swaps": [
+          {
+            "layer": "hosting",
+            "from": "AWS Elastic Beanstalk",
+            "to": "AWS ECS on Fargate"
+          }
+        ]
+      },
+      {
+        "change": "security counted half as much",
+        "same_stack": true
+      },
+      {
+        "change": "budget halved ($1,200)",
+        "same_stack": true
+      },
+      {
+        "change": "budget doubled ($5,000)",
+        "same_stack": true
+      }
+    ]
+  },
+  "trade_off_options": [
+    {
+      "direction": "cheaper",
+      "title": "Spend less",
+      "available": true,
+      "stack": {
+        "frontend": "React Native (Expo)",
+        "backend": "Python + Django",
+        "database": "PostgreSQL (managed or self-hosted)",
+        "hosting": "AWS Lambda + API Gateway"
+      },
+      "swaps": [
+        {
+          "layer": "hosting",
+          "from": "AWS Elastic Beanstalk",
+          "to": "AWS Lambda + API Gateway"
+        }
+      ],
+      "score": 82.426,
+      "points_behind": 1.107,
+      "cost_usd": [
+        284,
+        527
+      ],
+      "gains": "about 41% cheaper on the core layers plus required supporting services ($280-$530 against $490-$900 per month)",
+      "gives_up": [
+        "vendor lock-in (-1.7 pts)",
+        "compatibility with the rest of the stack (-0.3 pts)",
+        "performance (-0.2 pts)"
+      ],
+      "summary": "Hosting AWS Elastic Beanstalk -> AWS Lambda + API Gateway: about 41% cheaper on the core layers plus required supporting services ($280-$530 against $490-$900 per month). Gives up 1.1 points, mainly on vendor lock-in (-1.7 pts), compatibility with the rest of the stack (-0.3 pts), performance (-0.2 pts)."
+    },
+    {
+      "direction": "more_headroom",
+      "title": "More headroom to scale",
+      "available": false,
+      "note": "Nothing within 12 points of the winner does clearly better here, so the chosen stack is already a strong pick on this."
+    },
+    {
+      "direction": "faster_build",
+      "title": "Ship sooner",
+      "available": false,
+      "note": "Nothing within 12 points of the winner does clearly better here, so the chosen stack is already a strong pick on this."
+    }
+  ]
+}

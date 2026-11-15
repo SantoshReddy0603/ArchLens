@@ -1261,13 +1261,6 @@
             ]
           },
           {
-            "id": "framework_auth",
-            "name": "Framework built-in auth (sessions/JWT)",
-            "reasons": [
-              "self-hosted identity needs a team that runs infrastructure"
-            ]
-          },
-          {
             "id": "keycloak",
             "name": "Keycloak",
             "reasons": [
@@ -1366,7 +1359,15 @@
           "typesense",
           "meilisearch"
         ],
-        "eliminated": []
+        "eliminated": [
+          {
+            "id": "pagefind",
+            "name": "Pagefind",
+            "reasons": [
+              "indexes pages at build time, so it suits only static sites without a backend"
+            ]
+          }
+        ]
       },
       "realtime": {
         "chosen": "supabase_realtime",

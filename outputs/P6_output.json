@@ -1092,13 +1092,6 @@
             ]
           },
           {
-            "id": "framework_auth",
-            "name": "Framework built-in auth (sessions/JWT)",
-            "reasons": [
-              "self-hosted identity needs a team that runs infrastructure"
-            ]
-          },
-          {
             "id": "keycloak",
             "name": "Keycloak",
             "reasons": [

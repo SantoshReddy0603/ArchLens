@@ -177,8 +177,8 @@
         ],
         "alternatives": [
           {
-            "choice": "No other eligible option",
-            "why_not": "No other auth service satisfies the hard constraints."
+            "choice": "Framework built-in auth (sessions/JWT)",
+            "why_not": "Ranks lower (lower quality rating (6 vs 9)); score 0.44 vs 0.90."
           }
         ],
         "tradeoffs": [
@@ -982,7 +982,9 @@
         "chosen": "entra_id",
         "covered_natively": false,
         "score": 0.898,
-        "alternatives": [],
+        "alternatives": [
+          "framework_auth"
+        ],
         "eliminated": [
           {
             "id": "auth0",
@@ -1018,13 +1020,6 @@
             "reasons": [
               "cloud_preference is azure and this is a gcp service",
               "no india region available"
-            ]
-          },
-          {
-            "id": "framework_auth",
-            "name": "Framework built-in auth (sessions/JWT)",
-            "reasons": [
-              "self-hosted identity needs a team that runs infrastructure"
             ]
           },
           {
@@ -1123,6 +1118,13 @@
             "name": "Brevo",
             "reasons": [
               "no india region available"
+            ]
+          },
+          {
+            "id": "postfix",
+            "name": "Postfix (self-hosted mail relay)",
+            "reasons": [
+              "a self-run mail relay on cloud addresses has poor deliverability; managed email is used instead"
             ]
           },
           {

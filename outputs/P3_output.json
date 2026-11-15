@@ -1195,6 +1195,13 @@
             "reasons": [
               "sends through the organisation's Microsoft 365 tenant, which is not among existing_systems"
             ]
+          },
+          {
+            "id": "postfix",
+            "name": "Postfix (self-hosted mail relay)",
+            "reasons": [
+              "a self-run mail relay on cloud addresses has poor deliverability; managed email is used instead"
+            ]
           }
         ]
       },
