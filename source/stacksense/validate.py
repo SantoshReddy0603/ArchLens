@@ -12,6 +12,7 @@ Rules:
   * soft inconsistencies (peak > users, users shrinking, api_only mixed with
     client platforms, unknown keys) become warnings in normalized["_warnings"].
 """
+import json
 import math
 
 from .derive import canonical_language, IGNORED_LANGUAGES
@@ -343,7 +344,17 @@ def _extra(raw, ctx):
     for key, (allowed, default) in EXTRA_ENUMS.items():
         path = "extra.%s" % key
         if key in sec and sec[key] is not None:
-            out[key] = _enum(sec, key, path, ctx, allowed, default=default)
+            v = sec[key]
+            if isinstance(v, str) and v.strip().lower() in allowed:
+                out[key] = _enum(sec, key, path, ctx, allowed, default=default)
+            else:
+                # optional input outside the standard schema: ignore a value we cannot read rather than reject the scenario
+                ctx.warn("EXTRA_VALUE_IGNORED", "warning",
+                         "%s value %s is not recognised (allowed: %s) and was ignored; %s." % (
+                             path, json.dumps(v), ", ".join(allowed),
+                             "the default '%s' is used" % default if default else "the input has no effect"),
+                         [path])
+                out[key] = default
         else:
             out[key] = default
     if "existing_licenses" in sec:
